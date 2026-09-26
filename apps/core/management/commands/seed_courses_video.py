@@ -166,7 +166,8 @@ class Command(BaseCommand):
             for j, mat in enumerate(course.materials.exclude(material_type__in=["video", "embed"]).order_by("order", "id")):
                 mat.order = order + j
                 mat.save(update_fields=["order"])
+            course.sequential = True   # parcours séquentiel : la leçon suivante reste verrouillée tant que la précédente n'est pas terminée
             course.duration_minutes = sum(x.duration_minutes for x in course.materials.all()) or course.duration_minutes
-            course.save(update_fields=["duration_minutes"])
+            course.save(update_fields=["duration_minutes", "sequential"])
             done += 1
         self.stdout.write(self.style.SUCCESS(f"{done} cours mis à jour (vidéo{' + lien en ligne' if embeds else ''} + PDF)."))

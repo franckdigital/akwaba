@@ -187,7 +187,7 @@ class Command(BaseCommand):
         for i, data in enumerate(COURSES, start=1):
             course, was_new = Course.objects.update_or_create(
                 school=None, title=data["title"],
-                defaults=dict(kind="theory", theme=data["theme"], summary=data["summary"], duration_minutes=data["minutes"], order=i, is_published=True,
+                defaults=dict(kind="theory", theme=data["theme"], summary=data["summary"], duration_minutes=data["minutes"], order=i, is_published=True, sequential=True,
                               content=data["summary"]))
             created += was_new
             slug = f"cours-{i:02d}"
