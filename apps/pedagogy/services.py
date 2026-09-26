@@ -43,9 +43,15 @@ def _expired(attempt):
     return bool(limit) and timezone.now() > attempt.started_at + timedelta(minutes=limit, seconds=5)
 
 
+def completed_attempts(learner, **extra):
+    """QCM réellement terminés : soumis, ou expirés après au moins une réponse (une tentative abandonnée sans réponse ne compte pas)."""
+    return Attempt.objects.filter(learner=learner, **extra).filter(
+        Q(status=Attempt.FINISHED) | Q(status=Attempt.EXPIRED, answers__answered=True)).distinct()
+
+
 def exam_eligibility(learner):
     """Accès aux examens blancs : score moyen sur l'ensemble des QCM d'entraînement terminés >= seuil de l'auto-école."""
-    done = Attempt.objects.filter(learner=learner, is_exam=False, status__in=[Attempt.FINISHED, Attempt.EXPIRED])
+    done = completed_attempts(learner, is_exam=False)
     n = done.count()
     average = round(sum(float(a.percent) for a in done) / n, 1) if n else 0.0
     required = getattr(learner.school, "exam_min_average", 60)
@@ -242,7 +248,7 @@ def attempt_questions(attempt):
 
 # --------------------------------------------------------------------------- progression
 def learner_progress(learner):
-    finished = Attempt.objects.filter(learner=learner, status__in=[Attempt.FINISHED, Attempt.EXPIRED]).select_related("quiz")
+    finished = completed_attempts(learner).select_related("quiz")
     n = finished.count()
     answers = AttemptAnswer.objects.filter(attempt__in=finished, answered=True).select_related("question")
     themes = defaultdict(lambda: [0, 0])
