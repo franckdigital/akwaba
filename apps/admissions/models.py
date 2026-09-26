@@ -25,7 +25,7 @@ OFFERS = [
 ID_TYPES = [("resident_card", "Carte de résident"), ("passport", "Passeport + visa à jour"),
             ("id_attestation", "Attestation d'identité"), ("other", "Autre pièce")]
 
-# §8 — A/B (et A1) : validité permanente. C, D, E : périodique selon l'âge du titulaire.
+# §8 — A/B : validité permanente. C, D, E : périodique selon l'âge du titulaire.
 PERIODIC_CATEGORIES = {"C", "D", "E"}
 
 STATUS = [

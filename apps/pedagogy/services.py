@@ -293,7 +293,7 @@ TYPE_MAP = {"vrai faux": "tf", "vf": "tf", "tf": "tf", "boolean": "tf", "type 1"
             "unique": "single", "reponse unique": "single", "single": "single", "qcu": "single", "type 2": "single", "2": "single",
             "multiple": "multi", "choix multiple": "multi", "multi": "multi", "qcm": "multi", "type 3": "multi", "3": "multi"}
 DIFF_MAP = {"facile": "easy", "easy": "easy", "moyen": "medium", "medium": "medium", "difficile": "hard", "hard": "hard"}
-CATS = {"A", "A1", "B", "C", "D", "E", "OTHER"}
+CATS = {"A", "B", "C", "D", "E", "OTHER"}
 HEADER_ALIASES = {"code": "code", "permis": "category", "categorie": "category", "theme": "theme", "type": "type",
                   "question": "text", "enonce": "text", "bonne reponse": "answer", "reponse": "answer",
                   "reponses correctes": "answer", "explication": "explanation", "correction": "explanation",
@@ -320,7 +320,7 @@ EXAMPLES = [
 INSTRUCTIONS = [
     # colonne, obligatoire, description, valeurs acceptées, exemple
     ("Code", "Oui", "Identifiant unique de la question dans votre banque. Sert à retrouver et mettre à jour une question.", "Texte libre, sans doublon", "Q-0001"),
-    ("Permis", "Oui", "Catégorie de permis concernée.", "A, A1, B, C, D, E (liste déroulante)", "B"),
+    ("Permis", "Oui", "Catégorie de permis concernée.", "A, B, C, D, E (liste déroulante)", "B"),
     ("Thème", "Non (défaut : Autre)", "Thème pédagogique de la question.", "Voir l'onglet « Valeurs autorisées »", "Signalisation"),
     ("Type", "Oui", "Format de la question.", "Vrai/Faux · Réponse unique · Choix multiple", "Réponse unique"),
     ("Question", "Oui", "Énoncé complet de la question.", "Texte libre", "Que signifie un feu rouge fixe ?"),
@@ -378,7 +378,7 @@ def build_template(blank=False):
     # Onglet valeurs (sert aussi aux listes déroulantes)
     vs = wb.create_sheet("Valeurs autorisées")
     vs.append(["Permis", "Thème", "Type", "Difficulté", "Bonne réponse (exemples)"])
-    cats = ["A", "A1", "B", "C", "D", "E"]
+    cats = ["A", "B", "C", "D", "E"]
     themes = [label for _, label in THEMES]
     types = ["Vrai/Faux", "Réponse unique", "Choix multiple"]
     diffs = ["Facile", "Moyen", "Difficile"]

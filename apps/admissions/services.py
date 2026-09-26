@@ -11,7 +11,7 @@ from apps.core.notify import notify
 
 from .models import ACTIVE_STATUSES, PERIODIC_CATEGORIES, IndividualQuote, RecyclingReminderLog, RecyclingReminderSettings
 
-CATEGORY_LABELS = dict([("A", "A"), ("A1", "A1"), ("B", "B"), ("C", "C"), ("D", "D"), ("E", "E"), ("OTHER", "Autre")])
+CATEGORY_LABELS = dict([("A", "A"), ("B", "B"), ("C", "C"), ("D", "D"), ("E", "E"), ("OTHER", "Autre")])
 
 # §5.2 — palier de paiement : arbitrage retenu = 50 % fixe, la même pour toutes les offres (nouveau permis / recyclages).
 # Un candidat rattaché à une collectivité a accès complet (§3.1/§5.2), sans palier.

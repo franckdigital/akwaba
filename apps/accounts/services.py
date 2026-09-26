@@ -113,7 +113,7 @@ INSTRUCTIONS = [
     ("Organisation", "Oui pour les rôles d'entreprise", "Nom EXACT d'une entreprise / d'un établissement existant.", "Voir l'onglet « Organisations & cohortes »", "Entreprise ABC"),
     ("Cohorte", "Non (apprenants)", "Nom EXACT d'une cohorte de l'organisation : l'apprenant en bénéficie et profite du plan souscrit pour cette cohorte.", "Voir l'onglet « Organisations & cohortes »", "Cohorte Permis B - Septembre 2026"),
     ("Matricule employeur", "Non", "Matricule chez l'employeur / l'établissement.", "Texte", "EMP-001"),
-    ("Permis", "Non (défaut : celui de la cohorte, sinon B)", "Catégorie visée.", "A, A1, B, C, D, E", "B"),
+    ("Permis", "Non (défaut : celui de la cohorte, sinon B)", "Catégorie visée.", "A, B, C, D, E", "B"),
 ]
 
 

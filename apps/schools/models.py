@@ -2,7 +2,7 @@ from django.db import models
 
 from apps.core.models import TimeStamped
 
-CATEGORIES = [("A", "Permis A"), ("A1", "Permis A1"), ("B", "Permis B"), ("C", "Permis C"),
+CATEGORIES = [("A", "Permis A"), ("B", "Permis B"), ("C", "Permis C"),
               ("D", "Permis D"), ("E", "Permis E"), ("OTHER", "Autre")]
 
 
