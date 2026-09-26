@@ -33,7 +33,7 @@ class Course(TimeStamped):
     order = models.PositiveIntegerField(default=0)
     is_published = models.BooleanField(default=True)
     sequential = models.BooleanField(
-        "Parcours séquentiel obligatoire", default=False,
+        "Parcours séquentiel obligatoire", default=True,
         help_text="Un contenu obligatoire reste verrouillé pour l'apprenant tant que le contenu obligatoire précédent n'est pas terminé.")
 
     class Meta:
