@@ -250,9 +250,22 @@ class QuoteRequestViewSet(ScopedModelViewSet):
         return qs if self.request.user.role == AKWABA_ADMIN else qs.none()
 
 
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.throttling import ScopedRateThrottle
 from rest_framework.views import APIView
+
+
+@api_view(["GET"])
+@permission_classes([AllowAny])
+def public_organizations(request):
+    """§4.2 — liste des collectivités disposant d'une fiche d'engagement (visibles à l'inscription en ligne).
+    Si une collectivité recherchée n'y figure pas, c'est qu'elle n'a pas encore de fiche enregistrée."""
+    school_id = request.query_params.get("school")
+    qs = Organization.objects.filter(is_active=True)
+    if school_id:
+        qs = qs.filter(school_id=school_id)
+    return Response([{"id": o.id, "name": o.name, "org_type": o.org_type} for o in qs])
 
 
 class PublicQuoteView(APIView):

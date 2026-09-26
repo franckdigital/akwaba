@@ -250,6 +250,12 @@ class RegisterSerializer(serializers.Serializer):
     training = serializers.IntegerField(required=False, allow_null=True)
     birth_date = serializers.DateField(required=False, allow_null=True)
     sex = serializers.CharField(required=False, allow_blank=True, default="")
+    # §4 — à titre personnel ou au titre d'une collectivité ; zone géographique déclarée (§4.1/§5.1) ;
+    # devis individuel d'origine, le cas échéant (§2, parcours devis -> inscription).
+    zone = serializers.CharField(required=False, allow_blank=True, default="")
+    organization = serializers.IntegerField(required=False, allow_null=True)
+    id_document_no = serializers.CharField(required=False, allow_blank=True, default="")
+    quote = serializers.IntegerField(required=False, allow_null=True)
 
     def validate_email(self, v):
         if User.objects.filter(email=v.lower()).exists():
@@ -270,7 +276,10 @@ class RegisterView(APIView):
 
     @transaction.atomic
     def post(self, request):
+        import hashlib
+        from apps.admissions.models import IndividualQuote
         from apps.learners.models import Learner
+        from apps.organizations.models import Organization
         from apps.schools.models import School, Training
         from apps.schools.services import check_limit
         ser = RegisterSerializer(data=request.data)
@@ -279,16 +288,36 @@ class RegisterView(APIView):
         school = School.objects.filter(pk=d["school"], is_active=True).first()
         if not school:
             return Response({"school": "Auto-école introuvable."}, status=400)
+        # §4.1/§5.1 — la zone couverte est vérifiée au moment où le candidat la renseigne dans le formulaire.
+        zone = (d.get("zone") or "").strip()
+        covered = school.covered_zones or []
+        if covered and zone and zone not in covered:
+            return Response({"zone": f"Zone non couverte par l'auto-école (zones couvertes : {', '.join(covered)})."}, status=400)
+        # Garde-fou technique local (distinct de la vérification manuelle de la base du ministère, §4.1,
+        # qui reste une action externe faite par la secrétaire) : pas deux dossiers Akwaba pour la même pièce.
+        id_doc = (d.get("id_document_no") or "").strip()
+        if id_doc:
+            h = hashlib.sha256(id_doc.upper().encode()).hexdigest()
+            if Learner.objects.filter(id_document_hash=h).exists():
+                return Response({"id_document_no": "Un dossier existe déjà dans le système pour cette pièce d'identité."}, status=400)
+        organization = Organization.objects.filter(pk=d.get("organization"), school=school, is_active=True).first() if d.get("organization") else None
+        quote = IndividualQuote.objects.filter(pk=d.get("quote")).first() if d.get("quote") else None
         check_limit(school, "learners")
         training = Training.objects.filter(pk=d.get("training"), school=school).first() if d.get("training") else None
         user = User.objects.create_user(d["email"], d["password"], first_name=d["first_name"], last_name=d["last_name"],
-                                        phone=d["phone"], role=LEARNER, school=school)
-        learner = Learner.objects.create(user=user, school=school, first_name=d["first_name"], last_name=d["last_name"],
+                                        phone=d["phone"], role=LEARNER, school=school, organization=organization)
+        learner = Learner.objects.create(user=user, school=school, organization=organization, first_name=d["first_name"], last_name=d["last_name"],
                                          email=d["email"], phone=d["phone"], category=d["category"], training=training,
-                                         birth_date=d.get("birth_date"), sex=d["sex"], source="online", status="new")
+                                         birth_date=d.get("birth_date"), sex=d["sex"], source="online", status="new",
+                                         zone=zone, id_document_no=id_doc, quote=quote, approval_status="pending")
         audit.log(request, "register", learner, user=user, new={"email": user.email})
-        notify(user, "registration", "Bienvenue chez Akwaba", f"Votre inscription à {school} est enregistrée.")
-        return Response(session_payload(user), status=201)
+        notify(user, "registration", "Inscription reçue",
+              f"Votre inscription à {school} est en cours d'examen par le secrétariat.")
+        for staff in User.objects.filter(role__in=["secretary", "director"], school=school, is_active=True):
+            notify(staff, "registration_pending", "Nouvelle inscription à approuver", f"{learner.full_name} — dossier en attente.")
+        payload = session_payload(user)
+        payload["registration_pending_approval"] = True
+        return Response(payload, status=201)
 
 
 class UserViewSet(ScopedModelViewSet):

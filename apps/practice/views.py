@@ -157,6 +157,17 @@ class LessonSerializer(BaseModelSerializer):
         end = attrs.get("end", getattr(self.instance, "end", None))
         if start and end and end <= start:
             raise serializers.ValidationError({"end": "La fin doit être postérieure au début."})
+        kind = attrs.get("kind", getattr(self.instance, "kind", None))
+        learner = attrs.get("learner", getattr(self.instance, "learner", None))
+        is_new = self.instance is None
+        if kind == "exam" and learner is not None and is_new:
+            # §5.2/§6.1 — l'examen de conduite (practice.Lesson kind="exam") n'est programmable
+            # qu'une fois le candidat individuel soldé (collectivité : accès complet, pas de palier).
+            from apps.admissions.services import PRACTICAL_EXAM_RATIO, payment_ratio
+            ratio = payment_ratio(learner)
+            if ratio is not None and ratio < PRACTICAL_EXAM_RATIO:
+                raise serializers.ValidationError({"kind": f"Examen de conduite non programmable : paiement à {round(float(ratio) * 100)} % "
+                                                           "(solde intégral requis, §5.2)."})
         user = self.context["request"].user
         if user.role == "instructor":
             # un moniteur ne planifie que ses propres séances
@@ -196,6 +207,7 @@ class LessonViewSet(ScopedModelViewSet):
     instructor_lookup = "instructor__user"
     filterset_fields = {"kind": ["exact"], "status": ["exact"], "learner": ["exact"], "instructor": ["exact"],
                         "vehicle": ["exact"], "cohort": ["exact"], "start": ["gte", "lte", "date"]}
+    action_verbs = {"complete": "change", "attend": "view"}
 
     def after_create(self, lesson):
         if lesson.learner and lesson.learner.user:
@@ -213,6 +225,25 @@ class LessonViewSet(ScopedModelViewSet):
         if lesson.start != old_start and lesson.learner and lesson.learner.user:
             notify(lesson.learner.user, "planning_change", "Modification de planning",
                    f"Séance déplacée au {timezone.localtime(lesson.start):%d/%m/%Y à %H:%M}.", channels=("inapp", "push"))
+
+    @action(detail=True, methods=["post"])
+    def attend(self, request, pk=None):
+        """§6 — le candidat marque lui-même sa présence à ses séances, directement dans l'application."""
+        lesson = self.get_object()
+        if request.user.role == "learner" and getattr(lesson.learner, "user_id", None) != request.user.id:
+            from rest_framework.exceptions import PermissionDenied
+            raise PermissionDenied("Vous ne pouvez marquer votre présence que sur vos propres séances.")
+        if lesson.status != "planned":
+            return Response({"detail": "Cette séance n'est plus programmée."}, status=400)
+        if timezone.now() < lesson.start:
+            return Response({"detail": "La séance n'a pas encore commencé."}, status=400)
+        lesson.status = "done"
+        lesson.save(update_fields=["status", "updated_at"])
+        if lesson.learner and lesson.learner.status in ("registered", "new"):
+            lesson.learner.status = "in_training"
+            lesson.learner.save(update_fields=["status"])
+        audit.log(request, "attend_lesson", lesson)
+        return Response(self.get_serializer(lesson).data)
 
     @action(detail=True, methods=["post"])
     def complete(self, request, pk=None):

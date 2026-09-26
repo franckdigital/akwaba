@@ -21,6 +21,9 @@ class Organization(TimeStamped):
     phone = models.CharField(max_length=30, blank=True)
     email = models.EmailField(blank=True)
     is_active = models.BooleanField(default=True)
+    negotiated_price = models.DecimalField(
+        "Tarif négocié par candidat", max_digits=12, decimal_places=0, null=True, blank=True,
+        help_text="Tarif propre à cette collectivité, appliqué à chaque candidat qui lui est rattaché (ex. INSAAC).")
 
     class Meta:
         ordering = ["name"]

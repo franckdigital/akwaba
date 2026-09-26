@@ -18,6 +18,9 @@ class School(TimeStamped):
     categories = models.JSONField(default=list, blank=True)
     opening_hours = models.CharField("Horaires", max_length=255, blank=True)
     pass_threshold = models.PositiveSmallIntegerField("Seuil de réussite (%)", default=70)
+    covered_zones = models.JSONField(
+        "Zones géographiques couvertes", default=list, blank=True,
+        help_text="Ex: [\"Abidjan\"]. Une inscription en ligne dont la zone déclarée n'y figure pas est refusée (§4.1/§5.1). Vide = aucune restriction.")
     multi_agency = models.BooleanField("Fonctionne avec plusieurs agences (sites)", default=False)
     exam_min_average = models.PositiveSmallIntegerField("Score moyen requis aux QCM pour accéder aux examens blancs (%)", default=60)
     payment_rules = models.TextField("Règles de paiement", blank=True)

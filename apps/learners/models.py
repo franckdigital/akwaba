@@ -12,6 +12,7 @@ STATUSES = [
     ("passed", "Admis"), ("failed", "Échec"), ("licensed", "Permis obtenu"), ("dropped", "Abandonné"),
 ]
 SOURCES = [("secretary", "Secrétaire"), ("online", "En ligne"), ("organization", "Organisation")]
+APPROVAL_STATUSES = [("pending", "En attente d'approbation"), ("approved", "Approuvée"), ("rejected", "Rejetée")]
 
 
 class Learner(TimeStamped):
@@ -38,10 +39,25 @@ class Learner(TimeStamped):
     address = models.CharField(max_length=255, blank=True)
     photo = models.ImageField(upload_to="learners/photos/", null=True, blank=True)
     id_document_no = EncryptedCharField("N° pièce d'identité", blank=True)
+    id_document_hash = models.CharField(max_length=64, blank=True, db_index=True)
+    zone = models.CharField("Zone géographique déclarée", max_length=100, blank=True)
     category = models.CharField(max_length=10, choices=CATEGORIES, default="B")
     status = models.CharField(max_length=20, choices=STATUSES, default="new")
     source = models.CharField(max_length=15, choices=SOURCES, default="secretary")
     registered_at = models.DateField(default=timezone.localdate)
+    license_obtained_at = models.DateField(
+        "Date d'obtention du permis", null=True, blank=True,
+        help_text="Renseignée automatiquement au passage du statut à « Permis obtenu » ; sert de point de départ aux relances de recyclage.")
+
+    # §4-5 — inscription en ligne soumise à l'approbation du secrétariat avant activation du dossier.
+    # Par défaut « approved » : seule l'inscription publique (source=online) démarre « pending ».
+    approval_status = models.CharField(max_length=10, choices=APPROVAL_STATUSES, default="approved")
+    approval_reject_reason = models.TextField(blank=True)
+    quote = models.ForeignKey("admissions.IndividualQuote", null=True, blank=True, on_delete=models.SET_NULL,
+                              related_name="learners", help_text="Devis individuel à l'origine de cette inscription, le cas échéant.")
+    org_sequence_no = models.PositiveIntegerField(
+        "Numéro d'ordre (collectivité)", null=True, blank=True,
+        help_text="Calculé automatiquement au sein de la collectivité rattachée (ex. INSAAC).")
 
     class Meta:
         ordering = ["last_name", "first_name"]
@@ -57,6 +73,13 @@ class Learner(TimeStamped):
     def save(self, *args, **kwargs):
         if not self.matricule:
             self.matricule = next_matricule(self.school_id)
+        if self.status == "licensed" and not self.license_obtained_at:
+            self.license_obtained_at = timezone.localdate()
+        if self.id_document_no:
+            import hashlib
+            self.id_document_hash = hashlib.sha256(self.id_document_no.strip().upper().encode()).hexdigest()
+        if self.organization_id and not self.org_sequence_no:
+            self.org_sequence_no = Learner.objects.filter(organization_id=self.organization_id).count() + 1
         super().save(*args, **kwargs)
 
 

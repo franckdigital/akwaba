@@ -70,6 +70,13 @@ def start_attempt(quiz, learner):
             raise PermissionDenied(
                 f"Examens blancs verrouillés : votre score moyen aux QCM est de {e['average']} % sur {e['quizzes_done']} QCM "
                 f"terminé(s) ; {e['required']} % sont requis. Entraînez-vous encore !")
+        # §5.2 — palier de paiement (candidat individuel ; une collectivité a accès complet ;
+        # aucune facturation de formation => palier non applicable, comportement historique conservé).
+        from apps.admissions.services import CODE_EXAM_RATIO, payment_ratio
+        ratio = payment_ratio(learner)
+        if ratio is not None and ratio < CODE_EXAM_RATIO:
+            raise PermissionDenied(f"Examen de code verrouillé : paiement à {round(float(ratio) * 100)} % "
+                                   f"({round(float(CODE_EXAM_RATIO) * 100)} % minimum requis, §5.2).")
     if current:
         if _expired(current):
             finish_attempt(current, expired=True)

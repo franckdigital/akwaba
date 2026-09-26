@@ -8,6 +8,7 @@ from rest_framework.routers import DefaultRouter
 from rest_framework_simplejwt.views import TokenRefreshView
 
 from apps.accounts import views as acc
+from apps.admissions import views as admissions
 from apps.billing import views as billing
 from apps.core import views as core
 from apps.exams import views as exams
@@ -48,6 +49,9 @@ r("contracts", orgs.ContractViewSet, basename="contract")
 r("cohorts", orgs.CohortViewSet, basename="cohort")
 r("groups", orgs.GroupViewSet, basename="group")
 r("quote-requests", orgs.QuoteRequestViewSet, basename="quote-request")
+r("individual-quotes", admissions.IndividualQuoteViewSet, basename="individual-quote")
+r("recycling-items", admissions.RecyclingItemViewSet, basename="recycling-item")
+r("recycling-reminder-settings", admissions.RecyclingReminderSettingsViewSet, basename="recycling-reminder-settings")
 r("subscription-orders", subs.OrderViewSet, basename="subscription-order")
 r("learner-subscriptions", subs.LearnerSubscriptionViewSet, basename="learner-subscription")
 r("organization-subscriptions", subs.OrganizationSubscriptionViewSet, basename="organization-subscription")
@@ -59,6 +63,7 @@ r("exams", exams.ExamViewSet, basename="exam")
 r("certificates", exams.CertificateViewSet, basename="certificate")
 r("audit-logs", core.AuditLogViewSet, basename="audit-log")
 r("notifications", core.NotificationViewSet, basename="notification")
+r("alert-settings", core.AlertSettingViewSet, basename="alert-setting")
 
 auth_patterns = [
     path("login/", acc.LoginView.as_view()),
@@ -83,7 +88,10 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/auth/", include(auth_patterns)),
     path("api/public/schools/", schools.public_schools),
+    path("api/public/organizations/", orgs.public_organizations),
     path("api/public/quotes/", orgs.PublicQuoteView.as_view()),
+    path("api/public/individual-quotes/", admissions.PublicIndividualQuoteView.as_view()),
+    path("api/public/recycling-items/", admissions.public_recycling_items),
     path("api/certificates/verify/<str:code>/", exams.verify_certificate),
     path("api/payments/webhook/", billing.payment_webhook),
     path("api/subscriptions/me/", subs.MySubscriptionView.as_view()),

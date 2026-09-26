@@ -1106,3 +1106,51 @@ class InstructorPlanningTests(Base):
         self.assertIn("déjà été évaluée", json.dumps(again.json(), ensure_ascii=False))
         # un moniteur ne peut pas évaluer hors séance
         self.assertEqual(c.post("/api/evaluations/", {**ev, "lesson": None}, format="json").status_code, 400)
+
+
+class CourseTests(Base):
+    def _pdf(self, name="c.pdf", size=1200):
+        return SimpleUploadedFile(name, b"%PDF-1.4\n" + b"0" * size, content_type="application/pdf")
+
+    def test_director_builds_multiformat_course_and_learner_follows_progress(self):
+        d = self.as_user(self.director)
+        r = d.post("/api/courses/", {"title": "Priorités", "theme": "priority", "kind": "theory", "summary": "Résumé", "duration_minutes": 20, "is_published": True}, format="json")
+        self.assertEqual(r.status_code, 201, r.content)
+        cid = r.json()["id"]
+        # PDF, texte, lien, vidéo en ligne, image, audio
+        ok = [("pdf", {"file": self._pdf()}), ("text", {"text": "À retenir : cédez le passage."}), ("link", {"url": "https://exemple.ci/regles"}),
+              ("embed", {"url": "https://www.youtube.com/watch?v=abc"}), ("audio", {"file": SimpleUploadedFile("a.mp3", b"ID3" + b"0" * 100, content_type="audio/mpeg")})]
+        for i, (t, extra) in enumerate(ok):
+            r = d.post("/api/course-materials/", {"course": cid, "material_type": t, "title": f"M{i}", "order": i, **extra}, format="multipart")
+            self.assertEqual(r.status_code, 201, (t, r.content))
+        pdf = d.get(f"/api/courses/{cid}/").json()["materials"][0]
+        self.assertTrue(pdf["file_url"].endswith(".pdf") or ".pdf" in pdf["file_url"])
+        self.assertGreater(pdf["file_size"], 0)
+        # validations : mauvais format, contenu manquant
+        bad = d.post("/api/course-materials/", {"course": cid, "material_type": "pdf", "title": "x", "file": SimpleUploadedFile("x.exe", b"MZ", content_type="application/x-msdownload")}, format="multipart")
+        self.assertEqual(bad.status_code, 400)
+        self.assertEqual(d.post("/api/course-materials/", {"course": cid, "material_type": "text", "title": "vide"}, format="multipart").status_code, 400)
+        self.assertEqual(d.post("/api/course-materials/", {"course": cid, "material_type": "pdf", "title": "sans fichier"}, format="multipart").status_code, 400)
+        # un contenu non publié est invisible de l'apprenant
+        d.post("/api/course-materials/", {"course": cid, "material_type": "text", "title": "Brouillon", "text": "x", "is_published": "false"}, format="multipart")
+        L = self.as_user(self.lu)
+        det = L.get(f"/api/courses/{cid}/").json()
+        self.assertEqual(len(det["materials"]), 5)
+        self.assertEqual(det["progress"]["total"], 5)
+        first = det["materials"][0]["id"]
+        r = L.post(f"/api/course-materials/{first}/complete/").json()
+        self.assertEqual((r["completed"], r["progress"]["done"], r["progress"]["percent"]), (True, 1, 20))
+        self.assertEqual(L.get(f"/api/courses/{cid}/").json()["materials"][0]["completed"], True)
+        self.assertEqual(L.delete(f"/api/course-materials/{first}/complete/").json()["progress"]["done"], 0)
+        # un apprenant ne modifie rien
+        self.assertEqual(L.post("/api/course-materials/", {"course": cid, "material_type": "text", "title": "x", "text": "y"}, format="multipart").status_code, 403)
+
+    def test_central_courses_are_read_only_for_schools_and_drafts_hidden(self):
+        from apps.pedagogy.models import Course
+        central = Course.objects.create(school=None, title="Banque centrale", is_published=True)
+        Course.objects.create(school=self.school, title="Brouillon", is_published=False)
+        d = self.as_user(self.director)
+        self.assertEqual(d.patch(f"/api/courses/{central.id}/", {"title": "hack"}, format="json").status_code, 403)
+        self.assertEqual(d.post("/api/course-materials/", {"course": central.id, "material_type": "text", "title": "x", "text": "y"}, format="multipart").status_code, 400)
+        titles = [c["title"] for c in self.as_user(self.lu).get("/api/courses/").json()["results"]]
+        self.assertEqual(titles, ["Banque centrale"])

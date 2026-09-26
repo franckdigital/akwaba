@@ -2,18 +2,34 @@
 
 Les canaux SMS / WhatsApp / push sont journalisés (stub) : brancher ici le
 fournisseur réel (Orange SMS API, Twilio, FCM/Expo Push...).
+
+Toutes les alertes sont paramétrables depuis l'admin (AlertSetting) : activation et canaux de
+diffusion. Un réglage propre à l'auto-école du destinataire prime sur le réglage global (school=null) ;
+en l'absence de tout réglage, les canaux par défaut du code appelant (DEFAULT_ALERT_CHANNELS) s'appliquent.
 """
 import logging
 
 from django.core.mail import send_mail
 
-from .models import Notification
+from .models import DEFAULT_ALERT_CHANNELS, AlertSetting, Notification
 
 logger = logging.getLogger("akwaba.notify")
 
 
+def _resolve_channels(user, event, fallback):
+    school_id = getattr(user, "school_id", None)
+    qs = AlertSetting.objects.filter(event=event)
+    setting = (qs.filter(school_id=school_id).first() if school_id else None) or qs.filter(school__isnull=True).first()
+    if setting is None:
+        return tuple(fallback), True
+    return tuple(setting.channels or []), setting.is_active
+
+
 def notify(user, event, title, message="", channels=("inapp",)):
     if user is None:
+        return []
+    channels, active = _resolve_channels(user, event, channels or DEFAULT_ALERT_CHANNELS.get(event, ("inapp",)))
+    if not active or not channels:
         return []
     created = []
     for ch in channels:

@@ -12,22 +12,181 @@ from apps.core.viewsets import SCHOOL, BaseModelSerializer, ScopedModelViewSet, 
 from apps.learners.models import Learner
 
 from . import services
-from .models import THEMES, Attempt, AttemptAnswer, Choice, Course, CourseMaterial, ImportJob, Question, Quiz
+from .models import THEMES, Attempt, AttemptAnswer, Choice, Course, CourseMaterial, ImportJob, MaterialProgress, Question, Quiz
 
 
 # --------------------------------------------------------------------------- cours
+import os
+
+FORMATS = {   # type -> (extensions autorisées, taille max en Mo)
+    "pdf": ({".pdf"}, 25), "ppt": ({".ppt", ".pptx", ".pps", ".ppsx"}, 50), "word": ({".doc", ".docx", ".odt", ".rtf"}, 25),
+    "excel": ({".xls", ".xlsx", ".csv", ".ods"}, 25), "audio": ({".mp3", ".m4a", ".wav", ".ogg", ".aac"}, 60),
+    "video": ({".mp4", ".webm", ".mov", ".m4v"}, 300), "image": ({".png", ".jpg", ".jpeg", ".webp", ".gif"}, 10),
+    "other": ({".zip", ".txt", ".pdf", ".docx", ".xlsx", ".pptx", ".png", ".jpg"}, 50),
+}
+
+
+def _done_ids(serializer):
+    """Ids des contenus terminés par l'utilisateur courant (mis en cache dans le contexte de sérialisation)."""
+    ctx = serializer.context
+    if "_done" not in ctx:
+        req = ctx.get("request")
+        user = getattr(req, "user", None)
+        ctx["_done"] = set(MaterialProgress.objects.filter(user=user).values_list("material_id", flat=True)) if user and user.is_authenticated else set()
+    return ctx["_done"]
+
+
+def course_progress(course, done):
+    mats = [m for m in course.materials.all() if m.is_published and m.is_required]
+    total = len(mats)
+    n = sum(1 for m in mats if m.id in done)
+    return {"total": total, "done": n, "percent": round(n * 100 / total) if total else 0}
+
+
+def locked_material_ids(course, done):
+    """Ids des contenus verrouillés par le parcours séquentiel : un contenu (obligatoire ou non) reste
+    bloqué tant que le contenu obligatoire qui le précède n'est pas terminé. Inactif si `course.sequential` est faux."""
+    if not course.sequential:
+        return set()
+    locked, blocked = set(), False
+    for m in course.materials.all():
+        if not m.is_published:
+            continue
+        if blocked:
+            locked.add(m.id)
+        elif m.is_required and m.id not in done:
+            blocked = True
+    return locked
+
+
+def _locked_ids(serializer, course):
+    """Verrouillage mis en cache (par cours) dans le contexte de sérialisation, comme _done_ids."""
+    ctx = serializer.context
+    req = ctx.get("request")
+    if req and getattr(req.user, "role", None) != LEARNER:
+        return set()   # le parcours séquentiel ne s'applique qu'aux apprenants ; le staff prévisualise librement
+    key = f"_locked_{course.id}"
+    if key not in ctx:
+        ctx[key] = locked_material_ids(course, _done_ids(serializer))
+    return ctx[key]
+
+
 class CourseMaterialSerializer(BaseModelSerializer):
+    # Cases à cocher par défaut à True dans le modèle : sur un formulaire multipart (upload de fichier), un
+    # navigateur/client n'envoie pas les cases non cochées, et DRF traite alors leur absence comme "décochée"
+    # (comportement HTML standard), ce qui écraserait silencieusement le défaut du modèle à la création.
+    BOOL_DEFAULTS_ON_CREATE = {"is_published": True, "is_required": True, "download_allowed": True}
+
+    file_url = serializers.SerializerMethodField()
+    type_label = serializers.CharField(source="get_material_type_display", read_only=True)
+    completed = serializers.SerializerMethodField()
+    locked = serializers.SerializerMethodField()
+
     class Meta:
         model = CourseMaterial
         fields = "__all__"
+        read_only_fields = ["file_size"]
+
+    def to_internal_value(self, data):
+        if self.instance is None:   # création seulement : une mise à jour doit pouvoir décocher explicitement
+            try:
+                data = data.copy()
+            except AttributeError:
+                pass
+            else:
+                for key, default in self.BOOL_DEFAULTS_ON_CREATE.items():
+                    if key not in data:
+                        data[key] = default
+        return super().to_internal_value(data)
+
+    def get_file_url(self, m):
+        if not m.file:
+            return None
+        req = self.context.get("request")
+        return req.build_absolute_uri(m.file.url) if req else m.file.url
+
+    def get_completed(self, m):
+        return m.id in _done_ids(self)
+
+    def get_locked(self, m):
+        return m.id in _locked_ids(self, m.course)
+
+    def validate(self, attrs):
+        inst = self.instance
+        get = lambda k, d="": attrs.get(k, getattr(inst, k, d))
+        mtype = get("material_type")
+        file, url, text = attrs.get("file", getattr(inst, "file", None)), get("url"), get("text")
+        user = self.context["request"].user
+        course = attrs.get("course") or getattr(inst, "course", None)
+        if course is not None and user.role != AKWABA_ADMIN and course.school_id != user.school_id:
+            raise serializers.ValidationError({"course": "Ce cours appartient à la banque centrale Akwaba : il n'est pas modifiable."})
+        if mtype == "text" and not text.strip():
+            raise serializers.ValidationError({"text": "Saisissez le texte du contenu."})
+        if mtype in ("link", "embed") and not url:
+            raise serializers.ValidationError({"url": "Saisissez l'adresse (URL)."})
+        if mtype in FORMATS and not file and not url:
+            raise serializers.ValidationError({"file": "Ajoutez un fichier ou indiquez une adresse (URL)."})
+        f = attrs.get("file")
+        if f is not None and mtype in FORMATS:
+            exts, max_mb = FORMATS[mtype]
+            ext = os.path.splitext(f.name)[1].lower()
+            if ext not in exts:
+                raise serializers.ValidationError({"file": f"Format {ext or 'inconnu'} non accepté pour « {dict(CourseMaterial.TYPES)[mtype]} » : {', '.join(sorted(exts))}."})
+            if f.size > max_mb * 1024 * 1024:
+                raise serializers.ValidationError({"file": f"Fichier trop lourd ({max_mb} Mo maximum pour ce format)."})
+        return attrs
+
+    def _size(self, m):
+        m.file_size = m.file.size if m.file else 0
+        m.save(update_fields=["file_size"])
+        return m
+
+    def create(self, validated):
+        return self._size(super().create(validated))
+
+    def update(self, instance, validated):
+        return self._size(super().update(instance, validated))
 
 
 class CourseSerializer(BaseModelSerializer):
-    materials = CourseMaterialSerializer(many=True, read_only=True)
+    materials = serializers.SerializerMethodField()
+    cover_url = serializers.SerializerMethodField()
+    materials_count = serializers.SerializerMethodField()
+    formats = serializers.SerializerMethodField()
+    progress = serializers.SerializerMethodField()
+    is_global = serializers.SerializerMethodField()
 
     class Meta:
         model = Course
         fields = "__all__"
+
+    def _visible(self, c):
+        req = self.context.get("request")
+        mats = list(c.materials.all())
+        return mats if (req and req.user.role != LEARNER) else [m for m in mats if m.is_published]
+
+    def get_materials(self, c):
+        if self.context.get("no_materials"):
+            return []
+        return CourseMaterialSerializer(self._visible(c), many=True, context=self.context).data
+
+    def get_cover_url(self, c):
+        if not c.cover:
+            return None
+        req = self.context.get("request")
+        return req.build_absolute_uri(c.cover.url) if req else c.cover.url
+
+    def get_materials_count(self, c):
+        return len(self._visible(c))
+
+    def get_formats(self, c):
+        return sorted({m.material_type for m in self._visible(c)})
+
+    def get_progress(self, c):
+        return course_progress(c, _done_ids(self))
+
+    def get_is_global(self, c):
+        return c.school_id is None
 
 
 class CourseViewSet(ScopedModelViewSet):
@@ -37,25 +196,125 @@ class CourseViewSet(ScopedModelViewSet):
     include_global = True
     learner_lookup = SCHOOL
     instructor_lookup = SCHOOL
+    parser_classes = [JSONParser, MultiPartParser, FormParser]
+    action_verbs = {"reorder": "change", "cover": "change", "duplicate": "create"}
     filterset_fields = ["training", "theme", "kind", "is_published"]
-    search_fields = ["title", "content"]
+    search_fields = ["title", "summary", "content"]
 
     def get_queryset(self):
         qs = super().get_queryset()
         if self.request.user.role == LEARNER:
             qs = qs.filter(is_published=True)
+            from apps.admissions.services import visible_courses
+            from apps.learners.models import Learner
+            learner = Learner.objects.filter(user=self.request.user).first()
+            if learner is not None and learner.quote_id:
+                qs = qs.filter(pk__in=visible_courses(learner).values_list("pk", flat=True))
         return qs
+
+    def get_serializer_context(self):
+        ctx = super().get_serializer_context()
+        if self.action == "list":
+            ctx["no_materials"] = self.request.query_params.get("with_materials") not in ("1", "true")
+        return ctx
+
+    def _guard_global(self, instance):
+        if instance.school_id is None and self.request.user.role != AKWABA_ADMIN:
+            raise PermissionDenied("Cours de la banque centrale Akwaba : modification réservée à Akwaba.")
+
+    def perform_update(self, serializer):
+        self._guard_global(serializer.instance)
+        super().perform_update(serializer)
+
+    def perform_destroy(self, instance):
+        self._guard_global(instance)
+        super().perform_destroy(instance)
+
+    @action(detail=True, methods=["post"])
+    def reorder(self, request, pk=None):
+        """Body : {"order": [id_contenu, ...]} -> ordre d'affichage des contenus."""
+        course = self.get_object()
+        self._guard_global(course)
+        ids = request.data.get("order") or []
+        valid = set(course.materials.values_list("id", flat=True))
+        for pos, mid in enumerate(i for i in ids if i in valid):
+            CourseMaterial.objects.filter(pk=mid).update(order=pos)
+        return Response(self.get_serializer(self.get_object()).data)
+
+    @action(detail=True, methods=["post", "delete"], parser_classes=[MultiPartParser])
+    def cover(self, request, pk=None):
+        course = self.get_object()
+        self._guard_global(course)
+        if request.method == "DELETE":
+            course.cover.delete(save=True)
+        else:
+            f = request.FILES.get("cover")
+            if not f or not (f.content_type or "").startswith("image/"):
+                return Response({"cover": "Fichier image requis."}, status=400)
+            if f.size > 5 * 1024 * 1024:
+                return Response({"cover": "Image trop lourde (5 Mo max)."}, status=400)
+            course.cover = f
+            course.save()
+        return Response(self.get_serializer(course).data)
+
+    @action(detail=True, methods=["post"])
+    def duplicate(self, request, pk=None):
+        """Copie le cours (et les liens/textes ; les fichiers sont partagés) dans l'auto-école de l'utilisateur."""
+        src = self.get_object()
+        school = request.user.school if request.user.role != AKWABA_ADMIN else src.school
+        copy = Course.objects.create(school=school, training=src.training, kind=src.kind, theme=src.theme, title=f"{src.title} (copie)",
+                                     summary=src.summary, content=src.content, duration_minutes=src.duration_minutes, order=src.order,
+                                     sequential=src.sequential, is_published=False)
+        for m in src.materials.all():
+            CourseMaterial.objects.create(course=copy, material_type=m.material_type, title=m.title, description=m.description, file=m.file,
+                                          file_size=m.file_size, url=m.url, text=m.text, order=m.order, duration_minutes=m.duration_minutes,
+                                          is_required=m.is_required, download_allowed=m.download_allowed, is_published=m.is_published)
+        return Response(self.get_serializer(copy).data, status=201)
 
 
 class MaterialViewSet(ScopedModelViewSet):
     resource = "courses"
-    queryset = CourseMaterial.objects.all()
+    queryset = CourseMaterial.objects.select_related("course")
     serializer_class = CourseMaterialSerializer
     school_lookup = "course__school"
     include_global = True
     learner_lookup = SCHOOL
     instructor_lookup = SCHOOL
-    filterset_fields = ["course"]
+    parser_classes = [JSONParser, MultiPartParser, FormParser]
+    action_verbs = {"complete": "view"}
+    filterset_fields = ["course", "material_type"]
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        if self.request.user.role == LEARNER:
+            qs = qs.filter(is_published=True, course__is_published=True)
+        return qs
+
+    def _guard_global(self, instance):
+        if instance.course.school_id is None and self.request.user.role != AKWABA_ADMIN:
+            raise PermissionDenied("Contenu de la banque centrale Akwaba : modification réservée à Akwaba.")
+
+    def perform_update(self, serializer):
+        self._guard_global(serializer.instance)
+        super().perform_update(serializer)
+
+    def perform_destroy(self, instance):
+        self._guard_global(instance)
+        super().perform_destroy(instance)
+
+    @action(detail=True, methods=["post", "delete"])
+    def complete(self, request, pk=None):
+        """POST : marque le contenu comme terminé ; DELETE : le remet « à faire ». Renvoie la progression du cours."""
+        m = self.get_object()
+        if request.method == "POST":
+            done = set(MaterialProgress.objects.filter(user=request.user).values_list("material_id", flat=True))
+            if request.user.role == LEARNER and m.id in locked_material_ids(m.course, done):
+                raise PermissionDenied("Ce contenu est verrouillé : terminez d'abord les contenus précédents du parcours.")
+            MaterialProgress.objects.get_or_create(user=request.user, material=m)
+        else:
+            MaterialProgress.objects.filter(user=request.user, material=m).delete()
+        done = set(MaterialProgress.objects.filter(user=request.user).values_list("material_id", flat=True))
+        return Response({"material": m.id, "completed": m.id in done, "progress": course_progress(m.course, done)})
 
 
 # --------------------------------------------------------------------------- questions

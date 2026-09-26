@@ -221,7 +221,7 @@ def public_schools(request):
     """Liste publique minimale pour l'inscription en ligne."""
     rows = []
     for s in School.objects.filter(is_active=True):
-        rows.append({"id": s.id, "name": str(s), "address": s.address,
+        rows.append({"id": s.id, "name": str(s), "address": s.address, "covered_zones": s.covered_zones or [],
                      "trainings": [{"id": t.id, "name": t.name, "category": t.category, "price": t.price}
                                    for t in s.trainings.filter(is_active=True)]})
     return Response(rows)

@@ -113,6 +113,10 @@ class Lesson(TimeStamped):
     location = models.CharField(max_length=200, blank=True)
     observations = models.TextField(blank=True)
     status = models.CharField(max_length=10, choices=STATUS, default="planned")
+    # §6 — cours en visioconférence (classe virtuelle) : lien de la session et, une fois terminée, son enregistrement
+    # consultable à tout moment par les candidats. Concerne surtout les séances kind="theory".
+    meeting_url = models.URLField("Lien de la classe virtuelle", blank=True)
+    recording_url = models.URLField("Enregistrement (rediffusion)", blank=True)
 
     class Meta:
         ordering = ["start"]

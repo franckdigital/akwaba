@@ -44,6 +44,7 @@ RESOURCES = [
     "evaluations", "organizations", "contracts", "cohorts", "groups", "invoices", "payments",
     "installments", "expenses", "exams", "certificates", "reports", "plans", "subscriptions",
     "audit", "notifications", "imports", "quotes", "subscription_orders", "member_subscriptions",
+    "individual_quotes", "recycling_items", "recycling_reminder_settings", "alert_settings",
 ]
 
 MATRIX = {
@@ -53,12 +54,14 @@ MATRIX = {
         "plans": ALL, "subscriptions": RO, "schools": {"view", "change"}, "quotes": set(),
     },
     SECRETARY: {
-        "learners": RWD, "documents": RWD, "lessons": RWD, "cohorts": RWD, "groups": RWD,
+        "learners": RWD | {"validate"}, "documents": RWD, "lessons": RWD, "cohorts": RWD, "groups": RWD,
         "organizations": RW, "contracts": RO, "invoices": RW | {"print"}, "payments": RW | {"print"},
-        "installments": RW, "agencies": RO, "trainings": RO, "courses": RO, "questions": RO,
+        "installments": RW, "agencies": RO, "trainings": RO, "courses": RW, "questions": RO,
         "quizzes": RO, "instructors": RO, "vehicles": RO, "rooms": RO, "exams": RW, "certificates": RO | {"print"},
         "attempts": RO, "evaluations": RO, "schools": RO, "reports": RO, "users": RO, "notifications": RO,
         "plans": RO, "subscription_orders": {"view", "create"}, "member_subscriptions": RO,
+        "individual_quotes": RWD | {"validate", "print"}, "recycling_items": RO,
+        "recycling_reminder_settings": RO,
     },
     ACCOUNTANT: {
         "invoices": ALL, "payments": ALL, "installments": ALL, "expenses": ALL, "reports": ALL,

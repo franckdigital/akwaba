@@ -3,10 +3,12 @@ import secrets
 from django.http import FileResponse, Http404
 from rest_framework import serializers
 from rest_framework.decorators import action
+from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 
 from apps.accounts.models import User
 from apps.core import audit
+from apps.core.notify import notify
 from apps.core.permissions import AKWABA_ADMIN, LEARNER, ORG_ROLES
 from apps.core.viewsets import SCHOOL, ScopedModelViewSet, make_serializer
 
@@ -58,8 +60,9 @@ class LearnerViewSet(ScopedModelViewSet):
     learner_lookup = "user"
     instructor_lookup = "lessons__instructor__user"
     limit_key = "learners"
-    action_verbs = {"create_account": "change", "progress": "view", "driving_log": "view", "export": "export"}
-    filterset_fields = ["status", "category", "training", "cohort", "group", "organization", "agency", "school", "source"]
+    action_verbs = {"create_account": "change", "progress": "view", "driving_log": "view", "export": "export",
+                    "approve_registration": "validate", "exam_access": "view"}
+    filterset_fields = ["status", "category", "training", "cohort", "group", "organization", "agency", "school", "source", "approval_status"]
     search_fields = ["last_name", "first_name", "matricule", "phone", "email", "employee_ref"]
     ordering_fields = ["last_name", "registered_at", "created_at"]
 
@@ -98,10 +101,46 @@ class LearnerViewSet(ScopedModelViewSet):
         audit.log(request, "create_account", learner, new={"email": email})
         return Response({"email": email, "temporary_password": password})
 
+    @action(detail=True, methods=["post"], url_path="approve-registration")
+    def approve_registration(self, request, pk=None):
+        """Décision du secrétariat sur une inscription en ligne (§5) : vérifications propres au système
+        (doublon local, zone) déjà faites à la soumission ; ce qui reste ici relève d'une vérification
+        MANUELLE externe (base du ministère, permis valide) — hors du système, comme précisé §4.1.
+        Body : {"decision": "approved"|"rejected", "reject_reason"?}"""
+        learner = self.get_object()
+        if learner.approval_status != "pending":
+            raise ValidationError({"detail": "Ce dossier n'est pas en attente d'approbation."})
+        decision = request.data.get("decision")
+        if decision not in ("approved", "rejected"):
+            raise ValidationError({"decision": "Valeur attendue : approved ou rejected."})
+        old = self._snapshot(learner)
+        learner.approval_status = decision
+        if decision == "rejected":
+            learner.approval_reject_reason = request.data.get("reject_reason") or \
+                "Candidat déjà inscrit ailleurs, sans permis de conduire valide pour cette offre, ou zone non couverte."
+            if learner.user_id:
+                learner.user.is_active = False
+                learner.user.save(update_fields=["is_active"])
+        else:
+            learner.status = "registered" if learner.status == "new" else learner.status
+        learner.save(update_fields=["approval_status", "approval_reject_reason", "status", "updated_at"])
+        audit.log(request, "approve_registration", learner, old=old, new=self._snapshot(learner))
+        if decision == "approved" and learner.user:
+            notify(learner.user, "registration_approved", "Inscription validée",
+                  f"Votre dossier chez {learner.school} est activé. Bienvenue chez Akwaba Auto-École !",
+                  channels=("inapp", "email", "whatsapp"))
+        return Response(self.get_serializer(learner).data)
+
     @action(detail=True, methods=["get"])
     def progress(self, request, pk=None):
         from apps.pedagogy.services import learner_progress
         return Response(learner_progress(self.get_object()))
+
+    @action(detail=True, methods=["get"], url_path="exam-access")
+    def exam_access(self, request, pk=None):
+        """§5.2/§6.1 — palier de paiement et conditions d'accès aux examens (code / conduite)."""
+        from apps.admissions.services import exam_access as compute_exam_access
+        return Response(compute_exam_access(self.get_object()))
 
     @action(detail=True, methods=["get"], url_path="driving-log")
     def driving_log(self, request, pk=None):

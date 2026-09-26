@@ -18,10 +18,15 @@ class Course(TimeStamped):
     kind = models.CharField(max_length=10, choices=KINDS, default="theory")
     theme = models.CharField(max_length=20, choices=THEMES, default="code")
     title = models.CharField(max_length=200)
+    summary = models.CharField("Résumé", max_length=255, blank=True)
+    cover = models.ImageField("Image de couverture", upload_to="courses/covers/", null=True, blank=True)
     content = models.TextField(blank=True)
     duration_minutes = models.PositiveIntegerField(default=60)
     order = models.PositiveIntegerField(default=0)
     is_published = models.BooleanField(default=True)
+    sequential = models.BooleanField(
+        "Parcours séquentiel obligatoire", default=False,
+        help_text="Un contenu obligatoire reste verrouillé pour l'apprenant tant que le contenu obligatoire précédent n'est pas terminé.")
 
     class Meta:
         ordering = ["order", "title"]
@@ -31,13 +36,39 @@ class Course(TimeStamped):
 
 
 class CourseMaterial(TimeStamped):
-    TYPES = [("text", "Texte"), ("image", "Image"), ("pdf", "PDF"), ("video", "Vidéo"), ("other", "Autre")]
+    """Contenu d'un cours : plusieurs formats (texte, PDF, vidéo, audio, image, PowerPoint, Word, Excel, lien, intégration, autre)."""
+    TYPES = [("text", "Texte"), ("pdf", "PDF"), ("video", "Vidéo"), ("audio", "Audio"), ("image", "Image"),
+             ("ppt", "PowerPoint"), ("word", "Word"), ("excel", "Excel"), ("link", "Lien externe"),
+             ("embed", "Vidéo en ligne (YouTube, Vimeo)"), ("other", "Autre fichier")]
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name="materials")
     material_type = models.CharField(max_length=10, choices=TYPES)
     title = models.CharField(max_length=200)
-    file = models.FileField(upload_to="courses/", null=True, blank=True)
+    description = models.TextField(blank=True)
+    file = models.FileField(upload_to="courses/files/", null=True, blank=True)
+    file_size = models.PositiveBigIntegerField(default=0)
     url = models.URLField(blank=True)
     text = models.TextField(blank=True)
+    order = models.PositiveIntegerField(default=0)
+    duration_minutes = models.PositiveIntegerField(default=0)
+    is_required = models.BooleanField("Obligatoire pour la progression", default=True)
+    download_allowed = models.BooleanField("Téléchargement autorisé", default=True)
+    is_published = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ["order", "id"]
+
+    def __str__(self):
+        return self.title
+
+
+class MaterialProgress(models.Model):
+    """Contenu marqué comme terminé par un utilisateur (apprenant, moniteur…)."""
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="material_progress")
+    material = models.ForeignKey(CourseMaterial, on_delete=models.CASCADE, related_name="progress")
+    completed_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        constraints = [models.UniqueConstraint(fields=["user", "material"], name="uniq_progress_user_material")]
 
 
 class Question(TimeStamped):
