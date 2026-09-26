@@ -55,6 +55,8 @@ class Learner(TimeStamped):
     approval_reject_reason = models.TextField(blank=True)
     quote = models.ForeignKey("admissions.IndividualQuote", null=True, blank=True, on_delete=models.SET_NULL,
                               related_name="learners", help_text="Devis individuel à l'origine de cette inscription, le cas échéant.")
+    engagement_paper_received_at = models.DateField("Fiche d'engagement remise en version papier le", null=True, blank=True)
+    engagement_downloaded_at = models.DateTimeField("Fiche d'engagement téléchargée le", null=True, blank=True)
     org_sequence_no = models.PositiveIntegerField(
         "Numéro d'ordre (collectivité)", null=True, blank=True,
         help_text="Calculé automatiquement au sein de la collectivité rattachée (ex. INSAAC).")
@@ -93,7 +95,7 @@ def next_matricule(school_id):
 
 
 DOC_TYPES = [("cni", "CNI"), ("photo", "Photo"), ("medical", "Certificat médical"), ("admin", "Justificatif administratif"),
-             ("payment", "Justificatif de paiement"), ("exam", "Document d'examen"), ("certificate", "Certificat de réussite"),
+             ("payment", "Justificatif de paiement"), ("engagement", "Fiche d'engagement signée"), ("exam", "Document d'examen"), ("certificate", "Certificat de réussite"),
              ("other", "Autre")]
 
 

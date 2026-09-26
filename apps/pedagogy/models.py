@@ -11,16 +11,24 @@ THEMES = [("code", "Code de la route"), ("signs", "Signalisation"), ("priority",
 DIFFICULTY = [("easy", "Facile"), ("medium", "Moyen"), ("hard", "Difficile")]
 
 
+LEVELS = [("beginner", "Débutant"), ("intermediate", "Intermédiaire"), ("advanced", "Avancé"), ("all_levels", "Tous niveaux")]
+
+
 class Course(TimeStamped):
     KINDS = [("theory", "Théorique"), ("practical", "Pratique")]
     school = models.ForeignKey("schools.School", null=True, blank=True, on_delete=models.CASCADE, related_name="courses")
     training = models.ForeignKey("schools.Training", null=True, blank=True, on_delete=models.SET_NULL, related_name="courses")
     kind = models.CharField(max_length=10, choices=KINDS, default="theory")
     theme = models.CharField(max_length=20, choices=THEMES, default="code")
+    level = models.CharField("Niveau", max_length=15, choices=LEVELS, default="all_levels")
+    language = models.CharField("Langue", max_length=50, default="Français")
     title = models.CharField(max_length=200)
     summary = models.CharField("Résumé", max_length=255, blank=True)
     cover = models.ImageField("Image de couverture", upload_to="courses/covers/", null=True, blank=True)
     content = models.TextField(blank=True)
+    objectives = models.JSONField("Ce que vous allez apprendre", default=list, blank=True)
+    requirements = models.JSONField("Prérequis", default=list, blank=True)
+    certificate_enabled = models.BooleanField("Certificat de complétion", default=True)
     duration_minutes = models.PositiveIntegerField(default=60)
     order = models.PositiveIntegerField(default=0)
     is_published = models.BooleanField(default=True)
@@ -35,12 +43,26 @@ class Course(TimeStamped):
         return self.title
 
 
+class CourseEnrollment(TimeStamped):
+    """Suivi d'un cours par un utilisateur (« Mon apprentissage »)."""
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="course_enrollments")
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name="enrollments")
+    last_material = models.ForeignKey("CourseMaterial", null=True, blank=True, on_delete=models.SET_NULL, related_name="+")
+    last_opened_at = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        constraints = [models.UniqueConstraint(fields=["user", "course"], name="uniq_enrollment_user_course")]
+        ordering = ["-last_opened_at", "-created_at"]
+
+
 class CourseMaterial(TimeStamped):
     """Contenu d'un cours : plusieurs formats (texte, PDF, vidéo, audio, image, PowerPoint, Word, Excel, lien, intégration, autre)."""
     TYPES = [("text", "Texte"), ("pdf", "PDF"), ("video", "Vidéo"), ("audio", "Audio"), ("image", "Image"),
              ("ppt", "PowerPoint"), ("word", "Word"), ("excel", "Excel"), ("link", "Lien externe"),
              ("embed", "Vidéo en ligne (YouTube, Vimeo)"), ("other", "Autre fichier")]
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name="materials")
+    section = models.CharField("Section", max_length=200, blank=True,
+                               help_text="Regroupe les leçons dans le programme du cours ; vide = section portant le titre du cours.")
     material_type = models.CharField(max_length=10, choices=TYPES)
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
@@ -69,6 +91,39 @@ class MaterialProgress(models.Model):
 
     class Meta:
         constraints = [models.UniqueConstraint(fields=["user", "material"], name="uniq_progress_user_material")]
+
+
+class MaterialReview(TimeStamped):
+    """Note (1 à 5) et commentaire d'un apprenant sur une leçon ; alimente « Avis apprenants » du cours."""
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="material_reviews")
+    material = models.ForeignKey(CourseMaterial, on_delete=models.CASCADE, related_name="reviews")
+    rating = models.PositiveSmallIntegerField()
+    comment = models.TextField(blank=True)
+
+    class Meta:
+        constraints = [models.UniqueConstraint(fields=["user", "material"], name="uniq_review_user_material")]
+        ordering = ["-updated_at"]
+
+
+class MaterialQuestion(TimeStamped):
+    """Questions & Réponses par leçon."""
+    material = models.ForeignKey(CourseMaterial, on_delete=models.CASCADE, related_name="questions")
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="material_questions")
+    title = models.CharField(max_length=255)
+    body = models.TextField()
+
+    class Meta:
+        ordering = ["-created_at"]
+
+
+class MaterialAnswer(TimeStamped):
+    question = models.ForeignKey(MaterialQuestion, on_delete=models.CASCADE, related_name="answers")
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="material_answers")
+    body = models.TextField()
+    is_instructor_answer = models.BooleanField(default=False)
+
+    class Meta:
+        ordering = ["created_at"]
 
 
 class Question(TimeStamped):

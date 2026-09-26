@@ -7,11 +7,12 @@ from rest_framework.response import Response
 
 from apps.core import audit
 from apps.core.notify import notify
-from apps.core.permissions import INSTRUCTOR
+from apps.core.permissions import INSTRUCTOR, LEARNER
 from apps.core.viewsets import SCHOOL, BaseModelSerializer, ScopedModelViewSet, make_serializer
 
 from . import services
-from .models import Evaluation, FuelRecord, Instructor, Lesson, MaintenanceRecord, Room, Vehicle
+from .models import (Evaluation, FuelRecord, Instructor, Lesson, MaintenanceRecord, Room, Vehicle, VirtualClass, VirtualClassAttendance,
+                     VirtualClassQuestion)
 
 
 class InstructorSerializer(BaseModelSerializer):
@@ -310,3 +311,137 @@ class EvaluationViewSet(ScopedModelViewSet):
         u = self.request.user
         if u.role == INSTRUCTOR and "instructor" not in serializer.validated_data:
             kwargs["instructor"] = Instructor.objects.filter(user=u).first()
+
+
+# --------------------------------------------------------------------------- classes virtuelles
+def vclass_status(vc, now=None):
+    now = now or timezone.now()
+    if now < vc.scheduled_start:
+        return "scheduled"
+    return "live" if now <= vc.scheduled_end else "ended"
+
+
+class VirtualClassSerializer(BaseModelSerializer):
+    status = serializers.SerializerMethodField()
+    duration_minutes = serializers.SerializerMethodField()
+    instructor_name = serializers.SerializerMethodField()
+    attendances = serializers.SerializerMethodField()
+    questions = serializers.SerializerMethodField()
+    joined = serializers.SerializerMethodField()
+
+    class Meta:
+        model = VirtualClass
+        fields = "__all__"
+        read_only_fields = ["created_by"]
+
+    def get_status(self, vc):
+        return vclass_status(vc)
+
+    def get_instructor_name(self, vc):
+        return str(vc.instructor) if vc.instructor_id else None
+
+    def get_duration_minutes(self, vc):
+        return int((vc.scheduled_end - vc.scheduled_start).total_seconds() // 60)
+
+    def get_attendances(self, vc):
+        return [{"user": a.user_id, "joined_at": a.joined_at} for a in vc.attendances.all()]
+
+    def _is_learner(self):
+        return getattr(self.context["request"].user, "role", None) == LEARNER
+
+    def get_questions(self, vc):
+        user = self.context["request"].user
+        rows = vc.questions.all()
+        if self._is_learner():   # un apprenant ne voit que ses propres questions
+            rows = [q for q in rows if q.user_id == user.id]
+        return [{"id": q.id, "question": q.question, "answer": q.answer, "user": q.user_id,
+                 "user_name": q.user.get_full_name() or q.user.email, "created_at": q.created_at} for q in rows]
+
+    def get_joined(self, vc):
+        uid = self.context["request"].user.id
+        return any(a.user_id == uid and a.joined_at for a in vc.attendances.all())
+
+    def to_representation(self, vc):
+        data = super().to_representation(vc)
+        if self._is_learner():
+            data.pop("host_url", None)   # lien hôte réservé à l'équipe pédagogique
+        return data
+
+    def validate(self, attrs):
+        start = attrs.get("scheduled_start", getattr(self.instance, "scheduled_start", None))
+        end = attrs.get("scheduled_end", getattr(self.instance, "scheduled_end", None))
+        if start and end and end <= start:
+            raise serializers.ValidationError({"scheduled_end": "La fin doit être postérieure au début."})
+        return attrs
+
+
+class VirtualClassViewSet(ScopedModelViewSet):
+    """Classes virtuelles : planifiées par l'équipe, rejointes (présence enregistrée) par les apprenants, rediffusées ensuite."""
+    resource = "virtual_classes"
+    queryset = VirtualClass.objects.select_related("instructor").prefetch_related("attendances", "questions__user")
+    serializer_class = VirtualClassSerializer
+    learner_lookup = SCHOOL
+    instructor_lookup = SCHOOL
+    action_verbs = {"join": "view", "leave": "view", "ask": "view", "answer": "change"}
+    filterset_fields = ["provider", "cohort", "instructor"]
+    search_fields = ["title"]
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        user = self.request.user
+        if user.role == LEARNER:
+            from apps.learners.models import Learner
+            learner = Learner.objects.filter(user=user).first()
+            cohort_id = learner.cohort_id if learner else None
+            qs = qs.filter(models_q_cohort(cohort_id))
+        return qs
+
+    def before_create(self, serializer, kwargs):
+        kwargs["created_by"] = self.request.user
+
+    @action(detail=True, methods=["post"])
+    def join(self, request, pk=None):
+        """Rejoindre la classe : la présence du candidat est enregistrée directement dans l'application."""
+        vc = self.get_object()
+        if vclass_status(vc) == "ended":
+            return Response({"detail": "Cette classe est terminée."}, status=400)
+        att, _ = VirtualClassAttendance.objects.get_or_create(virtual_class=vc, user=request.user)
+        att.joined_at = timezone.now()
+        att.save(update_fields=["joined_at", "updated_at"])
+        return Response({"join_url": vc.join_url, "passcode": vc.passcode})
+
+    @action(detail=True, methods=["post"])
+    def leave(self, request, pk=None):
+        vc = self.get_object()
+        att = VirtualClassAttendance.objects.filter(virtual_class=vc, user=request.user).first()
+        if att and att.joined_at:
+            att.left_at = timezone.now()
+            att.duration_seconds = int((att.left_at - att.joined_at).total_seconds())
+            att.save(update_fields=["left_at", "duration_seconds", "updated_at"])
+        return Response({"ok": True})
+
+    @action(detail=True, methods=["post"])
+    def ask(self, request, pk=None):
+        vc = self.get_object()
+        text = (request.data.get("question") or "").strip()
+        if not text:
+            return Response({"question": "Saisissez votre question."}, status=400)
+        VirtualClassQuestion.objects.create(virtual_class=vc, user=request.user, question=text)
+        return Response(self.get_serializer(vc).data, status=201)
+
+    @action(detail=True, methods=["post"])
+    def answer(self, request, pk=None):
+        vc = self.get_object()
+        q = vc.questions.filter(pk=request.data.get("question_id")).first()
+        if q is None:
+            return Response({"detail": "Question introuvable."}, status=404)
+        q.answer = request.data.get("answer", "")
+        q.answered_by = request.user
+        q.answered_at = timezone.now()
+        q.save(update_fields=["answer", "answered_by", "answered_at", "updated_at"])
+        return Response(self.get_serializer(vc).data)
+
+
+def models_q_cohort(cohort_id):
+    from django.db.models import Q
+    return Q(cohort__isnull=True) | Q(cohort_id=cohort_id) if cohort_id else Q(cohort__isnull=True)

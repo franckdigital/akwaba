@@ -117,6 +117,7 @@ class Payment(TimeStamped):
     provider_ref = models.CharField(max_length=100, blank=True, db_index=True)
     reference = models.CharField(max_length=100, blank=True)
     receipt_number = models.CharField(max_length=40, blank=True)
+    receipt_file = models.FileField("Reçu / justificatif signé", upload_to="payments/receipts/", null=True, blank=True)
     paid_at = models.DateTimeField(null=True, blank=True)
     raw_payload = models.JSONField(null=True, blank=True)
     recorded_by = models.ForeignKey("accounts.User", null=True, blank=True, on_delete=models.SET_NULL, related_name="+")

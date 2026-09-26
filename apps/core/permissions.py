@@ -44,7 +44,7 @@ RESOURCES = [
     "evaluations", "organizations", "contracts", "cohorts", "groups", "invoices", "payments",
     "installments", "expenses", "exams", "certificates", "reports", "plans", "subscriptions",
     "audit", "notifications", "imports", "quotes", "subscription_orders", "member_subscriptions",
-    "individual_quotes", "recycling_items", "recycling_reminder_settings", "alert_settings",
+    "individual_quotes", "recycling_items", "recycling_reminder_settings", "alert_settings", "virtual_classes",
 ]
 
 MATRIX = {
@@ -61,7 +61,7 @@ MATRIX = {
         "attempts": RO, "evaluations": RO, "schools": RO, "reports": RO, "users": RO, "notifications": RO,
         "plans": RO, "subscription_orders": {"view", "create"}, "member_subscriptions": RO,
         "individual_quotes": RWD | {"validate", "print"}, "recycling_items": RO,
-        "recycling_reminder_settings": RO,
+        "recycling_reminder_settings": RO, "virtual_classes": RWD,
     },
     ACCOUNTANT: {
         "invoices": ALL, "payments": ALL, "installments": ALL, "expenses": ALL, "reports": ALL,
@@ -100,14 +100,14 @@ MATRIX = {
     INSTRUCTOR: {
         "learners": RO, "lessons": {"view", "change", "create"}, "evaluations": RW, "vehicles": RO,
         "instructors": RO, "cohorts": RO, "groups": RO, "trainings": RO, "attempts": RO, "courses": RO,
-        "notifications": RO, "rooms": RO,
+        "notifications": RO, "rooms": RO, "virtual_classes": RW,
     },
     LEARNER: {
         "learners": RO, "documents": RO, "courses": RO, "quizzes": RO, "attempts": {"view", "create", "change"},
         "exams": RO, "certificates": RO | {"print"}, "invoices": RO | {"print"}, "payments": {"view", "create", "print"},
         "installments": RO, "lessons": RO, "evaluations": RO, "trainings": RO, "notifications": RO,
         "instructors": RO, "cohorts": RO, "schools": RO, "agencies": RO, "plans": RO,
-        "subscription_orders": {"view", "create"}, "member_subscriptions": RO,
+        "subscription_orders": {"view", "create"}, "member_subscriptions": RO, "virtual_classes": RO,
     },
 }
 

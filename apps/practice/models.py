@@ -147,3 +147,53 @@ class Evaluation(TimeStamped):
     def average(self):
         vals = [float(v) for v in self.scores.values() if v is not None]
         return round(sum(vals) / len(vals), 2) if vals else None
+
+
+class VirtualClass(TimeStamped):
+    """Classe virtuelle (cours en visioconférence) : horaires annoncés à l'avance, enregistrement consultable ensuite (§6)."""
+    PROVIDERS = [("zoom", "Zoom"), ("teams", "Microsoft Teams"), ("meet", "Google Meet"), ("jitsi", "Jitsi"),
+                 ("bbb", "BigBlueButton"), ("other", "Autre")]
+    school = models.ForeignKey("schools.School", on_delete=models.CASCADE, related_name="virtual_classes")
+    cohort = models.ForeignKey("organizations.Cohort", null=True, blank=True, on_delete=models.SET_NULL, related_name="virtual_classes",
+                               help_text="Vide = ouverte à tous les apprenants de l'auto-école.")
+    instructor = models.ForeignKey(Instructor, null=True, blank=True, on_delete=models.SET_NULL, related_name="virtual_classes")
+    title = models.CharField(max_length=255)
+    provider = models.CharField(max_length=10, choices=PROVIDERS, default="jitsi")
+    join_url = models.URLField(blank=True)
+    host_url = models.URLField(blank=True)
+    meeting_id = models.CharField(max_length=150, blank=True)
+    passcode = models.CharField(max_length=50, blank=True)
+    scheduled_start = models.DateTimeField()
+    scheduled_end = models.DateTimeField()
+    recording_url = models.URLField(blank=True)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL, related_name="+")
+
+    class Meta:
+        ordering = ["-scheduled_start"]
+
+    def __str__(self):
+        return self.title
+
+
+class VirtualClassAttendance(TimeStamped):
+    """Présence : enregistrée quand le candidat rejoint la classe depuis l'application."""
+    virtual_class = models.ForeignKey(VirtualClass, on_delete=models.CASCADE, related_name="attendances")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="virtual_class_attendances")
+    joined_at = models.DateTimeField(null=True, blank=True)
+    left_at = models.DateTimeField(null=True, blank=True)
+    duration_seconds = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        constraints = [models.UniqueConstraint(fields=["virtual_class", "user"], name="uniq_vclass_attendance")]
+
+
+class VirtualClassQuestion(TimeStamped):
+    virtual_class = models.ForeignKey(VirtualClass, on_delete=models.CASCADE, related_name="questions")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="+")
+    question = models.TextField()
+    answer = models.TextField(blank=True)
+    answered_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL, related_name="+")
+    answered_at = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        ordering = ["created_at"]

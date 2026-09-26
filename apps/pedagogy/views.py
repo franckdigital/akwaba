@@ -12,7 +12,8 @@ from apps.core.viewsets import SCHOOL, BaseModelSerializer, ScopedModelViewSet, 
 from apps.learners.models import Learner
 
 from . import services
-from .models import THEMES, Attempt, AttemptAnswer, Choice, Course, CourseMaterial, ImportJob, MaterialProgress, Question, Quiz
+from .models import (LEVELS, THEMES, Attempt, AttemptAnswer, Choice, Course, CourseEnrollment, CourseMaterial, ImportJob, MaterialAnswer,
+                     MaterialProgress, MaterialQuestion, MaterialReview, Question, Quiz)
 
 
 # --------------------------------------------------------------------------- cours
@@ -148,6 +149,45 @@ class CourseMaterialSerializer(BaseModelSerializer):
         return self._size(super().update(instance, validated))
 
 
+THEME_LABELS = dict(THEMES)
+LEVEL_LABELS = dict(LEVELS)
+
+
+def _enrollments(serializer):
+    """Inscriptions de l'utilisateur courant, indexées par cours (cache dans le contexte de sérialisation)."""
+    ctx = serializer.context
+    if "_enrollments" not in ctx:
+        user = getattr(ctx.get("request"), "user", None)
+        rows = CourseEnrollment.objects.filter(user=user) if user and user.is_authenticated else []
+        ctx["_enrollments"] = {e.course_id: e for e in rows}
+    return ctx["_enrollments"]
+
+
+def course_status(enrollment, progress):
+    """Mon apprentissage : terminé (100 %), non commencé (rien ouvert ni terminé) ou en cours."""
+    if progress["total"] and progress["percent"] == 100:
+        return "completed"
+    if not progress["done"] and enrollment.last_material_id is None:
+        return "not_started"
+    return "in_progress"
+
+
+def enrollment_payload(course, enrollment, progress):
+    return {"id": enrollment.id, "status": course_status(enrollment, progress), "progress_percent": progress["percent"],
+            "last_material": enrollment.last_material_id, "last_opened_at": enrollment.last_opened_at}
+
+
+def touch_enrollment(user, course, material=None):
+    """Crée (si besoin) l'inscription au cours et mémorise la dernière leçon ouverte (reprise : « Continuer »)."""
+    from django.utils import timezone
+    enr, _ = CourseEnrollment.objects.get_or_create(user=user, course=course)
+    if material is not None:
+        enr.last_material = material
+        enr.last_opened_at = timezone.now()
+        enr.save(update_fields=["last_material", "last_opened_at", "updated_at"])
+    return enr
+
+
 class CourseSerializer(BaseModelSerializer):
     materials = serializers.SerializerMethodField()
     cover_url = serializers.SerializerMethodField()
@@ -155,6 +195,14 @@ class CourseSerializer(BaseModelSerializer):
     formats = serializers.SerializerMethodField()
     progress = serializers.SerializerMethodField()
     is_global = serializers.SerializerMethodField()
+    category_name = serializers.SerializerMethodField()
+    level_label = serializers.SerializerMethodField()
+    total_duration_minutes = serializers.SerializerMethodField()
+    total_students = serializers.SerializerMethodField()
+    average_rating = serializers.SerializerMethodField()
+    reviews_count = serializers.SerializerMethodField()
+    reviews = serializers.SerializerMethodField()
+    enrollment = serializers.SerializerMethodField()
 
     class Meta:
         model = Course
@@ -188,17 +236,52 @@ class CourseSerializer(BaseModelSerializer):
     def get_is_global(self, c):
         return c.school_id is None
 
+    def get_category_name(self, c):
+        return THEME_LABELS.get(c.theme, c.theme)
+
+    def get_level_label(self, c):
+        return LEVEL_LABELS.get(c.level, c.level)
+
+    def get_total_duration_minutes(self, c):
+        total = sum(m.duration_minutes for m in self._visible(c))
+        return total or c.duration_minutes
+
+    def get_total_students(self, c):
+        return len(c.enrollments.all())
+
+    def _reviews(self, c):
+        return [r for m in c.materials.all() for r in m.reviews.all()]
+
+    def get_average_rating(self, c):
+        rows = self._reviews(c)
+        return round(sum(r.rating for r in rows) / len(rows), 2) if rows else 0
+
+    def get_reviews_count(self, c):
+        return len(self._reviews(c))
+
+    def get_reviews(self, c):
+        """Avis des apprenants (fiche du cours uniquement) : notes laissées sur les leçons, du plus récent au plus ancien."""
+        if self.context.get("with_reviews") is not True:
+            return []
+        rows = sorted(((r, m) for m in c.materials.all() for r in m.reviews.all()), key=lambda x: x[0].updated_at, reverse=True)
+        return [{"id": r.id, "user_name": r.user.get_full_name() or r.user.email, "rating": r.rating, "comment": r.comment,
+                 "lesson_title": m.title, "created_at": r.updated_at} for r, m in rows]
+
+    def get_enrollment(self, c):
+        enr = _enrollments(self).get(c.id)
+        return enrollment_payload(c, enr, self.get_progress(c)) if enr else None
+
 
 class CourseViewSet(ScopedModelViewSet):
     resource = "courses"
-    queryset = Course.objects.prefetch_related("materials")
+    queryset = Course.objects.prefetch_related("materials", "materials__reviews", "materials__reviews__user", "enrollments")
     serializer_class = CourseSerializer
     include_global = True
     learner_lookup = SCHOOL
     instructor_lookup = SCHOOL
     parser_classes = [JSONParser, MultiPartParser, FormParser]
-    action_verbs = {"reorder": "change", "cover": "change", "duplicate": "create"}
-    filterset_fields = ["training", "theme", "kind", "is_published"]
+    action_verbs = {"reorder": "change", "cover": "change", "duplicate": "create", "enroll": "view", "my_learning": "view"}
+    filterset_fields = ["training", "theme", "kind", "level", "is_published"]
     search_fields = ["title", "summary", "content"]
 
     def get_queryset(self):
@@ -214,8 +297,10 @@ class CourseViewSet(ScopedModelViewSet):
 
     def get_serializer_context(self):
         ctx = super().get_serializer_context()
-        if self.action == "list":
+        if self.action in ("list", "my_learning"):
             ctx["no_materials"] = self.request.query_params.get("with_materials") not in ("1", "true")
+        if self.action == "retrieve":
+            ctx["with_reviews"] = True
         return ctx
 
     def _guard_global(self, instance):
@@ -264,12 +349,34 @@ class CourseViewSet(ScopedModelViewSet):
         school = request.user.school if request.user.role != AKWABA_ADMIN else src.school
         copy = Course.objects.create(school=school, training=src.training, kind=src.kind, theme=src.theme, title=f"{src.title} (copie)",
                                      summary=src.summary, content=src.content, duration_minutes=src.duration_minutes, order=src.order,
-                                     sequential=src.sequential, is_published=False)
+                                     level=src.level, language=src.language, objectives=src.objectives, requirements=src.requirements,
+                                     certificate_enabled=src.certificate_enabled, sequential=src.sequential, is_published=False)
         for m in src.materials.all():
-            CourseMaterial.objects.create(course=copy, material_type=m.material_type, title=m.title, description=m.description, file=m.file,
+            CourseMaterial.objects.create(course=copy, section=m.section, material_type=m.material_type, title=m.title, description=m.description, file=m.file,
                                           file_size=m.file_size, url=m.url, text=m.text, order=m.order, duration_minutes=m.duration_minutes,
                                           is_required=m.is_required, download_allowed=m.download_allowed, is_published=m.is_published)
         return Response(self.get_serializer(copy).data, status=201)
+
+    @action(detail=True, methods=["post"])
+    def enroll(self, request, pk=None):
+        """« Suivre ce cours » : crée l'inscription (idempotent) et renvoie le cours avec sa progression."""
+        course = self.get_object()
+        touch_enrollment(request.user, course)
+        return Response(self.get_serializer(self.get_object()).data)
+
+    @action(detail=False, methods=["get"], url_path="my-learning")
+    def my_learning(self, request):
+        """« Mon apprentissage » : les cours suivis par l'utilisateur, avec statut et progression."""
+        done = set(MaterialProgress.objects.filter(user=request.user).values_list("material_id", flat=True))
+        rows = []
+        visible = self.get_queryset()
+        for enr in CourseEnrollment.objects.filter(user=request.user, course__in=visible).select_related("course").order_by("-last_opened_at", "-created_at"):
+            c = enr.course
+            progress = course_progress(c, done)
+            rows.append({**enrollment_payload(c, enr, progress), "course": c.id, "course_title": c.title, "course_subtitle": c.summary,
+                         "course_thumbnail": request.build_absolute_uri(c.cover.url) if c.cover else None, "theme": c.theme, "category_name": THEME_LABELS.get(c.theme, c.theme),
+                         "progress": progress})
+        return Response(rows)
 
 
 class MaterialViewSet(ScopedModelViewSet):
@@ -281,13 +388,17 @@ class MaterialViewSet(ScopedModelViewSet):
     learner_lookup = SCHOOL
     instructor_lookup = SCHOOL
     parser_classes = [JSONParser, MultiPartParser, FormParser]
-    action_verbs = {"complete": "view"}
+    action_verbs = {"complete": "view", "open": "view", "review": "view", "questions": "view", "answer": "view"}
     filterset_fields = ["course", "material_type"]
 
     def get_queryset(self):
         qs = super().get_queryset()
         if self.request.user.role == LEARNER:
             qs = qs.filter(is_published=True, course__is_published=True)
+            from apps.admissions.services import visible_courses
+            learner = Learner.objects.filter(user=self.request.user).first()
+            if learner is not None and learner.quote_id:   # §5.3 : contenu selon l'offre retenue
+                qs = qs.filter(course_id__in=visible_courses(learner).values_list("pk", flat=True))
         return qs
 
     def _guard_global(self, instance):
@@ -311,10 +422,68 @@ class MaterialViewSet(ScopedModelViewSet):
             if request.user.role == LEARNER and m.id in locked_material_ids(m.course, done):
                 raise PermissionDenied("Ce contenu est verrouillé : terminez d'abord les contenus précédents du parcours.")
             MaterialProgress.objects.get_or_create(user=request.user, material=m)
+            touch_enrollment(request.user, m.course)
         else:
             MaterialProgress.objects.filter(user=request.user, material=m).delete()
         done = set(MaterialProgress.objects.filter(user=request.user).values_list("material_id", flat=True))
         return Response({"material": m.id, "completed": m.id in done, "progress": course_progress(m.course, done)})
+
+    def _guard_locked(self, request, m):
+        if request.user.role == LEARNER:
+            done = set(MaterialProgress.objects.filter(user=request.user).values_list("material_id", flat=True))
+            if m.id in locked_material_ids(m.course, done):
+                raise PermissionDenied("Ce contenu est verrouillé : terminez d'abord les contenus précédents du parcours.")
+
+    @action(detail=True, methods=["post"])
+    def open(self, request, pk=None):
+        """Ouverture d'une leçon : mémorise la reprise (« Continuer l'apprentissage ») et inscrit au cours."""
+        m = self.get_object()
+        self._guard_locked(request, m)
+        enr = touch_enrollment(request.user, m.course, m)
+        return Response({"course": m.course_id, "last_material": enr.last_material_id})
+
+    @action(detail=True, methods=["get", "post"])
+    def review(self, request, pk=None):
+        """GET : ma note sur cette leçon ; POST {rating 1-5, comment} : la crée ou la modifie."""
+        m = self.get_object()
+        if request.method == "POST":
+            try:
+                rating = int(request.data.get("rating"))
+            except (TypeError, ValueError):
+                rating = 0
+            if not 1 <= rating <= 5:
+                raise serializers.ValidationError({"rating": "Note entre 1 et 5."})
+            MaterialReview.objects.update_or_create(user=request.user, material=m, defaults={
+                "rating": rating, "comment": request.data.get("comment", "")})
+        r = MaterialReview.objects.filter(user=request.user, material=m).first()
+        return Response({"id": r.id, "rating": r.rating, "comment": r.comment, "updated_at": r.updated_at} if r else {})
+
+    @action(detail=True, methods=["get", "post"])
+    def questions(self, request, pk=None):
+        """Questions & Réponses de la leçon. POST {title, body} : poser une question."""
+        m = self.get_object()
+        if request.method == "POST":
+            title, body = (request.data.get("title") or "").strip(), (request.data.get("body") or "").strip()
+            if not title or not body:
+                raise serializers.ValidationError({"detail": "Titre et détail de la question requis."})
+            MaterialQuestion.objects.create(material=m, author=request.user, title=title, body=body)
+        qs = m.questions.select_related("author").prefetch_related("answers__author")
+        return Response([{
+            "id": q.id, "title": q.title, "body": q.body, "author_name": q.author.get_full_name() or q.author.email, "created_at": q.created_at,
+            "answers": [{"id": a.id, "body": a.body, "author_name": a.author.get_full_name() or a.author.email,
+                         "is_instructor_answer": a.is_instructor_answer, "created_at": a.created_at} for a in q.answers.all()],
+        } for q in qs])
+
+    @action(detail=True, methods=["post"])
+    def answer(self, request, pk=None):
+        """POST {question, body} : répondre à une question de la leçon (badge « Formateur » pour le staff/moniteur)."""
+        m = self.get_object()
+        q = m.questions.filter(pk=request.data.get("question")).first()
+        body = (request.data.get("body") or "").strip()
+        if q is None or not body:
+            raise serializers.ValidationError({"detail": "Question et réponse requises."})
+        MaterialAnswer.objects.create(question=q, author=request.user, body=body, is_instructor_answer=request.user.role != LEARNER)
+        return Response({"question": q.id}, status=201)
 
 
 # --------------------------------------------------------------------------- questions

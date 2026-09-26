@@ -4,6 +4,7 @@ from django.http import FileResponse, Http404
 from rest_framework import serializers
 from rest_framework.decorators import action
 from rest_framework.exceptions import ValidationError
+from rest_framework.parsers import FormParser, JSONParser, MultiPartParser
 from rest_framework.response import Response
 
 from apps.accounts.models import User
@@ -21,6 +22,20 @@ class LearnerSerializer(serializers.ModelSerializer):
     cohort_name = serializers.CharField(source="cohort.name", read_only=True, default=None)
     organization_name = serializers.CharField(source="organization.name", read_only=True, default=None)
     status_label = serializers.CharField(source="get_status_display", read_only=True)
+    engagement_status = serializers.SerializerMethodField()
+    engagement_mode = serializers.SerializerMethodField()
+
+    def get_engagement_mode(self, l):
+        """« paper » (remise physiquement au secrétariat) ou « electronic » (copie déposée en ligne)."""
+        if any(d.doc_type == "engagement" for d in l.documents.all()):
+            return "electronic"
+        return "paper" if l.engagement_paper_received_at else None
+
+    def get_engagement_status(self, l):
+        """Fiche d'engagement : « submitted » (fiche signée déposée), « downloaded » ou « pending »."""
+        if l.engagement_paper_received_at or any(d.doc_type == "engagement" for d in l.documents.all()):
+            return "submitted"
+        return "downloaded" if l.engagement_downloaded_at else "pending"
 
     class Meta:
         model = Learner
@@ -54,14 +69,15 @@ DocumentSerializer = make_serializer(
 
 class LearnerViewSet(ScopedModelViewSet):
     resource = "learners"
-    queryset = Learner.objects.select_related("training", "cohort", "organization")
+    queryset = Learner.objects.select_related("training", "cohort", "organization").prefetch_related("documents")
     serializer_class = LearnerSerializer
     org_lookup = "organization"
     learner_lookup = "user"
     instructor_lookup = "lessons__instructor__user"
     limit_key = "learners"
     action_verbs = {"create_account": "change", "progress": "view", "driving_log": "view", "export": "export",
-                    "approve_registration": "validate", "exam_access": "view"}
+                    "approve_registration": "validate", "exam_access": "view", "engagement": "view", "engagement_paper": "validate"}
+    parser_classes = [JSONParser, MultiPartParser, FormParser]
     filterset_fields = ["status", "category", "training", "cohort", "group", "organization", "agency", "school", "source", "approval_status"]
     search_fields = ["last_name", "first_name", "matricule", "phone", "email", "employee_ref"]
     ordering_fields = ["last_name", "registered_at", "created_at"]
@@ -116,8 +132,8 @@ class LearnerViewSet(ScopedModelViewSet):
         old = self._snapshot(learner)
         learner.approval_status = decision
         if decision == "rejected":
-            learner.approval_reject_reason = request.data.get("reject_reason") or \
-                "Candidat déjà inscrit ailleurs, sans permis de conduire valide pour cette offre, ou zone non couverte."
+            learner.approval_reject_reason = (request.data.get("reject_reason") or "").strip() or \
+                "Nous ne pouvons pas donner suite à votre inscription. Contactez notre secrétariat pour plus d'informations."
             if learner.user_id:
                 learner.user.is_active = False
                 learner.user.save(update_fields=["is_active"])
@@ -125,11 +141,56 @@ class LearnerViewSet(ScopedModelViewSet):
             learner.status = "registered" if learner.status == "new" else learner.status
         learner.save(update_fields=["approval_status", "approval_reject_reason", "status", "updated_at"])
         audit.log(request, "approve_registration", learner, old=old, new=self._snapshot(learner))
-        if decision == "approved" and learner.user:
-            notify(learner.user, "registration_approved", "Inscription validée",
-                  f"Votre dossier chez {learner.school} est activé. Bienvenue chez Akwaba Auto-École !",
-                  channels=("inapp", "email", "whatsapp"))
+        if learner.user:
+            from django.conf import settings
+            if decision == "approved":
+                notify(learner.user, "registration_approved", "Inscription validée",
+                       f"Bonjour {learner.first_name}, votre inscription chez {learner.school} est validée. "
+                       f"Vos identifiants de connexion — identifiant : {learner.user.email} ; mot de passe : celui choisi lors de votre inscription. "
+                       f"Connectez-vous sur {settings.PUBLIC_WEB_URL}/login. "
+                       f"Pour confirmer votre engagement, téléchargez, remplissez et signez votre fiche : {settings.BACKEND_BASE_URL}/api/public/fiche-engagement/",
+                       channels=("inapp", "email", "whatsapp"))
+            else:
+                notify(learner.user, "registration_rejected", "Votre inscription n'a pas pu être acceptée",
+                       f"Bonjour {learner.first_name}, votre inscription chez {learner.school} n'a pas pu être acceptée. "
+                       f"Motif : {learner.approval_reject_reason}",
+                       channels=("inapp", "email", "whatsapp"))
         return Response(self.get_serializer(learner).data)
+
+    @action(detail=True, methods=["get", "post"], url_path="engagement")
+    def engagement(self, request, pk=None):
+        """GET : télécharge la fiche d'engagement (l'apprenant qui la télécharge est horodaté).
+        POST (multipart, champ « file ») : dépose la fiche signée, conservée parmi les documents du dossier."""
+        from django.utils import timezone
+        from .models import LearnerDocument
+        from apps.admissions.services import engagement_pdf_response
+        learner = self.get_object()
+        is_owner = learner.user_id == request.user.id
+        if request.method == "POST":
+            if not is_owner and request.user.role == LEARNER:
+                raise ValidationError({"detail": "Dossier inaccessible."})
+            f = request.FILES.get("file")
+            if not f:
+                raise ValidationError({"file": "Joignez la fiche signée (PDF ou image)."})
+            if f.size > 10 * 1024 * 1024 or not (f.name.lower().endswith((".pdf", ".png", ".jpg", ".jpeg"))):
+                raise ValidationError({"file": "PDF, PNG ou JPG de 10 Mo maximum."})
+            doc = LearnerDocument.objects.create(learner=learner, doc_type="engagement", title="Fiche d'engagement signée", file=f, uploaded_by=request.user)
+            audit.log(request, "upload_engagement", doc, new={"learner": learner.pk})
+            return Response(self.get_serializer(self.get_queryset().get(pk=learner.pk)).data, status=201)   # relit les documents
+        if is_owner and not learner.engagement_downloaded_at:
+            learner.engagement_downloaded_at = timezone.now()
+            learner.save(update_fields=["engagement_downloaded_at", "updated_at"])
+        return engagement_pdf_response()
+
+    @action(detail=True, methods=["post", "delete"], url_path="engagement-paper")
+    def engagement_paper(self, request, pk=None):
+        """Le secrétariat enregistre la remise PHYSIQUE de la fiche d'engagement signée (DELETE : annule)."""
+        from django.utils import timezone
+        learner = self.get_object()
+        learner.engagement_paper_received_at = timezone.localdate() if request.method == "POST" else None
+        learner.save(update_fields=["engagement_paper_received_at", "updated_at"])
+        audit.log(request, "engagement_paper", learner, new={"received": request.method == "POST"})
+        return Response(self.get_serializer(self.get_queryset().get(pk=learner.pk)).data)
 
     @action(detail=True, methods=["get"])
     def progress(self, request, pk=None):

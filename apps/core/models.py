@@ -31,6 +31,9 @@ ALERT_EVENTS = [
     ("registration", "Inscription reçue (accusé au candidat)"),
     ("registration_pending", "Nouvelle inscription à approuver (secrétariat)"),
     ("registration_approved", "Inscription approuvée (candidat)"),
+    ("registration_rejected", "Inscription refusée, avec le motif (candidat)"),
+    ("quote_rejected", "Demande de devis rejetée, avec le motif (candidat)"),
+    ("quote_correction", "Demande de devis à corriger (candidat)"),
     ("individual_quote", "Nouvelle demande de devis individuel (secrétariat)"),
     ("quote_request", "Nouvelle demande de devis entreprise (secrétariat)"),
     ("recycling_reminder", "Relance recyclage (candidat)"),
@@ -51,6 +54,7 @@ ALERT_EVENTS = [
 ]
 DEFAULT_ALERT_CHANNELS = {
     "registration": ["inapp"], "registration_pending": ["inapp"], "registration_approved": ["inapp", "email", "whatsapp"],
+    "registration_rejected": ["inapp", "email", "whatsapp"], "quote_rejected": ["email", "whatsapp"], "quote_correction": ["email", "whatsapp"],
     "individual_quote": ["inapp"], "quote_request": ["inapp"], "recycling_reminder": ["email", "whatsapp"],
     "new_lesson": ["inapp", "sms"], "planning_change": ["inapp", "sms"], "result": ["inapp"], "exam_result": ["inapp"],
     "certificate_ready": ["inapp", "email", "sms"], "payment_confirmed": ["inapp", "sms"], "schedule_settled": ["inapp"],

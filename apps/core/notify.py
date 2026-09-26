@@ -44,3 +44,23 @@ def notify(user, event, title, message="", channels=("inapp",)):
         created.append(Notification.objects.create(
             user=user, channel=ch, event=event, title=title, message=message, status=status))
     return created
+
+
+def notify_contact(event, title, message, email="", phone="", school_id=None, channels=("email", "whatsapp")):
+    """Alerte envoyée à un contact qui n'a pas (encore) de compte (ex. auteur d'une demande de devis).
+    Mêmes réglages d'activation et de canaux (AlertSetting) que notify() ; aucune ligne Notification (pas d'utilisateur)."""
+    qs = AlertSetting.objects.filter(event=event)
+    setting = (qs.filter(school_id=school_id).first() if school_id else None) or qs.filter(school__isnull=True).first()
+    if setting is not None:
+        if not setting.is_active:
+            return []
+        channels = tuple(setting.channels or [])
+    sent = []
+    for ch in channels:
+        if ch == "email" and email:
+            send_mail(title, message, None, [email], fail_silently=True)
+            sent.append(ch)
+        elif ch in ("sms", "whatsapp", "push") and phone:
+            logger.info("[%s] -> %s : %s", ch, phone, title)
+            sent.append(ch)
+    return sent

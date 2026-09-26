@@ -312,7 +312,8 @@ class RegisterView(APIView):
                                          zone=zone, id_document_no=id_doc, quote=quote, approval_status="pending")
         audit.log(request, "register", learner, user=user, new={"email": user.email})
         notify(user, "registration", "Inscription reçue",
-              f"Votre inscription à {school} est en cours d'examen par le secrétariat.")
+              f"Votre inscription à {school} est en cours d'examen par le secrétariat. "
+              f"En attendant, téléchargez votre fiche d'engagement : {settings.BACKEND_BASE_URL}/api/public/fiche-engagement/")
         for staff in User.objects.filter(role__in=["secretary", "director"], school=school, is_active=True):
             notify(staff, "registration_pending", "Nouvelle inscription à approuver", f"{learner.full_name} — dossier en attente.")
         payload = session_payload(user)

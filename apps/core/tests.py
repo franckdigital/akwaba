@@ -273,7 +273,8 @@ class PaymentTests(Base):
         r = c.post(f"/api/invoices/{inv.id}/installments/", {"count": 6, "first_due_date": str(timezone.localdate())}, format="json")
         self.assertEqual(r.status_code, 201, r.content)
         self.assertEqual([int(i["amount"]) for i in r.json()], [50000] * 6)
-        p = c.post("/api/payments/", {"invoice": inv.id, "method": "cash", "amount": 75000}, format="json")
+        self.assertEqual(c.post("/api/payments/", {"invoice": inv.id, "method": "cash", "amount": 75000}, format="json").status_code, 400)   # reçu requis
+        p = c.post("/api/payments/", {"invoice": inv.id, "method": "cash", "amount": 75000, "receipt_file": SimpleUploadedFile("recu.pdf", b"%PDF-1.4 x", content_type="application/pdf")}, format="multipart")
         self.assertEqual(p.status_code, 201, p.content)
         self.assertEqual(p.json()["status"], "confirmed")  # espèces : encaissées par le caissier
         got = c.get(f"/api/invoices/{inv.id}/").json()
@@ -1154,3 +1155,172 @@ class CourseTests(Base):
         self.assertEqual(d.post("/api/course-materials/", {"course": central.id, "material_type": "text", "title": "x", "text": "y"}, format="multipart").status_code, 400)
         titles = [c["title"] for c in self.as_user(self.lu).get("/api/courses/").json()["results"]]
         self.assertEqual(titles, ["Banque centrale"])
+
+
+class LearningExperienceTests(Base):
+    """Catalogue, inscription, progression séquentielle, avis, Q&R et classes virtuelles (espace « Apprentissage »)."""
+
+    def _course(self):
+        from apps.pedagogy.models import Course, CourseMaterial
+        c = Course.objects.create(school=self.school, title="Priorités", theme="priority", level="intermediate", sequential=True, summary="Sous-titre")
+        mats = [CourseMaterial.objects.create(course=c, material_type="text", title=t, text="x", order=i, duration_minutes=10, section=s)
+                for i, (t, s) in enumerate([("Intro", "A"), ("Test", "A"), ("Fin", "B")])]
+        return c, mats
+
+    def test_catalog_fields_enrollment_and_status(self):
+        c, mats = self._course()
+        L = self.as_user(self.lu)
+        row = L.get("/api/courses/").json()["results"][0]
+        self.assertEqual((row["category_name"], row["level_label"], row["total_duration_minutes"], row["enrollment"]), ("Priorités", "Intermédiaire", 30, None))
+        self.assertEqual(L.get("/api/courses/my-learning/").json(), [])          # pas encore suivi
+        enr = L.post(f"/api/courses/{c.id}/enroll/").json()["enrollment"]
+        self.assertEqual((enr["status"], enr["progress_percent"]), ("not_started", 0))
+        self.assertEqual(L.post(f"/api/courses/{c.id}/enroll/").status_code, 200)     # idempotent
+        self.assertEqual(L.post(f"/api/course-materials/{mats[0].id}/open/").status_code, 200)
+        self.assertEqual(L.get("/api/courses/my-learning/").json()[0]["status"], "in_progress")
+        L.post(f"/api/course-materials/{mats[0].id}/complete/")
+        self.assertEqual(L.get(f"/api/courses/{c.id}/").json()["enrollment"]["progress_percent"], 33)
+
+    def test_sequential_lock_blocks_open_and_complete(self):
+        c, mats = self._course()
+        L = self.as_user(self.lu)
+        det = L.get(f"/api/courses/{c.id}/").json()
+        self.assertEqual([m["locked"] for m in det["materials"]], [False, True, True])
+        self.assertEqual(L.post(f"/api/course-materials/{mats[1].id}/open/").status_code, 403)
+        self.assertEqual(L.post(f"/api/course-materials/{mats[1].id}/complete/").status_code, 403)
+        L.post(f"/api/course-materials/{mats[0].id}/complete/")
+        self.assertEqual(L.post(f"/api/course-materials/{mats[1].id}/open/").status_code, 200)
+        # le staff prévisualise librement
+        self.assertEqual(self.as_user(self.director).post(f"/api/course-materials/{mats[2].id}/open/").status_code, 200)
+
+    def test_reviews_feed_course_rating_and_qa_marks_trainer_answers(self):
+        c, mats = self._course()
+        L, D = self.as_user(self.lu), self.as_user(self.director)
+        self.assertEqual(L.post(f"/api/course-materials/{mats[0].id}/review/", {"rating": 9}, format="json").status_code, 400)
+        L.post(f"/api/course-materials/{mats[0].id}/review/", {"rating": 3, "comment": "Bien"}, format="json")
+        L.post(f"/api/course-materials/{mats[0].id}/review/", {"rating": 4}, format="json")        # met à jour, pas de doublon
+        det = L.get(f"/api/courses/{c.id}/").json()
+        self.assertEqual((det["average_rating"], det["reviews_count"], det["reviews"][0]["lesson_title"]), (4.0, 1, "Intro"))
+        qs = L.post(f"/api/course-materials/{mats[0].id}/questions/", {"title": "Q ?", "body": "Détail"}, format="json").json()
+        self.assertEqual(L.post(f"/api/course-materials/{mats[0].id}/questions/", {"title": "", "body": "x"}, format="json").status_code, 400)
+        D.post(f"/api/course-materials/{mats[0].id}/answer/", {"question": qs[0]["id"], "body": "Réponse"}, format="json")
+        got = L.get(f"/api/course-materials/{mats[0].id}/questions/").json()
+        self.assertTrue(got[0]["answers"][0]["is_instructor_answer"])
+
+    def test_virtual_class_flow(self):
+        from datetime import timedelta
+        from django.utils import timezone
+        D, L = self.as_user(self.director), self.as_user(self.lu)
+        now = timezone.now()
+        body = {"title": "Code – séance 1", "provider": "zoom", "join_url": "https://zoom.us/j/1", "host_url": "https://zoom.us/h/1",
+                "scheduled_start": (now - timedelta(minutes=5)).isoformat(), "scheduled_end": (now + timedelta(hours=1)).isoformat()}
+        r = D.post("/api/virtual-classes/", body, format="json")
+        self.assertEqual((r.status_code, r.json()["status"]), (201, "live"))
+        vid = r.json()["id"]
+        self.assertEqual(D.post("/api/virtual-classes/", {**body, "scheduled_end": body["scheduled_start"]}, format="json").status_code, 400)
+        self.assertEqual(L.post("/api/virtual-classes/", body, format="json").status_code, 403)     # un apprenant ne planifie pas
+        rows = L.get("/api/virtual-classes/").json()["results"]
+        self.assertEqual(len(rows), 1)
+        self.assertNotIn("host_url", rows[0])                                                       # lien hôte réservé à l'équipe
+        self.assertEqual(L.post(f"/api/virtual-classes/{vid}/join/").json()["join_url"], "https://zoom.us/j/1")
+        att = D.get(f"/api/virtual-classes/{vid}/").json()["attendances"]
+        self.assertEqual([a["user"] for a in att], [self.lu.id])                                    # présence enregistrée
+        L.post(f"/api/virtual-classes/{vid}/ask/", {"question": "Ok ?"}, format="json")
+        qid = D.get(f"/api/virtual-classes/{vid}/").json()["questions"][0]["id"]
+        D.post(f"/api/virtual-classes/{vid}/answer/", {"question_id": qid, "answer": "Oui"}, format="json")
+        self.assertEqual(L.get(f"/api/virtual-classes/{vid}/").json()["questions"][0]["answer"], "Oui")
+
+    def test_virtual_class_cohort_restriction_and_ended(self):
+        from datetime import timedelta
+        from django.utils import timezone
+        from apps.organizations.models import Cohort
+        from apps.practice.models import VirtualClass
+        now = timezone.now()
+        cohort = Cohort.objects.create(school=self.school, training=self.training, name="Cohorte X")
+        mk = lambda title, **kw: VirtualClass.objects.create(school=self.school, title=title, join_url="https://x.io", scheduled_start=now - timedelta(hours=3),
+                                                              scheduled_end=kw.pop("end", now + timedelta(hours=1)), **kw)
+        mk("Ouverte")
+        mk("Réservée", cohort=cohort)
+        ended = mk("Terminée", end=now - timedelta(hours=2))
+        L = self.as_user(self.lu)
+        self.assertEqual(sorted(v["title"] for v in L.get("/api/virtual-classes/").json()["results"]), ["Ouverte", "Terminée"])
+        self.assertEqual(L.post(f"/api/virtual-classes/{ended.id}/join/").status_code, 400)
+
+
+class RegistrationDecisionMessageTests(Base):
+    """Le candidat reçoit ses identifiants à la validation, ou le motif du refus, par e-mail (et WhatsApp/in-app)."""
+
+    def _register(self):
+        r = APIClient().post("/api/auth/register/", {"school": self.school.id, "first_name": "Awa", "last_name": "K", "email": "awa@ex.ci",
+                                                     "password": "Motdepasse@1", "phone": "0700000000", "zone": "Abidjan"}, format="json")
+        self.assertEqual((r.status_code, r.json()["registration_pending_approval"]), (201, True))
+        return Learner.objects.get(email="awa@ex.ci")
+
+    def test_approval_sends_identifiers(self):
+        from django.core import mail
+        learner = self._register()
+        mail.outbox.clear()
+        r = self.as_user(self.secretary).post(f"/api/learners/{learner.id}/approve-registration/", {"decision": "approved"}, format="json")
+        self.assertEqual(r.status_code, 200, r.content)
+        body = mail.outbox[-1].body
+        self.assertIn("awa@ex.ci", body)
+        self.assertIn("/login", body)
+
+    def test_rejection_sends_reason_to_candidate(self):
+        from django.core import mail
+        learner = self._register()
+        mail.outbox.clear()
+        why = "Vous ne disposez pas d'un permis de conduire valide, requis pour cette offre."
+        self.as_user(self.secretary).post(f"/api/learners/{learner.id}/approve-registration/", {"decision": "rejected", "reject_reason": why}, format="json")
+        self.assertIn(why, mail.outbox[-1].body)
+        self.assertNotIn("ministère", mail.outbox[-1].body.lower())
+
+    def test_quote_rejection_notifies_contact_with_reason(self):
+        from django.core import mail
+        from apps.admissions.models import IndividualQuote
+        q = IndividualQuote.objects.create(school=self.school, offer="new_license", last_name="K", first_name="Awa", email="q@ex.ci", phone="07")
+        mail.outbox.clear()
+        self.as_user(self.secretary).post(f"/api/individual-quotes/{q.id}/decide/", {"decision": "rejected", "reject_reason": "Motif X"}, format="json")
+        self.assertEqual(mail.outbox[-1].to, ["q@ex.ci"])
+        self.assertIn("Motif X", mail.outbox[-1].body)
+
+
+class EngagementSheetTests(Base):
+    def test_public_download_and_learner_tracking_and_upload(self):
+        from django.core.files.uploadedfile import SimpleUploadedFile
+        r = APIClient().get("/api/public/fiche-engagement/")
+        self.assertEqual((r.status_code, r["Content-Type"]), (200, "application/pdf"))
+        self.assertTrue(b"".join(r.streaming_content).startswith(b"%PDF"))
+        L = self.as_user(self.lu)
+        self.assertEqual(L.get(f"/api/learners/{self.learner.id}/").json()["engagement_status"], "pending")
+        self.assertEqual(L.get(f"/api/learners/{self.learner.id}/engagement/").status_code, 200)
+        self.assertEqual(L.get(f"/api/learners/{self.learner.id}/").json()["engagement_status"], "downloaded")
+        bad = L.post(f"/api/learners/{self.learner.id}/engagement/", {"file": SimpleUploadedFile("x.exe", b"MZ")}, format="multipart")
+        self.assertEqual(bad.status_code, 400)
+        ok = L.post(f"/api/learners/{self.learner.id}/engagement/", {"file": SimpleUploadedFile("fiche.pdf", b"%PDF-1.4 x", content_type="application/pdf")}, format="multipart")
+        self.assertEqual((ok.status_code, ok.json()["engagement_status"]), (201, "submitted"))
+
+
+class CashReceiptAndPaperEngagementTests(Base):
+    def test_cash_needs_receipt_and_proof_is_downloadable(self):
+        from apps.billing.models import Invoice
+        inv = Invoice.objects.create(school=self.school, learner=self.learner, kind="invoice", total=100000, status="issued")
+        sec = self.as_user(self.secretary)
+        pdf = lambda: SimpleUploadedFile("recu.pdf", b"%PDF-1.4 x", content_type="application/pdf")
+        self.assertEqual(sec.post("/api/payments/", {"invoice": inv.id, "method": "cash", "amount": 40000}, format="multipart").status_code, 400)
+        r = sec.post("/api/payments/", {"invoice": inv.id, "method": "cash", "amount": 40000, "receipt_file": pdf()}, format="multipart")
+        self.assertEqual((r.status_code, r.json()["status"], r.json()["has_receipt_file"]), (201, "confirmed", True))
+        self.assertNotIn("receipt_file", r.json())
+        pid = r.json()["id"]
+        d = sec.get(f"/api/payments/{pid}/proof/")
+        self.assertEqual(d.status_code, 200)
+        self.assertEqual(self.as_user(self.lu).post(f"/api/payments/{pid}/attach-proof/", {"file": pdf()}, format="multipart").status_code, 403)
+        self.assertEqual(sec.post(f"/api/payments/{pid}/attach-proof/", {"file": pdf()}, format="multipart").status_code, 200)
+
+    def test_paper_engagement_recorded_by_secretary(self):
+        sec = self.as_user(self.secretary)
+        r = sec.post(f"/api/learners/{self.learner.id}/engagement-paper/")
+        self.assertEqual((r.json()["engagement_status"], r.json()["engagement_mode"]), ("submitted", "paper"))
+        self.assertEqual(self.as_user(self.lu).post(f"/api/learners/{self.learner.id}/engagement-paper/").status_code, 403)
+        r = sec.delete(f"/api/learners/{self.learner.id}/engagement-paper/")
+        self.assertEqual(r.json()["engagement_status"], "pending")

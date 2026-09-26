@@ -11,7 +11,7 @@ from apps.billing.services import generate_contract_invoices
 from apps.learners.models import Learner
 from apps.organizations.models import Cohort, Contract, Organization
 from apps.pedagogy.models import Choice, Course, Question, Quiz
-from apps.practice.models import Instructor, Lesson, Room, Vehicle
+from apps.practice.models import Instructor, Lesson, Room, Vehicle, VirtualClass
 from apps.schools.models import Agency, Plan, School, Subscription, Training
 
 PASSWORD = "Akwaba@2026"
@@ -116,6 +116,18 @@ class Command(BaseCommand):
                               start=start, end=start + timedelta(hours=1), location="Circuit Treichville")
         Lesson.objects.create(school=school, kind="theory", room=room, instructor=instructor, title="Cours de code - signalisation",
                               start=start + timedelta(days=1), end=start + timedelta(days=1, hours=2))
+
+        # Classes virtuelles : une passée (avec enregistrement), une en direct, une à venir
+        now = timezone.now()
+        VirtualClass.objects.create(school=school, instructor=instructor, title="Code de la route : les priorités", provider="jitsi",
+                                    join_url="https://meet.jit.si/akwaba-priorites", scheduled_start=now - timedelta(days=3, hours=2),
+                                    scheduled_end=now - timedelta(days=3, hours=1), recording_url="https://example.com/rediffusion-priorites")
+        VirtualClass.objects.create(school=school, instructor=instructor, title="Révision : la signalisation routière", provider="jitsi",
+                                    join_url="https://meet.jit.si/akwaba-signalisation", scheduled_start=now - timedelta(minutes=20),
+                                    scheduled_end=now + timedelta(minutes=40))
+        VirtualClass.objects.create(school=school, instructor=instructor, title="Préparer l'examen du code", provider="zoom",
+                                    join_url="https://zoom.us/j/0000000000", passcode="AKWABA", scheduled_start=now + timedelta(days=2),
+                                    scheduled_end=now + timedelta(days=2, hours=1, minutes=30))
 
         # Organisation + contrat + cohorte
         org = Organization.objects.create(school=school, name="Entreprise ABC", org_type="company", contact_name="Mme Diallo",

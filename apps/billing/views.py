@@ -4,11 +4,12 @@ from decimal import Decimal
 
 from django.conf import settings
 from django.db import transaction
-from django.http import HttpResponse
+from django.http import FileResponse, HttpResponse
 from django.utils import timezone
 from rest_framework import serializers
 from rest_framework.decorators import action
 from rest_framework.exceptions import PermissionDenied
+from rest_framework.parsers import FormParser, JSONParser, MultiPartParser
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.throttling import ScopedRateThrottle
@@ -170,10 +171,15 @@ class InstallmentViewSet(ScopedModelViewSet):
 
 class PaymentSerializer(BaseModelSerializer):
     invoice_number = serializers.CharField(source="invoice.number", read_only=True)
+    has_receipt_file = serializers.SerializerMethodField()
+
+    def get_has_receipt_file(self, p):
+        return bool(p.receipt_file)
 
     class Meta:
         model = Payment
         fields = "__all__"
+        extra_kwargs = {"receipt_file": {"write_only": True}}
         read_only_fields = ["status", "provider_ref", "receipt_number", "paid_at", "raw_payload", "recorded_by"]
 
 
@@ -184,7 +190,8 @@ class PaymentViewSet(ScopedModelViewSet):
     org_lookup = "invoice__organization"
     learner_lookup = "invoice__learner__user"
     http_method_names = ["get", "post", "head", "options"]
-    action_verbs = {"receipt": "print", "sandbox_confirm": "create"}
+    parser_classes = [JSONParser, MultiPartParser, FormParser]
+    action_verbs = {"receipt": "print", "sandbox_confirm": "create", "proof": "view", "attach_proof": "create"}
     filterset_fields = ["status", "method", "invoice", "school"]
     search_fields = ["provider_ref", "reference", "receipt_number", "invoice__number"]
 
@@ -204,6 +211,11 @@ class PaymentViewSet(ScopedModelViewSet):
         is_online = method in MOBILE_MONEY or method == "card"
         if u.role == LEARNER and not is_online:
             raise PermissionDenied("Les apprenants paient en ligne (Mobile Money / carte).")
+        if method == "cash" and not serializer.validated_data.get("receipt_file"):
+            raise serializers.ValidationError({"receipt_file": "Joignez le reçu signé du paiement en espèces (PDF ou photo)."})
+        f = serializer.validated_data.get("receipt_file")
+        if f is not None and (f.size > 10 * 1024 * 1024 or not f.name.lower().endswith((".pdf", ".png", ".jpg", ".jpeg"))):
+            raise serializers.ValidationError({"receipt_file": "PDF, PNG ou JPG de 10 Mo maximum."})
         if is_online:
             # jamais confirmé ici : uniquement via le webhook du fournisseur
             payment = serializer.save(school=inv.school, status="pending", provider_ref=services.new_provider_ref(method),
@@ -215,6 +227,29 @@ class PaymentViewSet(ScopedModelViewSet):
         audit.log(self.request, "create", payment, new={"amount": str(payment.amount), "method": payment.method,
                                                         "status": payment.status})
         self.created = payment
+
+    @action(detail=True, methods=["get"])
+    def proof(self, request, pk=None):
+        """Reçu / justificatif téléversé par la secrétaire (téléchargement authentifié et tracé)."""
+        p = self.get_object()
+        if not p.receipt_file:
+            return Response({"detail": "Aucun justificatif."}, status=404)
+        audit.log(request, "download_payment_proof", p)
+        return FileResponse(p.receipt_file.open("rb"), as_attachment=True, filename=p.receipt_file.name.split("/")[-1])
+
+    @action(detail=True, methods=["post"], url_path="attach-proof")
+    def attach_proof(self, request, pk=None):
+        """Ajoute (ou remplace) le reçu d'un paiement déjà enregistré."""
+        p = self.get_object()
+        if request.user.role == LEARNER:
+            raise PermissionDenied("Réservé au secrétariat.")
+        f = request.FILES.get("file")
+        if f is None or f.size > 10 * 1024 * 1024 or not f.name.lower().endswith((".pdf", ".png", ".jpg", ".jpeg")):
+            return Response({"file": "PDF, PNG ou JPG de 10 Mo maximum."}, status=400)
+        p.receipt_file = f
+        p.save(update_fields=["receipt_file", "updated_at"])
+        audit.log(request, "attach_payment_proof", p)
+        return Response(self.get_serializer(p).data)
 
     @action(detail=True, methods=["get"])
     def receipt(self, request, pk=None):

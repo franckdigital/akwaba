@@ -233,3 +233,22 @@ def send_recycling_reminders(today=None):
             RecyclingReminderLog.objects.create(learner=learner, channel=",".join(channels))
             sent += 1
     return sent
+
+
+def notify_quote_decision(quote):
+    """Le candidat est informé par e-mail et WhatsApp du refus (avec le motif) ou de la correction demandée."""
+    from apps.core.notify import notify_contact
+    if quote.status == "rejected":
+        notify_contact("quote_rejected", "Votre demande de devis", f"Bonjour {quote.first_name}, {quote.reject_reason}",
+                       email=quote.email, phone=quote.phone, school_id=quote.school_id)
+    elif quote.status == "correction_requested":
+        notify_contact("quote_correction", "Votre demande de devis : une correction est nécessaire", f"Bonjour {quote.first_name}, {quote.correction_note}",
+                       email=quote.email, phone=quote.phone, school_id=quote.school_id)
+
+
+def engagement_pdf_response():
+    """Fiche d'engagement (à télécharger, remplir et signer par le candidat pour confirmer son engagement)."""
+    from pathlib import Path
+    from django.http import FileResponse
+    path = Path(__file__).parent / "assets" / "fiche_engagement.pdf"
+    return FileResponse(open(path, "rb"), as_attachment=True, filename="fiche_engagement_akwaba.pdf", content_type="application/pdf")

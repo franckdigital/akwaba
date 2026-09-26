@@ -105,6 +105,7 @@ class IndividualQuoteViewSet(ScopedModelViewSet):
                 "Veuillez vérifier la conformité des informations de votre pièce d'identité."
         quote.save(update_fields=["status", "reject_reason", "correction_note", "updated_at"])
         audit.log(request, "decide", quote, old=old, new=self._snapshot(quote))
+        services.notify_quote_decision(quote)
         return Response(self.get_serializer(quote).data)
 
     @action(detail=True, methods=["post"])
@@ -213,3 +214,10 @@ class PublicIndividualQuoteView(APIView):
             notify(u, "individual_quote", "Nouvelle demande de devis",
                   f"{quote.first_name} {quote.last_name} — {quote.get_offer_display()}")
         return Response({"detail": "Demande enregistrée. Vous serez recontacté(e) après vérification.", "id": quote.id}, status=201)
+
+
+@api_view(["GET"])
+@permission_classes([AllowAny])
+def public_engagement_sheet(request):
+    """Téléchargement public de la fiche d'engagement (vitrine, écran d'inscription, e-mails)."""
+    return services.engagement_pdf_response()

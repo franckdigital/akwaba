@@ -44,6 +44,7 @@ r("rooms", practice.RoomViewSet, basename="room")
 r("lessons", practice.LessonViewSet, basename="lesson")
 r("schedules", practice.LessonViewSet, basename="schedule")
 r("evaluations", practice.EvaluationViewSet, basename="evaluation")
+r("virtual-classes", practice.VirtualClassViewSet, basename="virtual-class")
 r("organizations", orgs.OrganizationViewSet, basename="organization")
 r("contracts", orgs.ContractViewSet, basename="contract")
 r("cohorts", orgs.CohortViewSet, basename="cohort")
@@ -92,6 +93,7 @@ urlpatterns = [
     path("api/public/quotes/", orgs.PublicQuoteView.as_view()),
     path("api/public/individual-quotes/", admissions.PublicIndividualQuoteView.as_view()),
     path("api/public/recycling-items/", admissions.public_recycling_items),
+    path("api/public/fiche-engagement/", admissions.public_engagement_sheet),
     path("api/certificates/verify/<str:code>/", exams.verify_certificate),
     path("api/payments/webhook/", billing.payment_webhook),
     path("api/subscriptions/me/", subs.MySubscriptionView.as_view()),
@@ -107,5 +109,7 @@ urlpatterns = [
 
 if settings.DEBUG:
     # Médias publics uniquement (logos, images de questions, photos). Les documents restent protégés par /api/documents/<id>/download/.
-    urlpatterns += [re_path(r"^media/(?P<path>(logos|questions|courses|learners/photos)/.*)$", serve,
+    # xframe_options_exempt : les PDF de cours sont affichés dans un <iframe> du lecteur (autre port en développement).
+    from django.views.decorators.clickjacking import xframe_options_exempt
+    urlpatterns += [re_path(r"^media/(?P<path>(logos|questions|courses|learners/photos)/.*)$", xframe_options_exempt(serve),
                             {"document_root": settings.MEDIA_ROOT})]
