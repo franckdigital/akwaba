@@ -19,6 +19,8 @@ if not DEBUG and SECRET_KEY.startswith("dev-only"):
     raise RuntimeError("SECRET_KEY doit être définie dans backend/.env en production.")
 ALLOWED_HOSTS = [h.strip() for h in os.environ.get("ALLOWED_HOSTS", "*").split(",") if h.strip()]
 
+
+#apps
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
