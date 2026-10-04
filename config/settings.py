@@ -185,3 +185,14 @@ if not DEBUG:
         "handlers": {"console": {"class": "logging.StreamHandler", "formatter": "std"}},   # récupéré par journald (systemd)
         "root": {"handlers": ["console"], "level": os.environ.get("LOG_LEVEL", "INFO")},
     }
+
+# --- Envoi SMS / WhatsApp (voir apps/core/messaging.py) ---
+WHATSAPP_PROVIDER = os.environ.get("WHATSAPP_PROVIDER", "log")
+WHATSAPP_ACCESS_TOKEN = os.environ.get("WHATSAPP_ACCESS_TOKEN", "")
+WHATSAPP_PHONE_NUMBER_ID = os.environ.get("WHATSAPP_PHONE_NUMBER_ID", "")
+WHATSAPP_API_VERSION = os.environ.get("WHATSAPP_API_VERSION", "v21.0")
+SMS_PROVIDER = os.environ.get("SMS_PROVIDER", "log")
+TWILIO_ACCOUNT_SID = os.environ.get("TWILIO_ACCOUNT_SID", "")
+TWILIO_AUTH_TOKEN = os.environ.get("TWILIO_AUTH_TOKEN", "")
+TWILIO_SMS_FROM = os.environ.get("TWILIO_SMS_FROM", "")
+TWILIO_WHATSAPP_FROM = os.environ.get("TWILIO_WHATSAPP_FROM", "")

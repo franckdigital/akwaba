@@ -71,6 +71,10 @@ class AlertSetting(TimeStamped):
     event = models.CharField(max_length=40, choices=ALERT_EVENTS)
     is_active = models.BooleanField(default=True)
     channels = models.JSONField(default=list, blank=True, help_text='["inapp", "email", "sms", "whatsapp", "push"]')
+    subject = models.CharField("Objet / titre personnalisé", max_length=200, blank=True,
+                               help_text="Variables : {titre} {message} {nom}. Vide = texte par défaut.")
+    body = models.TextField("Message personnalisé", blank=True,
+                            help_text="Variables : {titre} {message} {nom}. Vide = texte par défaut.")
 
     class Meta:
         ordering = ["event"]

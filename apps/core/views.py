@@ -88,6 +88,7 @@ class AlertSettingViewSet(ScopedModelViewSet):
                 "is_active": setting.is_active if setting else True,
                 "source": "school" if (setting and setting.school_id) else ("global" if setting else "default"),
                 "id": setting.id if setting else None,
+                "subject": setting.subject if setting else "", "body": setting.body if setting else "",
             })
         return Response({"channels": ALL_CHANNELS, "events": rows})
 
@@ -102,5 +103,6 @@ class AlertSettingViewSet(ScopedModelViewSet):
             school_id = request.user.school_id   # un directeur ne paramètre que sa propre auto-école
         obj, _ = AlertSetting.objects.update_or_create(
             school_id=school_id, event=event,
-            defaults={"channels": request.data.get("channels") or [], "is_active": bool(request.data.get("is_active", True))})
+            defaults={"channels": request.data.get("channels") or [], "is_active": bool(request.data.get("is_active", True)),
+                      "subject": str(request.data.get("subject") or "")[:200], "body": str(request.data.get("body") or "")[:4000]})
         return Response(self.get_serializer(obj).data)
