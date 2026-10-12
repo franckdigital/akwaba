@@ -273,27 +273,28 @@ class PermitCandidateViewSet(ScopedModelViewSet):
                 pass
         return qs
 
-    def _send_file(self, request, candidate, field, label):
+    def _send_file(self, request, candidate, field, label, action_code):
         f = getattr(candidate, field)
         if not f:
             return Response({"detail": "Aucun fichier."}, status=404)
-        audit.log(request, f"download_permit_candidate_{field}", candidate)
+        # action_code : max 40 caractères (AuditLog.action), rester court plutôt que de reprendre le nom du champ.
+        audit.log(request, action_code, candidate)
         return FileResponse(f.open("rb"), as_attachment=True, filename=f"{label}-{candidate.last_name}-{f.name.split('/')[-1]}")
 
     @action(detail=True, methods=["get"], url_path="id-document")
     def id_document(self, request, pk=None):
         """Pièce d'identité (recto), téléchargement authentifié et tracé."""
-        return self._send_file(request, self.get_object(), "id_document_file", "recto")
+        return self._send_file(request, self.get_object(), "id_document_file", "recto", "download_permit_id_doc")
 
     @action(detail=True, methods=["get"], url_path="id-document-back")
     def id_document_back(self, request, pk=None):
         """Pièce d'identité (verso), téléchargement authentifié et tracé."""
-        return self._send_file(request, self.get_object(), "id_document_back_file", "verso")
+        return self._send_file(request, self.get_object(), "id_document_back_file", "verso", "download_permit_id_back")
 
     @action(detail=True, methods=["get"], url_path="birth-certificate")
     def birth_certificate(self, request, pk=None):
         """Extrait de naissance, téléchargement authentifié et tracé."""
-        return self._send_file(request, self.get_object(), "birth_certificate_file", "naissance")
+        return self._send_file(request, self.get_object(), "birth_certificate_file", "naissance", "download_permit_birth")
 
 
 class PublicPermitCandidateSerializer(serializers.ModelSerializer):
