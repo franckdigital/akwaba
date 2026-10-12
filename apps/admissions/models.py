@@ -174,7 +174,8 @@ class PermitCandidate(TimeStamped):
     contact = models.CharField("Contact", max_length=30)
     category_bundle = models.CharField(max_length=10, choices=PERMIT_BUNDLES)
     price = models.DecimalField(max_digits=12, decimal_places=0, default=0)
-    id_document_file = models.FileField("Photocopie pièce d'identité", upload_to="permit_candidates/id/", null=True, blank=True)
+    id_document_file = models.FileField("Pièce d'identité (recto)", upload_to="permit_candidates/id/", null=True, blank=True)
+    id_document_back_file = models.FileField("Pièce d'identité (verso)", upload_to="permit_candidates/id/", null=True, blank=True)
     birth_certificate_file = models.FileField("Photocopie extrait de naissance", upload_to="permit_candidates/birth/", null=True, blank=True)
     status = models.CharField(max_length=12, choices=STATUS, default="submitted")
 

@@ -1,4 +1,5 @@
 from django.db.models import Q
+from django.http import FileResponse
 from rest_framework import serializers
 from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.exceptions import PermissionDenied, ValidationError
@@ -229,11 +230,27 @@ class PermitCandidateSerializer(BaseModelSerializer):
     organization_name = serializers.CharField(source="organization.name", read_only=True)
     category_bundle_label = serializers.CharField(source="get_category_bundle_display", read_only=True)
     status_label = serializers.CharField(source="get_status_display", read_only=True)
+    has_id_document_file = serializers.SerializerMethodField()
+    has_id_document_back_file = serializers.SerializerMethodField()
+    has_birth_certificate_file = serializers.SerializerMethodField()
 
     class Meta:
         model = PermitCandidate
         fields = "__all__"
         read_only_fields = ["school", "price"]
+        # Documents d'identité : jamais exposés en URL directe (média public) — téléchargement authentifié
+        # et tracé uniquement, via les actions dédiées ci-dessous (comme les justificatifs de paiement).
+        extra_kwargs = {"id_document_file": {"write_only": True}, "id_document_back_file": {"write_only": True},
+                        "birth_certificate_file": {"write_only": True}}
+
+    def get_has_id_document_file(self, o):
+        return bool(o.id_document_file)
+
+    def get_has_id_document_back_file(self, o):
+        return bool(o.id_document_back_file)
+
+    def get_has_birth_certificate_file(self, o):
+        return bool(o.birth_certificate_file)
 
 
 class PermitCandidateViewSet(ScopedModelViewSet):
@@ -243,6 +260,7 @@ class PermitCandidateViewSet(ScopedModelViewSet):
     org_lookup = "organization"
     filterset_fields = ["organization", "category_bundle", "status"]
     search_fields = ["last_name", "first_name", "contact", "center"]
+    action_verbs = {"id_document": "view", "id_document_back": "view", "birth_certificate": "view"}
 
     def get_queryset(self):
         qs = super().get_queryset()
@@ -255,12 +273,34 @@ class PermitCandidateViewSet(ScopedModelViewSet):
                 pass
         return qs
 
+    def _send_file(self, request, candidate, field, label):
+        f = getattr(candidate, field)
+        if not f:
+            return Response({"detail": "Aucun fichier."}, status=404)
+        audit.log(request, f"download_permit_candidate_{field}", candidate)
+        return FileResponse(f.open("rb"), as_attachment=True, filename=f"{label}-{candidate.last_name}-{f.name.split('/')[-1]}")
+
+    @action(detail=True, methods=["get"], url_path="id-document")
+    def id_document(self, request, pk=None):
+        """Pièce d'identité (recto), téléchargement authentifié et tracé."""
+        return self._send_file(request, self.get_object(), "id_document_file", "recto")
+
+    @action(detail=True, methods=["get"], url_path="id-document-back")
+    def id_document_back(self, request, pk=None):
+        """Pièce d'identité (verso), téléchargement authentifié et tracé."""
+        return self._send_file(request, self.get_object(), "id_document_back_file", "verso")
+
+    @action(detail=True, methods=["get"], url_path="birth-certificate")
+    def birth_certificate(self, request, pk=None):
+        """Extrait de naissance, téléchargement authentifié et tracé."""
+        return self._send_file(request, self.get_object(), "birth_certificate_file", "naissance")
+
 
 class PublicPermitCandidateSerializer(serializers.ModelSerializer):
     class Meta:
         model = PermitCandidate
         fields = ["organization", "last_name", "first_name", "center", "contact", "category_bundle",
-                 "id_document_file", "birth_certificate_file"]
+                 "id_document_file", "id_document_back_file", "birth_certificate_file"]
 
 
 class PublicPermitCandidateView(APIView):
