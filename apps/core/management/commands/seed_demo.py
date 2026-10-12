@@ -136,6 +136,9 @@ class Command(BaseCommand):
                                  organization=org, email_verified=True)
         User.objects.create_user("admin.abc@ae-akwabatreich.com", PASSWORD, first_name="Jean", last_name="Aka", role="org_admin", school=school,
                                  organization=org, email_verified=True)
+        # Organisation partenaire pour les candidatures groupées au permis (ex. opération CAFOP) — apparaît
+        # dans le menu « Inscription » de la vitrine (/inscription-organisation/<id>).
+        Organization.objects.get_or_create(school=school, name="Élèves-maîtres CAFOP", defaults={"org_type": "school"})
         contract = Contract.objects.create(school=school, organization=org, training=training_b, reference="CT-ABC-2026-01",
                                            category="B", beneficiaries_count=3, unit_price=250000, organization_contribution=150000,
                                            installments_count=4, status="active", start_date=today,

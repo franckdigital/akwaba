@@ -53,6 +53,7 @@ r("quote-requests", orgs.QuoteRequestViewSet, basename="quote-request")
 r("individual-quotes", admissions.IndividualQuoteViewSet, basename="individual-quote")
 r("recycling-items", admissions.RecyclingItemViewSet, basename="recycling-item")
 r("recycling-reminder-settings", admissions.RecyclingReminderSettingsViewSet, basename="recycling-reminder-settings")
+r("permit-candidates", admissions.PermitCandidateViewSet, basename="permit-candidate")
 r("subscription-orders", subs.OrderViewSet, basename="subscription-order")
 r("learner-subscriptions", subs.LearnerSubscriptionViewSet, basename="learner-subscription")
 r("organization-subscriptions", subs.OrganizationSubscriptionViewSet, basename="organization-subscription")
@@ -94,6 +95,7 @@ urlpatterns = [
     path("api/public/individual-quotes/", admissions.PublicIndividualQuoteView.as_view()),
     path("api/public/recycling-items/", admissions.public_recycling_items),
     path("api/public/fiche-engagement/", admissions.public_engagement_sheet),
+    path("api/public/permit-candidates/", admissions.PublicPermitCandidateView.as_view()),
     path("api/certificates/verify/<str:code>/", exams.verify_certificate),
     path("api/payments/webhook/", billing.payment_webhook),
     path("api/subscriptions/me/", subs.MySubscriptionView.as_view()),

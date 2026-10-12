@@ -148,3 +148,43 @@ class IndividualQuote(TimeStamped):
         if self.id_document_no:
             self.id_document_hash = hashlib.sha256(self.id_document_no.strip().upper().encode()).hexdigest()
         super().save(*args, **kwargs)
+
+
+# --------------------------------------------------------------------------------------------------------
+# Candidatures permis de conduire portées par une organisation (ex. opération CAFOP « un élève-maître, un
+# permis de conduire ») : un formulaire simplifié par forfait de catégories, à tarif fixe par organisation.
+PERMIT_BUNDLES = [
+    ("A", "A — Permis moto"),
+    ("B", "B — Permis véhicule léger"),
+    ("AB", "AB — Moto + véhicule léger"),
+    ("BCDE", "BCDE — Véhicule léger, marchandises, personnes, remorque"),
+    ("ABCDE", "ABCDE — Toutes catégories"),
+]
+PERMIT_BUNDLE_PRICES = {"A": 70000, "B": 70000, "AB": 75000, "BCDE": 80000, "ABCDE": 80000}
+
+
+class PermitCandidate(TimeStamped):
+    """Candidat au permis de conduire inscrit via une organisation partenaire (opération groupée)."""
+    STATUS = [("submitted", "Déposée"), ("contacted", "Contactée"), ("registered", "Inscrite")]
+    organization = models.ForeignKey("organizations.Organization", on_delete=models.CASCADE, related_name="permit_candidates")
+    school = models.ForeignKey("schools.School", on_delete=models.CASCADE, related_name="permit_candidates")
+    last_name = models.CharField("Nom", max_length=100)
+    first_name = models.CharField("Prénom(s)", max_length=150)
+    center = models.CharField("Centre (ex. CAFOP de…)", max_length=150, blank=True)
+    contact = models.CharField("Contact", max_length=30)
+    category_bundle = models.CharField(max_length=10, choices=PERMIT_BUNDLES)
+    price = models.DecimalField(max_digits=12, decimal_places=0, default=0)
+    id_document_file = models.FileField("Photocopie pièce d'identité", upload_to="permit_candidates/id/", null=True, blank=True)
+    birth_certificate_file = models.FileField("Photocopie extrait de naissance", upload_to="permit_candidates/birth/", null=True, blank=True)
+    status = models.CharField(max_length=12, choices=STATUS, default="submitted")
+
+    class Meta:
+        ordering = ["-created_at"]
+
+    def __str__(self):
+        return f"{self.last_name} {self.first_name} — {self.category_bundle}"
+
+    def save(self, *args, **kwargs):
+        if not self.price:
+            self.price = PERMIT_BUNDLE_PRICES.get(self.category_bundle, 0)
+        super().save(*args, **kwargs)

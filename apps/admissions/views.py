@@ -13,7 +13,7 @@ from apps.core.permissions import AKWABA_ADMIN
 from apps.core.viewsets import BaseModelSerializer, ScopedModelViewSet, make_serializer
 
 from . import services
-from .models import STATUS, IndividualQuote, RecyclingItem, RecyclingReminderSettings
+from .models import PERMIT_BUNDLE_PRICES, STATUS, IndividualQuote, PermitCandidate, RecyclingItem, RecyclingReminderSettings
 
 RecyclingItemSerializer = make_serializer(RecyclingItem)
 
@@ -221,3 +221,63 @@ class PublicIndividualQuoteView(APIView):
 def public_engagement_sheet(request):
     """Téléchargement public de la fiche d'engagement (vitrine, écran d'inscription, e-mails)."""
     return services.engagement_pdf_response()
+
+
+# --------------------------------------------------------------------------------------------------------
+# Candidatures permis de conduire portées par une organisation (ex. opération CAFOP).
+class PermitCandidateSerializer(BaseModelSerializer):
+    organization_name = serializers.CharField(source="organization.name", read_only=True)
+    category_bundle_label = serializers.CharField(source="get_category_bundle_display", read_only=True)
+    status_label = serializers.CharField(source="get_status_display", read_only=True)
+
+    class Meta:
+        model = PermitCandidate
+        fields = "__all__"
+        read_only_fields = ["school", "price"]
+
+
+class PermitCandidateViewSet(ScopedModelViewSet):
+    resource = "permit_candidates"
+    queryset = PermitCandidate.objects.select_related("organization")
+    serializer_class = PermitCandidateSerializer
+    org_lookup = "organization"
+    filterset_fields = ["organization", "category_bundle", "status"]
+    search_fields = ["last_name", "first_name", "contact", "center"]
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        month = self.request.query_params.get("month")  # format AAAA-MM
+        if month:
+            try:
+                year, m = (int(x) for x in month.split("-", 1))
+                qs = qs.filter(created_at__year=year, created_at__month=m)
+            except ValueError:
+                pass
+        return qs
+
+
+class PublicPermitCandidateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PermitCandidate
+        fields = ["organization", "last_name", "first_name", "center", "contact", "category_bundle",
+                 "id_document_file", "birth_certificate_file"]
+
+
+class PublicPermitCandidateView(APIView):
+    """POST public (sans compte) depuis la vitrine — inscription groupée portée par une organisation (CAFOP…)."""
+    authentication_classes = []
+    permission_classes = [AllowAny]
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = "auth"
+
+    def post(self, request):
+        ser = PublicPermitCandidateSerializer(data=request.data)
+        ser.is_valid(raise_exception=True)
+        org = ser.validated_data["organization"]
+        candidate = ser.save(school=org.school, price=PERMIT_BUNDLE_PRICES.get(ser.validated_data["category_bundle"], 0))
+        from apps.accounts.models import User
+        recipients = User.objects.filter(role__in=["secretary", "director"], is_active=True, school_id=org.school_id)
+        for u in recipients:
+            notify(u, "individual_quote", "Nouvelle candidature permis (organisation)",
+                  f"{candidate.first_name} {candidate.last_name} — {org.name} — {candidate.get_category_bundle_display()}")
+        return Response({"detail": "Candidature enregistrée. Vous serez recontacté(e) par l'auto-école.", "id": candidate.id}, status=201)

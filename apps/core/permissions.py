@@ -45,6 +45,7 @@ RESOURCES = [
     "installments", "expenses", "exams", "certificates", "reports", "plans", "subscriptions",
     "audit", "notifications", "imports", "quotes", "subscription_orders", "member_subscriptions",
     "individual_quotes", "recycling_items", "recycling_reminder_settings", "alert_settings", "virtual_classes",
+    "permit_candidates",
 ]
 
 MATRIX = {
@@ -61,7 +62,7 @@ MATRIX = {
         "attempts": RO, "evaluations": RO, "schools": RO, "reports": RO, "users": RO, "notifications": RO,
         "plans": RO, "subscription_orders": {"view", "create"}, "member_subscriptions": RO,
         "individual_quotes": RWD | {"validate", "print"}, "recycling_items": RO,
-        "recycling_reminder_settings": RO, "virtual_classes": RWD,
+        "recycling_reminder_settings": RO, "virtual_classes": RWD, "permit_candidates": RWD,
     },
     ACCOUNTANT: {
         "invoices": ALL, "payments": ALL, "installments": ALL, "expenses": ALL, "reports": ALL,
