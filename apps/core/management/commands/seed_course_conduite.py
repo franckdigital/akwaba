@@ -10,8 +10,11 @@ Contenu source : apps/pedagogy/lessons_conduite.py.
 from django.core.management.base import BaseCommand
 from django.db import transaction
 
+from apps.pedagogy.lesson_pdf import build_lesson_pdf
 from apps.pedagogy.lessons_conduite import SECTIONS
 from apps.pedagogy.models import Course, CourseMaterial
+
+CHAPTER = "La conduite"
 
 
 class Command(BaseCommand):
@@ -35,11 +38,14 @@ class Command(BaseCommand):
         # On repart d'un programme propre à chaque exécution (évite les doublons si l'ordre du sommaire change).
         course.materials.all().delete()
         order = 0
-        for section, lessons in SECTIONS:
-            for title, html in lessons:
+        for chapter_num, (section, lessons) in enumerate(SECTIONS, start=1):
+            for sub, (title, html) in enumerate(lessons, start=1):
                 order += 1
-                CourseMaterial.objects.create(
-                    course=course, section=section, material_type="text", title=title,
-                    text=html, order=order, duration_minutes=4, is_required=True, download_allowed=False, is_published=True,
+                number = f"{chapter_num}.{sub}"
+                pdf = build_lesson_pdf(CHAPTER, section, number, title, html)
+                m = CourseMaterial.objects.create(
+                    course=course, section=section, material_type="pdf", title=title,
+                    order=order, duration_minutes=4, is_required=True, download_allowed=True, is_published=True,
                 )
-        self.stdout.write(self.style.SUCCESS(f"Cours « La conduite » prêt : {len(SECTIONS)} sections, {order} leçons texte."))
+                m.file.save(f"conduite-{order:02d}.pdf", pdf, save=True)
+        self.stdout.write(self.style.SUCCESS(f"Cours « La conduite » prêt : {len(SECTIONS)} sections, {order} leçons PDF."))
