@@ -361,12 +361,6 @@
     {
      "num": "4.1",
      "title": "La vitesse",
-     "blocks": [],
-     "images": []
-    },
-    {
-     "num": "4.2",
-     "title": "Le permis probatoire",
      "blocks": [
       {
        "t": "quote",
@@ -382,78 +376,26 @@
        ]
       },
       {
-       "t": "h",
-       "text": "LIMITATION GÉNÉRALE"
-      },
-      {
        "t": "p",
-       "text": "Conditions de conduite"
-      },
-      {
-       "t": "p",
-       "text": "Agglomération Route 2 x 2 voies Autoroute"
-      },
-      {
-       "t": "p",
-       "text": "Temps clair et conditions normales pour les titulaires d’un permis hors période probatoire"
-      },
-      {
-       "t": "p",
-       "text": "Mêmes conditions pendant la durée du permis probatoire"
-      },
-      {
-       "t": "p",
-       "text": "Pluie et autres précipitations"
-      },
-      {
-       "t": "p",
-       "text": "Visibilité de moins de 50 m"
-      },
-      {
-       "t": "p",
-       "text": "En agglomération, la limite peut être relevée à 70 km/h sur les sections de route où les accès de riverains et les traversées de piétons, alors en nombre limité, sont protégés par des dispositifs appropriés. Sur le boulevard périphérique de Paris, cette limite est fixée à 80 km/h."
-      },
-      {
-       "t": "p",
-       "text": "À la date d’obtention du permis de conduire, celui-ci est affecté, pendant un délai probatoire de trois ans, de six points. A compter du 31 décembre 2007, il sera affecté de six points la première année. Si aucune infraction ayant donné lieu à un retrait de points n’a été commise depuis le début de la période probatoire, le nombre de points passe à huit la deuxième année et à dix la troisième année. Lorsque le titulaire du permis de conduire a suivi un apprentissage anticipé de la conduite, si aucune infraction ayant donné lieu à un retrait de points n’a été commise depuis le début de la période probatoire, le nombre de points passe à neuf la deuxième année."
-      },
-      {
-       "t": "p",
-       "text": "Pendant toute la durée du permis probatoire le titulaire doit respecter des limi- tations de vitesse spécifiques. Cette durée est de trois ans ; elle est réduite à deux ans lorsque le titulaire a suivi un apprentissage anticipé de la conduite."
-      },
-      {
-       "t": "p",
-       "text": "Les élèves conducteurs et les jeunes conducteurs titulaires du permis de conduire pendant la période probatoire sont tenus de ne pas dépasser les vitesses maximales suivantes :"
-      },
-      {
-       "t": "ul",
-       "items": [
-        "110 km/h sur les sections d’autoroutes où la limite normale est de 130 km/h ;",
-        "100 km/h sur les sections d’autoroutes où cette limite est plus basse,ainsi que sur les routes à deux chaussées séparées par un terre-plein central ;",
-        "80 km/h sur les autres routes.Le délai court à compter de la date de délivrance du permis de conduire,quelle que soit la catégorie pour laquelle il a été obtenu."
-       ]
-      },
-      {
-       "t": "p",
-       "text": "Dans le cadre de l’apprentissage anticipé de la conduite, tout apprenti conducteur doit, en circulation, apposer de façon visible, à l’arrière de son véhicule, un disque de 15 cm  et doit respecter les mêmes limitations de vitesse qu’un jeune conducteur."
-      },
-      {
-       "t": "p",
-       "text": "Tout jeune conducteur, pendant la période probatoire de son permis, doit, en circulation, apposer de façon visible, à l’arrière de son véhicule, un disque de 15 cm avec la lettre « A » en rouge."
+       "text": "La vitesse maximale autorisée dépend du type de route (agglomération, hors agglomération, autoroute) et du type de véhicule : elle est rappelée par la signalisation. Un conducteur doit toujours respecter ces limites, même en l'absence de panneau de rappel, et les adapter si les conditions de circulation l'exigent (visibilité réduite, chaussée glissante, trafic dense...). Les valeurs exactes applicables en Côte d'Ivoire sont fixées par le code de la route ivoirien."
       }
      ],
-     "images": [
+     "images": []
+    },
+    {
+     "num": "4.2",
+     "title": "Jeunes conducteurs",
+     "blocks": [
       {
-       "path": "img_4.2_16.jpeg",
-       "y0": 438.134033203125,
-       "half": 0
+       "t": "quote",
+       "text": "Dans certains pays, les nouveaux titulaires du permis sont soumis, pendant une période probatoire, à des limitations de vitesse réduites et à un capital de points réduit sur leur permis."
       },
       {
-       "path": "img_4.2_17.jpeg",
-       "y0": 447.7081298828125,
-       "half": 1
+       "t": "p",
+       "text": "Ce dispositif (permis probatoire, réduction de points) n'existe pas en Côte d'Ivoire. Un nouveau titulaire du permis doit néanmoins redoubler de prudence : l'expérience de conduite réduit fortement le risque d'accident durant les premières années, indépendamment de toute règle spécifique."
       }
-     ]
+     ],
+     "images": []
     },
     {
      "num": "4.3",
@@ -461,80 +403,15 @@
      "blocks": [
       {
        "t": "quote",
-       "text": "La vitesse est un des principaux facteurs d’accident ; le non-respect des limitations de vitesse expose le conducteur à des sanctions lourdes, en plus des amendes prévues."
+       "text": "La vitesse est un des principaux facteurs d'accident ; le non-respect des limitations de vitesse est une infraction dont la gravité augmente avec l'ampleur du dépassement."
       },
       {
        "t": "p",
-       "text": "Lorsque le dépassement est inférieur à 20 km/h et que la vitesse maximale autorisée est supérieure à 50 km/h, l'amende encourue est celle prévue pour les contraventions de la troisième classe au lieu de celles de la quatrième classe pour les dépassements compris entre 20 et moins de 50 km/h et de cinquième classe pour les dépassements de plus de 50 km/h."
+       "text": "Selon l'ampleur du dépassement, rouler au-delà de la vitesse autorisée expose à une amende, à une immobilisation du véhicule, voire à une suspension du permis en cas de récidive ou d'excès important. Les sanctions précises (montants, durées, barème) relèvent du code de la route en vigueur en Côte d'Ivoire."
       },
       {
        "t": "p",
-       "text": "Le barème de perte des points est le suivant :"
-      },
-      {
-       "t": "p",
-       "text": "DÉPASSEMENT DE LA VITESSE MAXIMALE AUTORISÉE DE 50 km/h OU PLUS"
-      },
-      {
-       "t": "p",
-       "text": "Perte de six points du permis de conduire."
-      },
-      {
-       "t": "p",
-       "text": "Tout conducteur qui dépasse la limite de vitesse de plus de 50 km/h encourt également les peines complémentaires suivantes :"
-      },
-      {
-       "t": "ul",
-       "items": [
-        "La suspension du permis de conduire pour une durée de trois ans au plus, cette suspension ne pouvant pas être limitée à la conduite en dehors de l'activité professionnelle, ni être assortie du sursis, même partiellement ;",
-        "L'interdiction de conduire certains véhicules terrestres à moteur,y compris ceux pour la conduite desquels le permis de conduire n'est pas exigé, pour une durée de trois ans au plus ;",
-        "L'obligation d'accomplir, à ses frais, un stage de sensibilisation à la sécuri- té routière ;",
-        "La confiscation du véhicule dont le prévenu s'est servi pour commettre l'infraction, s'il en est propriétaire."
-       ]
-      },
-      {
-       "t": "p",
-       "text": "DÉPASSEMENT DE LA VITESSE MAXIMALE AUTORISÉE ENTRE 40 km/h ET MOINS DE 50 km/h"
-      },
-      {
-       "t": "p",
-       "text": "Perte de quatre points du permis de conduire."
-      },
-      {
-       "t": "p",
-       "text": "DÉPASSEMENT DE LA VITESSE MAXIMALE AUTORISÉE COMPRIS ENTRE 30 ET MOINS DE 40 km/h"
-      },
-      {
-       "t": "p",
-       "text": "Perte de trois points du permis de conduire."
-      },
-      {
-       "t": "p",
-       "text": "DÉPASSEMENT DE LA VITESSE MAXIMALE AUTORISÉE COMPRIS ENTRE 20 ET MOINS DE 30 km/h"
-      },
-      {
-       "t": "p",
-       "text": "Perte de deux points du permis de conduire."
-      },
-      {
-       "t": "p",
-       "text": "DÉPASSEMENT DE LA VITESSE MAXIMALE AUTORISÉE DE MOINS DE 20 km/h"
-      },
-      {
-       "t": "p",
-       "text": "Perte d’un point du permis de conduire."
-      },
-      {
-       "t": "p",
-       "text": "Tout conducteur qui dépasse la limite de vitesse de plus de 30 km/h encourt également les peines complémentaires suivantes :"
-      },
-      {
-       "t": "ul",
-       "items": [
-        "la suspension, pour une durée de trois ans au plus, du permis de conduire, cette suspension pouvant être limitée à la conduite en dehors de l’activité professionnelle ;",
-        "l’interdiction de conduire certains véhicules terrestres à moteur, y compris ceux pour la conduite desquels le permis de conduire n’est pas exigé, pour une durée de trois ans au plus ;",
-        "l’obligation d’accomplir, à ses frais, un stage de sensibilisation à la sécurité."
-       ]
+       "text": "Au-delà de la sanction, dépasser la vitesse autorisée augmente fortement le risque et la gravité d'un accident : l'énergie à dissiper en cas de choc croît avec le carré de la vitesse."
       }
      ],
      "images": []
@@ -558,10 +435,6 @@
       {
        "t": "p",
        "text": "Les vitesses maximales autorisées ne s’appliquent que dans des conditions optimales de circulation : bonnes conditions atmosphériques, trafic fluide, véhicule en bon état. Elles sont un maximum à ne pas dépasser."
-      },
-      {
-       "t": "p",
-       "text": "La limitation de vitesse à 50 km/h peut être abaissée à 45 km/h dans toute une agglomération. Dans ce cas, le panneau de limitation est implanté sur le même support que celui de l’entrée d’agglomération et toutes les rues sont concernées."
       }
      ],
      "images": []
@@ -609,10 +482,6 @@
       {
        "t": "p",
        "text": "Elle ne peut en aucun cas être inférieure à la distance parcourue pendant le temps de réaction. Pour une bonne sécurité, il est obligatoire de laisser un intervalle minimum correspondant à la distance parcourue pendant deux secondes soit une seconde de réaction + une seconde de sécurité."
-      },
-      {
-       "t": "p",
-       "text": "Le non-respect de cette distance de sécurité minimum donne lieu de plein droit à la réduction de trois points du permis de conduire. Il encourt égale- ment la peine complémentaire de suspension du permis de conduire pour une durée de trois ans au plus, cette suspension pouvant être limitée à la conduite en dehors de l’activité professionnelle."
       }
      ],
      "images": [
@@ -671,67 +540,9 @@
       {
        "t": "p",
        "text": "Sur une route sèche, dans des conditions normales, on peut estimer la distance d’arrêt en multipliant par lui-même le chiffre des dizaines de la vitesse, soit :"
-      },
-      {
-       "t": "ul",
-       "items": [
-        "à 40 km/h, 4 x 4 = 16 m",
-        "à 50 km/h, 5 x 5 = 25 m",
-        "à 60 km/h, 6 x 6 = 36 m"
-       ]
-      },
-      {
-       "t": "p",
-       "text": "4.10 Véhicules équipés de pneus à crampons"
-      },
-      {
-       "t": "p",
-       "text": "La vitesse des véhicules d’un poids total autorisé en char- ge inférieur ou égal à 3,5 tonnes et des véhicules de transport en commun,équipés de pneus à crampons,est limitée à 90 km/h. En circulation, les conducteurs de ces véhicules doivent apposer, de façon visible à l’arrière de leur véhicule, sur la partie inférieure gauche, un disque sui- vant le modèle ci-contre. L’utilisation des pneus à crampons est autorisée entre le samedi précédant le 11 novembre et le dernier dimanche de mars."
-      },
-      {
-       "t": "p",
-       "text": "Rappel des infractions"
-      },
-      {
-       "t": "p",
-       "text": "Je perds 1 point si : Je dépasse la vitesse maximale autori- sée de moins de 20 km/h."
-      },
-      {
-       "t": "p",
-       "text": "Je perds 2 points si : Mon dépassement de la vitesse maximale autorisée est compris entre 20 et moins de 30 km/h."
-      },
-      {
-       "t": "p",
-       "text": "Je perds 3 points si : Mon dépassement de la vitesse maximale autorisée est compris entre 30 et moins de 40 km/h."
-      },
-      {
-       "t": "ul",
-       "items": [
-        "à 90 km/h, 9 x 9 = 81 m",
-        "à 110 km/h, 11 x 11 = 121 m",
-        "à 130 km/h, 13 x 13 = 169 m"
-       ]
-      },
-      {
-       "t": "p",
-       "text": "INTERSECTION ET PRIORITÉ INTERSECTION ET PRIORITÉ 5"
-      },
-      {
-       "t": "p",
-       "text": "Je perds 4 points si : Mon dépassement de la vitesse maximale autorisée est compris entre 40 et moins de 50 km/h."
-      },
-      {
-       "t": "p",
-       "text": "Je perds 6 points si : Je dépasse la vitesse maximale autori- sée de 50 km/h ou plus."
       }
      ],
-     "images": [
-      {
-       "path": "img_4.9_20.jpeg",
-       "y0": 241.466064453125,
-       "half": 0
-      }
-     ]
+     "images": []
     }
    ]
   },

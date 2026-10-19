@@ -59,7 +59,13 @@ def split_into_modules(lesson, section):
     first_h = next((i for i, b in enumerate(blocks) if b["t"] == "h"), len(blocks))
     intro = blocks[:first_h]
     if intro:
-        modules.append({"title": lesson["title"], "blocks": intro, "image": None})
+        # Si le sujet n'a aucun sous-titre (pas de "h" dans tout le contenu), sa seule image
+        # (s'il y en a une) revient à ce module d'introduction plutôt que de rester orpheline.
+        intro_image = None
+        if first_h == len(blocks) and images:
+            intro_image = images[0]
+            img_idx = 1
+        modules.append({"title": lesson["title"], "blocks": intro, "image": intro_image})
 
     i = first_h
     while i < len(blocks):
