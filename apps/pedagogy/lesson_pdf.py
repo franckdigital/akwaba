@@ -98,12 +98,12 @@ def build_lesson_pdf_v2(chapter, section, number, title, blocks, images=None):
     from reportlab.lib.pagesizes import A4
     from reportlab.lib.styles import ParagraphStyle
     from reportlab.lib.units import mm
-    from reportlab.platypus import Image, ListFlowable, ListItem, Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
+    from reportlab.platypus import Image, KeepTogether, ListFlowable, ListItem, Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
 
     purple, orange, ink = colors.HexColor(PURPLE), colors.HexColor(ORANGE), colors.HexColor(INK)
     crumb = ParagraphStyle("crumb", fontName="Helvetica-Bold", fontSize=9, textColor=colors.white, leading=12)
     h1 = ParagraphStyle("h1", fontName="Helvetica-Bold", fontSize=18, leading=22, textColor=purple, spaceAfter=4)
-    h4 = ParagraphStyle("h4", fontName="Helvetica-Bold", fontSize=12, leading=16, textColor=orange, spaceBefore=12, spaceAfter=6)
+    h4 = ParagraphStyle("h4", fontName="Helvetica-Bold", fontSize=12, leading=16, textColor=orange, spaceBefore=12, spaceAfter=6, keepWithNext=True)
     body = ParagraphStyle("body", fontName="Helvetica", fontSize=10.5, leading=15.5, textColor=colors.HexColor("#1F2937"), spaceAfter=8)
     li_style = ParagraphStyle("li", fontName="Helvetica", fontSize=10.5, leading=15, textColor=colors.HexColor("#1F2937"))
     callout = ParagraphStyle("callout", fontName="Helvetica-Oblique", fontSize=10, leading=14, textColor=colors.white)
@@ -144,26 +144,42 @@ def build_lesson_pdf_v2(chapter, section, number, title, blocks, images=None):
         except Exception:
             return None
 
-    any_heading = any(b["t"] == "h" for b in blocks)
     quoted = False
-    for b in blocks:
+
+    def flow_for(b):
+        nonlocal quoted
         if b["t"] == "quote" and not quoted:
             quoted = True
             quote_tbl = Table([[Paragraph(b["text"], callout)]], colWidths=[W])
             quote_tbl.setStyle(TableStyle([("BACKGROUND", (0, 0), (-1, -1), purple), ("LEFTPADDING", (0, 0), (-1, -1), 12),
                                            ("RIGHTPADDING", (0, 0), (-1, -1), 12), ("TOPPADDING", (0, 0), (-1, -1), 10),
                                            ("BOTTOMPADDING", (0, 0), (-1, -1), 10)]))
-            story += [quote_tbl, Spacer(1, 12)]
+            return [quote_tbl, Spacer(1, 12)]
         elif b["t"] in ("quote", "p"):
-            story.append(Paragraph(b["text"], body))
+            return [Paragraph(b["text"], body)]
         elif b["t"] == "ul":
             items = [ListItem(Paragraph(it, li_style), bulletColor=orange) for it in b["items"]]
-            story.append(ListFlowable(items, bulletType="bullet", bulletColor=orange, leftIndent=14, spaceBefore=2, spaceAfter=8))
-        elif b["t"] == "h":
-            story.append(Paragraph(b["text"], h4))
+            return [ListFlowable(items, bulletType="bullet", bulletColor=orange, leftIndent=14, spaceBefore=2, spaceAfter=8)]
+        return []
+
+    for i, b in enumerate(blocks):
+        if b["t"] == "h":
+            # Le sous-titre est maintenu avec son image et le début de son texte, pour ne
+            # jamais le laisser seul en bas de page (titre détaché de son contenu).
+            group = [Paragraph(b["text"], h4)]
             img_flow = next_image_flowable()
             if img_flow:
-                story += img_flow
+                group += img_flow
+            else:
+                nxt = blocks[i + 1] if i + 1 < len(blocks) else None
+                if nxt and nxt["t"] != "h":
+                    group += flow_for(nxt)
+                    blocks[i + 1] = {"t": "_consumed"}
+            story.append(KeepTogether(group))
+        elif b["t"] == "_consumed":
+            continue
+        else:
+            story += flow_for(b)
 
     # Image(s) restantes (pas de sous-titre dans le livre, ou illustration générale de la leçon).
     while img_idx < len(images):
