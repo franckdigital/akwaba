@@ -8,7 +8,29 @@ import re
 
 from django.core.files.base import ContentFile
 
-PURPLE, ORANGE, INK = "#6D3FA0", "#E8702A", "#2B2B2B"
+PURPLE, ORANGE, INK, RED = "#6D3FA0", "#E8702A", "#2B2B2B", "#C62828"
+
+
+def _sharpen_for_print(raw, img_w_pt):
+    """Les photos extraites du livre sont petites (souvent <250px de large) : les agrandir
+    directement (via reportlab/le lecteur PDF) donne un rendu flou. On les ré-échantillonne
+    nous-mêmes en LANCZOS à une densité d'impression correcte (~200 dpi) puis on accentue
+    légèrement la netteté, ce qui donne un rendu bien plus net qu'un agrandissement brut.
+    Retourne (BytesIO jpeg, ratio hauteur/largeur) ou None si l'image est illisible.
+    """
+    from PIL import Image as PILImage, ImageFilter
+
+    pil = PILImage.open(io.BytesIO(raw)).convert("RGB")
+    ratio = pil.height / pil.width
+    target_w = max(int(img_w_pt * 200 / 72), pil.width)
+    target_h = int(target_w * ratio)
+    if (target_w, target_h) != pil.size:
+        pil = pil.resize((target_w, target_h), PILImage.LANCZOS)
+    pil = pil.filter(ImageFilter.UnsharpMask(radius=1.4, percent=140, threshold=2))
+    out = io.BytesIO()
+    pil.save(out, format="JPEG", quality=92)
+    out.seek(0)
+    return out, ratio
 
 
 def _paragraphs(html):
@@ -100,9 +122,9 @@ def build_lesson_pdf_v2(chapter, section, number, title, blocks, images=None):
     from reportlab.lib.units import mm
     from reportlab.platypus import Image, KeepTogether, ListFlowable, ListItem, Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
 
-    purple, orange, ink = colors.HexColor(PURPLE), colors.HexColor(ORANGE), colors.HexColor(INK)
+    purple, orange, ink, red = colors.HexColor(PURPLE), colors.HexColor(ORANGE), colors.HexColor(INK), colors.HexColor(RED)
     crumb = ParagraphStyle("crumb", fontName="Helvetica-Bold", fontSize=9, textColor=colors.white, leading=12)
-    h1 = ParagraphStyle("h1", fontName="Helvetica-Bold", fontSize=18, leading=22, textColor=purple, spaceAfter=4)
+    h1 = ParagraphStyle("h1", fontName="Helvetica-Bold", fontSize=18, leading=22, textColor=red, spaceAfter=4)
     h4 = ParagraphStyle("h4", fontName="Helvetica-Bold", fontSize=12, leading=16, textColor=orange, spaceBefore=12, spaceAfter=6, keepWithNext=True)
     body = ParagraphStyle("body", fontName="Helvetica", fontSize=10.5, leading=15.5, textColor=colors.HexColor("#1F2937"), spaceAfter=8)
     li_style = ParagraphStyle("li", fontName="Helvetica", fontSize=10.5, leading=15, textColor=colors.HexColor("#1F2937"))
@@ -115,12 +137,12 @@ def build_lesson_pdf_v2(chapter, section, number, title, blocks, images=None):
 
     crumb_tbl = Table([[Paragraph(chapter.upper(), crumb), Paragraph(section.upper(), crumb)]],
                       colWidths=[W * 0.35, W * 0.65])
-    crumb_tbl.setStyle(TableStyle([("BACKGROUND", (0, 0), (0, 0), purple), ("BACKGROUND", (1, 0), (1, 0), orange),
+    crumb_tbl.setStyle(TableStyle([("BACKGROUND", (0, 0), (0, 0), red), ("BACKGROUND", (1, 0), (1, 0), orange),
                                    ("LEFTPADDING", (0, 0), (-1, -1), 10), ("TOPPADDING", (0, 0), (-1, -1), 6), ("BOTTOMPADDING", (0, 0), (-1, -1), 6)]))
 
     badge = Table([[Paragraph(f"<b>{number}</b>", ParagraphStyle("num", fontName="Helvetica-Bold", fontSize=13, textColor=colors.white, alignment=1))]],
                   colWidths=[13 * mm], rowHeights=[13 * mm])
-    badge.setStyle(TableStyle([("BACKGROUND", (0, 0), (-1, -1), orange), ("VALIGN", (0, 0), (-1, -1), "MIDDLE"), ("ALIGN", (0, 0), (-1, -1), "CENTER")]))
+    badge.setStyle(TableStyle([("BACKGROUND", (0, 0), (-1, -1), red), ("VALIGN", (0, 0), (-1, -1), "MIDDLE"), ("ALIGN", (0, 0), (-1, -1), "CENTER")]))
     head = Table([[badge, Paragraph(title, h1)]], colWidths=[16 * mm, W - 16 * mm])
     head.setStyle(TableStyle([("VALIGN", (0, 0), (-1, -1), "MIDDLE")]))
 
@@ -136,11 +158,12 @@ def build_lesson_pdf_v2(chapter, section, number, title, blocks, images=None):
         raw = images[img_idx]
         img_idx += 1
         try:
-            from PIL import Image as PILImage
-            pil = PILImage.open(io.BytesIO(raw))
-            ratio = pil.height / pil.width
             img_w = min(W * 0.55, 280)
-            return [Spacer(1, 6), Image(io.BytesIO(raw), width=img_w, height=img_w * ratio), Spacer(1, 8)]
+            sharp = _sharpen_for_print(raw, img_w)
+            if sharp is None:
+                return None
+            data, ratio = sharp
+            return [Spacer(1, 6), Image(data, width=img_w, height=img_w * ratio), Spacer(1, 8)]
         except Exception:
             return None
 
