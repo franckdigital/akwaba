@@ -376,26 +376,74 @@
        ]
       },
       {
+       "t": "h",
+       "text": "LIMITATION GÉNÉRALE"
+      },
+      {
        "t": "p",
-       "text": "La vitesse maximale autorisée dépend du type de route (agglomération, hors agglomération, autoroute) et du type de véhicule : elle est rappelée par la signalisation. Un conducteur doit toujours respecter ces limites, même en l'absence de panneau de rappel, et les adapter si les conditions de circulation l'exigent (visibilité réduite, chaussée glissante, trafic dense...). Les valeurs exactes applicables en Côte d'Ivoire sont fixées par le code de la route ivoirien."
+       "text": "Limitation générale de vitesse selon les conditions de conduite (agglomération, route, 2 x 2 voies, autoroute) :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "Temps clair et conditions normales pour les titulaires d'un permis hors période probatoire.",
+        "Mêmes conditions pendant la durée du permis probatoire.",
+        "Pluie et autres précipitations.",
+        "Visibilité de moins de 50 m."
+       ]
+      },
+      {
+       "t": "p",
+       "text": "En agglomération, la limite peut être relevée à 70 km/h sur les sections de route où les accès de riverains et les traversées de piétons, alors en nombre limité, sont protégés par des dispositifs appropriés. Sur le boulevard périphérique de Paris, cette limite est fixée à 80 km/h."
       }
      ],
      "images": []
     },
     {
      "num": "4.2",
-     "title": "Jeunes conducteurs",
+     "title": "Le permis probatoire",
      "blocks": [
       {
        "t": "quote",
-       "text": "Dans certains pays, les nouveaux titulaires du permis sont soumis, pendant une période probatoire, à des limitations de vitesse réduites et à un capital de points réduit sur leur permis."
+       "text": "À la date d'obtention du permis de conduire, celui-ci est affecté, pendant un délai probatoire de trois ans, de six points."
       },
       {
        "t": "p",
-       "text": "Ce dispositif (permis probatoire, réduction de points) n'existe pas en Côte d'Ivoire. Un nouveau titulaire du permis doit néanmoins redoubler de prudence : l'expérience de conduite réduit fortement le risque d'accident durant les premières années, indépendamment de toute règle spécifique."
+       "text": "À compter du 31 décembre 2007, il sera affecté de six points la première année. Si aucune infraction ayant donné lieu à un retrait de points n'a été commise depuis le début de la période probatoire, le nombre de points passe à huit la deuxième année et à dix la troisième année. Lorsque le titulaire du permis de conduire a suivi un apprentissage anticipé de la conduite, si aucune infraction ayant donné lieu à un retrait de points n'a été commise depuis le début de la période probatoire, le nombre de points passe à neuf la deuxième année."
+      },
+      {
+       "t": "p",
+       "text": "Pendant toute la durée du permis probatoire le titulaire doit respecter des limitations de vitesse spécifiques. Cette durée est de trois ans ; elle est réduite à deux ans lorsque le titulaire a suivi un apprentissage anticipé de la conduite."
+      },
+      {
+       "t": "p",
+       "text": "Les élèves conducteurs et les jeunes conducteurs titulaires du permis de conduire pendant la période probatoire sont tenus de ne pas dépasser les vitesses maximales suivantes :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "110 km/h sur les sections d'autoroutes où la limite normale est de 130 km/h ;",
+        "100 km/h sur les sections d'autoroutes où cette limite est plus basse, ainsi que sur les routes à deux chaussées séparées par un terre-plein central ;",
+        "80 km/h sur les autres routes. Le délai court à compter de la date de délivrance du permis de conduire, quelle que soit la catégorie pour laquelle il a été obtenu."
+       ]
+      },
+      {
+       "t": "p",
+       "text": "Dans le cadre de l'apprentissage anticipé de la conduite, tout apprenti conducteur doit, en circulation, apposer de façon visible, à l'arrière de son véhicule, un disque de 15 cm et doit respecter les mêmes limitations de vitesse qu'un jeune conducteur."
+      },
+      {
+       "t": "p",
+       "text": "Tout jeune conducteur, pendant la période probatoire de son permis, doit, en circulation, apposer de façon visible, à l'arrière de son véhicule, un disque de 15 cm avec la lettre « A » en rouge."
       }
      ],
-     "images": []
+     "images": [
+      {
+       "path": "img_4.2_16.jpeg"
+      },
+      {
+       "path": "img_4.2_17.jpeg"
+      }
+     ]
     },
     {
      "num": "4.3",
@@ -403,15 +451,80 @@
      "blocks": [
       {
        "t": "quote",
-       "text": "La vitesse est un des principaux facteurs d'accident ; le non-respect des limitations de vitesse est une infraction dont la gravité augmente avec l'ampleur du dépassement."
+       "text": "La vitesse est un des principaux facteurs d'accident ; le non-respect des limitations de vitesse expose le conducteur à des sanctions lourdes, en plus des amendes prévues."
       },
       {
        "t": "p",
-       "text": "Selon l'ampleur du dépassement, rouler au-delà de la vitesse autorisée expose à une amende, à une immobilisation du véhicule, voire à une suspension du permis en cas de récidive ou d'excès important. Les sanctions précises (montants, durées, barème) relèvent du code de la route en vigueur en Côte d'Ivoire."
+       "text": "Lorsque le dépassement est inférieur à 20 km/h et que la vitesse maximale autorisée est supérieure à 50 km/h, l'amende encourue est celle prévue pour les contraventions de la troisième classe au lieu de celles de la quatrième classe pour les dépassements compris entre 20 et moins de 50 km/h et de cinquième classe pour les dépassements de plus de 50 km/h."
       },
       {
        "t": "p",
-       "text": "Au-delà de la sanction, dépasser la vitesse autorisée augmente fortement le risque et la gravité d'un accident : l'énergie à dissiper en cas de choc croît avec le carré de la vitesse."
+       "text": "Le barème de perte des points est le suivant :"
+      },
+      {
+       "t": "h",
+       "text": "DÉPASSEMENT DE LA VITESSE MAXIMALE AUTORISÉE DE 50 km/h OU PLUS"
+      },
+      {
+       "t": "p",
+       "text": "Perte de six points du permis de conduire."
+      },
+      {
+       "t": "p",
+       "text": "Tout conducteur qui dépasse la limite de vitesse de plus de 50 km/h encourt également les peines complémentaires suivantes :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "La suspension du permis de conduire pour une durée de trois ans au plus, cette suspension ne pouvant pas être limitée à la conduite en dehors de l'activité professionnelle, ni être assortie du sursis, même partiellement ;",
+        "L'interdiction de conduire certains véhicules terrestres à moteur, y compris ceux pour la conduite desquels le permis de conduire n'est pas exigé, pour une durée de trois ans au plus ;",
+        "L'obligation d'accomplir, à ses frais, un stage de sensibilisation à la sécurité routière ;",
+        "La confiscation du véhicule dont le prévenu s'est servi pour commettre l'infraction, s'il en est propriétaire."
+       ]
+      },
+      {
+       "t": "h",
+       "text": "DÉPASSEMENT DE LA VITESSE MAXIMALE AUTORISÉE ENTRE 40 km/h ET MOINS DE 50 km/h"
+      },
+      {
+       "t": "p",
+       "text": "Perte de quatre points du permis de conduire."
+      },
+      {
+       "t": "h",
+       "text": "DÉPASSEMENT DE LA VITESSE MAXIMALE AUTORISÉE COMPRIS ENTRE 30 ET MOINS DE 40 km/h"
+      },
+      {
+       "t": "p",
+       "text": "Perte de trois points du permis de conduire."
+      },
+      {
+       "t": "h",
+       "text": "DÉPASSEMENT DE LA VITESSE MAXIMALE AUTORISÉE COMPRIS ENTRE 20 ET MOINS DE 30 km/h"
+      },
+      {
+       "t": "p",
+       "text": "Perte de deux points du permis de conduire."
+      },
+      {
+       "t": "h",
+       "text": "DÉPASSEMENT DE LA VITESSE MAXIMALE AUTORISÉE DE MOINS DE 20 km/h"
+      },
+      {
+       "t": "p",
+       "text": "Perte d'un point du permis de conduire."
+      },
+      {
+       "t": "p",
+       "text": "Tout conducteur qui dépasse la limite de vitesse de plus de 30 km/h encourt également les peines complémentaires suivantes :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "La suspension, pour une durée de trois ans au plus, du permis de conduire, cette suspension pouvant être limitée à la conduite en dehors de l'activité professionnelle ;",
+        "L'interdiction de conduire certains véhicules terrestres à moteur, y compris ceux pour la conduite desquels le permis de conduire n'est pas exigé, pour une durée de trois ans au plus ;",
+        "L'obligation d'accomplir, à ses frais, un stage de sensibilisation à la sécurité."
+       ]
       }
      ],
      "images": []
@@ -430,11 +543,15 @@
       },
       {
        "t": "p",
-       "text": "La limitation de vitesse s’applique à partir du panneau, sauf si un panonceau de distance précise quand celle-ci s’applique."
+       "text": "La limitation de vitesse s'applique à partir du panneau, sauf si un panonceau de distance précise quand celle-ci s'applique."
       },
       {
        "t": "p",
-       "text": "Les vitesses maximales autorisées ne s’appliquent que dans des conditions optimales de circulation : bonnes conditions atmosphériques, trafic fluide, véhicule en bon état. Elles sont un maximum à ne pas dépasser."
+       "text": "Les vitesses maximales autorisées ne s'appliquent que dans des conditions optimales de circulation : bonnes conditions atmosphériques, trafic fluide, véhicule en bon état. Elles sont un maximum à ne pas dépasser."
+      },
+      {
+       "t": "p",
+       "text": "La limitation de vitesse à 50 km/h peut être abaissée à 45 km/h dans toute une agglomération. Dans ce cas, le panneau de limitation est implanté sur le même support que celui de l'entrée d'agglomération et toutes les rues sont concernées."
       }
      ],
      "images": []
@@ -451,11 +568,42 @@
        "t": "ul",
        "items": [
         "lors du croisement ou du dépassement de piétons ou de cyclistes isolés ou en groupe ;",
-        "lors du croisement ou du dépassement de véhicules de transport en commun ou de véhicules affectés au transport d’enfants, et plus particulièrement au moment de la descente et de la montée des voyageurs ;",
-        "dans tous les cas où la route ne lui apparaît pas entièrement dégagée, ou risque d’être glissante ;",
-        "lorsque les conditions de visibilité sont insuffisantes : temps de pluie et autres précipitations, brouillard, passage d’une zone éclairée à une zone d’ombre, éblouissement par le soleil ;",
-        "lors du dépassement de convois à l’arrêt ;"
+        "lors du croisement ou du dépassement de véhicules de transport en commun ou de véhicules affectés au transport d'enfants, et plus particulièrement au moment de la descente et de la montée des voyageurs ;",
+        "dans tous les cas où la route ne lui apparaît pas entièrement dégagée, ou risque d'être glissante ;",
+        "lorsque les conditions de visibilité sont insuffisantes : temps de pluie et autres précipitations, brouillard, passage d'une zone éclairée à une zone d'ombre, éblouissement par le soleil ;",
+        "lors du dépassement de convois à l'arrêt ;",
+        "dans les virages ;",
+        "dans les descentes rapides ;",
+        "dans les sections de routes étroites, encombrées ou bordées d'habitations ;",
+        "à l'approche des sommets de côtes et des intersections où la visibilité n'est pas assurée ;",
+        "lors de l'utilisation des feux : passage des feux de route aux feux de croisement, circulation en feux de croisement, éblouissement par des feux de route ;",
+        "lors du croisement ou du dépassement d'animaux ;",
+        "lors du franchissement d'un ralentisseur de type dos d'âne où une vitesse de 30 km/h est conseillée."
        ]
+      },
+      {
+       "t": "h",
+       "text": "Vitesse anormalement réduite"
+      },
+      {
+       "t": "p",
+       "text": "En cas de circulation à une vitesse anormalement réduite suite à un incident, je dois allumer mes feux de détresse."
+      },
+      {
+       "t": "h",
+       "text": "PARC DE STATIONNEMENT"
+      },
+      {
+       "t": "p",
+       "text": "Lorsque des parcs de stationnement sont aménagés sur des trottoirs ou terre-pleins, les conducteurs ne doivent y circuler qu'à une allure très réduite, en prenant toutes les précautions possibles pour ne pas nuire aux piétons."
+      },
+      {
+       "t": "h",
+       "text": "NE PAS GÊNER LES AUTRES"
+      },
+      {
+       "t": "p",
+       "text": "Aucun conducteur ne doit gêner la marche normale des autres véhicules en circulant sans raison valable à une vitesse anormalement réduite. En particulier sur autoroute, lorsque la circulation est fluide, que les conditions atmosphériques permettent une visibilité et une adhérence suffisantes, les conducteurs utilisant la voie la plus à gauche ne peuvent circuler à une vitesse inférieure à 80 km/h."
       }
      ],
      "images": []
@@ -466,7 +614,38 @@
      "blocks": [
       {
        "t": "quote",
-       "text": "À l’apparition d’un obstacle, il s‘écoule un temps entre la perception de celui-ci et le début du freinage : c’est le temps de réaction. Ce temps dure en moyenne une seconde."
+       "text": "À l'apparition d'un obstacle, il s'écoule un temps entre la perception de celui-ci et le début du freinage : c'est le temps de réaction. Ce temps dure en moyenne une seconde."
+      },
+      {
+       "t": "p",
+       "text": "On peut calculer en mètres la distance parcourue pendant le temps de réaction d'une seconde en multipliant le chiffre des dizaines de la vitesse par 3 soit :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "à 30 km/h, 3 x 3 = 9 m",
+        "à 50 km/h, 5 x 3 = 15 m",
+        "à 60 km/h, 6 x 3 = 18 m",
+        "à 90 km/h, 9 x 3 = 27 m",
+        "à 110 km/h, 11 x 3 = 33 m",
+        "à 130 km/h, 13 x 3 = 39 m"
+       ]
+      },
+      {
+       "t": "p",
+       "text": "La durée du temps de réaction peut être allongée si le conducteur est :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "débutant ;",
+        "âgé ;",
+        "distrait ;",
+        "fatigué ;",
+        "sous l'emprise d'alcool ;",
+        "sous l'emprise de drogue ;",
+        "sous l'emprise de certains médicaments."
+       ]
       }
      ],
      "images": []
@@ -477,18 +656,38 @@
      "blocks": [
       {
        "t": "quote",
-       "text": "La distance de sécurité correspond à l’intervalle qu’il convient de laisser avec l’usager qui nous précède."
+       "text": "La distance de sécurité correspond à l'intervalle qu'il convient de laisser avec l'usager qui nous précède."
       },
       {
        "t": "p",
        "text": "Elle ne peut en aucun cas être inférieure à la distance parcourue pendant le temps de réaction. Pour une bonne sécurité, il est obligatoire de laisser un intervalle minimum correspondant à la distance parcourue pendant deux secondes soit une seconde de réaction + une seconde de sécurité."
+      },
+      {
+       "t": "p",
+       "text": "Le non-respect de cette distance de sécurité minimum donne lieu de plein droit à la réduction de trois points du permis de conduire. Il encourt également la peine complémentaire de suspension du permis de conduire pour une durée de trois ans au plus, cette suspension pouvant être limitée à la conduite en dehors de l'activité professionnelle."
+      },
+      {
+       "t": "p",
+       "text": "On peut calculer approximativement en mètres la distance de sécurité en multipliant le chiffre des dizaines de la vitesse par 6, soit :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "à 50 km/h, 5 x 6 = 30 m",
+        "à 60 km/h, 6 x 6 = 36 m",
+        "à 90 km/h, 9 x 6 = 54 m",
+        "à 110 km/h, 11 x 6 = 66 m",
+        "à 130 km/h, 13 x 6 = 78 m"
+       ]
+      },
+      {
+       "t": "p",
+       "text": "Dans le cas où le temps de réaction est plus élevé, la distance de sécurité doit être rallongée. En roulant, il est difficile d'apprécier la distance qui sépare deux véhicules. On peut utiliser différents repères comme le marquage au sol."
       }
      ],
      "images": [
       {
-       "path": "img_4.7_18.jpeg",
-       "y0": 419.8550109863281,
-       "half": 0
+       "path": "img_4.7_18.jpeg"
       }
      ]
     },
@@ -498,7 +697,7 @@
      "blocks": [
       {
        "t": "quote",
-       "text": "La distance de freinage est la distance parcourue entre le moment où le conducteur commence à appuyer sur la pédale de frein, et celui où le véhicule s’arrête."
+       "text": "La distance de freinage est la distance parcourue entre le moment où le conducteur commence à appuyer sur la pédale de frein, et celui où le véhicule s'arrête."
       },
       {
        "t": "p",
@@ -507,13 +706,13 @@
       {
        "t": "ul",
        "items": [
-        "de l’adhérence de la chaussée : pluie, neige, verglas, mauvais état de la chaussée ;",
-        "de l’état du système de freinage : réglage, usure des plaquettes et des disques ;",
-        "de l’état des amortisseurs ;",
+        "de l'adhérence de la chaussée : pluie, neige, verglas, mauvais état de la chaussée ;",
+        "de l'état du système de freinage : réglage, usure des plaquettes et des disques ;",
+        "de l'état des amortisseurs ;",
         "de la pression des pneus ;",
         "de la pente de la chaussée ;",
         "du chargement du véhicule : bagages et passagers ;",
-        "de l’expérience, de la technique et de l’état physique du conducteur."
+        "de l'expérience, de la technique et de l'état physique du conducteur."
        ]
       },
       {
@@ -523,15 +722,13 @@
      ],
      "images": [
       {
-       "path": "img_4.8_19.jpeg",
-       "y0": 298.27099609375,
-       "half": 1
+       "path": "img_4.8_19.jpeg"
       }
      ]
     },
     {
      "num": "4.9",
-     "title": "Distance d’arrêt",
+     "title": "Distance d'arrêt",
      "blocks": [
       {
        "t": "quote",
@@ -539,7 +736,47 @@
       },
       {
        "t": "p",
-       "text": "Sur une route sèche, dans des conditions normales, on peut estimer la distance d’arrêt en multipliant par lui-même le chiffre des dizaines de la vitesse, soit :"
+       "text": "Sur une route sèche, dans des conditions normales, on peut estimer la distance d'arrêt en multipliant par lui-même le chiffre des dizaines de la vitesse, soit :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "à 40 km/h, 4 x 4 = 16 m",
+        "à 50 km/h, 5 x 5 = 25 m",
+        "à 60 km/h, 6 x 6 = 36 m",
+        "à 90 km/h, 9 x 9 = 81 m",
+        "à 110 km/h, 11 x 11 = 121 m",
+        "à 130 km/h, 13 x 13 = 169 m"
+       ]
+      }
+     ],
+     "images": []
+    },
+    {
+     "num": "4.10",
+     "title": "Véhicules équipés de pneus à crampons",
+     "blocks": [
+      {
+       "t": "quote",
+       "text": "La vitesse des véhicules d'un poids total autorisé en charge inférieur ou égal à 3,5 tonnes et des véhicules de transport en commun, équipés de pneus à crampons, est limitée à 90 km/h."
+      },
+      {
+       "t": "p",
+       "text": "En circulation, les conducteurs de ces véhicules doivent apposer, de façon visible à l'arrière de leur véhicule, sur la partie inférieure gauche, un disque suivant le modèle ci-contre. L'utilisation des pneus à crampons est autorisée entre le samedi précédant le 11 novembre et le dernier dimanche de mars."
+      },
+      {
+       "t": "h",
+       "text": "Rappel des infractions"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "Je perds 1 point si : je dépasse la vitesse maximale autorisée de moins de 20 km/h.",
+        "Je perds 2 points si : mon dépassement de la vitesse maximale autorisée est compris entre 20 et moins de 30 km/h.",
+        "Je perds 3 points si : mon dépassement de la vitesse maximale autorisée est compris entre 30 et moins de 40 km/h.",
+        "Je perds 4 points si : mon dépassement de la vitesse maximale autorisée est compris entre 40 et moins de 50 km/h.",
+        "Je perds 6 points si : je dépasse la vitesse maximale autorisée de 50 km/h ou plus."
+       ]
       }
      ],
      "images": []

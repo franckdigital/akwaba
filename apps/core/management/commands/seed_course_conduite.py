@@ -59,13 +59,13 @@ def split_into_modules(lesson, section):
     first_h = next((i for i, b in enumerate(blocks) if b["t"] == "h"), len(blocks))
     intro = blocks[:first_h]
     if intro:
-        # Si le sujet n'a aucun sous-titre (pas de "h" dans tout le contenu), sa seule image
-        # (s'il y en a une) revient à ce module d'introduction plutôt que de rester orpheline.
-        intro_image = None
+        # Si le sujet n'a aucun sous-titre (pas de "h" dans tout le contenu), toutes ses images
+        # reviennent à ce module d'introduction plutôt que de rester orphelines.
+        intro_images = []
         if first_h == len(blocks) and images:
-            intro_image = images[0]
-            img_idx = 1
-        modules.append({"title": lesson["title"], "blocks": intro, "image": intro_image})
+            intro_images = list(images)
+            img_idx = len(images)
+        modules.append({"title": lesson["title"], "blocks": intro, "images": intro_images})
 
     i = first_h
     while i < len(blocks):
@@ -76,11 +76,11 @@ def split_into_modules(lesson, section):
         seg = blocks[i + 1:j]
         image = images[img_idx] if img_idx < len(images) else None
         img_idx += 1
-        modules.append({"title": _prettify(heading), "blocks": seg, "image": image})
+        modules.append({"title": _prettify(heading), "blocks": seg, "images": [image] if image else []})
         i = j
 
     if not modules:
-        modules.append({"title": lesson["title"], "blocks": [{"t": "quote", "text": lesson["title"]}], "image": None})
+        modules.append({"title": lesson["title"], "blocks": [{"t": "quote", "text": lesson["title"]}], "images": []})
     return modules
 
 
@@ -114,7 +114,7 @@ class Command(BaseCommand):
         order = 0
         for section, num, mod in all_modules:
             order += 1
-            images = [mod["image"]] if mod["image"] else []
+            images = mod["images"]
             pdf = build_lesson_pdf_v2(CHAPTER, section, num, mod["title"], mod["blocks"], images=images)
             m = CourseMaterial.objects.create(
                 course=course, section=section, material_type="pdf", title=mod["title"],
