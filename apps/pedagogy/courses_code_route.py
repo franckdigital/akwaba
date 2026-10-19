@@ -33,6 +33,13 @@ COURSES = [
                 {"table": [["Âge du conducteur", "Périodicité"], ["Jusqu'à 45 ans", "Tous les 5 ans"], ["De 45 à 55 ans", "Tous les 3 ans"],
                            ["De 55 à 60 ans", "Tous les 2 ans"], ["Plus de 60 ans", "Chaque année"]], "widths": [220, 230]},
             ]),
+            ("Documents à présenter en circulation", [
+                ["Le permis de conduire en cours de validité, correspondant à la catégorie du véhicule conduit.",
+                 "La carte grise (carte d'immatriculation) du véhicule, et celle de la remorque si son PTAC dépasse le seuil réglementaire.",
+                 "L'attestation d'assurance en cours de validité.",
+                 "La vignette ou le reçu de la visite technique, pour les véhicules qui y sont soumis."],
+                "Conduire sans permis, ou avec un permis ne correspondant pas à la catégorie du véhicule, constitue un délit sanctionné par une amende, voire une peine d'emprisonnement selon les cas.",
+            ]),
         ],
         "key_points": ["6 catégories de permis : A, B, C, D, E et F.", "Permis B : 8 places maximum + conducteur, PTAC de 3 500 kg au maximum, remorque de 750 kg au maximum.",
                        "Permis E : remorque de plus de 750 kg.", "Visite médicale unique pour A et B ; périodique pour C et D."],
@@ -116,10 +123,30 @@ COURSES = [
             ]),
             ("La signalisation horizontale", [
                 "Marquages : lignes de rive, ligne discontinue, ligne continue, ligne d'avertissement, flèches de rabattement, lignes mixtes ou accolées, ligne d'effet des feux, ligne de cédez le passage, ligne stop, ligne de dissuasion, flèches de sélection, marquages provisoires.",
+                ["Ligne continue : ne peut être franchie ni pour changer de direction ni pour dépasser.",
+                 "Ligne discontinue : peut être franchie pour dépasser ou changer de direction ; en marche normale, on reste le plus près possible du bord droit.",
+                 "Ligne mixte : une continue et une discontinue accolées ; chaque conducteur tient compte de la ligne la plus proche de lui.",
+                 "Ligne de dissuasion (traits rapprochés) : remplace la ligne continue sur une route étroite pour permettre, si la visibilité le permet, de dépasser un véhicule très lent.",
+                 "Flèches de rabattement : annoncent la fin d'une ligne discontinue ; dès la première flèche, il est trop tard pour entreprendre un dépassement."],
+            ]),
+            ("Les panonceaux", [
+                "Un panonceau est une plaque complémentaire placée sous un panneau pour en préciser la portée.",
+                ["Panonceau de distance : indique la distance entre le panneau et le début du danger ou de la prescription.",
+                 "Panonceau d'étendue : indique la longueur de la section concernée par l'indication.",
+                 "Panonceau directionnel : précise la position de la voie visée par le panneau.",
+                 "Panonceau de catégorie : restreint la prescription à certains usagers (poids lourds, deux-roues, véhicules lents, véhicules agricoles…).",
+                 "Panonceaux divers : aire de danger aérien, passage pour piétons surélevé, poste d'appel d'urgence, numéro de route ou d'échangeur, dérogation à une route à accès réglementé."],
+            ]),
+            ("Les feux clignotants", [
+                ["Feu rouge clignotant : arrêt absolu (passages à niveau, traversées d'avions, débouchés de casernes de pompiers, entrées de ponts mobiles ou de bacs).",
+                 "Feu jaune clignotant seul : prudence, ralentir ; il n'accorde aucune priorité particulière, la règle de priorité habituelle continue de s'appliquer.",
+                 "Feu rouge avec flèche jaune clignotante : autorise à suivre la direction de la flèche, en cédant le passage aux piétons et aux véhicules circulant sur la chaussée abordée."],
             ]),
         ],
         "key_points": ["Agent > feux > panneaux.", "Triangle = danger ; rond rouge = interdiction ; rond bleu = obligation ; carré bleu = indication.",
-                       "Danger annoncé à 50 m en agglomération, 150 m hors agglomération.", "Feu jaune fixe : arrêt sauf freinage dangereux."],
+                       "Danger annoncé à 50 m en agglomération, 150 m hors agglomération.", "Feu jaune fixe : arrêt sauf freinage dangereux.",
+                       "Feu rouge clignotant : arrêt absolu. Feu jaune clignotant seul : prudence, sans changer la priorité.",
+                       "Ligne continue : jamais franchissable. Ligne discontinue : franchissable pour dépasser ou tourner."],
         "image": "panneaux",
     },
     {
@@ -146,6 +173,12 @@ COURSES = [
                            ["Cédez le passage", "Feu rouge ; panneau stop ; agent vu de dos ou de face ; véhicule sur rail ; balise de cédez le passage ; véhicule prioritaire annonçant son approche."]],
                  "widths": [110, 340]},
             ]),
+            ("Le rond-point (carrefour à sens giratoire)", [
+                "C'est une place ou un carrefour avec un terre-plein central infranchissable, ceinturé par une chaussée à sens unique sur laquelle débouchent plusieurs routes.",
+                ["Sans signalisation : la règle de la priorité à droite s'applique, l'usager qui circule sur le rond-point cède le passage à celui qui arrive à sa droite.",
+                 "Avec le panneau « cédez le passage au rond-point » : les usagers qui abordent le rond-point cèdent le passage à ceux qui y circulent déjà, lesquels ne peuvent venir que de la gauche.",
+                 "On utilise le clignotant gauche pour se déporter vers les voies intérieures du rond-point, et le clignotant droit pour le quitter."],
+            ]),
             ("Véhicules prioritaires", [
                 ["Véhicules de police, gendarmerie, lutte contre l'incendie, douanes, transport de détenus, SAMU.",
                  "Ils ne sont pas soumis aux limitations de vitesse. Il faut leur céder le passage lorsqu'ils utilisent leurs avertisseurs sonores ou lumineux : ralentir, voire s'arrêter et se ranger."],
@@ -171,7 +204,8 @@ COURSES = [
             ("Le croisement", [
                 "Le croisement est le passage de deux véhicules l'un à côté de l'autre, allant en sens inverse : il faut toujours serrer à droite.",
                 ["Passages étroits : le véhicule le plus encombrant laisse le passage au plus petit, sauf signalisation contraire.",
-                 "Chaussées en pente : le véhicule qui descend s'arrête le premier ; si une marche arrière est nécessaire, le véhicule le plus maniable l'effectue."],
+                 "Chaussées en pente : le véhicule qui descend s'arrête le premier ; si une marche arrière est nécessaire, le véhicule le plus léger et le plus maniable l'effectue (par exemple une voiture plutôt qu'un car, un car plutôt qu'un camion).",
+                 "Dans une intersection, deux véhicules qui tournent à gauche se croisent en se contournant par la droite, sauf marquage au sol contraire."],
                 "Manœuvres interdites dans une chaussée rétrécie : s'arrêter, dépasser, stationner, faire demi-tour, faire marche arrière.",
             ]),
             ("Arrêt et stationnement", [
@@ -210,16 +244,27 @@ COURSES = [
             ]),
             ("Freinage et distances", [
                 ["Dispositifs de freinage : frein principal (à pied), frein de parcage (à main) et frein moteur.",
+                 "Le frein principal agit en général sur les quatre roues ; il existe deux technologies associées aux roues : le frein à tambour (des mâchoires viennent frotter sur un tambour solidaire de la roue) et le frein à disque (des plaquettes serrent un disque solidaire de la roue).",
+                 "Le frein de parcage (ou frein à main) sert à maintenir le véhicule immobile à l'arrêt, et peut ralentir le véhicule en cas de défaillance du frein principal.",
                  "Distance de sécurité : intervalle minimum entre mon véhicule et celui qui me précède.",
-                 "Distance de freinage : distance parcourue pendant que les freins éliminent l'énergie cinétique ; elle dépend du chargement, de la vitesse et de l'adhérence.",
-                 "Temps de réaction : temps écoulé entre la perception d'un signal ou événement et l'action qui suit."],
+                 "Distance de freinage : distance parcourue pendant que les freins éliminent l'énergie cinétique ; elle dépend du chargement, de la vitesse et de l'adhérence (elle quadruple environ si la vitesse double).",
+                 "Temps de réaction : temps écoulé entre la perception d'un signal ou événement et l'action qui suit ; il est allongé par la fatigue, l'alcool, l'âge ou la distraction du conducteur.",
+                 "Distance d'arrêt : somme de la distance parcourue pendant le temps de réaction et de la distance de freinage."],
+                "Pour un freinage d'urgence, il faut appuyer fermement et progressivement sur la pédale sans bloquer les roues ; un système ABS, s'il équipe le véhicule, évite le blocage des roues et améliore la trajectoire, mais ne réduit pas la distance de freinage.",
+            ]),
+            ("Pneumatiques", [
+                ["Les pneumatiques doivent présenter des sculptures apparentes sur toute leur surface de roulement ; leur usure réduit fortement l'adhérence, surtout sur chaussée mouillée.",
+                 "Il faut vérifier régulièrement la pression des pneus à froid : un pneu sous-gonflé s'use plus vite et augmente la consommation ; un pneu sur-gonflé s'use aussi anormalement.",
+                 "Sur un même essieu, les deux pneus doivent avoir des sculptures de profondeur comparable."],
             ]),
             ("Brouillard et vent", [
                 ["Brouillard : réduire sa vitesse, allumer les feux de brouillard avant et arrière, augmenter les distances de sécurité, se guider avec le marquage au sol, éviter de dépasser. Ne jamais utiliser les feux de route.",
                  "Vent violent : être attentif aux écarts des autres usagers (deux-roues), augmenter les intervalles de sécurité aux croisements et dépassements."],
             ]),
         ],
-        "key_points": ["R.A.S. : Ralentir, Avertir, Serrer.", "Distance de freinage = chargement + vitesse + adhérence.", "Brouillard : jamais de feux de route."],
+        "key_points": ["R.A.S. : Ralentir, Avertir, Serrer.", "Distance de freinage = chargement + vitesse + adhérence (x4 si la vitesse double).",
+                       "Distance d'arrêt = temps de réaction + distance de freinage.", "Brouillard : jamais de feux de route.",
+                       "Vérifier la pression des pneus à froid ; sculptures comparables sur un même essieu."],
     },
     {
         "title": "Accidents, alcool et premiers secours",
@@ -298,5 +343,68 @@ COURSES = [
             ]),
         ],
         "key_points": ["Véhicule léger : 60 (ville), 110 (route), 120 (autoroute).", "Autocar : 50 / 90 / 90.", "Camions : 50 en ville ; 80 (< 16 t) ou 70 (> 16 t) ailleurs."],
+    },
+    {
+        "title": "L'autoroute",
+        "summary": "Entrée et sortie, voies d'insertion et de décélération, dépassement, manœuvres interdites et arrêt d'urgence.",
+        "theme": "code", "minutes": 25,
+        "sections": [
+            ("Caractéristiques de l'autoroute", [
+                "L'autoroute est composée de deux chaussées à sens unique, elles-mêmes composées de plusieurs voies, séparées par un terre-plein central, et d'une bande d'arrêt d'urgence de chaque côté.",
+                "Accès interdit aux piétons, cyclistes, cyclomoteurs, animaux et cavaliers, ainsi qu'aux véhicules qui ne peuvent pas, par construction, atteindre une vitesse minimale suffisante.",
+            ]),
+            ("Entrer sur l'autoroute", [
+                ["Voie d'accès : voie à sens unique qui mène à l'autoroute ; on y cède le passage aux véhicules déjà engagés.",
+                 "Voie d'accélération : voie parallèle qui permet de prendre une vitesse proche de celle de la circulation avant de s'insérer.",
+                 "Voie d'insertion : permet de s'insérer sans gêner les usagers déjà présents, ni les obliger à ralentir ou à changer de voie."],
+                "Tout conducteur qui emprunte une bretelle de raccordement doit céder le passage aux véhicules déjà engagés sur l'autoroute.",
+            ]),
+            ("En circulation", [
+                "En marche normale, on circule sur la voie de droite ; les autres voies servent uniquement aux dépassements.",
+                ["La distance de sécurité se calcule comme ailleurs, mais les vitesses élevées l'allongent fortement : il faut l'augmenter en conséquence.",
+                 "Le dépassement se fait toujours par la gauche, jamais par la droite ; on revient sur sa voie dès que possible une fois le dépassement terminé."],
+            ]),
+            ("Manœuvres interdites", [
+                ["Faire demi-tour, même en traversant une interruption du terre-plein central.", "Faire marche arrière, même après avoir manqué une sortie.",
+                 "Circuler, s'arrêter ou stationner sur la bande d'arrêt d'urgence, sauf nécessité absolue.", "S'arrêter ou stationner ailleurs que sur les aires aménagées."],
+            ]),
+            ("Arrêt d'urgence et sortie", [
+                "En cas de nécessité absolue d'immobiliser son véhicule, on se range sur la bande d'arrêt d'urgence, on allume les feux de détresse et on fait sortir les passagers derrière les glissières de sécurité.",
+                "La sortie se prépare à l'avance : on se place sur la voie de droite avant le panneau de présignalisation, sans ralentir avant d'être sur la bretelle de sortie.",
+            ]),
+        ],
+        "key_points": ["Dépassement toujours par la gauche, jamais par la droite.", "Interdit : demi-tour, marche arrière, arrêt hors aires aménagées ou bande d'urgence en cas de nécessité absolue.",
+                       "On cède le passage en s'insérant ; on prépare sa sortie à l'avance sans ralentir avant la bretelle."],
+    },
+    {
+        "title": "Conduite de nuit et intempéries",
+        "summary": "Feux de croisement et de route, adaptation de la vitesse la nuit, pluie, brouillard, vent et neige.",
+        "theme": "safety", "minutes": 30,
+        "sections": [
+            ("La conduite de nuit", [
+                "La nuit, le risque d'accident est nettement plus élevé que le jour : il faut adapter son éclairage pour mieux voir et être vu.",
+                ["Feux de croisement : utilisés en agglomération éclairée, pour suivre ou croiser un autre véhicule.",
+                 "Feux de route : utilisés hors agglomération, sur route non éclairée, en l'absence de véhicule à croiser ou à suivre de près.",
+                 "On passe des feux de route aux feux de croisement suffisamment à l'avance pour ne pas éblouir les autres usagers."],
+                "Pour éviter d'être ébloui en croisant un véhicule qui reste en feux de route, on regarde le bord droit de la chaussée plutôt que les phares du véhicule qui arrive.",
+            ]),
+            ("La pluie", [
+                "Par temps de pluie, on circule en feux de croisement ; les feux de brouillard avant peuvent compléter ou remplacer les feux de croisement, mais les feux de brouillard arrière sont interdits car trop éblouissants hors brouillard ou neige.",
+                ["La distance de freinage peut doubler sur chaussée mouillée.",
+                 "L'aquaplaning survient quand une pellicule d'eau se forme entre le pneu et la chaussée : le véhicule devient incontrôlable. Pour le limiter : réduire sa vitesse, sans freiner brusquement."],
+            ]),
+            ("Le brouillard", [
+                "Le brouillard réduit fortement la visibilité : adapter sa vitesse pour que la distance de sécurité reste égale à la distance visible, et se guider sur le marquage au sol (notamment la ligne de rive).",
+                "On circule en feux de croisement, complétés si besoin par les feux de brouillard avant et arrière.",
+            ]),
+            ("Le vent et la neige", [
+                ["Vent violent : redoubler de vigilance lors des dépassements (notamment de poids lourds) et surveiller les écarts de trajectoire des deux-roues.",
+                 "Neige : la chaussée devient glissante ; une neige tassée peut être aussi dangereuse que le verglas. Réduire sa vitesse et augmenter la distance de sécurité.",
+                 "Verglas : surtout dangereux en plaques isolées, fréquent sur les ponts, dans les sous-bois et les zones abritées du vent."],
+            ]),
+        ],
+        "key_points": ["Feux de croisement en ville ou pour croiser/suivre ; feux de route hors agglomération sans véhicule à proximité.",
+                       "Aquaplaning : ralentir sans freiner brutalement.", "Brouillard : jamais les feux de route, se guider sur le marquage au sol.",
+                       "Verglas : danger surtout en plaques isolées (ponts, sous-bois)."],
     },
 ]
