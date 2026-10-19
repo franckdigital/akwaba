@@ -1,10 +1,7 @@
 """Mise en page des leçons en PDF, dans le style du livre : fil d'Ariane (chapitre > section), pastille
 numérotée (ex. « 3.1 »), encadré violet pour un texte réglementaire mis en avant, puces orange, image
-d'illustration. Réutilisé par `seed_course_conduite` (une leçon = un PDF, comme dans le livre).
-
-Important : les illustrations du livre (photographies de situations de circulation) sont protégées par le
-droit d'auteur de l'éditeur et ne sont pas reproduites ici. Les images utilisées sont des illustrations
-génériques déjà présentes dans le projet (voir `apps/pedagogy/courses_code_route.py` pour le même principe).
+d'illustration (photo extraite du livre source quand elle existe, sinon schéma généré). Réutilisé par
+`seed_course_conduite` (une leçon = un PDF, comme dans le livre).
 """
 import io
 import re
@@ -66,7 +63,11 @@ def build_lesson_pdf(chapter, section, number, title, html_text, image_bytes=Non
 
     if image_bytes:
         try:
-            img = Image(io.BytesIO(image_bytes), width=W * 0.6, height=W * 0.6 * (560 / 900))
+            from PIL import Image as PILImage
+            pil = PILImage.open(io.BytesIO(image_bytes))
+            ratio = pil.height / pil.width
+            img_w = min(W * 0.62, 320)
+            img = Image(io.BytesIO(image_bytes), width=img_w, height=img_w * ratio)
             story += [Spacer(1, 10), img]
         except Exception:  # pragma: no cover - image optionnelle
             pass

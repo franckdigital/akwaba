@@ -10,6 +10,7 @@ Contenu source : apps/pedagogy/lessons_conduite.py.
 from django.core.management.base import BaseCommand
 from django.db import transaction
 
+from apps.pedagogy.book_images_loader import book_image_for
 from apps.pedagogy.illustrations import illustration_for
 from apps.pedagogy.lesson_pdf import build_lesson_pdf
 from apps.pedagogy.lessons_conduite import SECTIONS
@@ -43,7 +44,9 @@ class Command(BaseCommand):
             for sub, (title, html) in enumerate(lessons, start=1):
                 order += 1
                 number = f"{chapter_num}.{sub}"
-                pdf = build_lesson_pdf(CHAPTER, section, number, title, html, image_bytes=illustration_for(title))
+                # Priorité à la vraie image du livre (docs/code_route.pdf) ; schéma généré en repli sinon.
+                image = book_image_for(title) or illustration_for(title)
+                pdf = build_lesson_pdf(CHAPTER, section, number, title, html, image_bytes=image)
                 m = CourseMaterial.objects.create(
                     course=course, section=section, material_type="pdf", title=title,
                     order=order, duration_minutes=4, is_required=True, download_allowed=True, is_published=True,
