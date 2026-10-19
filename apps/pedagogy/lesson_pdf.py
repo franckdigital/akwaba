@@ -20,7 +20,7 @@ def _paragraphs(html):
     return [p.strip() for p in parts if p.strip()]
 
 
-def build_lesson_pdf(chapter, section, number, title, html_text, image_path=None):
+def build_lesson_pdf(chapter, section, number, title, html_text, image_bytes=None):
     from reportlab.lib import colors
     from reportlab.lib.pagesizes import A4
     from reportlab.lib.styles import ParagraphStyle
@@ -64,10 +64,10 @@ def build_lesson_pdf(chapter, section, number, title, html_text, image_path=None
         for p in paras[1:]:
             story.append(Paragraph(p, body))
 
-    if image_path:
+    if image_bytes:
         try:
-            img = Image(image_path, width=W * 0.55, height=W * 0.55 * 0.62)
-            story += [Spacer(1, 6), img]
+            img = Image(io.BytesIO(image_bytes), width=W * 0.6, height=W * 0.6 * (560 / 900))
+            story += [Spacer(1, 10), img]
         except Exception:  # pragma: no cover - image optionnelle
             pass
 
