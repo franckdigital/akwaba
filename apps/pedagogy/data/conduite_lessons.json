@@ -1,0 +1,3908 @@
+{
+ "sections": [
+  {
+   "section": "Chapitre 3",
+   "lessons": [
+    {
+     "num": "3.1",
+     "title": "Les règles de circulation",
+     "blocks": [
+      {
+       "t": "quote",
+       "text": "Le fait de placer ou de tenter de placer un objet, ou d’employer ou de tenter d’employer un moyen quelconque, qui entrave ou gêne la circulation sur une voie ouverte à la circulation publique, est puni de deux ans d’emprisonne- ment, de  4 500 euros d’amende et donne lieu de plein droit à la perte de six points du permis de conduire."
+      },
+      {
+       "t": "p",
+       "text": "Tout conducteur qui commet cette infraction encourt également la peine complémentaire de suspension, pour une durée de trois ans au plus, du per- mis de conduire, cette suspension pouvant être limitée à la conduite en dehors de l’activité professionnelle."
+      },
+      {
+       "t": "p",
+       "text": "Si cette infraction est commise à l’aide d’un véhicule, l’immobilisation et la mise en fourrière de celui-ci peuvent être prescrites."
+      },
+      {
+       "t": "h",
+       "text": "MARCHE NORMALE"
+      },
+      {
+       "t": "p",
+       "text": "En marche normale, tout conducteur doit maintenir son véhicule près du bord droit de la chaussée, autant que le lui permet l’état ou le profil de celle-ci."
+      },
+      {
+       "t": "p",
+       "text": "Si la voie de droite est réser- vée à une autre catégorie de véhicules, il utilise la voie située immédiatement à côté."
+      },
+      {
+       "t": "p",
+       "text": "La circulation sur les bandes d’arrêt d’urgence est interdite."
+      },
+      {
+       "t": "p",
+       "text": "Le fait, pour tout conducteur, de circuler, en marche normale, sur la partie gauche d’une chaussée à double sens de circulation, ou de circuler sur une bande d’arrêt d’urgence, donne lieu de plein droit à la réduction de trois points du permis de conduire."
+      },
+      {
+       "t": "h",
+       "text": "CIRCULATION EN FILES"
+      },
+      {
+       "t": "p",
+       "text": "En cas de circulation en files ininterrompues sur toutes les voies, il faut conserver une distance de sécurité suffisante."
+      },
+      {
+       "t": "p",
+       "text": "Chaque conducteur :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "doit rester dans sa file ;",
+        "peut quitter sa file pour préparer un changement de direction, à condition de le faire sans danger et sans gêner les autres usagers ;",
+        "peut dépasser les véhicules d’une autre file à l’arrêt, ce n’est pas considéré comme un dépassement ;",
+        "doit allumer ses feux de détresse,s’il est le dernier de la file, pour prévenir les autres usagers du ralentissement."
+       ]
+      },
+      {
+       "t": "h",
+       "text": "CHANGEMENT DE DIRECTION"
+      },
+      {
+       "t": "p",
+       "text": "Tout conducteur d’un véhicule qui s’apprête à changer de direction doit avertir de son intention les autres usagers, notamment lorsqu’il va :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "se porter à gauche ;",
+        "traverser la chaussée ;",
+        "reprendre sa place dans la circulation après un arrêt ou un stationnement."
+       ]
+      },
+      {
+       "t": "p",
+       "text": "Toute infraction constatée donne lieu de plein droit à la perte de trois points du per- mis de conduire."
+      },
+      {
+       "t": "h",
+       "text": "QUITTER SON STATIONNEMENT"
+      },
+      {
+       "t": "p",
+       "text": "Avant de quitter un lieu de stationne- ment, le conducteur doit :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "surveiller toute la circulation ;",
+        "allumer le clignotant sans surprendre les autres usagers ;",
+        "quitter son stationnement sans danger pour les autres usagers."
+       ]
+      },
+      {
+       "t": "h",
+       "text": "TOURNER À DROITE"
+      },
+      {
+       "t": "p",
+       "text": "Le conducteur doit :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "s’assurer que la chaussée qu’il veut rejoindre est ouverte à la circulation et pas en sens interdit ;",
+        "vérifier dans les rétroviseurs que la manœuvre est possible sans danger pour les autres usagers ;",
+        "allumer son clignotant suffisam- ment à l’avance ;",
+        "ralentir progressivement ;",
+        "respecter les priorités, surtout celle des piétons traversant la chaussée ;",
+        "respecter la signalisation et plus particulièrement les flèches au sol ;",
+        "s’assurer qu’un deux-roues ne circule pas sur la droite."
+       ]
+      },
+      {
+       "t": "h",
+       "text": "TOURNER À GAUCHE"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "Cas général"
+       ]
+      },
+      {
+       "t": "p",
+       "text": "Le conducteur doit :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "s’assurer que la chaussée qu’il veut rejoindre est ouverte à la circula- tion et pas en sens interdit ;",
+        "vérifier dans les rétroviseurs que la manœuvres est possible sans dan- ger pour les autres usagers ;",
+        "surveiller la circulation vers l’arrière ;",
+        "allumer son clignotant suffisamment à l’avance ;",
+        "ralentir progressivement ;",
+        "serrer l’axe médian de la chaussée sans le dépasser ;",
+        "respecter la signalisation et plus particulièrement les flèches au sol ;",
+        "avancer loin dans l’intersection et contourner le centre de l’intersection si besoin ;",
+        "s’arrêter pour laisser passer les usagers circulant en sens inverse ;",
+        "respecter les priorités, surtout celle des piétons traversant la chaussée ;"
+       ]
+      },
+      {
+       "t": "ul",
+       "items": [
+        "Nombre impair de voies"
+       ]
+      },
+      {
+       "t": "ul",
+       "items": [
+        "Voie de stockage"
+       ]
+      },
+      {
+       "t": "p",
+       "text": "Le conducteur doit se placer dans la voie du milieu."
+      },
+      {
+       "t": "p",
+       "text": "Le conducteur désirant tourner à gauche se place dans la voie qui a des flèches orientées vers la gauche."
+      },
+      {
+       "t": "h",
+       "text": "VOIE DE DÉCÉLÉRATION"
+      },
+      {
+       "t": "p",
+       "text": "CHAUSSÉE À SENS UNIQUE"
+      },
+      {
+       "t": "p",
+       "text": "Pour emprunter une voie de décélé- ration, il faut :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "circuler sur la voie de droite ;",
+        "avertir les autres usagers suffi- samment à l’avance ;",
+        "ne réduire son allure qu’une fois sur cette voie, si possible."
+       ]
+      },
+      {
+       "t": "p",
+       "text": "Le conducteur se place dans la voie la plus à gauche."
+      },
+      {
+       "t": "h",
+       "text": "CARREFOURS AMÉNAGÉS “À L’INDONÉSIENNE “"
+      },
+      {
+       "t": "p",
+       "text": "À certains carrefours, le marquage au sol impose le contournement des véhicules par la gauche."
+      },
+      {
+       "t": "h",
+       "text": "VOIE D’INSERTION"
+      },
+      {
+       "t": "p",
+       "text": "C’est une voie qui permet de s’insérer plus facile- ment sur une chaussée."
+      },
+      {
+       "t": "h",
+       "text": "VOIE D’ENTRECROISEMENT"
+      },
+      {
+       "t": "p",
+       "text": "C’est une voie où les véhicules s’entre- croisent. Les conducteurs doivent être vigilants et annoncer le plus tôt possi- ble leur intention en allumant le clignotant."
+      },
+      {
+       "t": "h",
+       "text": "VIRAGES"
+      },
+      {
+       "t": "p",
+       "text": "Dans un virage, la visibilité est réduite. Il est donc impératif de réduire sa vitesse."
+      },
+      {
+       "t": "p",
+       "text": "Pour bien négocier un virage, il faut … Avant le virage :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "ralentir ou freiner ;",
+        "rétrograder si nécessaire ;",
+        "adapter sa vitesse à la courbe du virage,à la visibilité et à l’état de la chaussée."
+       ]
+      },
+      {
+       "t": "p",
+       "text": "Dans le virage :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "Maintenir une allure constante pour une meilleure adhérence ;",
+        "ne pas freiner, débrayer ou changer de vitesse."
+       ]
+      },
+      {
+       "t": "p",
+       "text": "En sortie du virage :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "accélérer progressivement en fonction de la visibilité et de l’état de la chaussée ;",
+        "regarder loin."
+       ]
+      },
+      {
+       "t": "h",
+       "text": "FORCE CENTRIFUGE"
+      },
+      {
+       "t": "p",
+       "text": "La force centrifuge pousse le véhicule vers l’extérieur du virage. Cette force augmente :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "en fonction du carré de la vitesse ; pour une vitesse doublée,la force centrifuge est 4 fois plus importante ;",
+        "en fonction de la masse du véhicule ; elle est inversement proportionnelle au rayon du virage : plus il est serré plus elle augmente."
+       ]
+      },
+      {
+       "t": "p",
+       "text": "LA VITESSE LA VITESSE 4"
+      }
+     ],
+     "images": [
+      {
+       "path": "img_3.1_1.jpeg",
+       "y0": 284.3810119628906,
+       "half": 0
+      },
+      {
+       "path": "img_3.1_2.jpeg",
+       "y0": 104.3070068359375,
+       "half": 1
+      },
+      {
+       "path": "img_3.1_3.jpeg",
+       "y0": 298.3370056152344,
+       "half": 1
+      },
+      {
+       "path": "img_3.1_4.jpeg",
+       "y0": 424.4620361328125,
+       "half": 1
+      },
+      {
+       "path": "img_3.1_5.jpeg",
+       "y0": 70.69300079345703,
+       "half": 1
+      },
+      {
+       "path": "img_3.1_6.jpeg",
+       "y0": 73.52703094482422,
+       "half": 1
+      },
+      {
+       "path": "img_3.1_7.jpeg",
+       "y0": 73.55999755859375,
+       "half": 1
+      },
+      {
+       "path": "img_3.1_8.jpeg",
+       "y0": 280.4850158691406,
+       "half": 1
+      },
+      {
+       "path": "img_3.1_9.jpeg",
+       "y0": 282.0140380859375,
+       "half": 1
+      },
+      {
+       "path": "img_3.1_10.jpeg",
+       "y0": 325.64599609375,
+       "half": 1
+      },
+      {
+       "path": "img_3.1_11.jpeg",
+       "y0": 445.0989685058594,
+       "half": 1
+      },
+      {
+       "path": "img_3.1_12.jpeg",
+       "y0": 44.54303741455078,
+       "half": 1
+      },
+      {
+       "path": "img_3.1_13.jpeg",
+       "y0": 125.07500457763672,
+       "half": 1
+      },
+      {
+       "path": "img_3.1_14.jpeg",
+       "y0": 213.09799194335938,
+       "half": 1
+      },
+      {
+       "path": "img_3.1_15.jpeg",
+       "y0": 390.77099609375,
+       "half": 1
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "section": "La vitesse",
+   "lessons": [
+    {
+     "num": "4.1",
+     "title": "La vitesse",
+     "blocks": [],
+     "images": []
+    },
+    {
+     "num": "4.2",
+     "title": "Le permis probatoire",
+     "blocks": [
+      {
+       "t": "quote",
+       "text": "Tout conducteur doit maîtriser et adapter sa vitesse aux circonstances :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "conditions météorologiques ;",
+        "état de la chaussée ;",
+        "dangers éventuels ;",
+        "autres usagers."
+       ]
+      },
+      {
+       "t": "h",
+       "text": "LIMITATION GÉNÉRALE"
+      },
+      {
+       "t": "p",
+       "text": "Conditions de conduite"
+      },
+      {
+       "t": "p",
+       "text": "Agglomération Route 2 x 2 voies Autoroute"
+      },
+      {
+       "t": "p",
+       "text": "Temps clair et conditions normales pour les titulaires d’un permis hors période probatoire"
+      },
+      {
+       "t": "p",
+       "text": "Mêmes conditions pendant la durée du permis probatoire"
+      },
+      {
+       "t": "p",
+       "text": "Pluie et autres précipitations"
+      },
+      {
+       "t": "p",
+       "text": "Visibilité de moins de 50 m"
+      },
+      {
+       "t": "p",
+       "text": "En agglomération, la limite peut être relevée à 70 km/h sur les sections de route où les accès de riverains et les traversées de piétons, alors en nombre limité, sont protégés par des dispositifs appropriés. Sur le boulevard périphérique de Paris, cette limite est fixée à 80 km/h."
+      },
+      {
+       "t": "p",
+       "text": "À la date d’obtention du permis de conduire, celui-ci est affecté, pendant un délai probatoire de trois ans, de six points. A compter du 31 décembre 2007, il sera affecté de six points la première année. Si aucune infraction ayant donné lieu à un retrait de points n’a été commise depuis le début de la période probatoire, le nombre de points passe à huit la deuxième année et à dix la troisième année. Lorsque le titulaire du permis de conduire a suivi un apprentissage anticipé de la conduite, si aucune infraction ayant donné lieu à un retrait de points n’a été commise depuis le début de la période probatoire, le nombre de points passe à neuf la deuxième année."
+      },
+      {
+       "t": "p",
+       "text": "Pendant toute la durée du permis probatoire le titulaire doit respecter des limi- tations de vitesse spécifiques. Cette durée est de trois ans ; elle est réduite à deux ans lorsque le titulaire a suivi un apprentissage anticipé de la conduite."
+      },
+      {
+       "t": "p",
+       "text": "Les élèves conducteurs et les jeunes conducteurs titulaires du permis de conduire pendant la période probatoire sont tenus de ne pas dépasser les vitesses maximales suivantes :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "110 km/h sur les sections d’autoroutes où la limite normale est de 130 km/h ;",
+        "100 km/h sur les sections d’autoroutes où cette limite est plus basse,ainsi que sur les routes à deux chaussées séparées par un terre-plein central ;",
+        "80 km/h sur les autres routes.Le délai court à compter de la date de délivrance du permis de conduire,quelle que soit la catégorie pour laquelle il a été obtenu."
+       ]
+      },
+      {
+       "t": "p",
+       "text": "Dans le cadre de l’apprentissage anticipé de la conduite, tout apprenti conducteur doit, en circulation, apposer de façon visible, à l’arrière de son véhicule, un disque de 15 cm  et doit respecter les mêmes limitations de vitesse qu’un jeune conducteur."
+      },
+      {
+       "t": "p",
+       "text": "Tout jeune conducteur, pendant la période probatoire de son permis, doit, en circulation, apposer de façon visible, à l’arrière de son véhicule, un disque de 15 cm avec la lettre « A » en rouge."
+      }
+     ],
+     "images": [
+      {
+       "path": "img_4.2_16.jpeg",
+       "y0": 438.134033203125,
+       "half": 0
+      },
+      {
+       "path": "img_4.2_17.jpeg",
+       "y0": 447.7081298828125,
+       "half": 1
+      }
+     ]
+    },
+    {
+     "num": "4.3",
+     "title": "Non-respect des limitations de vitesse",
+     "blocks": [
+      {
+       "t": "quote",
+       "text": "La vitesse est un des principaux facteurs d’accident ; le non-respect des limitations de vitesse expose le conducteur à des sanctions lourdes, en plus des amendes prévues."
+      },
+      {
+       "t": "p",
+       "text": "Lorsque le dépassement est inférieur à 20 km/h et que la vitesse maximale autorisée est supérieure à 50 km/h, l'amende encourue est celle prévue pour les contraventions de la troisième classe au lieu de celles de la quatrième classe pour les dépassements compris entre 20 et moins de 50 km/h et de cinquième classe pour les dépassements de plus de 50 km/h."
+      },
+      {
+       "t": "p",
+       "text": "Le barème de perte des points est le suivant :"
+      },
+      {
+       "t": "p",
+       "text": "DÉPASSEMENT DE LA VITESSE MAXIMALE AUTORISÉE DE 50 km/h OU PLUS"
+      },
+      {
+       "t": "p",
+       "text": "Perte de six points du permis de conduire."
+      },
+      {
+       "t": "p",
+       "text": "Tout conducteur qui dépasse la limite de vitesse de plus de 50 km/h encourt également les peines complémentaires suivantes :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "La suspension du permis de conduire pour une durée de trois ans au plus, cette suspension ne pouvant pas être limitée à la conduite en dehors de l'activité professionnelle, ni être assortie du sursis, même partiellement ;",
+        "L'interdiction de conduire certains véhicules terrestres à moteur,y compris ceux pour la conduite desquels le permis de conduire n'est pas exigé, pour une durée de trois ans au plus ;",
+        "L'obligation d'accomplir, à ses frais, un stage de sensibilisation à la sécuri- té routière ;",
+        "La confiscation du véhicule dont le prévenu s'est servi pour commettre l'infraction, s'il en est propriétaire."
+       ]
+      },
+      {
+       "t": "p",
+       "text": "DÉPASSEMENT DE LA VITESSE MAXIMALE AUTORISÉE ENTRE 40 km/h ET MOINS DE 50 km/h"
+      },
+      {
+       "t": "p",
+       "text": "Perte de quatre points du permis de conduire."
+      },
+      {
+       "t": "p",
+       "text": "DÉPASSEMENT DE LA VITESSE MAXIMALE AUTORISÉE COMPRIS ENTRE 30 ET MOINS DE 40 km/h"
+      },
+      {
+       "t": "p",
+       "text": "Perte de trois points du permis de conduire."
+      },
+      {
+       "t": "p",
+       "text": "DÉPASSEMENT DE LA VITESSE MAXIMALE AUTORISÉE COMPRIS ENTRE 20 ET MOINS DE 30 km/h"
+      },
+      {
+       "t": "p",
+       "text": "Perte de deux points du permis de conduire."
+      },
+      {
+       "t": "p",
+       "text": "DÉPASSEMENT DE LA VITESSE MAXIMALE AUTORISÉE DE MOINS DE 20 km/h"
+      },
+      {
+       "t": "p",
+       "text": "Perte d’un point du permis de conduire."
+      },
+      {
+       "t": "p",
+       "text": "Tout conducteur qui dépasse la limite de vitesse de plus de 30 km/h encourt également les peines complémentaires suivantes :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "la suspension, pour une durée de trois ans au plus, du permis de conduire, cette suspension pouvant être limitée à la conduite en dehors de l’activité professionnelle ;",
+        "l’interdiction de conduire certains véhicules terrestres à moteur, y compris ceux pour la conduite desquels le permis de conduire n’est pas exigé, pour une durée de trois ans au plus ;",
+        "l’obligation d’accomplir, à ses frais, un stage de sensibilisation à la sécurité."
+       ]
+      }
+     ],
+     "images": []
+    },
+    {
+     "num": "4.4",
+     "title": "Signalisation",
+     "blocks": [
+      {
+       "t": "quote",
+       "text": "La signalisation peut imposer des limitations de vitesse différentes des limitations générales."
+      },
+      {
+       "t": "p",
+       "text": "Vous devez toujours respecter ces panneaux."
+      },
+      {
+       "t": "p",
+       "text": "La limitation de vitesse s’applique à partir du panneau, sauf si un panonceau de distance précise quand celle-ci s’applique."
+      },
+      {
+       "t": "p",
+       "text": "Les vitesses maximales autorisées ne s’appliquent que dans des conditions optimales de circulation : bonnes conditions atmosphériques, trafic fluide, véhicule en bon état. Elles sont un maximum à ne pas dépasser."
+      },
+      {
+       "t": "p",
+       "text": "La limitation de vitesse à 50 km/h peut être abaissée à 45 km/h dans toute une agglomération. Dans ce cas, le panneau de limitation est implanté sur le même support que celui de l’entrée d’agglomération et toutes les rues sont concernées."
+      }
+     ],
+     "images": []
+    },
+    {
+     "num": "4.5",
+     "title": "Réduction de la vitesse",
+     "blocks": [
+      {
+       "t": "quote",
+       "text": "Tout conducteur doit réduire sa vitesse :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "lors du croisement ou du dépassement de piétons ou de cyclistes isolés ou en groupe ;",
+        "lors du croisement ou du dépassement de véhicules de transport en commun ou de véhicules affectés au transport d’enfants, et plus particulièrement au moment de la descente et de la montée des voyageurs ;",
+        "dans tous les cas où la route ne lui apparaît pas entièrement dégagée, ou risque d’être glissante ;",
+        "lorsque les conditions de visibilité sont insuffisantes : temps de pluie et autres précipitations, brouillard, passage d’une zone éclairée à une zone d’ombre, éblouissement par le soleil ;",
+        "lors du dépassement de convois à l’arrêt ;"
+       ]
+      }
+     ],
+     "images": []
+    },
+    {
+     "num": "4.6",
+     "title": "Temps de réaction",
+     "blocks": [
+      {
+       "t": "quote",
+       "text": "À l’apparition d’un obstacle, il s‘écoule un temps entre la perception de celui-ci et le début du freinage : c’est le temps de réaction. Ce temps dure en moyenne une seconde."
+      }
+     ],
+     "images": []
+    },
+    {
+     "num": "4.7",
+     "title": "Distance de sécurité",
+     "blocks": [
+      {
+       "t": "quote",
+       "text": "La distance de sécurité correspond à l’intervalle qu’il convient de laisser avec l’usager qui nous précède."
+      },
+      {
+       "t": "p",
+       "text": "Elle ne peut en aucun cas être inférieure à la distance parcourue pendant le temps de réaction. Pour une bonne sécurité, il est obligatoire de laisser un intervalle minimum correspondant à la distance parcourue pendant deux secondes soit une seconde de réaction + une seconde de sécurité."
+      },
+      {
+       "t": "p",
+       "text": "Le non-respect de cette distance de sécurité minimum donne lieu de plein droit à la réduction de trois points du permis de conduire. Il encourt égale- ment la peine complémentaire de suspension du permis de conduire pour une durée de trois ans au plus, cette suspension pouvant être limitée à la conduite en dehors de l’activité professionnelle."
+      }
+     ],
+     "images": [
+      {
+       "path": "img_4.7_18.jpeg",
+       "y0": 419.8550109863281,
+       "half": 0
+      }
+     ]
+    },
+    {
+     "num": "4.8",
+     "title": "Distance de freinage",
+     "blocks": [
+      {
+       "t": "quote",
+       "text": "La distance de freinage est la distance parcourue entre le moment où le conducteur commence à appuyer sur la pédale de frein, et celui où le véhicule s’arrête."
+      },
+      {
+       "t": "p",
+       "text": "Elle peut varier et être rallongée en fonction :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "de l’adhérence de la chaussée : pluie, neige, verglas, mauvais état de la chaussée ;",
+        "de l’état du système de freinage : réglage, usure des plaquettes et des disques ;",
+        "de l’état des amortisseurs ;",
+        "de la pression des pneus ;",
+        "de la pente de la chaussée ;",
+        "du chargement du véhicule : bagages et passagers ;",
+        "de l’expérience, de la technique et de l’état physique du conducteur."
+       ]
+      },
+      {
+       "t": "p",
+       "text": "Sur une route mouillée la distance de freinage est doublée. Quand la vitesse double la distance de freinage est multipliée par 4."
+      }
+     ],
+     "images": [
+      {
+       "path": "img_4.8_19.jpeg",
+       "y0": 298.27099609375,
+       "half": 1
+      }
+     ]
+    },
+    {
+     "num": "4.9",
+     "title": "Distance d’arrêt",
+     "blocks": [
+      {
+       "t": "quote",
+       "text": "Cette distance correspond à la distance parcourue pendant le temps de réaction ajoutée à la distance de freinage."
+      },
+      {
+       "t": "p",
+       "text": "Sur une route sèche, dans des conditions normales, on peut estimer la distance d’arrêt en multipliant par lui-même le chiffre des dizaines de la vitesse, soit :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "à 40 km/h, 4 x 4 = 16 m",
+        "à 50 km/h, 5 x 5 = 25 m",
+        "à 60 km/h, 6 x 6 = 36 m"
+       ]
+      },
+      {
+       "t": "p",
+       "text": "4.10 Véhicules équipés de pneus à crampons"
+      },
+      {
+       "t": "p",
+       "text": "La vitesse des véhicules d’un poids total autorisé en char- ge inférieur ou égal à 3,5 tonnes et des véhicules de transport en commun,équipés de pneus à crampons,est limitée à 90 km/h. En circulation, les conducteurs de ces véhicules doivent apposer, de façon visible à l’arrière de leur véhicule, sur la partie inférieure gauche, un disque sui- vant le modèle ci-contre. L’utilisation des pneus à crampons est autorisée entre le samedi précédant le 11 novembre et le dernier dimanche de mars."
+      },
+      {
+       "t": "p",
+       "text": "Rappel des infractions"
+      },
+      {
+       "t": "p",
+       "text": "Je perds 1 point si : Je dépasse la vitesse maximale autori- sée de moins de 20 km/h."
+      },
+      {
+       "t": "p",
+       "text": "Je perds 2 points si : Mon dépassement de la vitesse maximale autorisée est compris entre 20 et moins de 30 km/h."
+      },
+      {
+       "t": "p",
+       "text": "Je perds 3 points si : Mon dépassement de la vitesse maximale autorisée est compris entre 30 et moins de 40 km/h."
+      },
+      {
+       "t": "ul",
+       "items": [
+        "à 90 km/h, 9 x 9 = 81 m",
+        "à 110 km/h, 11 x 11 = 121 m",
+        "à 130 km/h, 13 x 13 = 169 m"
+       ]
+      },
+      {
+       "t": "p",
+       "text": "INTERSECTION ET PRIORITÉ INTERSECTION ET PRIORITÉ 5"
+      },
+      {
+       "t": "p",
+       "text": "Je perds 4 points si : Mon dépassement de la vitesse maximale autorisée est compris entre 40 et moins de 50 km/h."
+      },
+      {
+       "t": "p",
+       "text": "Je perds 6 points si : Je dépasse la vitesse maximale autori- sée de 50 km/h ou plus."
+      }
+     ],
+     "images": [
+      {
+       "path": "img_4.9_20.jpeg",
+       "y0": 241.466064453125,
+       "half": 0
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "section": "Intersection et priorité",
+   "lessons": [
+    {
+     "num": "5.1",
+     "title": "L’intersection",
+     "blocks": [
+      {
+       "t": "quote",
+       "text": "Lieu de jonction ou de croisement de deux ou plusieurs chaussées, quels que soient le ou les angles des axes de ces chaussées."
+      },
+      {
+       "t": "h",
+       "text": "INTERSECTION EN CROIX"
+      },
+      {
+       "t": "p",
+       "text": "Les deux chaussées se croisent perpendiculairement."
+      },
+      {
+       "t": "h",
+       "text": "INTERSECTION EN T"
+      },
+      {
+       "t": "p",
+       "text": "L’une des deux chaussées vient couper l’autre sans la traverser."
+      },
+      {
+       "t": "p",
+       "text": "ATTENTION ! Tout conducteur ne doit s’engager dans une intersection que si son véhicule ne risque pas d’y être immobilisé et d’empêcher le passage des véhicules circulant sur les autres voies."
+      },
+      {
+       "t": "p",
+       "text": "Tout conducteur, à l’approche d’une intersection de routes, doit :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "vérifier que la chaussée qu’il va croiser est libre ;",
+        "observer le comportement des autres conducteurs ;",
+        "respecter les règles de priorité ;",
+        "adapter son allure aux conditions de visibilité et aux circonstances ;",
+        "annoncer son approche si nécessaire."
+       ]
+      },
+      {
+       "t": "p",
+       "text": "Dans une intersection sans signalisation, c’est la règle de la priorité à droite qui s’applique."
+      },
+      {
+       "t": "h",
+       "text": "INTERSECTION EN Y"
+      },
+      {
+       "t": "p",
+       "text": "Les deux chaussées se rejoignent tangentiellement."
+      },
+      {
+       "t": "p",
+       "text": "La voiture bleue cède le passage à la voiture beige qui arrive à sa droite"
+      },
+      {
+       "t": "p",
+       "text": "Le véhicule bleu tourne à gauche : il cède la priorité au véhicule rouge qui sera à sa droite"
+      },
+      {
+       "t": "p",
+       "text": "INTERSECTION À BRANCHES MULTIPLES"
+      },
+      {
+       "t": "p",
+       "text": "LES RÈGLES DE PRIORITÉ SONT UN DEVOIR PAS UN DROIT !"
+      },
+      {
+       "t": "p",
+       "text": "Plusieurs chaussées se rejoignent."
+      },
+      {
+       "t": "p",
+       "text": "Ces balises indiquent seulement la position de l’intersection. En l’absence de toute autre signalisation, c’est la priorité à droite qui s’applique."
+      }
+     ],
+     "images": [
+      {
+       "path": "img_5.1_21.jpeg",
+       "y0": 179.551025390625,
+       "half": 0
+      },
+      {
+       "path": "img_5.1_22.jpeg",
+       "y0": 342.70697021484375,
+       "half": 0
+      },
+      {
+       "path": "img_5.1_23.jpeg",
+       "y0": 159.52301025390625,
+       "half": 1
+      },
+      {
+       "path": "img_5.1_24.jpeg",
+       "y0": 159.5469970703125,
+       "half": 1
+      },
+      {
+       "path": "img_5.1_25.jpeg",
+       "y0": 179.62698364257812,
+       "half": 1
+      },
+      {
+       "path": "img_5.1_26.jpeg",
+       "y0": 343.6470031738281,
+       "half": 1
+      },
+      {
+       "path": "img_5.1_27.jpeg",
+       "y0": 347.7090148925781,
+       "half": 1
+      }
+     ]
+    },
+    {
+     "num": "5.2",
+     "title": "La signalisation de priorité",
+     "blocks": [
+      {
+       "t": "quote",
+       "text": "Je peux passer À la prochaine intersection, les usagers de l’autre route doivent céder le passage."
+      },
+      {
+       "t": "p",
+       "text": "Je dois céder le passage Je m’arrête et je dois laisser la priorité aux véhicules venant de droite et de gauche."
+      },
+      {
+       "t": "p",
+       "text": "Je dois céder le passage Au carrefour à sens giratoire, je dois céder le passage aux véhicules qui y cir- culent et qui ne peuvent venir que de gauche."
+      }
+     ],
+     "images": [
+      {
+       "path": "img_5.2_28.jpeg",
+       "y0": 76.55198669433594,
+       "half": 0
+      },
+      {
+       "path": "img_5.2_29.jpeg",
+       "y0": 219.625,
+       "half": 0
+      },
+      {
+       "path": "img_5.2_30.jpeg",
+       "y0": 379.364990234375,
+       "half": 0
+      }
+     ]
+    },
+    {
+     "num": "5.3",
+     "title": "La priorité à droite",
+     "blocks": [
+      {
+       "t": "quote",
+       "text": "Je peux passer La route que j’emprunte est prioritaire, je bénéficie de la priorité de passage à toutes les intersections."
+      },
+      {
+       "t": "p",
+       "text": "Ce panneau annonce une intersection où je dois céder le passage aux véhi- cules venant de droite. Un panneau identique est implanté sur toutes les chaussées arrivant à cette intersection."
+      },
+      {
+       "t": "p",
+       "text": "Ma route n’est plus prioritaire Je dois laisser la priorité à droite, sauf indication contraire."
+      },
+      {
+       "t": "p",
+       "text": "Les véhicules doivent respecter la priorité à droite et l’ordre de passage est : 1 – voiture rouge ; 2 – voiture beige ; 3 – voiture bleue."
+      },
+      {
+       "t": "p",
+       "text": "Les véhicules doivent respecter la priorité à droite et l’ordre de passage est : 1 – voiture bleue jusqu’au milieu de la chaussée ; 2 – voiture beige, derrière la voiture bleue ; 3 – voiture rouge ; 4 –voiture bleue qui termine."
+      },
+      {
+       "t": "p",
+       "text": "Je dois céder le passage Je dois céder la priorité aux véhicules venant de droite et de gauche. Je m’ar- rête si nécessaire."
+      }
+     ],
+     "images": [
+      {
+       "path": "img_5.3_31.jpeg",
+       "y0": 161.72300720214844,
+       "half": 1
+      },
+      {
+       "path": "img_5.3_32.jpeg",
+       "y0": 161.72300720214844,
+       "half": 1
+      },
+      {
+       "path": "img_5.3_33.jpeg",
+       "y0": 219.625,
+       "half": 1
+      },
+      {
+       "path": "img_5.3_34.jpeg",
+       "y0": 285.52899169921875,
+       "half": 1
+      },
+      {
+       "path": "img_5.3_35.jpeg",
+       "y0": 285.52899169921875,
+       "half": 1
+      },
+      {
+       "path": "img_5.3_36.jpeg",
+       "y0": 368.5110168457031,
+       "half": 1
+      }
+     ]
+    },
+    {
+     "num": "5.4",
+     "title": "Les routes prioritaires",
+     "blocks": [
+      {
+       "t": "quote",
+       "text": "Ce panneau indique que la route où je circule est priori- taire à toutes les intersections. Il n’est pas implanté avant l’intersection mais au début de la route prioritaire et en rappel :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "50 mètres après une intersection pour informer les conducteurs qui rejoignent cette route ;",
+        "environ tous les kilomètres en agglomération et tous les 5 km hors agglomération."
+       ]
+      },
+      {
+       "t": "p",
+       "text": "Les voitures beige et bleue doivent céder le passage à la voiture rouge qui passe. La voiture bleue qui tourne à droite passe en 2e position, puis la voiture beige qui tourne à gauche passe derrière la voiture bleue car celle-ci arrive à sa droite."
+      },
+      {
+       "t": "h",
+       "text": "ENTRÉE D’AGGLOMÉRATION"
+      },
+      {
+       "t": "p",
+       "text": "La route peut conserver son caractère priori- taire pendant toute la traversée de l’agglo- mération. Dans ce cas, le panneau de priorité est implanté sur le même support que le panneau d’entrée d’agglomération."
+      },
+      {
+       "t": "p",
+       "text": "SORTIE D’AGGLOMÉRATION"
+      },
+      {
+       "t": "h",
+       "text": "PANONCEAUX SCHÉMAS"
+      },
+      {
+       "t": "p",
+       "text": "À certains carrefours complexes, un panonceau peut indiquer par un trait gras la direction de la route prioritaire : il est alors implanté sous le panneau de priorité."
+      },
+      {
+       "t": "p",
+       "text": "À la sortie de l’agglomération, la route reste ou devient prioritaire."
+      },
+      {
+       "t": "h",
+       "text": "FIN DU CARACTÈRE PRIORITAIRE"
+      },
+      {
+       "t": "p",
+       "text": "Ce panneau indique que la route perd son caractère prioritaire et en l’absence de toute autre signalisation, c’est la règle de la priorité à droite qui s’applique."
+      },
+      {
+       "t": "p",
+       "text": "Les voitures beige et bleue doivent céder le passage à la voiture rouge qui passe."
+      },
+      {
+       "t": "p",
+       "text": "La route perd son caractère prioritaire à l’entrée de cette agglomération. La règle de la priorité à droite s’applique, sauf indications contraires."
+      },
+      {
+       "t": "p",
+       "text": "Le véhicule doit, à partir de ce panneau, respecter la priorité à droite à toutes les intersections, sauf indications contraires."
+      }
+     ],
+     "images": [
+      {
+       "path": "img_5.4_37.png",
+       "y0": 87.84100341796875,
+       "half": 0
+      },
+      {
+       "path": "img_5.4_38.jpeg",
+       "y0": 180.37698364257812,
+       "half": 0
+      },
+      {
+       "path": "img_5.4_39.jpeg",
+       "y0": 62.80797576904297,
+       "half": 1
+      },
+      {
+       "path": "img_5.4_40.jpeg",
+       "y0": 77.11602020263672,
+       "half": 1
+      },
+      {
+       "path": "img_5.4_41.jpeg",
+       "y0": 180.31298828125,
+       "half": 1
+      },
+      {
+       "path": "img_5.4_42.jpeg",
+       "y0": 251.33200073242188,
+       "half": 1
+      },
+      {
+       "path": "img_5.4_43.jpeg",
+       "y0": 333.80499267578125,
+       "half": 1
+      },
+      {
+       "path": "img_5.4_44.jpeg",
+       "y0": 333.85400390625,
+       "half": 1
+      },
+      {
+       "path": "img_5.4_45.jpeg",
+       "y0": 407.80999755859375,
+       "half": 1
+      }
+     ]
+    },
+    {
+     "num": "5.5",
+     "title": "La priorité ponctuelle",
+     "blocks": [
+      {
+       "t": "quote",
+       "text": "Ce panneau annonce qu’à la prochaine intersection les usagers venant de droite et de gauche devront me céder le passage. Cette priorité ne concerne qu’une intersection, c’est une priorité ponctuelle."
+      },
+      {
+       "t": "p",
+       "text": "La voiture rouge tourne à gauche : les voitures beige et noire doivent céder le passage aux voitures rouge et bleue. L’ordre de passage est : 1 – voiture bleue ; 2 – voiture rouge qui tourne à gau- che derrière la voiture bleue ; 3 – voitures noire et beige."
+      }
+     ],
+     "images": [
+      {
+       "path": "img_5.5_46.jpeg",
+       "y0": 76.59300231933594,
+       "half": 0
+      },
+      {
+       "path": "img_5.5_47.jpeg",
+       "y0": 154.3660430908203,
+       "half": 0
+      }
+     ]
+    },
+    {
+     "num": "5.6",
+     "title": "Le stop",
+     "blocks": [
+      {
+       "t": "quote",
+       "text": "Le panneau “stop” est composé de trois éléments."
+      },
+      {
+       "t": "p",
+       "text": "1 3 2"
+      },
+      {
+       "t": "p",
+       "text": "Le panneau “Stop”"
+      },
+      {
+       "t": "p",
+       "text": "Une ligne blanche continue peinte sur toute la largeur des voies concernées. Cette ligne est un bon repère pour les usagers qui sont prioritaires. Dans ce cas, la ligne blanche fait toute la largeur de la chaussée ; celle-ci est donc à sens unique."
+      },
+      {
+       "t": "p",
+       "text": "Le panneau avancé"
+      },
+      {
+       "t": "p",
+       "text": "Cette signalisation impose de :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "marquer l’arrêt,même en l’absence d’autres usagers,à la limite de la chaussée abordée ;",
+        "céder le passage aux véhicules venant de droite et de gauche ;",
+        "s’arrêter au niveau de la ligne blanche sans la dépasser."
+       ]
+      },
+      {
+       "t": "p",
+       "text": "La voiture bleue tourne à gauche : la voiture noire et la voiture beige doi- vent céder le passage aux voitures rouge et bleue. L’ordre de passage est : 1 – voiture bleue jusqu’au milieu de l’intersection ; 2 – voiture rouge ; 3 – voiture bleue qui termine ; 4 –la voiture noire et la voiture beige."
+      },
+      {
+       "t": "p",
+       "text": "La voiture bleue tourne à gauche : elle s’avance jusqu’au milieu de la chaussée et passe derrière la voiture noire."
+      },
+      {
+       "t": "p",
+       "text": "Le véhicule rouge à la priorité de passage. Les voitures noire et bleue doivent marquer l’arrêt et céder le passage."
+      }
+     ],
+     "images": [
+      {
+       "path": "img_5.6_48.jpeg",
+       "y0": 118.02398681640625,
+       "half": 1
+      },
+      {
+       "path": "img_5.6_49.jpeg",
+       "y0": 118.17498779296875,
+       "half": 1
+      },
+      {
+       "path": "img_5.6_50.jpeg",
+       "y0": 119.13102722167969,
+       "half": 1
+      },
+      {
+       "path": "img_5.6_51.jpeg",
+       "y0": 253.78001403808594,
+       "half": 1
+      },
+      {
+       "path": "img_5.6_52.jpeg",
+       "y0": 373.5890197753906,
+       "half": 1
+      },
+      {
+       "path": "img_5.6_53.jpeg",
+       "y0": 373.7239990234375,
+       "half": 1
+      }
+     ]
+    },
+    {
+     "num": "5.7",
+     "title": "Cédez le passage",
+     "blocks": [
+      {
+       "t": "quote",
+       "text": "Le panneau “Cédez le passage” est composé de trois éléments."
+      },
+      {
+       "t": "p",
+       "text": "1 3 2"
+      },
+      {
+       "t": "p",
+       "text": "Le panneau “Cédez le passage” Le panneau avancé Une ligne blanche discontinue peinte sur toute la largeur des voies concernées. Cette ligne est un bon repère pour les usagers qui sont prioritaires."
+      },
+      {
+       "t": "p",
+       "text": "Cette signalisation impose de :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "céder le passage aux véhicules venant de droite et de gauche, sans obligatoirement marquer l’arrêt ;",
+        "s’arrêter si besoin au niveau de la ligne blanche discontinue sans la dépasser."
+       ]
+      },
+      {
+       "t": "p",
+       "text": "L’ordre de passage est : 1 - le véhicule rouge ; 2- la voiture beige ; 3- la voiture bleue."
+      }
+     ],
+     "images": [
+      {
+       "path": "img_5.7_54.jpeg",
+       "y0": 122.82000732421875,
+       "half": 0
+      },
+      {
+       "path": "img_5.7_55.jpeg",
+       "y0": 123.65201568603516,
+       "half": 0
+      },
+      {
+       "path": "img_5.7_56.jpeg",
+       "y0": 341.31500244140625,
+       "half": 0
+      }
+     ]
+    },
+    {
+     "num": "5.8",
+     "title": "Le carrefour à sens giratoire",
+     "blocks": [
+      {
+       "t": "quote",
+       "text": "C’est une place ou un carrefour comportant un terre-plein central matérielle- ment infranchissable, ceinturé par une chaussée à sens unique sur laquelle débouchent différentes routes. Il est annoncé par une signalisation spécifique."
+      },
+      {
+       "t": "h",
+       "text": "CARREFOUR SANS SIGNALISATION"
+      },
+      {
+       "t": "p",
+       "text": "C’est la règle de la priorité à droite qui s’applique ;les usagers qui circu- lent sur le carrefour doivent céder la priorité à droite aux usagers qui abordent le carrefour."
+      },
+      {
+       "t": "h",
+       "text": "CARREFOUR AVEC SIGNALISATION"
+      },
+      {
+       "t": "p",
+       "text": "Ce panneau indique que les usagers qui abordent le rond-point doivent céder le passage aux usagers qui y circulent et qui ne peuvent venir que de gauche."
+      },
+      {
+       "t": "p",
+       "text": "La voiture bleue doit céder le passage à la voiture rouge."
+      },
+      {
+       "t": "p",
+       "text": "La voiture bleue doit céder le passage aux voitures biege et rouge."
+      }
+     ],
+     "images": [
+      {
+       "path": "img_5.8_57.jpeg",
+       "y0": 122.14300537109375,
+       "half": 1
+      },
+      {
+       "path": "img_5.8_58.jpeg",
+       "y0": 178.78500366210938,
+       "half": 1
+      },
+      {
+       "path": "img_5.8_59.jpeg",
+       "y0": 322.468994140625,
+       "half": 1
+      },
+      {
+       "path": "img_5.8_60.jpeg",
+       "y0": 341.3160095214844,
+       "half": 1
+      },
+      {
+       "path": "img_5.8_61.jpeg",
+       "y0": 385.0570068359375,
+       "half": 1
+      }
+     ]
+    },
+    {
+     "num": "5.9",
+     "title": "Les feux tricolores",
+     "blocks": [
+      {
+       "t": "quote",
+       "text": "Les feux ont pour but d’améliorer la sécurité et la fluidité de la circulation. Ils comportent trois couleurs : vert, jaune et rouge. Une ligne d’effet peut les compléter, elle indique la limite où l’usager doit marquer l’arrêt."
+      },
+      {
+       "t": "h",
+       "text": "FEU VERT"
+      },
+      {
+       "t": "h",
+       "text": "FEU JAUNE"
+      },
+      {
+       "t": "h",
+       "text": "FEU ROUGE"
+      },
+      {
+       "t": "p",
+       "text": "Dans ce carrefour à plusieurs voies, je peux circuler sur les voies de gauche si je souhaite rejoindre les chaussées situées sur la gauche par rapport à la chaussée située dans le prolongement de celle par laquelle j’aborde le carrefour."
+      },
+      {
+       "t": "p",
+       "text": "Le feu jaune annonce le feu rouge. Je dois m’arrêter sauf lorsque je suis trop près du feu et que l’arrêt ne peut se faire en toute sécurité : risque de dérapage ou véhicule suivant trop près."
+      },
+      {
+       "t": "p",
+       "text": "Le feu rouge impose l’arrêt. Je dois m’arrêter à l’aplomb du feu ou à la ligne d’effet, sans empiéter sur un passage pour piétons."
+      },
+      {
+       "t": "p",
+       "text": "FEU ROUGE AVEC FLÈCHE JAUNE CLIGNOTANTE"
+      },
+      {
+       "t": "p",
+       "text": "FEU EN FORME DE FLÈCHE"
+      },
+      {
+       "t": "p",
+       "text": "Le feu vert donne l’autorisation de passer pendant que les usagers de la rue transversale sont arrêtés au feu rouge. Je ne dois pas m’engager si je risque d’être immobilisé et de bloquer la circulation de la voie transversale."
+      },
+      {
+       "t": "p",
+       "text": "Le feu tricolore rouge peut être complété par une flèche jaune cligno- tante ; elle autorise à suivre la direction de cette flèche, mais je dois céder le passage aux piétons et aux véhicules circulant sur la chaussée abordée."
+      },
+      {
+       "t": "p",
+       "text": "Les feux en forme de flèche ont la même signification que les feux tricolores. Ils permettent de différencier les directions affectées à chaque voie et sont souvent complétés par des flèches au sol.Je ne tiens compte que du feu correspondant à ma voie de circulation."
+      },
+      {
+       "t": "p",
+       "text": "5.10 Les feux clignotants"
+      },
+      {
+       "t": "p",
+       "text": "Il existe deux couleurs de feux clignotants : jaune et rouge."
+      },
+      {
+       "t": "p",
+       "text": "FEU ROUGE CLIGNOTANT"
+      },
+      {
+       "t": "p",
+       "text": "Un feu rouge clignotant impose l’arrêt absolu. On peut le rencontrer :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "aux passages à niveau ;",
+        "aux traversées d’avions sur la route ;",
+        "à proximité des dangers aériens ;",
+        "aux débouchés des casernes de pompiers ;",
+        "aux entrées de ponts ou d’appon- tement de bacs…"
+       ]
+      },
+      {
+       "t": "p",
+       "text": "Ils sont tenus à bout de bras ou placés temporairement sur la route par les forces de l’ordre : police, gendarmerie ou douane."
+      },
+      {
+       "t": "p",
+       "text": "5.11 Les feux avec signalisation"
+      },
+      {
+       "t": "p",
+       "text": "Un panneau de signalisation peut être implanté sur le support d’un feu. Si le feu est éteint ou jaune clignotant, je dois respecter la signalisation. Dans tous les autres cas, je dois respecter les feux tricolores."
+      },
+      {
+       "t": "p",
+       "text": "FEU JAUNE CLIGNOTANT"
+      },
+      {
+       "t": "h",
+       "text": "FEU D’EXPLOITATION PAR VOIE"
+      },
+      {
+       "t": "p",
+       "text": "Feu jaune clignotant : prudence, ralentir ! Les règles générales de priorité s’appliquent ; je dois respecter la signalisation si elle existe."
+      },
+      {
+       "t": "p",
+       "text": "La circulation peut être réglementée par voie ; des feux sont alors placés au-dessus de chacune."
+      },
+      {
+       "t": "ul",
+       "items": [
+        "Le feu rouge est en forme de croix : la voie est interdite.",
+        "Le feu vert est en forme de flèche : la voie est autorisée.",
+        "Ces feux sont également utilisés au poste de péage pour indiquer les voies ouvertes et fermées."
+       ]
+      },
+      {
+       "t": "p",
+       "text": "Le feu jaune clignotant peut être tout seul pour attirer l’attention sur un point dangereux : sortie d’école, sortie d’usine, etc."
+      },
+      {
+       "t": "p",
+       "text": "Le feu jaune clignotant peut remplacer le feu vert placé aux carrefours complexes ; je dois m’apprêter à ralentir, voire à céder le passage à droite."
+      },
+      {
+       "t": "h",
+       "text": "FEU BICOLORE"
+      },
+      {
+       "t": "p",
+       "text": "Le feu bicolore rouge-vert est principalement utilisé pour les postes de péage. Rouge = arrêt absolu et vert = passage ouvert."
+      },
+      {
+       "t": "p",
+       "text": "Il ne donne pas la priorité à droite, d’autres voies peuvent avoir en même temps un feu jaune cligno- tant. Dans ce cas, c’est la règle de la priorité à droite qui s’applique."
+      },
+      {
+       "t": "p",
+       "text": "5.12 Le véhicule prioritaire"
+      },
+      {
+       "t": "h",
+       "text": "VÉHICULES D’INTÉRÊT GÉNÉRAL PRIORITAIRE"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "véhicule des services de police,",
+        "véhicule de gendarmerie,",
+        "véhicule des douanes,",
+        "véhicule de lutte contre l'incendie,",
+        "véhicule d'intervention des unités mobiles hospitalières,",
+        "véhicule du ministère de la Justice affecté au transport des détenus ;"
+       ]
+      },
+      {
+       "t": "p",
+       "text": "Ces véhicules sont prioritaires lorsqu’ils annoncent leur approche par l’em- ploi de leurs avertisseurs sonores spéciaux ou lumineux bleus tournants ou les deux en même temps. Leur vitesse n’est pas limitée. Tous les autres usagers doivent :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "céder le passage aux intersections ;",
+        "ralentir ;",
+        "faciliter leur progression et, si besoin, s’arrêter."
+       ]
+      },
+      {
+       "t": "p",
+       "text": "Il est interdit de suivre ces véhicules."
+      },
+      {
+       "t": "p",
+       "text": "VÉHICULES D’INTÉRÊT GÉNÉRAL PRIORITAIRE BÉNÉFICIANT DE FACILITÉS DE PASSAGE"
+      },
+      {
+       "t": "p",
+       "text": "Lorsqu’ils annoncent leur approche par l’emploi de leurs avertisseurs sonores spé- ciaux ou lumineux bleus tournants, ou les deux en même temps, on doit faciliter le passage des véhicules suivants :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "ambulance de transport sanitaire,",
+        "véhicule d'intervention d'Electricité de France et de Gaz de France,",
+        "véhicule du service de la surveillance de la Société nationale des chemins de fer français,",
+        "véhicule de transports de fonds de la Banque de France,",
+        "véhicule des associations médicales concourant à la permanence des soins,",
+        "véhicule des médecins lorsqu'ils participent à la garde départementale,",
+        "engin de service hivernal,",
+        "véhicule d'intervention des services gestionnaires sur autoroutes ou routes à deux chaussées séparées."
+       ]
+      },
+      {
+       "t": "h",
+       "text": "TRANSPORTS EN COMMUN, EN AGGLOMÉRATION"
+      },
+      {
+       "t": "p",
+       "text": "Je dois ralentir et éventuellement m’arrêter pour leur permettre de quitter leur arrêt et faciliter leur passage si la largeur de la chaussée est insuffisante."
+      },
+      {
+       "t": "h",
+       "text": "FORCES DE L’ORDRE"
+      },
+      {
+       "t": "p",
+       "text": "Leur rôle est :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "de faciliter l’écoulement de la circulation ;",
+        "de contrôler les papiers,l’alcoolémie du conducteur et l’état du véhicule ;",
+        "de constater les infractions ;",
+        "d’organiser les secours en cas d’accident."
+       ]
+      },
+      {
+       "t": "p",
+       "text": "Les indications données par les forces de l’ordre annulent et remplacent :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "toutes les signalisations ;",
+        "les feux de signalisation ;",
+        "les règles de circulation."
+       ]
+      },
+      {
+       "t": "p",
+       "text": "5.13 Autres cas de priorité"
+      },
+      {
+       "t": "h",
+       "text": "PIÉTONS"
+      },
+      {
+       "t": "p",
+       "text": "Tout conducteur est tenu de céder le passage aux piétons régulièrement engagés dans la traversée d’une chaussée. Je dois donc céder le passage aux piétons qui traversent la chaussée, qu’ils viennent de droite ou de gau- che, même s’ils ne sont pas dans un passage pour piétons."
+      },
+      {
+       "t": "p",
+       "text": "Le non-respect de cette priorité entraîne une perte de quatre points du permis de conduire."
+      },
+      {
+       "t": "p",
+       "text": "Ils doivent emprunter ceux-ci s’ils sont situés à moins de 50 mètres."
+      },
+      {
+       "t": "h",
+       "text": "SORTIE D’IMMEUBLE OU DE RÉSIDENCE PRIVÉE"
+      },
+      {
+       "t": "h",
+       "text": "CHEMIN DE TERRE"
+      },
+      {
+       "t": "h",
+       "text": "VOIES PARTICULIÈRES"
+      },
+      {
+       "t": "p",
+       "text": "Rappel des infractions"
+      },
+      {
+       "t": "p",
+       "text": "Je perds quatre points sur mon permis de conduire si :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "Je ne respecte pas la priorité (intersection, piéton...).",
+        "Je ne respecte pas l'arrêt imposé par le panneau « stop » ou par le feu rouge fixe ou clignotant."
+       ]
+      },
+      {
+       "t": "p",
+       "text": "En sortant, je dois céder le passage aux usagers venant de droite ou de gauche ainsi qu’aux piétons circulant sur le trottoir. Je roule lentement pour pouvoir m’arrêter rapidement si nécessaire."
+      },
+      {
+       "t": "p",
+       "text": "C’est une voie non ouverte à la circulation publique qui, en général, n’est pas goudronnée. En débouchant d’un chemin de terre je dois céder la priorité aux usagers venant de droite et de gauche."
+      },
+      {
+       "t": "p",
+       "text": "CROISEMENTS ET DÉPASSEMENTS CROISEMENTS ET DÉPASSEMENTS 6"
+      },
+      {
+       "t": "p",
+       "text": "En arrivant à la fin d’une voie réser- vée aux véhicules lents, ou à la fin d’une voie d’insertion, je dois la priorité aux usagers circulant sur les voies principales."
+      }
+     ],
+     "images": [
+      {
+       "path": "img_5.9_62.jpeg",
+       "y0": 387.19598388671875,
+       "half": 0
+      },
+      {
+       "path": "img_5.9_63.jpeg",
+       "y0": 63.36601257324219,
+       "half": 1
+      },
+      {
+       "path": "img_5.9_64.jpeg",
+       "y0": 63.41400146484375,
+       "half": 1
+      },
+      {
+       "path": "img_5.9_65.jpeg",
+       "y0": 288.3080139160156,
+       "half": 1
+      },
+      {
+       "path": "img_5.9_66.jpeg",
+       "y0": 289.0059814453125,
+       "half": 1
+      },
+      {
+       "path": "img_5.9_67.jpeg",
+       "y0": 156.22801208496094,
+       "half": 0
+      },
+      {
+       "path": "img_5.9_68.jpeg",
+       "y0": 156.2279815673828,
+       "half": 1
+      },
+      {
+       "path": "img_5.9_69.jpeg",
+       "y0": 184.56201171875,
+       "half": 1
+      },
+      {
+       "path": "img_5.9_70.jpeg",
+       "y0": 98.38298797607422,
+       "half": 1
+      },
+      {
+       "path": "img_5.9_71.jpeg",
+       "y0": 114.20502471923828,
+       "half": 1
+      },
+      {
+       "path": "img_5.9_72.jpeg",
+       "y0": 328.4670104980469,
+       "half": 1
+      },
+      {
+       "path": "img_5.9_73.jpeg",
+       "y0": 336.76104736328125,
+       "half": 1
+      },
+      {
+       "path": "img_5.9_74.jpeg",
+       "y0": 63.52001953125,
+       "half": 0
+      },
+      {
+       "path": "img_5.9_75.jpeg",
+       "y0": 192.68902587890625,
+       "half": 0
+      },
+      {
+       "path": "img_5.9_76.jpeg",
+       "y0": 317.60400390625,
+       "half": 0
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "section": "Croisements et dépassements",
+   "lessons": [
+    {
+     "num": "6.1",
+     "title": "Croisements",
+     "blocks": [
+      {
+       "t": "quote",
+       "text": "Arrivé à un croisement, chaque conducteur doit serrer sur sa droite autant que le lui permet la présence des autres usagers. Face à un obstacle, le conducteur ralentit et s’arrête si besoin pour laisser passer les véhicules venant en sens inverse."
+      },
+      {
+       "t": "h",
+       "text": "CROISEMENT DANS UNE INTERSECTION"
+      },
+      {
+       "t": "h",
+       "text": "CROISEMENT DIFFICILE"
+      },
+      {
+       "t": "p",
+       "text": "Le conducteur d’un véhicule, dont le gabarit chargement compris dépasse 2 mètres de largeur ou 7 mètres de longueur, doit réduire sa vitesse et, au besoin, s’arrêter ou se garer pour laisser le passage aux véhicules de dimen- sions inférieures. En agglomération, il faut faciliter le passage aux véhicules de transport en commun et si besoin s’arrêter."
+      }
+     ],
+     "images": [
+      {
+       "path": "img_6.1_77.jpeg",
+       "y0": 178.39100646972656,
+       "half": 0
+      },
+      {
+       "path": "img_6.1_78.jpeg",
+       "y0": 316.66400146484375,
+       "half": 0
+      }
+     ]
+    },
+    {
+     "num": "6.2",
+     "title": "Sur une chaussée en pente",
+     "blocks": [
+      {
+       "t": "quote",
+       "text": "Dans une intersection, deux véhicu- les qui tournent à gauche se contournent par la droite. Dans certaines intersections, le marquage au sol peut permettre de se croiser par la gauche sans se contourner. Ces carrefours sont dits « à l’indonésienne »."
+      },
+      {
+       "t": "p",
+       "text": "Lorsque, sur les routes de montagne et sur les routes à forte déclivité, le croisement se révèle difficile, le véhicule descendant doit s’arrêter le premier et ce, quelles que soient les dimensions du véhicule."
+      },
+      {
+       "t": "p",
+       "text": "En cas de croisement impossible,un des deux véhicules doit faire marche arrière. Cette obligation s’applique :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "à un véhicule unique par rapport à un ensemble de véhicules ;",
+        "au véhicule le plus léger des deux ;",
+        "à un véhicule de transport de marchandises d’un poids total autorisé en charge supérieur à 3,5 tonnes par rapport à un véhicule de transport en commun."
+       ]
+      },
+      {
+       "t": "p",
+       "text": "Lorsqu’il s’agit de véhicules de la même catégorie, c’est le conducteur du véhicule descendant qui doit faire marche arrière, sauf si cela est manifes- tement plus facile pour le conducteur du véhicule montant, notamment si celui-ci se trouve près d’une place d’évitement. Trois exemples qui appliquent ces règles :"
+      },
+      {
+       "t": "p",
+       "text": "Lorsque la largeur, le profil ou l’état de la chaussée ne permettent pas le croisement avec facilité et en toute sécurité, certains conducteurs doivent laisser passer les autres."
+      },
+      {
+       "t": "p",
+       "text": "1 – caravane-voiture ; la caravane qui descend est prioritaire par rapport à la voiture qui monte. La voiture, véhicule plus maniable, doit faire mar- che arrière."
+      },
+      {
+       "t": "p",
+       "text": "2 – car-camion ; le car qui descend est prioritaire par rapport au camion qui monte. Le camion doit faire marche arrière."
+      },
+      {
+       "t": "p",
+       "text": "3 – camion-voiture. la voiture qui descend cède le passage au camion qui monte. C'est la voiture qui doit reculer."
+      }
+     ],
+     "images": []
+    },
+    {
+     "num": "6.3",
+     "title": "Dépassements",
+     "blocks": [
+      {
+       "t": "h",
+       "text": "GÉNÉRALITÉS"
+      },
+      {
+       "t": "p",
+       "text": "Les dépassements s’effectuent par la gauche. Le conducteur qui effectue un dépassement par la gauche ne peut emprunter la moitié gauche de la chaussée que s’il ne gêne pas la circulation en sens inverse."
+      },
+      {
+       "t": "p",
+       "text": "Lorsqu’une chaussée à double sens de circulation comporte plus de deux voies, matérialisées ou non, le conducteur effectuant un dépassement ne doit pas emprunter la voie la plus à gauche."
+      },
+      {
+       "t": "h",
+       "text": "ANGLE MORT"
+      },
+      {
+       "t": "p",
+       "text": "L’angle mort correspond à une zone qui n’est pas visible par le conducteur avec les rétroviseurs. Le conducteur doit s’assurer de l’absence d’usagers dans cette zone par une vision directe."
+      },
+      {
+       "t": "h",
+       "text": "AVANT LE DÉPASSEMENT"
+      },
+      {
+       "t": "p",
+       "text": "Tout conducteur doit s’assurer qu’il peut effectuer un dépassement sans danger si :"
+      },
+      {
+       "t": "p",
+       "text": "Pour effectuer le dépassement, il doit se déporter suffisamment pour ne pas risquer de heurter l’usager qu’il veut dépasser."
+      },
+      {
+       "t": "p",
+       "text": "PENDANT LE DÉPASSEMENT"
+      },
+      {
+       "t": "p",
+       "text": "APRÈS LE DÉPASSEMENT"
+      },
+      {
+       "t": "p",
+       "text": "Tout conducteur sur le point d’être dépassé doit serrer sur sa droite sans accélérer l’allure."
+      },
+      {
+       "t": "p",
+       "text": "Tout conducteur doit revenir sur sa droite sans provoquer le ralentisse- ment du véhicule dépassé."
+      },
+      {
+       "t": "p",
+       "text": "Deux exceptions : il est permis de dépasser par la droite :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "les véhicules qui tournent à gauche et dont le conducteur a signalé qu’il se disposait à changer de direction vers la gauche ;",
+        "un tramway qui circule au milieu d’une chaussée à double sens."
+       ]
+      },
+      {
+       "t": "ul",
+       "items": [
+        "il a la possibilité de reprendre sa place sans gêner la circulation ;",
+        "la vitesse relative des deux véhi- cules permet d’effectuer le dépas- sement dans un temps suffisam- ment bref ;",
+        "il n’est pas lui-même sur le point d’être dépassé ;",
+        "il allume son clignotant gauche ;",
+        "il a une bonne visibilité."
+       ]
+      },
+      {
+       "t": "h",
+       "text": "SANCTION"
+      },
+      {
+       "t": "p",
+       "text": "Pour toutes les infractions concernant les dépassements décrits dans ces deux pages, le conducteur encourt :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "une amende ;",
+        "la perte de plein droit de trois points du permis de conduire ;",
+        "une peine complémentaire de suspension du permis de conduire pour une durée de trois ans au plus, cette suspension pouvant être limitée à la conduite en dehors de l’activité professionnelle."
+       ]
+      }
+     ],
+     "images": [
+      {
+       "path": "img_6.3_79.jpeg",
+       "y0": 353.781982421875,
+       "half": 0
+      },
+      {
+       "path": "img_6.3_80.jpeg",
+       "y0": 186.90199279785156,
+       "half": 1
+      },
+      {
+       "path": "img_6.3_81.jpeg",
+       "y0": 192.43899536132812,
+       "half": 1
+      },
+      {
+       "path": "img_6.3_82.jpeg",
+       "y0": 295.8139953613281,
+       "half": 1
+      }
+     ]
+    },
+    {
+     "num": "6.4",
+     "title": "Dépassements interdits",
+     "blocks": [
+      {
+       "t": "quote",
+       "text": "Tout dépassement est interdit sur les chaussées à double sens de circulation, lorsque la visibilité vers l’avant n’est pas suffisante. Cette interdiction concerne les cas suivants :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "Dans un virage"
+       ]
+      },
+      {
+       "t": "ul",
+       "items": [
+        "En suivant un véhicule qui masque la visibilité"
+       ]
+      },
+      {
+       "t": "ul",
+       "items": [
+        "Aux intersections où il faut céder le passage"
+       ]
+      },
+      {
+       "t": "p",
+       "text": "Tout dépassement autre que celui des deux roues est interdit aux intersections où il faut céder le passage, c’est-à-dire :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "dans les intersections sans signalisation ;",
+        "dans les intersections signalées par des panneaux de priorité ;",
+        "dans les intersections dont le franchissement est réglé par un feu de signalisation jaune clignotant."
+       ]
+      },
+      {
+       "t": "p",
+       "text": "En cas d’infraction, le conducteur encourt :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "une amende ;",
+        "la perte de plein droit de trois points du permis de conduire ;",
+        "une peine complémentaire de suspension du permis de conduire pour une durée de trois ans au plus,cette suspension pouvant être limitée à la conduite en dehors de l’activité professionnelle."
+       ]
+      },
+      {
+       "t": "ul",
+       "items": [
+        "Chemin de fer et tramway"
+       ]
+      },
+      {
+       "t": "p",
+       "text": "Tout dépassement est interdit aux traversées de voies ferrées non munies de barrières ou de demi-barrières, même celui d’un deux-roues."
+      },
+      {
+       "t": "ul",
+       "items": [
+        "Au sommet d’une côte"
+       ]
+      },
+      {
+       "t": "p",
+       "text": "Sauf si cette manœuvre laisse libre la partie de la chaussée située à gauche d’une ligne continue ou si, s’agissant de dépasser un véhicule à deux roues, cette manœuvre laisse libre la moitié gauche de la chaussée."
+      },
+      {
+       "t": "p",
+       "text": "Il est interdit de dépasser un train ou un tramway à l’arrêt pendant la montée ou la descente des voyageurs du côté où elle s’effectue."
+      },
+      {
+       "t": "h",
+       "text": "SIGNALISATION D’INTERDICTION"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "Par temps de mauvaise visibilité"
+       ]
+      },
+      {
+       "t": "p",
+       "text": "Brouillard, chute de neige ou pluie."
+      },
+      {
+       "t": "p",
+       "text": "Interdiction de dépasser tous les véhicules à moteur autres que ceux à deux roues sans side-car. On peut dépasser :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "un vélo ;",
+        "un cyclomoteur ;",
+        "une moto sans side-car."
+       ]
+      },
+      {
+       "t": "p",
+       "text": "Interdiction aux véhicules automobi- les, véhicules articulés ou ensemble de véhicules, affectés au transport de marchandises (dont le poids total autorisé en charge ou le poids total roulant autorisé est supérieur à 3,5 tonnes) de dépasser tous les véhicules à moteur autres que ceux à deux roues sans side-car."
+      },
+      {
+       "t": "h",
+       "text": "SIGNALISATION DE FIN D’INTERDICTION"
+      },
+      {
+       "t": "p",
+       "text": "Fin de toutes les interdictions précédemment signalées, imposées aux véhicules en mouvement."
+      },
+      {
+       "t": "p",
+       "text": "Fin d’interdiction de dépasser tous les véhicules à moteur autres que ceux à deux roues sans side-car."
+      },
+      {
+       "t": "p",
+       "text": "Fin d’interdiction de dépasser pour les véhicules auto- mobiles, véhicules articulés ou ensemble de véhicules, affectés au transport de marchandises (dont le poids total autorisé en charge ou le poids total roulant autorisé est supérieur à 3,5 tonnes), tous les véhicules à moteur autres que ceux à deux roues sans side-car."
+      },
+      {
+       "t": "p",
+       "text": "LE MARQUAGE AU SOL PEUT INTERDIRE LE DÉPASSEMENT"
+      },
+      {
+       "t": "p",
+       "text": "On ne peut pas dépasser si la manœuvre oblige à chevaucher ou à franchir :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "une ligne blanche ;",
+        "une ligne mixte si la ligne continue est immédiatement à gauche du véhicule."
+       ]
+      },
+      {
+       "t": "p",
+       "text": "Pour le franchissement d’une ligne continue, le conducteur encourt :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "une amende ;",
+        "la perte de plein droit de trois points du permis de conduire ;",
+        "une peine complémentaire de suspension du permis de conduire pour une durée de trois ans au plus, cette suspension pouvant être limitée à la conduite en dehors de l’activité professionnelle."
+       ]
+      },
+      {
+       "t": "p",
+       "text": "Pour le chevauchement d’une ligne continue, le conducteur encourt :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "une amende ;",
+        "la perte de plein droit d’un point du permis de conduire ;",
+        "une peine complémentaire de suspension du permis de conduire pour une durée de trois ans au plus, cette suspension pouvant être limitée à la conduite en dehors de l’activité professionnelle."
+       ]
+      }
+     ],
+     "images": [
+      {
+       "path": "img_6.4_83.jpeg",
+       "y0": 172.22900390625,
+       "half": 0
+      },
+      {
+       "path": "img_6.4_84.jpeg",
+       "y0": 308.1750183105469,
+       "half": 0
+      },
+      {
+       "path": "img_6.4_85.jpeg",
+       "y0": 232.02001953125,
+       "half": 1
+      },
+      {
+       "path": "img_6.4_86.jpeg",
+       "y0": 232.02001953125,
+       "half": 1
+      },
+      {
+       "path": "img_6.4_87.jpeg",
+       "y0": 443.3900146484375,
+       "half": 1
+      },
+      {
+       "path": "img_6.4_88.jpeg",
+       "y0": 40.343017578125,
+       "half": 0
+      },
+      {
+       "path": "img_6.4_89.jpeg",
+       "y0": 122.91000366210938,
+       "half": 0
+      },
+      {
+       "path": "img_6.4_90.jpeg",
+       "y0": 239.26800537109375,
+       "half": 0
+      }
+     ]
+    },
+    {
+     "num": "6.5",
+     "title": "Dépassements autorisés",
+     "blocks": [
+      {
+       "t": "quote",
+       "text": "Le dépassement est autorisé dans les intersections :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "où j’ai la priorité de passage ;",
+        "dont le franchissement est réglé par un feu de signalisation tricolore."
+       ]
+      },
+      {
+       "t": "p",
+       "text": "Le dépassement est aussi autorisé :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "aux traversées de voies ferrées munies de barrières ou de demi-barrières ;",
+        "quand, sur une chaussée à plus de deux voies, une ligne continue est située au-delà de la deuxième voie et que l’on peut dépasser sans franchir cette ligne ;",
+        "en cas de ligne mixte avec la ligne discontinue immédiatement à gauche du véhicule."
+       ]
+      },
+      {
+       "t": "p",
+       "text": "La ligne à traits rapprochés, dite « ligne de dissuasion », remplace la ligne continue dans les portions de routes étroites."
+      },
+      {
+       "t": "p",
+       "text": "Le dépassement d’un véhicule roulant lentement est autorisé si les condi- tions de visibilité le permettent."
+      },
+      {
+       "t": "p",
+       "text": "Lorsque, sur les routes à sens unique et sur les routes à plus de deux voies, la circulation s’est, en raison de sa densité, établie en file ininterrompue sur toutes les voies, le fait que les véhicules d’une file circulent plus vite que les véhicules d’une autre file n’est pas considéré comme un dépassement."
+      },
+      {
+       "t": "p",
+       "text": "Rappel des infractions"
+      },
+      {
+       "t": "p",
+       "text": "Je perds 3 points sur mon permis de conduire si :"
+      },
+      {
+       "t": "p",
+       "text": "Je circule sans motif sur la partie gauche de la chaussée. Je franchis une ligne continue seule ou non doublée par une ligne discontinue. J'effectue un dépassement dangereux. Je ne respecte pas les distances de sécurité entre véhicules."
+      },
+      {
+       "t": "p",
+       "text": "Je perds 2 points si :"
+      },
+      {
+       "t": "p",
+       "text": "J'accélère alors que je suis sur le point d'être dépassé."
+      },
+      {
+       "t": "p",
+       "text": "Je perds 1 point si :"
+      },
+      {
+       "t": "p",
+       "text": "Je chevauche une ligne continue seule ou non doublée par une ligne disconti- nue. (Il y a chevauchement lorsque la ligne continue n'est pas franchie par la totalité du véhicule.)"
+      },
+      {
+       "t": "p",
+       "text": "L’ARRÊT ET LE STATIONNEMENT L’ARRÊT ET LE STATIONNEMENT 7"
+      }
+     ],
+     "images": [
+      {
+       "path": "img_6.5_91.jpeg",
+       "y0": 315.59100341796875,
+       "half": 1
+      },
+      {
+       "path": "img_6.5_92.jpeg",
+       "y0": 102.03899383544922,
+       "half": 0
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "section": "L'arrêt et le stationnement",
+   "lessons": [
+    {
+     "num": "7.1",
+     "title": "Définition de l'arrêt",
+     "blocks": [
+      {
+       "t": "quote",
+       "text": "C’est l’immobilisation momentanée d’un véhicule sur une route durant le temps nécessaire à la montée ou la descente de personnes, au chargement ou au déchargement du véhicule, le conducteur restant aux commandes ou à proximité de celui-ci pour pouvoir, le cas échéant, le déplacer."
+      },
+      {
+       "t": "h",
+       "text": "INTERDICTION DE S’ARRÊTER"
+      },
+      {
+       "t": "p",
+       "text": "Quand l’arrêt est interdit, il est également interdit de stationner. Signalées par le panneau ci-contre, ces interdictions de stationner ou de s’arrêter s’appliquent, sauf avis contraire, jusqu’à la prochaine intersection."
+      }
+     ],
+     "images": [
+      {
+       "path": "img_7.1_93.jpeg",
+       "y0": 173.57101440429688,
+       "half": 0
+      },
+      {
+       "path": "img_7.1_94.jpeg",
+       "y0": 274.15802001953125,
+       "half": 0
+      },
+      {
+       "path": "img_7.1_95.jpeg",
+       "y0": 393.15802001953125,
+       "half": 0
+      }
+     ]
+    },
+    {
+     "num": "7.2",
+     "title": "Définition du stationnement",
+     "blocks": [
+      {
+       "t": "quote",
+       "text": "C’est l’immobilisation d’un véhicule sur la route hors des circonstances caractérisant l’arrêt."
+      },
+      {
+       "t": "h",
+       "text": "INTERDICTION DE STATIONNER"
+      },
+      {
+       "t": "p",
+       "text": "Signalée par le panneau ci-contre, cette interdiction de stationner s’applique, sauf avis contraire, jusqu’à la prochaine intersection."
+      },
+      {
+       "t": "p",
+       "text": "Le stationnement est interdit le long des trottoirs dont la bordure est peinte d’une bande jaune discontinue."
+      },
+      {
+       "t": "p",
+       "text": "L’arrêt est interdit le long des trottoirs dont la bordure est peinte d’une bande jaune continue"
+      },
+      {
+       "t": "h",
+       "text": "STATIONNEMENT"
+      },
+      {
+       "t": "p",
+       "text": "Il existe trois façons de stationner : en bataille, en épi et en créneau."
+      },
+      {
+       "t": "p",
+       "text": "Il est interdit à tout occupant d’un véhicule à l’arrêt ou en stationne- ment d’ouvrir une portière lorsque cette manœuvre constitue un danger pour lui-même ou les autres usagers."
+      },
+      {
+       "t": "p",
+       "text": "En bataille"
+      },
+      {
+       "t": "p",
+       "text": "En épi"
+      },
+      {
+       "t": "p",
+       "text": "En créneau"
+      },
+      {
+       "t": "h",
+       "text": "STATIONNEMENT HORS AGGLOMÉRATION"
+      },
+      {
+       "t": "p",
+       "text": "De jour"
+      },
+      {
+       "t": "p",
+       "text": "Tout véhicule à l’arrêt ou en sta- tionnement doit être placé autant que possible hors de la chaussée. Lorsqu’il ne peut être placé que sur la chaussée, il doit l’être par rapport au sens de la circulation, sauf indications contraires :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "pour les chaussées à double sens, sur le côté droit ;",
+        "pour les chaussées à sens unique, sur le côté droit ou gauche."
+       ]
+      },
+      {
+       "t": "h",
+       "text": "STATIONNEMENT ABUSIF"
+      },
+      {
+       "t": "p",
+       "text": "Il est interdit de laisser un véhicule en stationnement sur une route. Est considéré comme abusif le stationnement ininterrompu d’un véhicule en un même point de la voie publique, pendant une durée excédant sept jours, sauf indications contraires. Lorsque le conducteur ou le titulaire du certificat d’immatriculation est absent ou refuse, malgré l’injonction des agents, de faire cesser le station- nement abusif, l’immobilisation et la mise en fourrière peuvent être prescrites."
+      },
+      {
+       "t": "h",
+       "text": "STATIONNEMENT EN AGGLOMÉRATION"
+      },
+      {
+       "t": "p",
+       "text": "De nuit"
+      },
+      {
+       "t": "p",
+       "text": "De jour"
+      },
+      {
+       "t": "p",
+       "text": "De nuit"
+      },
+      {
+       "t": "p",
+       "text": "Des précautions complémentai- res sont nécessaires. Sur une chaussée pourvue ou non d’éclairage public, les véhi- cules à moteur et les ensembles de véhicules doivent être placés à l’arrêt ou en stationnement avec :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "à l’avant, le ou leurs feux de position allumés ;",
+        "à l’arrière, le ou leurs feux rouges et le ou leurs feux d’éclairage de la plaque d’im- matriculation arrière allumés."
+       ]
+      },
+      {
+       "t": "p",
+       "text": "La nuit, l’arrêt ou le stationne- ment d’un véhicule à moteur sur la chaussée sans éclairage ni signalisation, en un lieu dépour- vu d’éclairage public, donne lieu de plein droit à la réduction de trois points du permis de conduire."
+      },
+      {
+       "t": "p",
+       "text": "Tout véhicule à l’arrêt ou en sta- tionnement doit être placé par rapport au sens de la circulation, sauf indications contraires :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "sur l’accotement si l’état du sol le permet ;",
+        "pour les chaussées à double sens, sur le côté droit ;",
+        "pour les chaussées à sens unique, sur le côté droit ou gauche."
+       ]
+      },
+      {
+       "t": "p",
+       "text": "Les véhicules à l’arrêt ou en stationnement, sur une chaussée non pourvue d’éclairage public, doivent être signalés avec :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "à l’avant, le ou leurs feux de position allumés ;",
+        "à l’arrière, le ou leurs feux rouges et le ou leurs feux d’éclairage de la plaque d’im- matriculation arrière allumés."
+       ]
+      },
+      {
+       "t": "p",
+       "text": "Ces feux peuvent être remplacés par au moins un feu de station- nement placé du côté du véhicu- le opposé au bord de la chaussée. En agglomération, tout véhicule à l’arrêt ou en stationnement peut ne pas être signalé lorsque l’éclairage de la chaussée permet aux autres usagers de voir distinctement celui-ci à une distance suffisante."
+      },
+      {
+       "t": "h",
+       "text": "PANONCEAUX COMPLÉMENTAIRES"
+      },
+      {
+       "t": "p",
+       "text": "Ces panneaux complètent les panneaux existants et donnent une informa- tion complémentaire sur la nature du stationnement, ses limitations et les interdictions éventuelles."
+      },
+      {
+       "t": "h",
+       "text": "ZONE DE STATIONNEMENT INTERDIT"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "Signalisation d’entrée et de sortie de zone"
+       ]
+      },
+      {
+       "t": "p",
+       "text": "Des panonceaux peuvent compléter les panneaux de stationnement pour définir la zone ponctuelle où le stationnement est interdit."
+      },
+      {
+       "t": "p",
+       "text": "Signalisation d’entrée de zone"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "Stationnement unilatéral alterné"
+       ]
+      },
+      {
+       "t": "p",
+       "text": "Ce panneau indique que le stationnement est :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "unilatéral, se fait un seul côté à la fois ;",
+        "alterné, se fait alternativement de chaque côté ;",
+        "semi-mensuel : du 1er au 15 de chaque mois, le stationnement est autorisé du côté des numéros impairs des immeubles bordant la rue ; du 16 au dernier jour du mois, le stationnement est autorisé du côté des numéros pairs."
+       ]
+      },
+      {
+       "t": "p",
+       "text": "Le changement de côté s’opère le dernier jour de chaque quinzaine entre 20 h 30 et 21 h, sauf indications contraires. Si ce panneau est placé sur le même support que l’entrée d’agglomération, le stationnement est ainsi réglementé dans toute l’agglomération. Quand le stationnement unilatéral ne concerne qu’une zone ponctuelle ou pour rappeler le stationnement qui s’applique dans l’agglomération, on trouve sur le trottoir les panneaux suivants :"
+      },
+      {
+       "t": "p",
+       "text": "Stationnement interdit du 1er au 15 du mois Stationnement interdit du 16 à la fin du mois"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "Stationnement à durée limitée"
+       ]
+      },
+      {
+       "t": "p",
+       "text": "Entrée d’une zone à stationnement de durée limitée avec contrôle par disque."
+      },
+      {
+       "t": "p",
+       "text": "Entrée d’une zone à stationnement unilatéral à alternance semi-mensuelle et à durée limitée avec contrôle par disque."
+      },
+      {
+       "t": "p",
+       "text": "Signalisation de sortie de zone"
+      },
+      {
+       "t": "p",
+       "text": "Sortie d’une zone à stationnement de durée limitée avec contrôle par disque."
+      },
+      {
+       "t": "p",
+       "text": "Sortie d’une zone à stationnement unilatéral à alternance semi-mensuelle et à durée limitée avec contrôle par disque."
+      },
+      {
+       "t": "p",
+       "text": "En règle générale, le stationnement n’est réglementé que de 9 heures à 19 heures. Les emplacements concernés peuvent être délimités par un marquage bleu."
+      },
+      {
+       "t": "p",
+       "text": "Avant de quitter son véhicule, il faut :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "régler le disque avec l’heure d’arrivée ;",
+        "le placer derrière le pare-brise du côté du trottoir."
+       ]
+      },
+      {
+       "t": "p",
+       "text": "Il est interdit de changer les heures du disque à la fin de la période : il faut déplacer son véhicule !"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "Stationnement payant"
+       ]
+      },
+      {
+       "t": "p",
+       "text": "Il y a deux principaux types de paiement :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "le parcmètre : il faut introduire la somme correspondant à la durée choisie, la durée maximale étant indiquée sur l’appareil qui se trouve à proximité de chaque emplacement ;",
+        "l’horodateur : contre paiement soit en monnaie, soit par carte, l’appareil délivre un ticket sur lequel figure l’heure limite de stationnement. Il faut placer ce ticket derrière le pare-brise, à droite et visible de l’extérieur."
+       ]
+      },
+      {
+       "t": "p",
+       "text": "Panneaux indiquant l’entrée et la sortie d’une zone à stationnement payant."
+      }
+     ],
+     "images": [
+      {
+       "path": "img_7.2_96.jpeg",
+       "y0": 135.97100830078125,
+       "half": 1
+      },
+      {
+       "path": "img_7.2_97.jpeg",
+       "y0": 189.04998779296875,
+       "half": 1
+      },
+      {
+       "path": "img_7.2_98.jpeg",
+       "y0": 348.62103271484375,
+       "half": 1
+      },
+      {
+       "path": "img_7.2_99.jpeg",
+       "y0": 377.89898681640625,
+       "half": 1
+      },
+      {
+       "path": "img_7.2_100.jpeg",
+       "y0": 406.89398193359375,
+       "half": 1
+      },
+      {
+       "path": "img_7.2_101.jpeg",
+       "y0": 243.94100952148438,
+       "half": 0
+      },
+      {
+       "path": "img_7.2_102.jpeg",
+       "y0": 431.45404052734375,
+       "half": 0
+      },
+      {
+       "path": "img_7.2_103.jpeg",
+       "y0": 238.24099731445312,
+       "half": 1
+      },
+      {
+       "path": "img_7.2_104.jpeg",
+       "y0": 442.8619689941406,
+       "half": 1
+      },
+      {
+       "path": "img_7.2_105.jpeg",
+       "y0": 113.87521362304688,
+       "half": 0
+      },
+      {
+       "path": "img_7.2_106.jpeg",
+       "y0": 246.87521362304688,
+       "half": 0
+      },
+      {
+       "path": "img_7.2_107.jpeg",
+       "y0": 421.6923828125,
+       "half": 0
+      },
+      {
+       "path": "img_7.2_108.jpeg",
+       "y0": 62.88079071044922,
+       "half": 1
+      },
+      {
+       "path": "img_7.2_109.jpeg",
+       "y0": 62.88079071044922,
+       "half": 1
+      },
+      {
+       "path": "img_7.2_110.jpeg",
+       "y0": 113.87521362304688,
+       "half": 1
+      },
+      {
+       "path": "img_7.2_111.jpeg",
+       "y0": 168.769775390625,
+       "half": 1
+      },
+      {
+       "path": "img_7.2_112.jpeg",
+       "y0": 168.769775390625,
+       "half": 1
+      },
+      {
+       "path": "img_7.2_113.jpeg",
+       "y0": 374.5019836425781,
+       "half": 1
+      },
+      {
+       "path": "img_7.2_114.jpeg",
+       "y0": 415.02197265625,
+       "half": 1
+      },
+      {
+       "path": "img_7.2_115.jpeg",
+       "y0": 421.6934509277344,
+       "half": 1
+      }
+     ]
+    },
+    {
+     "num": "7.3",
+     "title": "Stationnement et arrêt dangereux",
+     "blocks": [
+      {
+       "t": "quote",
+       "text": "Tout véhicule à l’arrêt ou en stationnement doit être placé de manière à ne pas constituer un danger pour les usagers."
+      },
+      {
+       "t": "p",
+       "text": "L’arrêt et le stationnement sont considérés comme dangereux, lorsque la visi- bilité est insuffisante, notamment à proximité :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "d’une intersection ;",
+        "d’un virage ;",
+        "d’un sommet de côte ;",
+        "d’un passage à niveau."
+       ]
+      },
+      {
+       "t": "p",
+       "text": "Lorsque le conducteur ou le titulaire du certificat d’immatriculation est absent ou refuse, malgré l’injonction des agents, de faire cesser le stationnement dangereux, l’immobilisation et la mise en fourrière peuvent être prescrites."
+      }
+     ],
+     "images": []
+    },
+    {
+     "num": "7.4",
+     "title": "Stationnement et arrêt gênants",
+     "blocks": [
+      {
+       "t": "quote",
+       "text": "Tout véhicule à l’arrêt ou en stationnement doit être placé de manière à gêner le moins possible la circulation."
+      },
+      {
+       "t": "p",
+       "text": "L’arrêt ou le stationnement est considéré comme gênant :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "sur les trottoirs ;",
+        "sur les passages ou accotements réservés à la circulation des piétons ;",
+        "sur les emplacements réservés à l’arrêt ou au stationnement des véhicules de transport public, des taxis ;",
+        "entre le bord de la chaussée et une ligne continue lorsque la largeur de la voie restant libre entre cette ligne et le véhicule est insuffisante et oblige les autres véhicules à franchir ou à chevaucher la ligne continue ;",
+        "à proximité des signaux lumineux ou des panneaux de signalisation ;",
+        "sur les emplacements où le véhicule empêche soit l’accès à un autre véhicule à l’arrêt ou en stationnement, soit le dégagement de ce dernier ;",
+        "sur les ponts, dans les passages souterrains, les tunnels et sous les passages supérieurs ;"
+       ]
+      },
+      {
+       "t": "ul",
+       "items": [
+        "devant les bouches d’incendie et les accès à des installations souterraines ;",
+        "sur les bandes d’arrêt d’urgence, sauf en cas de nécessité absolue ;",
+        "sur les chaussées, voies, pistes, bandes, trottoirs ou accotements réservés à la cir- culation des véhicules de transport public, aux taxis ou aux véhicules d’intérêt général prioritaires ;",
+        "sur les emplacements réservés aux véhicules portant une carte de stationnement de modèle communautaire pour personne handicapée, un macaron grand invali- de de guerre (GIG) ou grand invalide civil (GIC)."
+       ]
+      },
+      {
+       "t": "p",
+       "text": "Le conducteur encourt :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "Une amende ;",
+        "La perte de plein droit de trois points du permis de conduire ;",
+        "Une peine complémentaire de suspension du permis de conduire pour une durée de trois ans au plus, cette suspension pouvant être limitée à la conduite en dehors de l’activité professionnelle."
+       ]
+      },
+      {
+       "t": "p",
+       "text": "Le stationnement est aussi considéré comme gênant :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "devant les entrées aménagées des immeubles ;",
+        "en double file, sauf en ce qui concerne les cycles à deux  roues, les cyclomo- teurs à deux roues et les motocyclettes sans side-car ;",
+        "devant les dispositifs destinés à la recharge en énergie des véhicules électriques ;",
+        "sur les emplacements réservés à l’arrêt ou au stationnement des véhicules de livraison."
+       ]
+      }
+     ],
+     "images": [
+      {
+       "path": "img_7.4_116.jpeg",
+       "y0": 138.83099365234375,
+       "half": 1
+      },
+      {
+       "path": "img_7.4_117.jpeg",
+       "y0": 139.50601196289062,
+       "half": 1
+      },
+      {
+       "path": "img_7.4_118.jpeg",
+       "y0": 364.2860107421875,
+       "half": 1
+      },
+      {
+       "path": "img_7.4_119.jpeg",
+       "y0": 406.8260192871094,
+       "half": 1
+      }
+     ]
+    },
+    {
+     "num": "7.5",
+     "title": "Les manœuvres",
+     "blocks": [
+      {
+       "t": "quote",
+       "text": "Il faut parfois manœuvrer pour se garer. Avant d’effectuer une manœuvre, il faut signaler ses intentions,céder le passage aux autres usagers et le faire avec précautions."
+      },
+      {
+       "t": "h",
+       "text": "LE DEMI-TOUR"
+      },
+      {
+       "t": "p",
+       "text": "Il s’effectue toujours en pleine chaussée sans franchissement de voie."
+      },
+      {
+       "t": "p",
+       "text": "LA MARCHE ARRIÈRE LE QUART DE TOUR"
+      },
+      {
+       "t": "p",
+       "text": "Il faut s’assurer qu’elle peut se faire dans de bonnes conditions de sécurité. Elle est interdite sur les voies rapides."
+      },
+      {
+       "t": "p",
+       "text": "Rappel des infractions"
+      },
+      {
+       "t": "p",
+       "text": "Je perds 3 points si : J'arrête ou je stationne mon véhicule de façon dangereuse pour les autres usa- gers.J'arrête ou je stationne mon véhicule sans éclairage ni signalisation,la nuit ou par temps de brouillard dans un lieu dépourvu d'éclairage public."
+      },
+      {
+       "t": "p",
+       "text": "L’AUTOROUTE L’AUTOROUTE 8"
+      },
+      {
+       "t": "p",
+       "text": "Il consiste à tourner à gauche lors d’une sortie d’immeuble ou en traversant la chaussée."
+      }
+     ],
+     "images": [
+      {
+       "path": "img_7.5_120.jpeg",
+       "y0": 298.5999755859375,
+       "half": 0
+      },
+      {
+       "path": "img_7.5_121.jpeg",
+       "y0": 122.36199188232422,
+       "half": 1
+      },
+      {
+       "path": "img_7.5_122.jpeg",
+       "y0": 247.43600463867188,
+       "half": 1
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "section": "L'autoroute",
+   "lessons": [
+    {
+     "num": "8.1",
+     "title": "Se diriger vers l’autoroute",
+     "blocks": [
+      {
+       "t": "quote",
+       "text": "Les panneaux de direction peuvent comporter le symbole de l’autoroute :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "Sur fond vert : une partie de l’itinéraire emprunte une autoroute.",
+        "Sur fond bleu : indique la direction d’une autoroute."
+       ]
+      },
+      {
+       "t": "p",
+       "text": "Si l’autoroute est payant le mot PEAGE est rajouté sur ces panneaux."
+      }
+     ],
+     "images": [
+      {
+       "path": "img_8.1_123.jpeg",
+       "y0": 146.3319549560547,
+       "half": 0
+      }
+     ]
+    },
+    {
+     "num": "8.2",
+     "title": "Entrer sur l’autoroute",
+     "blocks": [
+      {
+       "t": "quote",
+       "text": "La circulation sur autoroute est interdite aux :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "animaux et cavaliers ;",
+        "piétons ;",
+        "véhicules sans moteur, cyclistes ;",
+        "véhicules à moteur non soumis à immatri- culation, voiturettes ;",
+        "cyclomoteurs ;",
+        "tricycles à moteur dont la puissance n’excède pas 15 kilowatts et dont le poids à vide n’excède pas 550 kg ;",
+        "quadricycles à moteur ;",
+        "tracteurs et matériel agricole ou de travaux publics ;",
+        "transports exceptionnels, véhicules auto- mobiles qui par construction ne peuvent atteindre une vitesse minimale de 40 km/h."
+       ]
+      },
+      {
+       "t": "p",
+       "text": "Panneau d’entrée d’une autoroute"
+      }
+     ],
+     "images": [
+      {
+       "path": "img_8.2_124.jpeg",
+       "y0": 304.81500244140625,
+       "half": 0
+      },
+      {
+       "path": "img_8.2_125.jpeg",
+       "y0": 417.6440124511719,
+       "half": 0
+      }
+     ]
+    },
+    {
+     "num": "8.3",
+     "title": "Le péage",
+     "blocks": [
+      {
+       "t": "quote",
+       "text": "Sur une grande majorité des autoroutes, il est nécessaire de payer un droit de passage. Le prix est fonction de la distance parcourue, de la catégorie du véhicule et de l’autoroute."
+      },
+      {
+       "t": "p",
+       "text": "Ce panneau annonce un poste de péage où l’on peut trouver des guichets avec les modes de paiements suivants :"
+      },
+      {
+       "t": "p",
+       "text": "un distributeur de tickets ;"
+      },
+      {
+       "t": "p",
+       "text": "une corbeille, pour un paiement avec des pièces ;"
+      }
+     ],
+     "images": [
+      {
+       "path": "img_8.3_126.jpeg",
+       "y0": 396.74798583984375,
+       "half": 1
+      },
+      {
+       "path": "img_8.3_127.jpeg",
+       "y0": 432.7490234375,
+       "half": 1
+      },
+      {
+       "path": "img_8.3_128.jpeg",
+       "y0": 443.92999267578125,
+       "half": 1
+      }
+     ]
+    },
+    {
+     "num": "8.4",
+     "title": "Bretelle de raccordement autoroutière",
+     "blocks": [
+      {
+       "t": "quote",
+       "text": "L’insertion sur une autoroute se fait en trois phases."
+      },
+      {
+       "t": "h",
+       "text": "ACCÈS"
+      },
+      {
+       "t": "p",
+       "text": "Voie à sens unique qui permet de rejoindre l’autoroute. Je ralentis pour observer la circulation et je dois céder le passage aux véhicules qui y circulent."
+      },
+      {
+       "t": "h",
+       "text": "ACCÉLÉRATION"
+      },
+      {
+       "t": "p",
+       "text": "Voie parallèle à l’autoroute qui permet d’accélérer pour atteindre une vitesse proche de celle des véhicules qui y circulent."
+      }
+     ],
+     "images": [
+      {
+       "path": "img_8.4_129.jpeg",
+       "y0": 326.24200439453125,
+       "half": 0
+      },
+      {
+       "path": "img_8.4_130.jpeg",
+       "y0": 434.958984375,
+       "half": 0
+      }
+     ]
+    },
+    {
+     "num": "8.5",
+     "title": "Caractéristiques de l’autoroute",
+     "blocks": [
+      {
+       "t": "quote",
+       "text": "L’autoroute est composée de deux chaussées, elles-mêmes composées de plusieurs voies séparées par un terre-plein central, et d’une bande d’arrêt d’urgence."
+      },
+      {
+       "t": "h",
+       "text": "BANDE SÉPARATIVE OU TERRE-PLEIN CENTRAL"
+      },
+      {
+       "t": "p",
+       "text": "Il est interdit de circuler, de s’arrêter ou de stationner sur la bande centrale séparative des chaussées. Le conducteur encourt une amende, une perte de plein droit de deux points du permis de conduire et une peine complémentaire de suspension du permis de conduire pour une durée de trois ans au plus, cette suspension pouvant être limitée à la conduite en dehors de l’activité professionnelle."
+      }
+     ],
+     "images": [
+      {
+       "path": "img_8.5_131.jpeg",
+       "y0": 269.8130187988281,
+       "half": 1
+      }
+     ]
+    },
+    {
+     "num": "8.6",
+     "title": "Marche normale",
+     "blocks": [
+      {
+       "t": "quote",
+       "text": "En marche normale, on doit circuler dans la voie de droite, les autres voies sont réservées aux dépassements."
+      },
+      {
+       "t": "p",
+       "text": "distance de sécurité"
+      },
+      {
+       "t": "p",
+       "text": "La distance de sécurité correspond à la distance parcourue pendant 2 secondes, en raison des vitesses éle- vées sur autoroute, cette distance est importante."
+      },
+      {
+       "t": "p",
+       "text": "On peut calculer approximativement la distance de sécurité en multipliant le chiffre des dizaines de la vitesse par 6, soit : A 90 km/h, 9x6 = 54 mètres A 110 km/h, 11x6 = 66 mètres A 130 km/h, 13x6 = 78 mètres"
+      }
+     ],
+     "images": []
+    },
+    {
+     "num": "8.7",
+     "title": "Circulation de nuit",
+     "blocks": [
+      {
+       "t": "quote",
+       "text": "La nuit, sur autoroute, on doit utiliser les feux de route. On remplace ces feux par les feux de croisement :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "pour suivre un autre usager ;",
+        "si l’on croise un autre usager ;",
+        "si l’autoroute est éclairée."
+       ]
+      }
+     ],
+     "images": []
+    },
+    {
+     "num": "8.8",
+     "title": "Manœuvres interdites",
+     "blocks": [
+      {
+       "t": "quote",
+       "text": "DEMI-TOUR MARCHE ARRIÈRE"
+      },
+      {
+       "t": "p",
+       "text": "Il est interdit de faire demi-tour sur une autoroute, même en traversant la bande centrale séparative des chaussées ou en empruntant une interruption de celle-ci."
+      },
+      {
+       "t": "p",
+       "text": "Tout conducteur coupable de l'une de ces 2 infractions encourt en plus d’une amende, une peine complémentaire de suspension, de trois ans maximum, du permis de conduire, cette suspension pouvant être limitée à la conduite en dehors de l'activité professionnelle."
+      },
+      {
+       "t": "h",
+       "text": "ARRÊT ET STATIONNEMENT"
+      },
+      {
+       "t": "p",
+       "text": "L’arrêt et le stationnement sont autorisés exclusivement sur les aires aménagées et prévues à cet effet. L’arrêt et le stationnement sont interdits :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "sur la chaussée ;",
+        "sur le terre-plein central ;",
+        "sur l’accotement ;",
+        "sur la bande d’arrêt d’urgence."
+       ]
+      },
+      {
+       "t": "h",
+       "text": "ARRÊT D’URGENCE"
+      },
+      {
+       "t": "p",
+       "text": "Si le conducteur se trouve dans la nécessité absolue d’immobiliser son véhicule, il doit le faire sur la bande d’arrêt d’urgence et assurer la prési- gnalisation de son véhicule avec les feux de détresse et éventuellement un triangle. Les passagers descendent du véhicule et attendent derrière les rails de sécurité. S’il n’est pas en mesure de le remettre en marche par ses propres moyens, il doit faire le nécessaire pour assurer d’urgence le dégagement de l’autoroute. Des bornes d’appel sont implantées environ tous les 2 kilomètres. Elles sont reliées directement à un central de police ou de gendarmerie."
+      }
+     ],
+     "images": []
+    },
+    {
+     "num": "8.9",
+     "title": "Bifurcation",
+     "blocks": [
+      {
+       "t": "quote",
+       "text": "C’est la division d’une autoroute en deux branches constituant chacune une autoroute."
+      },
+      {
+       "t": "h",
+       "text": "AVEC AFFECTATION DE VOIES"
+      },
+      {
+       "t": "p",
+       "text": "1 – Avertissement Les deux flèches séparées annoncent qu’il y a une affectation des voies."
+      },
+      {
+       "t": "p",
+       "text": "2 – Présignalisation Les panneaux comportent des flèches correspon- dant aux voies concernées, avec le kilométrage restant à parcourir jusqu’à la séparation des voies. Dès cette signalisation, le conducteur doit faire son choix."
+      },
+      {
+       "t": "p",
+       "text": "3 – Signalisation avancée Les panneaux sont situés à la séparation des voies, c’est pour cela qu’il n’y a plus d’indication de dis- tance. Le choix doit être fait, il n’est plus question de changer de direction."
+      },
+      {
+       "t": "p",
+       "text": "4 – Confirmation Le panneau placé sur la bande centrale confirme la direction pour continuer sur cette autoroute."
+      },
+      {
+       "t": "h",
+       "text": "SANS AFFECTATION DE VOIES"
+      },
+      {
+       "t": "p",
+       "text": "1 – Avertissement Le panneau avec une flèche simple annonce une sortie sans affectation de voie. Le conducteur n’a pas à choisir de voie en fonction de sa direction."
+      },
+      {
+       "t": "p",
+       "text": "2 – Présignalisation Le panneau indique la distance restant à parcourir pour bifur- quer. Si on sort, il faut rester dans la voie de droite, si on conti- nue tout droit, il faut, en marche normale, être aussi dans la voie de droite."
+      },
+      {
+       "t": "p",
+       "text": "3 – Signalisation avancée Placée au début de la sortie, elle ne comporte plus d’indication de distance."
+      },
+      {
+       "t": "p",
+       "text": "4 – Confirmation Le panneau placé sur la bande centrale confirme la direction pour continuer sur l’autoroute."
+      },
+      {
+       "t": "p",
+       "text": "8.10 Jonction"
+      },
+      {
+       "t": "p",
+       "text": "Une jonction est la rencontre de deux autoroutes."
+      },
+      {
+       "t": "p",
+       "text": "Une jonction vue de l’autoroute princi- pale : les voitures arrivent de droite et apparaissent dans le rétroviseur."
+      },
+      {
+       "t": "p",
+       "text": "8.11 Sorties"
+      },
+      {
+       "t": "p",
+       "text": "Les panneaux de sortie d’autoroute sont implantés comme pour une bifurcation ; la différence se situe dans la couleur des panneaux. Ceux annonçant la sortie sont sur fond blanc ou vert."
+      },
+      {
+       "t": "h",
+       "text": "AVEC AFFECTATION DE VOIES"
+      },
+      {
+       "t": "p",
+       "text": "1 – Avertissement Les deux flèches séparées annoncent qu’il y a une affectation des voies."
+      },
+      {
+       "t": "p",
+       "text": "2 – Présignalisation Les panneaux comportent des flèches correspondant aux voies concernées, avec le kilo- métrage restant à parcourir jusqu’à la séparation des voies. Dès cette signalisation, le conducteur doit faire son choix."
+      },
+      {
+       "t": "p",
+       "text": "3 – Signalisation avancée Les panneaux sont situés à la séparation des voies, c’est pour cela qu’il n’y a plus d’indication de distan- ce. Le choix doit être fait, il n’est plus question de changer de direction."
+      },
+      {
+       "t": "p",
+       "text": "4 – Confirmation Le panneau placé sur la bande centrale confirme la direction pour continuer sur cette autoroute."
+      },
+      {
+       "t": "h",
+       "text": "SANS AFFECTATION DE VOIES"
+      },
+      {
+       "t": "p",
+       "text": "1 – Avertissement Le panneau avec une flèche simple annonce une sortie sans affectation de voies. Le conducteur n’a pas à choisir une voie en fonction de sa direction. Si celui-ci s’apprête à sortir, il doit allumer son clignotant et si possible ne pas commencer à ralentir mais attendre d’être sur la bretelle de sortie pour le faire."
+      },
+      {
+       "t": "p",
+       "text": "Une jonction vue en arrivant sur l’autoroute principale."
+      },
+      {
+       "t": "p",
+       "text": "2 – Présignalisation Le panneau indique la distance restant à parcourir jusqu’à la sortie. Si on sort, il faut rester à droite."
+      },
+      {
+       "t": "p",
+       "text": "4 – Confirmation Le panneau placé sur la bande centrale confirme la direction pour continuer sur cette autoroute."
+      },
+      {
+       "t": "p",
+       "text": "8.12 Routes pour automobiles"
+      },
+      {
+       "t": "p",
+       "text": "Ces routes ressemblent à des autoroutes ; elles comportent généralement deux chaussées à sens unique séparées."
+      },
+      {
+       "t": "p",
+       "text": "Leur accès est interdit aux :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "piétons ;",
+        "cavaliers et animaux ;",
+        "cyclistes ;",
+        "cyclomoteurs ;",
+        "voiturettes ;",
+        "véhicules agricoles ;",
+        "tricycles et quadricycles à moteur."
+       ]
+      },
+      {
+       "t": "ul",
+       "items": [
+        "La vitesse est limitée à 110 km/h.",
+        "En cas de pluie, la vitesse est limitée à 100 km/h.",
+        "Sur les chaussées à double sens de circulation, la vitesse est limitée à 90 km/h et à 80 km/h par temps de pluie."
+       ]
+      },
+      {
+       "t": "p",
+       "text": "Rappel des infractions"
+      },
+      {
+       "t": "p",
+       "text": "Je perds 2 points sur mon permis de conduire si : Je circule ou stationne sur le terre-plein central de l'autoroute."
+      },
+      {
+       "t": "p",
+       "text": "Je perds 3 points si : Je m'arrête ou je circule sur la bande d'arrêt d'urgence. Je ne respecte pas les distances de sécurité entre les véhicules."
+      },
+      {
+       "t": "p",
+       "text": "Je perds 4 points si : Je fais demi-tour ou marche arrière sur l'autoroute."
+      },
+      {
+       "t": "p",
+       "text": "LA CONDUITE DE NUIT LA CONDUITE DE NUIT 9"
+      },
+      {
+       "t": "p",
+       "text": "Route pour automobiles Fin de route pour automobiles"
+      }
+     ],
+     "images": [
+      {
+       "path": "img_8.9_132.jpeg",
+       "y0": 237.24600219726562,
+       "half": 1
+      },
+      {
+       "path": "img_8.9_133.jpeg",
+       "y0": 300.1210021972656,
+       "half": 1
+      },
+      {
+       "path": "img_8.9_134.jpeg",
+       "y0": 300.1210021972656,
+       "half": 1
+      },
+      {
+       "path": "img_8.9_135.jpeg",
+       "y0": 377.0660095214844,
+       "half": 1
+      },
+      {
+       "path": "img_8.9_136.jpeg",
+       "y0": 63.019989013671875,
+       "half": 0
+      },
+      {
+       "path": "img_8.9_137.jpeg",
+       "y0": 125.08100128173828,
+       "half": 0
+      },
+      {
+       "path": "img_8.9_138.jpeg",
+       "y0": 178.14300537109375,
+       "half": 0
+      },
+      {
+       "path": "img_8.9_139.jpeg",
+       "y0": 230.87100219726562,
+       "half": 0
+      },
+      {
+       "path": "img_8.9_140.jpeg",
+       "y0": 386.2550048828125,
+       "half": 0
+      },
+      {
+       "path": "img_8.9_141.jpeg",
+       "y0": 204.75201416015625,
+       "half": 1
+      },
+      {
+       "path": "img_8.9_142.jpeg",
+       "y0": 208.52200317382812,
+       "half": 1
+      },
+      {
+       "path": "img_8.9_143.jpeg",
+       "y0": 271.2220153808594,
+       "half": 1
+      },
+      {
+       "path": "img_8.9_144.jpeg",
+       "y0": 271.3680114746094,
+       "half": 1
+      },
+      {
+       "path": "img_8.9_145.jpeg",
+       "y0": 295.29901123046875,
+       "half": 1
+      },
+      {
+       "path": "img_8.9_146.jpeg",
+       "y0": 328.1629638671875,
+       "half": 1
+      },
+      {
+       "path": "img_8.9_147.jpeg",
+       "y0": 383.5970153808594,
+       "half": 1
+      },
+      {
+       "path": "img_8.9_148.jpeg",
+       "y0": 404.5159912109375,
+       "half": 1
+      },
+      {
+       "path": "img_8.9_149.jpeg",
+       "y0": 468.6759948730469,
+       "half": 1
+      },
+      {
+       "path": "img_8.9_150.jpeg",
+       "y0": 38.580997467041016,
+       "half": 0
+      },
+      {
+       "path": "img_8.9_151.jpeg",
+       "y0": 91.35902404785156,
+       "half": 0
+      },
+      {
+       "path": "img_8.9_152.jpeg",
+       "y0": 225.98602294921875,
+       "half": 1
+      },
+      {
+       "path": "img_8.9_153.jpeg",
+       "y0": 225.98602294921875,
+       "half": 1
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "section": "La conduite de nuit",
+   "lessons": [
+    {
+     "num": "9.1",
+     "title": "Généralités",
+     "blocks": [
+      {
+       "t": "quote",
+       "text": "La nuit, le risque d’accident est deux fois plus élevé que le jour. Il faut adapter son éclairage pour mieux voir et être vu."
+      },
+      {
+       "t": "h",
+       "text": "UTILISATION DES FEUX"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "Feux de position",
+        "Feux de route"
+       ]
+      },
+      {
+       "t": "ul",
+       "items": [
+        "Feux de croisement"
+       ]
+      },
+      {
+       "t": "p",
+       "text": "La nuit, tout conducteur est tenu d’utiliser les feux dont le véhicule doit être équipé."
+      },
+      {
+       "t": "p",
+       "text": "Les véhicules à moteur doivent circuler avec le ou leurs feux de croisement allumés, et leurs feux de route éteints :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "quand ils risquent d’éblouir d’autres usagers ;",
+        "au moment où ils s’apprêtent à croiser un autre véhicule ;",
+        "lorsqu’ils suivent un autre véhicule à faible distance, sauf lors d’une manœuvre de dépassement ;",
+        "quand ils circulent en agglomération sur une route suffisamment éclairée et hors agglomération sur une route éclairée en continu."
+       ]
+      },
+      {
+       "t": "p",
+       "text": "La substitution des feux de croisement aux feux de route doit se faire suffisamment à l’avance pour ne pas gêner la progression des autres usagers."
+      },
+      {
+       "t": "p",
+       "text": "Le fait, pour tout conducteur d’un véhicule, de circuler la nuit, ou le jour lorsque la visibilité est insuffi- sante, sans éclairage ni signalisa- tion en un lieu dépourvu d’éclairage public, est puni d’une contravention qui donne lieu de plein droit à la réduction de quatre points du per- mis de conduire."
+      },
+      {
+       "t": "ul",
+       "items": [
+        "Feux de brouillard"
+       ]
+      },
+      {
+       "t": "p",
+       "text": "Les feux de brouillard avant peuvent compléter les feux de route en dehors des agglomérations, sur les routes étroites et sinueuses."
+      },
+      {
+       "t": "p",
+       "text": "Le ou les feux de brouillard arrière ne peuvent être utilisés qu’en cas de brouillard ou de chute de neige."
+      },
+      {
+       "t": "p",
+       "text": "Les véhicules à moteur doivent circuler, sauf indications contraires, avec le ou leurs feux de route allumés. À l’arrêt ou en stationne- ment, l’usage des feux de route est interdit."
+      },
+      {
+       "t": "p",
+       "text": "Les feux de position peuvent être allumés en même temps que les feux de route ou les feux de croisement. Ils doivent être allumés en même temps que les feux de brouillard."
+      },
+      {
+       "t": "p",
+       "text": "Tous les véhicules doivent circuler avec :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "les feux rouges arrière allumés ;",
+        "le ou les feux d’éclairage de la plaque d’immatriculation arrière allumés ;",
+        "les feux d’encombrement allumés."
+       ]
+      },
+      {
+       "t": "ul",
+       "items": [
+        "Avertisseur lumineux"
+       ]
+      },
+      {
+       "t": "p",
+       "text": "On peut les utiliser en ou hors agglomération :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "à l’approche d’une intersection ;",
+        "à l’approche d’un virage ou en sommet de côte ;",
+        "lorsque l’usager que l’on croise reste en feux de route ;",
+        "pour prévenir un usager que l’on s’apprête à dépasser."
+       ]
+      },
+      {
+       "t": "h",
+       "text": "DÉPASSEMENT"
+      },
+      {
+       "t": "p",
+       "text": "Avant de commencer le dépassement, le conducteur qui dépasse peut faire un bref appel lumineux."
+      },
+      {
+       "t": "h",
+       "text": "ADAPTER SA VITESSE"
+      },
+      {
+       "t": "p",
+       "text": "Je dois ralentir :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "lorsque je passe en feux de croisement pour croiser un autre usager ;",
+        "lorsque je passe d’une zone éclairée à une zone non éclairée ;",
+        "au crépuscule ou au lever du jour, en raison de la luminosité et de la difficulté à distinguer les formes, les couleurs et les distances."
+       ]
+      }
+     ],
+     "images": [
+      {
+       "path": "img_9.1_154.jpeg",
+       "y0": 135.56900024414062,
+       "half": 0
+      },
+      {
+       "path": "img_9.1_155.jpeg",
+       "y0": 236.43299865722656,
+       "half": 0
+      },
+      {
+       "path": "img_9.1_156.jpeg",
+       "y0": 391.0929870605469,
+       "half": 0
+      },
+      {
+       "path": "img_9.1_157.jpeg",
+       "y0": 49.6099853515625,
+       "half": 1
+      },
+      {
+       "path": "img_9.1_158.jpeg",
+       "y0": 60.49402618408203,
+       "half": 1
+      },
+      {
+       "path": "img_9.1_159.jpeg",
+       "y0": 347.57501220703125,
+       "half": 1
+      },
+      {
+       "path": "img_9.1_160.jpeg",
+       "y0": 374.718994140625,
+       "half": 1
+      },
+      {
+       "path": "img_9.1_161.jpeg",
+       "y0": 392.8380126953125,
+       "half": 1
+      },
+      {
+       "path": "img_9.1_162.jpeg",
+       "y0": 121.68297576904297,
+       "half": 0
+      },
+      {
+       "path": "img_9.1_163.jpeg",
+       "y0": 362.99200439453125,
+       "half": 0
+      }
+     ]
+    },
+    {
+     "num": "9.2",
+     "title": "Quelques conseils",
+     "blocks": [
+      {
+       "t": "quote",
+       "text": "Beaucoup de conducteurs privilégient la conduite de nuit pour partir en vacances et éviter les fortes chaleurs."
+      },
+      {
+       "t": "p",
+       "text": "Il convient cependant de prendre certaines précautions :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "éviter de conduire entre 2 et 4 heures du matin car les capacités et la vigilance sont les plus faibles ;",
+        "partir reposé ;",
+        "préparer son véhicule et son trajet ;",
+        "s’alimenter légèrement ;",
+        "s’abstenir de consommer de l’alcool ;",
+        "observer les recommandations portées sur les médicaments ;",
+        "s’arrêter toutes les deux heures et impérativement dès les premiers signes de fatigue : irritabilité, tête lourde, impression d’avoir trop chaud ou d’être serré dans ses vêtements, besoin de changer de position en permanence, picotements dans les yeux, impression que tous les autres conduisent mal, crispation du cou et des épaules."
+       ]
+      },
+      {
+       "t": "p",
+       "text": "La nuit,l‘absence de points de repère fausse l’appréciation des distances et des vitesses, je dois donc adapter ma vitesse."
+      },
+      {
+       "t": "p",
+       "text": "EXPÉRIMENTATION DE L’UTILISATION DES FEUX DE CROISEMENT DE JOUR"
+      },
+      {
+       "t": "p",
+       "text": "Il est recommandé à l'ensemble des usagers d'utiliser les feux de croise- ment le jour. Cette expérimentation se déroule du samedi 30 octobre au dimanche 27 mars 2005. Un bilan sera établi avant une éventuelle officialisation."
+      },
+      {
+       "t": "p",
+       "text": "LES INTEMPÉRIES LES INTEMPÉRIES 10"
+      }
+     ],
+     "images": [
+      {
+       "path": "img_9.2_164.jpeg",
+       "y0": 248.97500610351562,
+       "half": 1
+      },
+      {
+       "path": "img_9.2_165.jpeg",
+       "y0": 77.62100219726562,
+       "half": 0
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "section": "Les intempéries",
+   "lessons": [
+    {
+     "num": "10.1",
+     "title": "La pluie",
+     "blocks": [
+      {
+       "t": "h",
+       "text": "ADAPTER SA VITESSE"
+      },
+      {
+       "t": "p",
+       "text": "Par temps de pluie, les vitesses sont limitées :"
+      },
+      {
+       "t": "p",
+       "text": "Agglomération"
+      },
+      {
+       "t": "p",
+       "text": "2 x 2 voies"
+      },
+      {
+       "t": "p",
+       "text": "Ces vitesses sont un maximum à ne pas dépasser mais les conditions météo peuvent imposer des vitesses nettement inférieures. La distance d’arrêt est allongée et peut aller jusqu’à doubler."
+      },
+      {
+       "t": "p",
+       "text": "Par temps de pluie, les risques de dérapage sont plus élevés, surtout en virage, il faut donc :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "éviter les freinages brusques ;",
+        "augmenter la distance de sécurité ;",
+        "tenir compte des limitations de vitesse ;",
+        "réduire sa vitesse."
+       ]
+      },
+      {
+       "t": "h",
+       "text": "AQUAPLANING"
+      },
+      {
+       "t": "p",
+       "text": "Lorsque la route est très mouillée, le pneu com- mence par pousser l’eau devant lui mais,grâce à ses sculptures qui évacuent l’eau, il reste en contact avec le sol."
+      },
+      {
+       "t": "p",
+       "text": "Lorsque la quantité d’eau est très importante par rapport à la capacité d’évacuation des pneus (vitesse trop élevée ou pneus usés), le pneu se soulève et une pellicule d’eau apparaît entre le pneu et la chaussée. Le véhicule glisse sur l’eau et devient incontrôlable, c’est l’aquaplaning."
+      },
+      {
+       "t": "p",
+       "text": "Pour retrouver de l’adhérence, il faut ralentir sans freiner. Le risque est accentué sur les chaussées où l’évacuation de l’eau est difficile comme sur une chaussée large et plate."
+      },
+      {
+       "t": "h",
+       "text": "UTILISER LES FEUX"
+      },
+      {
+       "t": "p",
+       "text": "Par temps de pluie, je dois circuler en feux de croisement ; les feux avant de brouillard peuvent remplacer ou compléter les feux de croisement. Le ou les feux arrière de brouillard ne peuvent être utilisés qu’en cas de brouillard ou de chute de neige ; ils sont interdits par temps de pluie car trop éblouissants."
+      },
+      {
+       "t": "p",
+       "text": "Route"
+      },
+      {
+       "t": "p",
+       "text": "Autoroute"
+      },
+      {
+       "t": "p",
+       "text": "Pour améliorer la visibilité, ne pas hésiter à utiliser les essuie-glaces et la climatisation pour supprimer la buée."
+      },
+      {
+       "t": "h",
+       "text": "LES FLAQUES D’EAU"
+      },
+      {
+       "t": "p",
+       "text": "La présence de flaques d’eau sur la chaussée doit inciter à redoubler de pru- dence car :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "elles peuvent cacher des trous dans la chaussée ;",
+        "si une roue passe dans cette flaque, le véhicule peut être déséquilibré ;",
+        "il faut éviter d’éclabousser les piétons situés sur le bord de la chaussée ou sur le trottoir."
+       ]
+      }
+     ],
+     "images": [
+      {
+       "path": "img_10.1_166.jpeg",
+       "y0": 115.30433654785156,
+       "half": 0
+      },
+      {
+       "path": "img_10.1_167.jpeg",
+       "y0": 162.8619842529297,
+       "half": 0
+      },
+      {
+       "path": "img_10.1_168.jpeg",
+       "y0": 111.86997985839844,
+       "half": 1
+      },
+      {
+       "path": "img_10.1_169.jpeg",
+       "y0": 126.22798919677734,
+       "half": 1
+      },
+      {
+       "path": "img_10.1_170.jpeg",
+       "y0": 159.99700927734375,
+       "half": 1
+      },
+      {
+       "path": "img_10.1_171.jpeg",
+       "y0": 314.0710144042969,
+       "half": 1
+      },
+      {
+       "path": "img_10.1_172.jpeg",
+       "y0": 320.7480163574219,
+       "half": 1
+      },
+      {
+       "path": "img_10.1_173.jpeg",
+       "y0": 421.4209899902344,
+       "half": 1
+      }
+     ]
+    },
+    {
+     "num": "10.2",
+     "title": "Le brouillard",
+     "blocks": [
+      {
+       "t": "quote",
+       "text": "Le brouillard réduit la visibilité, il faut :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "adapter la vitesse en fonction de l’épaisseur du brouillard pour que la distan- ce de sécurité soit égale à l’espace visible ;",
+        "utiliser le marquage au sol comme guide, et surtout les lignes de rives situées sur le bord droit de la chaussée."
+       ]
+      },
+      {
+       "t": "p",
+       "text": "Quand la visibilité est inférieure à 50 mètres,la vitesse est limitée à 50 km/h."
+      }
+     ],
+     "images": [
+      {
+       "path": "img_10.2_174.jpeg",
+       "y0": 170.427001953125,
+       "half": 0
+      }
+     ]
+    },
+    {
+     "num": "10.3",
+     "title": "Le vent",
+     "blocks": [
+      {
+       "t": "quote",
+       "text": "Ce panneau annonce les zones particulièrement exposées au vent. Il est souvent complété par un manche à air qui permet de donner des informations sur la force et la direction du vent."
+      },
+      {
+       "t": "p",
+       "text": "Ne pas hésiter à ralentir en cas de vent violent. Le plus dangereux est le vent latéral ;le vent de face freine le véhicule et le vent arrière le pousse."
+      }
+     ],
+     "images": [
+      {
+       "path": "img_10.3_175.jpeg",
+       "y0": 393.60101318359375,
+       "half": 0
+      }
+     ]
+    },
+    {
+     "num": "10.4",
+     "title": "La neige",
+     "blocks": [
+      {
+       "t": "quote",
+       "text": "Je dois circuler en feux de croisement :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "les feux avant de brouillard peu- vent remplacer ou compléter les feux de croisement ;",
+        "le ou les feux arrière de brouillard peuvent être utilisés ;",
+        "pour améliorer la visibilité, ne pas hésiter à utiliser les essuie-glaces et la climatisation pour supprimer la buée."
+       ]
+      },
+      {
+       "t": "p",
+       "text": "Par temps de neige, il faut utiliser les feux de croisement ; les feux avant de brouillard peuvent remplacer ou compléter les feux de croisement. Les feux de brouillard arrière peuvent également être utilisés."
+      },
+      {
+       "t": "p",
+       "text": "La neige rend la chaussée glissante de diverses façons en fonction du type de neige :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "une neige dure et tassée est aussi dangereuse que du verglas ;",
+        "une neige épaisse et molle peut constituer un obstacle insurmontable et nécessiter des équipements spéciaux ;",
+        "une mince couche de neige ou de la neige fraîche ou fondante n’empêche pas de rouler mais réduit fortement l’adhérence : il faut alors réduire sa vitesse et augmenter la distance de sécurité."
+       ]
+      },
+      {
+       "t": "p",
+       "text": "Véhicule de face circulant en feux de brouillard"
+      }
+     ],
+     "images": [
+      {
+       "path": "img_10.4_176.jpeg",
+       "y0": 353.9940185546875,
+       "half": 1
+      },
+      {
+       "path": "img_10.4_177.jpeg",
+       "y0": 386.16900634765625,
+       "half": 1
+      }
+     ]
+    },
+    {
+     "num": "10.5",
+     "title": "Le verglas",
+     "blocks": [
+      {
+       "t": "quote",
+       "text": "Dès que la température est voisine de 0 degré, que l’air est humide et le sol froid, on peut rencontrer du verglas, particulièrement :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "sur les ponts ;",
+        "dans les sous-bois ;",
+        "dans les vallées abritées ;",
+        "dans les zones exposées aux courants d’air."
+       ]
+      },
+      {
+       "t": "p",
+       "text": "Le verglas est surtout dangereux en plaques isolées qui surprennent le conducteur."
+      },
+      {
+       "t": "p",
+       "text": "EQUIPEMENT SPÉCIFIQUE AUX CONDITIONS DE NEIGE ET VERGLAS"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "Chaînes à neige et pneus neige"
+       ]
+      }
+     ],
+     "images": [
+      {
+       "path": "img_10.5_178.jpeg",
+       "y0": 393.1260070800781,
+       "half": 0
+      }
+     ]
+    },
+    {
+     "num": "10.6",
+     "title": "La conduite en montagne",
+     "blocks": [
+      {
+       "t": "quote",
+       "text": "La conduite en montagne présente des risques supplémentaires dus :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "à la déclivité ;",
+        "aux virages plus nombreux ;",
+        "aux risques de chutes de pierres ;",
+        "aux conditions climatiques, surtout en hiver ;",
+        "aux chaussées souvent plus étroites."
+       ]
+      },
+      {
+       "t": "p",
+       "text": "Il faut :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "adapter sa vitesse aux conditions du terrain ;",
+        "utiliser rationnellement ses freins et éviter l’échauffement en freinant en permanence ;",
+        "utiliser le frein moteur au maximum ;",
+        "éviter les dépassements hasardeux par manque de visibilité ;",
+        "ne pas stationner dans les zones dangereuses et utiliser les refuges quand ils existent ;",
+        "se méfier des plaques de verglas ;",
+        "réduire sa vitesse à l’entrée et à la sortie des tunnels : un temps est nécessaire aux yeux pour s’adapter au changement de lumière."
+       ]
+      },
+      {
+       "t": "p",
+       "text": "j'équipe mon véhicule de chaînes à neige sur une route très enneigée - en montagne, par exemple. Pneus neige : également appelés Thermocontact ou Thermogommes, ils sont utilisables sur verglas comme sur neige."
+      },
+      {
+       "t": "p",
+       "text": "LE CONDUCTEUR LE CONDUCTEUR 11"
+      },
+      {
+       "t": "p",
+       "text": "11.1 L’installation au volant"
+      },
+      {
+       "t": "p",
+       "text": "Une bonne position de conduite assure une meilleure sécurité et diminue la fatigue."
+      },
+      {
+       "t": "p",
+       "text": "Avant le départ, le conducteur doit prendre les précautions suivantes :"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "contrôler visuellement qu’un pneu n’est pas dégonflé ;",
+        "vérifier la propreté des feux,plaques et vitres ;",
+        "s’assurer qu’il n’y a pas de fuites ;",
+        "faire monter ses passagers arrière de préférence du côté opposé à la circulation."
+       ]
+      },
+      {
+       "t": "h",
+       "text": "RÉGLAGE DU RÉTROVISEUR INTÉRIEUR"
+      },
+      {
+       "t": "p",
+       "text": "Régler ce rétroviseur en gardant le contact avec le dossier ; le conducteur ne doit bouger que la tête et voir le haut de la vitre arrière sur le haut du rétroviseur."
+      },
+      {
+       "t": "h",
+       "text": "RÉGLAGE DES RÉTROVISEURS EXTÉRIEURS"
+      },
+      {
+       "t": "p",
+       "text": "Le conducteur doit apercevoir la poignée de la portière arrière dans le coin du rétroviseur, sans bouger de son siège mais seulement en tournant la tête. Il faut procéder de la même façon pour les deux rétroviseurs gauche et droit."
+      },
+      {
+       "t": "h",
+       "text": "RÉGLAGE DU SIÈGE"
+      },
+      {
+       "t": "h",
+       "text": "RÉGLAGE DU DOSSIER"
+      },
+      {
+       "t": "ul",
+       "items": [
+        "S’asseoir bien au fond du siège.",
+        "Enfoncer au maximum la pédale d’embrayage avec le pied gauche, le talon restant en contact avec le sol.",
+        "Régler le siège pour que la jambe soit légèrement fléchie."
+       ]
+      },
+      {
+       "t": "ul",
+       "items": [
+        "Coller le dos en appui sur le dossier.",
+        "Mettre une main en haut du volant.",
+        "Régler le dossier pour que la paume de la main touche le haut du volant sans décoller les épaules du dossier."
+       ]
+      },
+      {
+       "t": "p",
+       "text": "Une fois ces réglages effectués, le conducteur doit s’assurer que le siège est bloqué."
+      },
+      {
+       "t": "p",
+       "text": "11.2 L’état physique, la vue et la fatigue"
+      },
+      {
+       "t": "p",
+       "text": "POUR CONDUIRE, IL EST NÉCESSAIRE DE REGARDER LOIN"
+      },
+      {
+       "t": "p",
+       "text": "Une bonne acuité visuelle est nécessaire pour accéder à la conduite d’un véhicule : le minimum exigé pour les permis A et B est d’au moins 5/10e pour l’ensemble des deux yeux après une éventuelle correction par des lunettes ou des lentilles de contact. Si l’un des yeux a une acuité inférieure à 1/10e ou nulle, l’autre œil doit avoir une acuité d’au moins 6/10e. Si la mention « verres correcteurs » figure sur le permis de conduire, on ne peut pas conduire sans lunettes ou verres de contact. Dans ce dernier cas, il est conseillé, par mesure de sécurité, de disposer dans le véhicule d’une autre paire de lentilles ou mieux, d’une paire de lunettes. Le port de verres teintés est déconseillé la nuit car il diminue la vision nocturne."
+      }
+     ],
+     "images": [
+      {
+       "path": "img_10.6_179.jpeg",
+       "y0": 294.16900634765625,
+       "half": 0
+      },
+      {
+       "path": "img_10.6_180.jpeg",
+       "y0": 59.36602783203125,
+       "half": 1
+      },
+      {
+       "path": "img_10.6_181.jpeg",
+       "y0": 59.4169921875,
+       "half": 1
+      },
+      {
+       "path": "img_10.6_182.jpeg",
+       "y0": 127.96803283691406,
+       "half": 1
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
