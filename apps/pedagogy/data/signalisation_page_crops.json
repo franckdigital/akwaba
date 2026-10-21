@@ -9,6 +9,39 @@
   "page_2.2_2.png",
   "page_2.2_3.png"
  ],
+ "2.3": [
+  "page_2.3_0.png",
+  "page_2.3_1.png",
+  "page_2.3_2.png",
+  "page_2.3_3.png"
+ ],
+ "2.4": [
+  "page_2.4_0.png",
+  "page_2.4_1.png"
+ ],
+ "2.5": [
+  "page_2.5_0.png"
+ ],
+ "2.6": [
+  "page_2.6_0.png",
+  "page_2.6_1.png",
+  "page_2.6_2.png",
+  "page_2.6_3.png",
+  "page_2.6_4.png"
+ ],
+ "2.7": [
+  "page_2.7_0.png"
+ ],
+ "2.8": [
+  "page_2.8_0.png",
+  "page_2.8_1.png"
+ ],
+ "2.9": [
+  "page_2.9_0.png"
+ ],
+ "2.10": [
+  "page_2.10_0.png"
+ ],
  "2.11": [
   "page_2.11_0.png",
   "page_2.11_1.png",
@@ -31,5 +64,19 @@
   "page_2.14_0.png",
   "page_2.14_1.png",
   "page_2.14_2.png"
+ ],
+ "2.15": [
+  "page_2.15_0.png",
+  "page_2.15_1.png"
+ ],
+ "2.16": [
+  "page_2.16_0.png",
+  "page_2.16_1.png",
+  "page_2.16_2.png",
+  "page_2.16_3.png",
+  "page_2.16_4.png",
+  "page_2.16_5.png",
+  "page_2.16_6.png",
+  "page_2.16_7.png"
  ]
 }
