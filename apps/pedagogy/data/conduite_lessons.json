@@ -380,16 +380,43 @@
        "text": "LIMITATION GÉNÉRALE"
       },
       {
-       "t": "p",
-       "text": "Limitation générale de vitesse selon les conditions de conduite (agglomération, route, 2 x 2 voies, autoroute) :"
-      },
-      {
-       "t": "ul",
-       "items": [
-        "Temps clair et conditions normales pour les titulaires d'un permis hors période probatoire.",
-        "Mêmes conditions pendant la durée du permis probatoire.",
-        "Pluie et autres précipitations.",
-        "Visibilité de moins de 50 m."
+       "t": "table",
+       "header": [
+        "Conditions de conduite",
+        "Agglomération",
+        "Route",
+        "2 x 2 voies",
+        "Autoroute"
+       ],
+       "rows": [
+        [
+         "Temps clair et conditions normales pour les titulaires d'un permis hors période probatoire",
+         "50",
+         "90",
+         "110",
+         "130"
+        ],
+        [
+         "Mêmes conditions pendant la durée du permis probatoire",
+         "50",
+         "80",
+         "100",
+         "110"
+        ],
+        [
+         "Pluie et autres précipitations",
+         "50",
+         "80",
+         "100",
+         "110"
+        ],
+        [
+         "Visibilité de moins de 50 m",
+         "50",
+         "50",
+         "50",
+         "50"
+        ]
        ]
       },
       {
@@ -397,7 +424,14 @@
        "text": "En agglomération, la limite peut être relevée à 70 km/h sur les sections de route où les accès de riverains et les traversées de piétons, alors en nombre limité, sont protégés par des dispositifs appropriés. Sur le boulevard périphérique de Paris, cette limite est fixée à 80 km/h."
       }
      ],
-     "images": []
+     "images": [
+      {
+       "path": "img_4.2_16.jpeg"
+      },
+      {
+       "path": "img_4.2_17.jpeg"
+      }
+     ]
     },
     {
      "num": "4.2",
@@ -436,14 +470,7 @@
        "text": "Tout jeune conducteur, pendant la période probatoire de son permis, doit, en circulation, apposer de façon visible, à l'arrière de son véhicule, un disque de 15 cm avec la lettre « A » en rouge."
       }
      ],
-     "images": [
-      {
-       "path": "img_4.2_16.jpeg"
-      },
-      {
-       "path": "img_4.2_17.jpeg"
-      }
-     ]
+     "images": []
     },
     {
      "num": "4.3",
@@ -554,7 +581,11 @@
        "text": "La limitation de vitesse à 50 km/h peut être abaissée à 45 km/h dans toute une agglomération. Dans ce cas, le panneau de limitation est implanté sur le même support que celui de l'entrée d'agglomération et toutes les rues sont concernées."
       }
      ],
-     "images": []
+     "images": [
+      {
+       "path": "img_4.4_signal.jpeg"
+      }
+     ]
     },
     {
      "num": "4.5",
@@ -606,7 +637,11 @@
        "text": "Aucun conducteur ne doit gêner la marche normale des autres véhicules en circulant sans raison valable à une vitesse anormalement réduite. En particulier sur autoroute, lorsque la circulation est fluide, que les conditions atmosphériques permettent une visibilité et une adhérence suffisantes, les conducteurs utilisant la voie la plus à gauche ne peuvent circuler à une vitesse inférieure à 80 km/h."
       }
      ],
-     "images": []
+     "images": [
+      {
+       "path": "img_4.5_reduction.jpeg"
+      }
+     ]
     },
     {
      "num": "4.6",
@@ -779,7 +814,11 @@
        ]
       }
      ],
-     "images": []
+     "images": [
+      {
+       "path": "img_4.9_20.jpeg"
+      }
+     ]
     }
    ]
   },

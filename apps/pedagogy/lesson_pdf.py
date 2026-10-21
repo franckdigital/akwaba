@@ -183,10 +183,36 @@ def build_lesson_pdf_v2(chapter, section, number, title, blocks, images=None):
         elif b["t"] == "ul":
             items = [ListItem(Paragraph(it, li_style), bulletColor=orange) for it in b["items"]]
             return [ListFlowable(items, bulletType="bullet", bulletColor=orange, leftIndent=14, spaceBefore=2, spaceAfter=8)]
+        elif b["t"] == "table":
+            cell_style = ParagraphStyle("cell", fontName="Helvetica", fontSize=8.5, leading=11, textColor=colors.HexColor("#1F2937"))
+            head_style = ParagraphStyle("thead", fontName="Helvetica-Bold", fontSize=8.5, leading=11, textColor=colors.white, alignment=1)
+            val_style = ParagraphStyle("tval", fontName="Helvetica-Bold", fontSize=10, leading=12, textColor=red, alignment=1)
+            header_row = [Paragraph(c, head_style) for c in b["header"]]
+            data_rows = [[Paragraph(row[0], cell_style)] + [Paragraph(v, val_style) for v in row[1:]] for row in b["rows"]]
+            n_cols = len(b["header"])
+            col_w = [W * 0.28] + [W * 0.72 / (n_cols - 1)] * (n_cols - 1)
+            tbl = Table([header_row] + data_rows, colWidths=col_w)
+            style = [("BACKGROUND", (0, 0), (-1, 0), orange), ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+                     ("ALIGN", (0, 0), (-1, -1), "CENTER"), ("GRID", (0, 0), (-1, -1), 0.6, colors.HexColor("#E5E7EB")),
+                     ("TOPPADDING", (0, 0), (-1, -1), 6), ("BOTTOMPADDING", (0, 0), (-1, -1), 6),
+                     ("LEFTPADDING", (0, 0), (-1, -1), 6), ("RIGHTPADDING", (0, 0), (-1, -1), 6)]
+            for r in range(1, len(data_rows) + 1):
+                if r % 2 == 0:
+                    style.append(("BACKGROUND", (0, r), (-1, r), colors.HexColor("#F9FAFB")))
+            tbl.setStyle(TableStyle(style))
+            return [tbl, Spacer(1, 10)]
         return []
 
+    first_h_seen = False
     for i, b in enumerate(blocks):
         if b["t"] == "h":
+            if not first_h_seen and i > 0:
+                # Une image sans sous-titre associé (photo de l'intro, avant le premier
+                # sous-titre du sujet) est insérée ici plutôt que rattachée au 1er sous-titre.
+                img_flow = next_image_flowable()
+                if img_flow:
+                    story += img_flow
+            first_h_seen = True
             # Le sous-titre est maintenu avec son image et le début de son texte, pour ne
             # jamais le laisser seul en bas de page (titre détaché de son contenu).
             group = [Paragraph(b["text"], h4)]
