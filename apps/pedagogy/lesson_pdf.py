@@ -33,6 +33,15 @@ def _sharpen_for_print(raw, img_w_pt):
     return out, ratio
 
 
+def _fit_box(w, h, max_w, max_h):
+    """Réduit (w, h) pour tenir dans (max_w, max_h) en conservant le ratio ; évite qu'une image
+    à l'aspect inhabituel (très haute/étroite) ne dépasse la page (LayoutError)."""
+    if w <= 0 or h <= 0:
+        return max_w, max_h
+    scale = min(max_w / w, max_h / h, 1.0)
+    return w * scale, h * scale
+
+
 def _paragraphs(html):
     """Découpe un petit HTML (<p>...</p>) en paragraphes, en gardant <b> (gras) pour ReportLab."""
     parts = re.split(r"</p>\s*<p>", html.strip().removeprefix("<p>").removesuffix("</p>"))
@@ -164,7 +173,8 @@ def build_lesson_pdf_v2(chapter, section, number, title, blocks, images=None):
             if sharp is None:
                 return None
             data, ratio = sharp
-            return [Spacer(1, 6), Image(data, width=img_w, height=img_w * ratio), Spacer(1, 8)]
+            img_w, img_h = _fit_box(img_w, img_w * ratio, img_w, 260)
+            return [Spacer(1, 6), Image(data, width=img_w, height=img_h), Spacer(1, 8)]
         except Exception:
             return None
 
@@ -199,12 +209,13 @@ def build_lesson_pdf_v2(chapter, section, number, title, blocks, images=None):
                                           ("TOPPADDING", (0, 0), (-1, -1), 10), ("BOTTOMPADDING", (0, 0), (-1, -1), 10)]))
             return [note_tbl, Spacer(1, 10)]
         elif b["t"] == "img":
-            sharp = _sharpen_for_print(b["data"], min(W * 0.55, 280))
+            img_w = min(W * 0.55, 280)
+            sharp = _sharpen_for_print(b["data"], img_w)
             if not sharp:
                 return []
             data, ratio = sharp
-            img_w = min(W * 0.55, 280)
-            return [Spacer(1, 6), Image(data, width=img_w, height=img_w * ratio), Spacer(1, 8)]
+            img_w, img_h = _fit_box(img_w, img_w * ratio, img_w, 260)
+            return [Spacer(1, 6), Image(data, width=img_w, height=img_h), Spacer(1, 8)]
         elif b["t"] == "img_row":
             cells, cw = [], W / len(b["data"])
             for raw in b["data"]:
@@ -213,7 +224,8 @@ def build_lesson_pdf_v2(chapter, section, number, title, blocks, images=None):
                     continue
                 data, ratio = sharp
                 iw = cw * 0.85
-                cells.append(Image(data, width=iw, height=iw * ratio))
+                iw, ih = _fit_box(iw, iw * ratio, iw, 180)
+                cells.append(Image(data, width=iw, height=ih))
             if not cells:
                 return []
             row_tbl = Table([cells], colWidths=[cw] * len(cells))
@@ -255,7 +267,8 @@ def build_lesson_pdf_v2(chapter, section, number, title, blocks, images=None):
             if sharp is None:
                 return None
             data, ratio = sharp
-            return Image(data, width=thumb_w, height=thumb_w * ratio)
+            thumb_w, thumb_h = _fit_box(thumb_w, thumb_w * ratio, thumb_w, 140)
+            return Image(data, width=thumb_w, height=thumb_h)
         except Exception:
             return None
 
