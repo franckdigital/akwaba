@@ -45,6 +45,18 @@ def _load_images(lesson):
     return out
 
 
+# Chapitres où chaque point numéroté (4.1, 4.2...) reste une seule leçon dans la sidebar,
+# avec ses sous-titres affichés à l'intérieur du PDF (au lieu d'être éclaté en un module par
+# sous-titre comme pour « La conduite »).
+UNSPLIT_SECTIONS = {"La vitesse"}
+
+
+def as_single_module(lesson, section):
+    blocks = lesson["blocks"] or _FALLBACK_TEXT.get(section, [{"t": "quote", "text": lesson["title"]}])
+    images = _load_images(lesson)
+    return [{"title": lesson["title"], "blocks": blocks, "images": images}]
+
+
 def split_into_modules(lesson, section):
     """Découpe une entrée du livre (ex. 3.1 Les règles de circulation) en modules indépendants :
     un module « introduction » (texte avant le premier sous-titre) puis un module par sous-titre
@@ -94,8 +106,9 @@ class Command(BaseCommand):
 
         all_modules = []
         for sec in data["sections"]:
+            splitter = as_single_module if sec["section"] in UNSPLIT_SECTIONS else split_into_modules
             for lesson in sec["lessons"]:
-                for mod in split_into_modules(lesson, sec["section"]):
+                for mod in splitter(lesson, sec["section"]):
                     all_modules.append((sec["section"], lesson["num"], mod))
 
         course, _ = Course.objects.update_or_create(
