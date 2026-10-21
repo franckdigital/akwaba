@@ -238,10 +238,56 @@ def build_lesson_pdf_v2(chapter, section, number, title, blocks, images=None):
             return [tbl, Spacer(1, 10)]
         return []
 
+    caption_style = ParagraphStyle("caption", fontName="Helvetica-Bold", fontSize=9, leading=12,
+                                   textColor=colors.HexColor("#1F2937"), alignment=1, spaceBefore=4)
+
+    def next_thumb_flowable():
+        nonlocal img_idx
+        if img_idx >= len(images):
+            return None
+        raw = images[img_idx]
+        img_idx += 1
+        try:
+            thumb_w = min(W * 0.22, 110)
+            sharp = _sharpen_for_print(raw, thumb_w)
+            if sharp is None:
+                return None
+            data, ratio = sharp
+            return Image(data, width=thumb_w, height=thumb_w * ratio)
+        except Exception:
+            return None
+
+    def caption_cell(text):
+        thumb = next_thumb_flowable()
+        cell = [thumb] if thumb else []
+        cell.append(Paragraph(text, caption_style))
+        return cell
+
     first_h_seen = False
-    for i, b in enumerate(blocks):
+    i = 0
+    while i < len(blocks):
+        b = blocks[i]
+        if b["t"] == "caption":
+            # Légendes courtes d'un panneau (ex. « Virage à gauche ») : regroupées par 3 avec
+            # leur vignette, façon planche de panneaux comme dans le livre.
+            run = []
+            while i < len(blocks) and blocks[i]["t"] == "caption":
+                run.append(caption_cell(blocks[i]["text"]))
+                i += 1
+            ncols = 3
+            col_w = W / ncols
+            for r0 in range(0, len(run), ncols):
+                row = run[r0:r0 + ncols]
+                row += [[]] * (ncols - len(row))
+                grid = Table([row], colWidths=[col_w] * ncols)
+                grid.setStyle(TableStyle([("ALIGN", (0, 0), (-1, -1), "CENTER"), ("VALIGN", (0, 0), (-1, -1), "TOP"),
+                                          ("TOPPADDING", (0, 0), (-1, -1), 6), ("BOTTOMPADDING", (0, 0), (-1, -1), 10)]))
+                story.append(grid)
+            continue
+        cur_i = i
+        i += 1
         if b["t"] == "h":
-            if not first_h_seen and i > 0:
+            if not first_h_seen and cur_i > 0:
                 # Une image sans sous-titre associé (photo de l'intro, avant le premier
                 # sous-titre du sujet) est insérée ici plutôt que rattachée au 1er sous-titre.
                 img_flow = next_image_flowable()
@@ -255,10 +301,10 @@ def build_lesson_pdf_v2(chapter, section, number, title, blocks, images=None):
             if img_flow:
                 group += img_flow
             else:
-                nxt = blocks[i + 1] if i + 1 < len(blocks) else None
+                nxt = blocks[cur_i + 1] if cur_i + 1 < len(blocks) else None
                 if nxt and nxt["t"] != "h":
                     group += flow_for(nxt)
-                    blocks[i + 1] = {"t": "_consumed"}
+                    blocks[cur_i + 1] = {"t": "_consumed"}
             story.append(KeepTogether(group))
         elif b["t"] == "_consumed":
             continue
