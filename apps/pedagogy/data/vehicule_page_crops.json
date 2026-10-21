@@ -1,0 +1,74 @@
+{
+ "13.1": {
+  "title": "Généralités",
+  "paths": [
+   "page_13.1_0.png",
+   "page_13.1_1.png"
+  ]
+ },
+ "13.2": {
+  "title": "Transport de personnes",
+  "paths": [
+   "page_13.2_0.png",
+   "page_13.2_1.png",
+   "page_13.2_2.png"
+  ]
+ },
+ "13.3": {
+  "title": "Entretien",
+  "paths": [
+   "page_13.3_0.png"
+  ]
+ },
+ "13.4": {
+  "title": "Pneumatiques",
+  "paths": [
+   "page_13.4_0.png",
+   "page_13.4_1.png",
+   "page_13.4_2.png"
+  ]
+ },
+ "13.5": {
+  "title": "Freinage",
+  "paths": [
+   "page_13.5_0.png",
+   "page_13.5_1.png"
+  ]
+ },
+ "13.6": {
+  "title": "Éclairage",
+  "paths": [
+   "page_13.6_0.png",
+   "page_13.6_1.png",
+   "page_13.6_2.png",
+   "page_13.6_3.png"
+  ]
+ },
+ "13.7": {
+  "title": "Autres équipements",
+  "paths": [
+   "page_13.7_0.png",
+   "page_13.7_1.png"
+  ]
+ },
+ "13.8": {
+  "title": "Pollution et conduite",
+  "paths": [
+   "page_13.8_0.png",
+   "page_13.8_1.png",
+   "page_13.8_2.png"
+  ]
+ },
+ "13.9": {
+  "title": "Remorques",
+  "paths": [
+   "page_13.9_0.png",
+   "page_13.9_1.png",
+   "page_13.9_2.png",
+   "page_13.9_3.png",
+   "page_13.9_4.png",
+   "page_13.9_5.png",
+   "page_13.9_6.png"
+  ]
+ }
+}

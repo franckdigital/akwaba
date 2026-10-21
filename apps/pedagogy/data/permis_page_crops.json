@@ -1,0 +1,88 @@
+{
+ "14.1": {
+  "title": "Règle générale",
+  "paths": [
+   "page_14.1_0.png",
+   "page_14.1_1.png"
+  ]
+ },
+ "14.2": {
+  "title": "Les catégories de permis",
+  "paths": [
+   "page_14.2_0.png",
+   "page_14.2_1.png",
+   "page_14.2_2.png",
+   "page_14.2_3.png",
+   "page_14.2_4.png",
+   "page_14.2_5.png",
+   "page_14.2_6.png"
+  ]
+ },
+ "14.3": {
+  "title": "Visite médicale",
+  "paths": [
+   "page_14.3_0.png",
+   "page_14.3_1.png",
+   "page_14.3_2.png"
+  ]
+ },
+ "14.4": {
+  "title": "Les épreuves",
+  "paths": [
+   "page_14.4_0.png",
+   "page_14.4_1.png",
+   "page_14.4_2.png",
+   "page_14.4_3.png",
+   "page_14.4_4.png",
+   "page_14.4_5.png",
+   "page_14.4_6.png",
+   "page_14.4_7.png"
+  ]
+ },
+ "14.5": {
+  "title": "Les sanctions",
+  "paths": [
+   "page_14.5_0.png",
+   "page_14.5_1.png",
+   "page_14.5_2.png",
+   "page_14.5_3.png",
+   "page_14.5_4.png"
+  ]
+ },
+ "15.1": {
+  "title": "Règles générales",
+  "paths": [
+   "page_15.1_0.png",
+   "page_15.1_1.png",
+   "page_15.1_2.png",
+   "page_15.1_3.png",
+   "page_15.1_4.png"
+  ]
+ },
+ "15.2": {
+  "title": "Le permis probatoire",
+  "paths": [
+   "page_15.2_0.png",
+   "page_15.2_1.png",
+   "page_15.2_2.png"
+  ]
+ },
+ "15.3": {
+  "title": "Récupération intégrale des points",
+  "paths": [
+   "page_15.3_0.png",
+   "page_15.3_1.png"
+  ]
+ },
+ "15.4": {
+  "title": "Les contraventions et amendes",
+  "paths": [
+   "page_15.4_0.png",
+   "page_15.4_1.png",
+   "page_15.4_2.png",
+   "page_15.4_3.png",
+   "page_15.4_4.png",
+   "page_15.4_5.png"
+  ]
+ }
+}

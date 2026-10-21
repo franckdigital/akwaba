@@ -1,0 +1,38 @@
+{
+ "11.1": {
+  "title": "L’installation au volant",
+  "paths": [
+   "page_11.1_0.png",
+   "page_11.1_1.png"
+  ]
+ },
+ "11.2": {
+  "title": "L’état physique, la vue et la fatigue",
+  "paths": [
+   "page_11.2_0.png",
+   "page_11.2_1.png",
+   "page_11.2_2.png"
+  ]
+ },
+ "11.3": {
+  "title": "L’alcool",
+  "paths": [
+   "page_11.3_0.png",
+   "page_11.3_1.png",
+   "page_11.3_2.png",
+   "page_11.3_3.png"
+  ]
+ },
+ "11.4": {
+  "title": "Les sanctions",
+  "paths": [
+   "page_11.4_0.png",
+   "page_11.4_1.png",
+   "page_11.4_2.png",
+   "page_11.4_3.png",
+   "page_11.4_4.png",
+   "page_11.4_5.png",
+   "page_11.4_6.png"
+  ]
+ }
+}

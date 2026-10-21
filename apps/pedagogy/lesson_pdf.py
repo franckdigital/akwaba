@@ -158,10 +158,12 @@ def build_lesson_pdf_v2(chapter, section, number, title, blocks, images=None):
     crumb_tbl.setStyle(TableStyle([("BACKGROUND", (0, 0), (0, 0), red), ("BACKGROUND", (1, 0), (1, 0), orange),
                                    ("LEFTPADDING", (0, 0), (-1, -1), 10), ("TOPPADDING", (0, 0), (-1, -1), 6), ("BOTTOMPADDING", (0, 0), (-1, -1), 6)]))
 
-    badge = Table([[Paragraph(f"<b>{number}</b>", ParagraphStyle("num", fontName="Helvetica-Bold", fontSize=13, textColor=colors.white, alignment=1))]],
-                  colWidths=[13 * mm], rowHeights=[13 * mm])
+    badge_font = 13 if len(number) <= 3 else 11
+    badge_w = 13 if len(number) <= 3 else 17
+    badge = Table([[Paragraph(f"<b>{number}</b>", ParagraphStyle("num", fontName="Helvetica-Bold", fontSize=badge_font, textColor=colors.white, alignment=1))]],
+                  colWidths=[badge_w * mm], rowHeights=[13 * mm])
     badge.setStyle(TableStyle([("BACKGROUND", (0, 0), (-1, -1), red), ("VALIGN", (0, 0), (-1, -1), "MIDDLE"), ("ALIGN", (0, 0), (-1, -1), "CENTER")]))
-    head = Table([[badge, Paragraph(title, h1)]], colWidths=[16 * mm, W - 16 * mm])
+    head = Table([[badge, Paragraph(title, h1)]], colWidths=[badge_w * mm + 3, W - (badge_w * mm + 3)])
     head.setStyle(TableStyle([("VALIGN", (0, 0), (-1, -1), "MIDDLE")]))
 
     story = [crumb_tbl, Spacer(1, 14), head, Spacer(1, 10)]
