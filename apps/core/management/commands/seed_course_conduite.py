@@ -21,9 +21,6 @@ from apps.pedagogy.models import Course, CourseMaterial
 CHAPTER = "La conduite"
 _DATA_PATH = os.path.join(os.path.dirname(__file__), "..", "..", "..", "pedagogy", "data", "conduite_lessons.json")
 _IMG_DIR = os.path.join(os.path.dirname(__file__), "..", "..", "..", "pedagogy", "book_images_v2")
-_DEFINITIONS_PATH = os.path.join(os.path.dirname(__file__), "..", "..", "..", "pedagogy", "data", "definitions_lessons.json")
-_SIGNALISATION_PATH = os.path.join(os.path.dirname(__file__), "..", "..", "..", "pedagogy", "data", "signalisation_lessons.json")
-_SIGNAL_IMG_DIR = os.path.join(os.path.dirname(__file__), "..", "..", "..", "pedagogy", "signal_images_v2")
 
 # Les leçons sans contenu capté automatiquement (titre fusionné avec la leçon suivante dans le PDF
 # source) reçoivent un texte de repli minimal plutôt que d'être vides.
@@ -65,40 +62,6 @@ def _resolve_inline_images(blocks):
             out.append({"t": "img_row", "data": [_read_img(p) for p in b["paths"]]})
         else:
             out.append(b)
-    return out
-
-
-def _definitions_modules():
-    """Chapitre « Quelques définitions » (lexique) : une leçon par lettre."""
-    with open(_DEFINITIONS_PATH, encoding="utf-8") as f:
-        data = json.load(f)
-    out = []
-    for letter in sorted(data.keys()):
-        blocks = []
-        for i, item in enumerate(data[letter]):
-            if i == 0:
-                blocks.append({"t": "quote", "text": f"{item['term']} : {item['def']}"})
-            else:
-                blocks.append({"t": "h", "text": item["term"]})
-                blocks.append({"t": "p", "text": item["def"]})
-        out.append(("Quelques définitions", letter, {"title": f"Lettre {letter}", "blocks": blocks, "images": []}))
-    return out
-
-
-def _signalisation_modules():
-    """Chapitre « Signalisation » : une leçon par point numéroté (2.1 à 2.16)."""
-    with open(_SIGNALISATION_PATH, encoding="utf-8") as f:
-        data = json.load(f)
-    out = []
-    for sec in data["sections"]:
-        for lesson in sec["lessons"]:
-            images = []
-            for im in lesson["images"]:
-                path = os.path.join(_SIGNAL_IMG_DIR, im["path"])
-                if os.path.exists(path):
-                    with open(path, "rb") as fh:
-                        images.append(fh.read())
-            out.append(("Signalisation", lesson["num"], {"title": lesson["title"], "blocks": lesson["blocks"], "images": images}))
     return out
 
 
@@ -162,18 +125,11 @@ class Command(BaseCommand):
             data = json.load(f)
 
         all_modules = []
-        all_modules += _definitions_modules()
-        all_modules += _signalisation_modules()
         for sec in data["sections"]:
             splitter = as_single_module if sec["section"] in UNSPLIT_SECTIONS else split_into_modules
             for lesson in sec["lessons"]:
                 for mod in splitter(lesson, sec["section"]):
                     all_modules.append((sec["section"], lesson["num"], mod))
-
-        # Ces deux chapitres étaient auparavant des cours séparés (seed_course_definitions /
-        # seed_course_signalisation) : ils font maintenant partie de « La conduite », comme les
-        # autres chapitres du livre. On retire les anciens cours pour éviter les doublons.
-        Course.objects.filter(school=None, title__in=["Quelques définitions", "Signalisation"]).delete()
 
         course, _ = Course.objects.update_or_create(
             school=None, title="La conduite",
