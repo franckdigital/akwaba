@@ -1,6 +1,6 @@
-"""Attribue une image de couverture générée (apps/pedagogy/covers/) aux 3 cours du code de la
-route : Quelques définitions (livre + loupe), Signalisation (triangle d'alerte), La conduite
-(volant). Même dégradé rouge que l'illustration par défaut de l'app.
+"""Attribue une image de couverture (apps/pedagogy/covers/) aux 6 cours du code de la route.
+Quelques définitions, Le conducteur, Le véhicule et Les permis utilisent une illustration générée
+(icône + scène de ville, dégradé rouge). Signalisation et La conduite utilisent une vraie photo.
 
     python manage.py seed_course_covers
 """
@@ -15,13 +15,16 @@ _COVERS_DIR = os.path.join(os.path.dirname(__file__), "..", "..", "..", "pedagog
 
 COURSE_COVERS = {
     "Quelques définitions": "definitions.png",
-    "Signalisation": "signalisation.png",
-    "La conduite": "conduite.png",
+    "Signalisation": "signalisation.jpg",
+    "La conduite": "conduite.jpg",
+    "Le conducteur": "conducteur.png",
+    "Le véhicule": "vehicule.png",
+    "Les permis": "permis.png",
 }
 
 
 class Command(BaseCommand):
-    help = "Attribue une image de couverture aux cours Quelques définitions / Signalisation / La conduite."
+    help = "Attribue une image de couverture aux 6 cours du code de la route."
 
     def handle(self, *args, **options):
         done = 0
