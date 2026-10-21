@@ -8,124 +8,12 @@
      "title": "Qu'est-ce qu'un panneau ?",
      "blocks": [
       {
-       "t": "quote",
-       "text": "La forme et la couleur donnent le fond ; dans cet exemple :"
+       "t": "page_crop",
+       "img_path": "page_2.1_0.png"
       },
       {
-       "t": "ul",
-       "items": [
-        "La forme est TRIANGULAIRE.",
-        "La couleur est ROUGE.",
-        "L'ensemble donne le FOND : un triangle bordé de rouge.",
-        "À la vue du panneau, vous devez savoir quelle attitude vous devez adopter."
-       ]
-      },
-      {
-       "t": "p",
-       "text": "Le symbole n'est que le complément d'information."
-      },
-      {
-       "t": "caption",
-       "text": "C'est une forme",
-       "img_path": "shape_triangle_outline.png"
-      },
-      {
-       "t": "caption",
-       "text": "C'est une couleur / C'est un fond",
-       "img_path": "shape_triangle_red_white.png"
-      },
-      {
-       "t": "caption",
-       "text": "C'est un symbole",
-       "img_path": "shape_traffic_light.png"
-      },
-      {
-       "t": "h",
-       "text": "LE DANGER"
-      },
-      {
-       "t": "p",
-       "text": "Les panneaux ayant la forme d'un triangle bordé de rouge annoncent un danger."
-      },
-      {
-       "t": "caption",
-       "text": "Permanent",
-       "img_path": "shape_triangle_red_white.png"
-      },
-      {
-       "t": "caption",
-       "text": "Temporaire",
-       "img_path": "shape_triangle_red_yellow.png"
-      },
-      {
-       "t": "h",
-       "text": "L'OBLIGATION"
-      },
-      {
-       "t": "caption",
-       "text": "Les panneaux ayant la forme d'un rond rouge annoncent une interdiction.",
-       "img_path": "shape_circle_red_white.png"
-      },
-      {
-       "t": "caption",
-       "text": "Les panneaux ayant la forme d'un rond bleu annoncent une obligation.",
-       "img_path": "shape_circle_blue.png"
-      },
-      {
-       "t": "caption",
-       "text": "Les panneaux ayant la forme d'un rond blanc barré de noir annoncent une fin d'interdiction.",
-       "img_path": "shape_circle_white_barre_noir.png"
-      },
-      {
-       "t": "caption",
-       "text": "Ces mêmes panneaux barrés de rouge annoncent une fin d'obligation.",
-       "img_path": "shape_circle_blue_barre_rouge.png"
-      },
-      {
-       "t": "h",
-       "text": "L'INDICATION"
-      },
-      {
-       "t": "p",
-       "text": "Ces panneaux de formes et de couleurs diverses servent à guider et à renseigner utilement les usagers de la route."
-      },
-      {
-       "t": "caption",
-       "text": "Indications de conduite",
-       "img_path": "shape_square_blue.png"
-      },
-      {
-       "t": "caption",
-       "text": "Indications diverses",
-       "img_path": "shape_square_white_blue_border.png"
-      },
-      {
-       "t": "h",
-       "text": "LA DIRECTION"
-      },
-      {
-       "t": "caption",
-       "text": "Liaisons autoroutières",
-       "img_path": "shape_arrow_blue.png"
-      },
-      {
-       "t": "caption",
-       "text": "Liaisons intervilles",
-       "img_path": "shape_arrow_green.png"
-      },
-      {
-       "t": "h",
-       "text": "LA LOCALISATION"
-      },
-      {
-       "t": "caption",
-       "text": "Localisations diverses",
-       "img_path": "shape_rect_white_black_border.png"
-      },
-      {
-       "t": "caption",
-       "text": "Localisations touristiques",
-       "img_path": "shape_rect_brown.png"
+       "t": "page_crop",
+       "img_path": "page_2.1_1.png"
       }
      ],
      "leftover_images": []
