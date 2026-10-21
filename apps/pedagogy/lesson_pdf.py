@@ -287,6 +287,16 @@ def build_lesson_pdf_v2(chapter, section, number, title, blocks, images=None):
         cell.append(Paragraph(text, caption_style))
         return cell
 
+    ncols = 3
+    col_w = W / ncols
+
+    def grid_row(cells):
+        row = list(cells) + [[]] * (ncols - len(cells))
+        grid = Table([row], colWidths=[col_w] * ncols)
+        grid.setStyle(TableStyle([("ALIGN", (0, 0), (-1, -1), "CENTER"), ("VALIGN", (0, 0), (-1, -1), "TOP"),
+                                  ("TOPPADDING", (0, 0), (-1, -1), 6), ("BOTTOMPADDING", (0, 0), (-1, -1), 10)]))
+        return grid
+
     first_h_seen = False
     i = 0
     while i < len(blocks):
@@ -299,15 +309,8 @@ def build_lesson_pdf_v2(chapter, section, number, title, blocks, images=None):
             while i < len(blocks) and blocks[i]["t"] == "caption":
                 run.append(caption_cell(blocks[i]["text"], blocks[i].get("img_data")))
                 i += 1
-            ncols = 3
-            col_w = W / ncols
             for r0 in range(0, len(run), ncols):
-                row = run[r0:r0 + ncols]
-                row += [[]] * (ncols - len(row))
-                grid = Table([row], colWidths=[col_w] * ncols)
-                grid.setStyle(TableStyle([("ALIGN", (0, 0), (-1, -1), "CENTER"), ("VALIGN", (0, 0), (-1, -1), "TOP"),
-                                          ("TOPPADDING", (0, 0), (-1, -1), 6), ("BOTTOMPADDING", (0, 0), (-1, -1), 10)]))
-                story.append(grid)
+                story.append(grid_row(run[r0:r0 + ncols]))
             continue
         cur_i = i
         i += 1
@@ -327,9 +330,19 @@ def build_lesson_pdf_v2(chapter, section, number, title, blocks, images=None):
                 group += img_flow
             else:
                 nxt = blocks[cur_i + 1] if cur_i + 1 < len(blocks) else None
-                # Les légendes ("caption") ne doivent jamais être absorbées ici : elles sont
-                # gérées par leur propre regroupement en planche (sinon leur texte disparaît).
-                if nxt and nxt["t"] not in ("h", "caption"):
+                if nxt and nxt["t"] == "caption":
+                    # Le sous-titre est immédiatement suivi d'une planche de légendes : on
+                    # rattache la 1re rangée (jusqu'à 3) au sous-titre pour ne jamais le laisser
+                    # seul en bas de page, et on consomme ces légendes ici (pas de double rendu).
+                    row_cells = []
+                    j = cur_i + 1
+                    while j < len(blocks) and blocks[j]["t"] == "caption" and len(row_cells) < ncols:
+                        row_cells.append(caption_cell(blocks[j]["text"], blocks[j].get("img_data")))
+                        blocks[j] = {"t": "_consumed"}
+                        j += 1
+                    if row_cells:
+                        group.append(grid_row(row_cells))
+                elif nxt and nxt["t"] != "h":
                     group += flow_for(nxt)
                     blocks[cur_i + 1] = {"t": "_consumed"}
             story.append(KeepTogether(group))
