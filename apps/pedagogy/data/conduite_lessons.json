@@ -422,16 +422,16 @@
       {
        "t": "p",
        "text": "En agglomération, la limite peut être relevée à 70 km/h sur les sections de route où les accès de riverains et les traversées de piétons, alors en nombre limité, sont protégés par des dispositifs appropriés. Sur le boulevard périphérique de Paris, cette limite est fixée à 80 km/h."
-      }
-     ],
-     "images": [
-      {
-       "path": "img_4.2_16.jpeg"
       },
       {
-       "path": "img_4.2_17.jpeg"
+       "t": "img_row",
+       "paths": [
+        "img_4.2_16.jpeg",
+        "img_4.2_17.jpeg"
+       ]
       }
-     ]
+     ],
+     "images": []
     },
     {
      "num": "4.2",
@@ -466,8 +466,9 @@
        "text": "Dans le cadre de l'apprentissage anticipé de la conduite, tout apprenti conducteur doit, en circulation, apposer de façon visible, à l'arrière de son véhicule, un disque de 15 cm et doit respecter les mêmes limitations de vitesse qu'un jeune conducteur."
       },
       {
-       "t": "p",
-       "text": "Tout jeune conducteur, pendant la période probatoire de son permis, doit, en circulation, apposer de façon visible, à l'arrière de son véhicule, un disque de 15 cm avec la lettre « A » en rouge."
+       "t": "note",
+       "text": "Tout jeune conducteur, pendant la période probatoire de son permis, doit, en circulation, apposer de façon visible, à l'arrière de son véhicule, un disque de 15 cm avec la lettre « A » en rouge.",
+       "items": []
       }
      ],
      "images": []
@@ -497,11 +498,8 @@
        "text": "Perte de six points du permis de conduire."
       },
       {
-       "t": "p",
-       "text": "Tout conducteur qui dépasse la limite de vitesse de plus de 50 km/h encourt également les peines complémentaires suivantes :"
-      },
-      {
-       "t": "ul",
+       "t": "note",
+       "text": "Tout conducteur qui dépasse la limite de vitesse de plus de 50 km/h encourt également les peines complémentaires suivantes :",
        "items": [
         "La suspension du permis de conduire pour une durée de trois ans au plus, cette suspension ne pouvant pas être limitée à la conduite en dehors de l'activité professionnelle, ni être assortie du sursis, même partiellement ;",
         "L'interdiction de conduire certains véhicules terrestres à moteur, y compris ceux pour la conduite desquels le permis de conduire n'est pas exigé, pour une durée de trois ans au plus ;",
@@ -542,11 +540,8 @@
        "text": "Perte d'un point du permis de conduire."
       },
       {
-       "t": "p",
-       "text": "Tout conducteur qui dépasse la limite de vitesse de plus de 30 km/h encourt également les peines complémentaires suivantes :"
-      },
-      {
-       "t": "ul",
+       "t": "note",
+       "text": "Tout conducteur qui dépasse la limite de vitesse de plus de 30 km/h encourt également les peines complémentaires suivantes :",
        "items": [
         "La suspension, pour une durée de trois ans au plus, du permis de conduire, cette suspension pouvant être limitée à la conduite en dehors de l'activité professionnelle ;",
         "L'interdiction de conduire certains véhicules terrestres à moteur, y compris ceux pour la conduite desquels le permis de conduire n'est pas exigé, pour une durée de trois ans au plus ;",
@@ -613,12 +608,9 @@
        ]
       },
       {
-       "t": "h",
-       "text": "Vitesse anormalement réduite"
-      },
-      {
-       "t": "p",
-       "text": "En cas de circulation à une vitesse anormalement réduite suite à un incident, je dois allumer mes feux de détresse."
+       "t": "note",
+       "text": "Vitesse anormalement réduite : en cas de circulation à une vitesse anormalement réduite suite à un incident, je dois allumer mes feux de détresse.",
+       "items": []
       },
       {
        "t": "h",

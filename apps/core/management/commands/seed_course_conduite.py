@@ -45,6 +45,26 @@ def _load_images(lesson):
     return out
 
 
+def _read_img(filename):
+    path = os.path.join(_IMG_DIR, filename)
+    with open(path, "rb") as fh:
+        return fh.read()
+
+
+def _resolve_inline_images(blocks):
+    """Les blocs "img"/"img_row" du JSON portent un chemin de fichier ; on le résout en octets
+    avant de les passer au moteur PDF (qui ne connaît pas book_images_v2/)."""
+    out = []
+    for b in blocks:
+        if b["t"] == "img":
+            out.append({"t": "img", "data": _read_img(b["path"])})
+        elif b["t"] == "img_row":
+            out.append({"t": "img_row", "data": [_read_img(p) for p in b["paths"]]})
+        else:
+            out.append(b)
+    return out
+
+
 # Chapitres où chaque point numéroté (4.1, 4.2...) reste une seule leçon dans la sidebar,
 # avec ses sous-titres affichés à l'intérieur du PDF (au lieu d'être éclaté en un module par
 # sous-titre comme pour « La conduite »).
@@ -128,7 +148,8 @@ class Command(BaseCommand):
         for section, num, mod in all_modules:
             order += 1
             images = mod["images"]
-            pdf = build_lesson_pdf_v2(CHAPTER, section, num, mod["title"], mod["blocks"], images=images)
+            blocks = _resolve_inline_images(mod["blocks"])
+            pdf = build_lesson_pdf_v2(CHAPTER, section, num, mod["title"], blocks, images=images)
             m = CourseMaterial.objects.create(
                 course=course, section=section, material_type="pdf", title=mod["title"],
                 order=order, duration_minutes=3, is_required=True, download_allowed=True, is_published=True,

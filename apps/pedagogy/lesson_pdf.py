@@ -183,6 +183,41 @@ def build_lesson_pdf_v2(chapter, section, number, title, blocks, images=None):
         elif b["t"] == "ul":
             items = [ListItem(Paragraph(it, li_style), bulletColor=orange) for it in b["items"]]
             return [ListFlowable(items, bulletType="bullet", bulletColor=orange, leftIndent=14, spaceBefore=2, spaceAfter=8)]
+        elif b["t"] == "note":
+            # Encadré secondaire à bordure rouge (ex. peines complémentaires), fond blanc,
+            # distinct de la citation principale (encadré violet plein).
+            note_body = ParagraphStyle("noteBody", fontName="Helvetica-Bold", fontSize=9.5, leading=13, textColor=colors.HexColor("#1F2937"))
+            note_li = ParagraphStyle("noteLi", fontName="Helvetica-Bold", fontSize=9.5, leading=12.5, textColor=colors.HexColor("#1F2937"))
+            inner = [Paragraph(b["text"], note_body)]
+            if b.get("items"):
+                items = [ListItem(Paragraph(it, note_li), bulletColor=red) for it in b["items"]]
+                inner.append(ListFlowable(items, bulletType="bullet", bulletColor=red, leftIndent=12, spaceBefore=4))
+            note_tbl = Table([[inner]], colWidths=[W])
+            note_tbl.setStyle(TableStyle([("BOX", (0, 0), (-1, -1), 1.2, red), ("BACKGROUND", (0, 0), (-1, -1), colors.white),
+                                          ("LEFTPADDING", (0, 0), (-1, -1), 12), ("RIGHTPADDING", (0, 0), (-1, -1), 12),
+                                          ("TOPPADDING", (0, 0), (-1, -1), 10), ("BOTTOMPADDING", (0, 0), (-1, -1), 10)]))
+            return [note_tbl, Spacer(1, 10)]
+        elif b["t"] == "img":
+            sharp = _sharpen_for_print(b["data"], min(W * 0.55, 280))
+            if not sharp:
+                return []
+            data, ratio = sharp
+            img_w = min(W * 0.55, 280)
+            return [Spacer(1, 6), Image(data, width=img_w, height=img_w * ratio), Spacer(1, 8)]
+        elif b["t"] == "img_row":
+            cells, cw = [], W / len(b["data"])
+            for raw in b["data"]:
+                sharp = _sharpen_for_print(raw, cw * 0.85)
+                if not sharp:
+                    continue
+                data, ratio = sharp
+                iw = cw * 0.85
+                cells.append(Image(data, width=iw, height=iw * ratio))
+            if not cells:
+                return []
+            row_tbl = Table([cells], colWidths=[cw] * len(cells))
+            row_tbl.setStyle(TableStyle([("ALIGN", (0, 0), (-1, -1), "CENTER"), ("VALIGN", (0, 0), (-1, -1), "MIDDLE")]))
+            return [Spacer(1, 6), row_tbl, Spacer(1, 8)]
         elif b["t"] == "table":
             cell_style = ParagraphStyle("cell", fontName="Helvetica", fontSize=8.5, leading=11, textColor=colors.HexColor("#1F2937"))
             head_style = ParagraphStyle("thead", fontName="Helvetica-Bold", fontSize=8.5, leading=11, textColor=colors.white, alignment=1)
@@ -215,7 +250,7 @@ def build_lesson_pdf_v2(chapter, section, number, title, blocks, images=None):
             first_h_seen = True
             # Le sous-titre est maintenu avec son image et le début de son texte, pour ne
             # jamais le laisser seul en bas de page (titre détaché de son contenu).
-            group = [Paragraph(b["text"], h4)]
+            group = [Paragraph(f'<font color="{ORANGE}">●</font>&nbsp;&nbsp;{b["text"]}', h4)]
             img_flow = next_image_flowable()
             if img_flow:
                 group += img_flow
