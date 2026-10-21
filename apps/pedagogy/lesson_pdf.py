@@ -20,7 +20,16 @@ def _sharpen_for_print(raw, img_w_pt):
     """
     from PIL import Image as PILImage, ImageFilter
 
-    pil = PILImage.open(io.BytesIO(raw)).convert("RGB")
+    pil = PILImage.open(io.BytesIO(raw))
+    if pil.mode in ("RGBA", "LA", "P"):
+        # Composite sur fond blanc (et non noir, le défaut de convert("RGB")) pour les PNG
+        # transparents (icônes générées, logos) avant de les aplatir en JPEG.
+        base = PILImage.new("RGB", pil.size, (255, 255, 255))
+        rgba = pil.convert("RGBA")
+        base.paste(rgba, mask=rgba.split()[-1])
+        pil = base
+    else:
+        pil = pil.convert("RGB")
     ratio = pil.height / pil.width
     target_w = max(int(img_w_pt * 200 / 72), pil.width)
     target_h = int(target_w * ratio)
@@ -318,7 +327,9 @@ def build_lesson_pdf_v2(chapter, section, number, title, blocks, images=None):
                 group += img_flow
             else:
                 nxt = blocks[cur_i + 1] if cur_i + 1 < len(blocks) else None
-                if nxt and nxt["t"] != "h":
+                # Les légendes ("caption") ne doivent jamais être absorbées ici : elles sont
+                # gérées par leur propre regroupement en planche (sinon leur texte disparaît).
+                if nxt and nxt["t"] not in ("h", "caption"):
                     group += flow_for(nxt)
                     blocks[cur_i + 1] = {"t": "_consumed"}
             story.append(KeepTogether(group))

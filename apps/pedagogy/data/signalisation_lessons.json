@@ -27,12 +27,12 @@
       {
        "t": "caption",
        "text": "C'est une forme",
-       "img_path": null
+       "img_path": "shape_triangle_outline.png"
       },
       {
        "t": "caption",
        "text": "C'est une couleur / C'est un fond",
-       "img_path": null
+       "img_path": "shape_triangle_red_white.png"
       },
       {
        "t": "caption",
@@ -41,8 +41,7 @@
       },
       {
        "t": "h",
-       "text": "LE DANGER",
-       "img_path": "pair_9_9.png"
+       "text": "LE DANGER"
       },
       {
        "t": "p",
@@ -51,38 +50,40 @@
       {
        "t": "caption",
        "text": "Permanent",
-       "img_path": "pair_9_14.jpeg"
+       "img_path": "shape_triangle_red_white.png"
       },
       {
        "t": "caption",
        "text": "Temporaire",
-       "img_path": "pair_9_15.jpeg"
+       "img_path": "shape_triangle_red_yellow.png"
       },
       {
        "t": "h",
-       "text": "L'OBLIGATION",
-       "img_path": null
+       "text": "L'OBLIGATION"
       },
       {
-       "t": "p",
-       "text": "Les panneaux ayant la forme d'un rond rouge annoncent une interdiction."
+       "t": "caption",
+       "text": "Les panneaux ayant la forme d'un rond rouge annoncent une interdiction.",
+       "img_path": "shape_circle_red_white.png"
       },
       {
-       "t": "p",
-       "text": "Les panneaux ayant la forme d'un rond bleu annoncent une obligation."
+       "t": "caption",
+       "text": "Les panneaux ayant la forme d'un rond bleu annoncent une obligation.",
+       "img_path": "shape_circle_blue.png"
       },
       {
-       "t": "p",
-       "text": "Les panneaux ayant la forme d'un rond blanc barré de noir annoncent une fin d'interdiction."
+       "t": "caption",
+       "text": "Les panneaux ayant la forme d'un rond blanc barré de noir annoncent une fin d'interdiction.",
+       "img_path": "shape_circle_white_barre_noir.png"
       },
       {
-       "t": "p",
-       "text": "Ces mêmes panneaux barrés de rouge annoncent une fin d'obligation."
+       "t": "caption",
+       "text": "Ces mêmes panneaux barrés de rouge annoncent une fin d'obligation.",
+       "img_path": "shape_circle_blue_barre_rouge.png"
       },
       {
        "t": "h",
-       "text": "L'INDICATION",
-       "img_path": null
+       "text": "L'INDICATION"
       },
       {
        "t": "p",
@@ -91,42 +92,40 @@
       {
        "t": "caption",
        "text": "Indications de conduite",
-       "img_path": "pair_9_16.png"
+       "img_path": "shape_square_blue.png"
       },
       {
        "t": "caption",
        "text": "Indications diverses",
-       "img_path": "pair_9_17.png"
+       "img_path": "shape_square_white_blue_border.png"
       },
       {
        "t": "h",
-       "text": "LA DIRECTION",
-       "img_path": "pair_9_12.png"
+       "text": "LA DIRECTION"
       },
       {
        "t": "caption",
        "text": "Liaisons autoroutières",
-       "img_path": "pair_9_21.png"
+       "img_path": "shape_arrow_blue.png"
       },
       {
        "t": "caption",
        "text": "Liaisons intervilles",
-       "img_path": "pair_9_18.png"
+       "img_path": "shape_arrow_green.png"
       },
       {
        "t": "h",
-       "text": "LA LOCALISATION",
-       "img_path": "pair_9_13.png"
+       "text": "LA LOCALISATION"
       },
       {
        "t": "caption",
        "text": "Localisations diverses",
-       "img_path": "pair_9_20.png"
+       "img_path": "shape_rect_white_black_border.png"
       },
       {
        "t": "caption",
        "text": "Localisations touristiques",
-       "img_path": "pair_9_19.png"
+       "img_path": "shape_rect_brown.png"
       }
      ],
      "leftover_images": []
