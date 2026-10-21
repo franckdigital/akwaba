@@ -22,14 +22,29 @@ _DATA_PATH = os.path.join(os.path.dirname(__file__), "..", "..", "..", "pedagogy
 _IMG_DIR = os.path.join(os.path.dirname(__file__), "..", "..", "..", "pedagogy", "signal_images_v2")
 
 
-def _load_images(lesson):
-    out = []
-    for im in lesson["images"]:
-        path = os.path.join(_IMG_DIR, im["path"])
-        if os.path.exists(path):
-            with open(path, "rb") as fh:
-                out.append(fh.read())
-    return out
+def _read_img(filename):
+    path = os.path.join(_IMG_DIR, filename)
+    if not os.path.exists(path):
+        return None
+    with open(path, "rb") as fh:
+        return fh.read()
+
+
+def _resolve_lesson(lesson):
+    """Chaque bloc (sous-titre/légende) porte déjà le panneau qui lui correspond exactement
+    (appariement spatial fait à l'extraction) : on résout son chemin en octets. Les images
+    jamais réclamées par une légende proche (ex. photo d'illustration générale) sont ajoutées
+    à la fin, dans l'ordre de lecture du livre."""
+    blocks = []
+    for b in lesson["blocks"]:
+        b = dict(b)
+        path = b.pop("img_path", None)
+        if path:
+            b["img_data"] = _read_img(path)
+        blocks.append(b)
+    leftover = [_read_img(im["path"]) for im in lesson.get("leftover_images", [])]
+    leftover = [raw for raw in leftover if raw]
+    return blocks, leftover
 
 
 class Command(BaseCommand):
@@ -57,8 +72,8 @@ class Command(BaseCommand):
         order = 0
         for lesson in lessons:
             order += 1
-            images = _load_images(lesson)
-            pdf = build_lesson_pdf_v2(CHAPTER, "Signalisation", lesson["num"], lesson["title"], lesson["blocks"], images=images)
+            blocks, leftover_images = _resolve_lesson(lesson)
+            pdf = build_lesson_pdf_v2(CHAPTER, "Signalisation", lesson["num"], lesson["title"], blocks, images=leftover_images)
             m = CourseMaterial.objects.create(
                 course=course, section="Signalisation", material_type="pdf", title=lesson["title"],
                 order=order, duration_minutes=4, is_required=True, download_allowed=True, is_published=True,

@@ -151,12 +151,13 @@ def build_lesson_pdf_v2(chapter, section, number, title, blocks, images=None):
     images = list(images or [])
     img_idx = 0
 
-    def next_image_flowable():
+    def next_image_flowable(raw=None):
         nonlocal img_idx
-        if img_idx >= len(images):
-            return None
-        raw = images[img_idx]
-        img_idx += 1
+        if raw is None:
+            if img_idx >= len(images):
+                return None
+            raw = images[img_idx]
+            img_idx += 1
         try:
             img_w = min(W * 0.55, 280)
             sharp = _sharpen_for_print(raw, img_w)
@@ -241,12 +242,13 @@ def build_lesson_pdf_v2(chapter, section, number, title, blocks, images=None):
     caption_style = ParagraphStyle("caption", fontName="Helvetica-Bold", fontSize=9, leading=12,
                                    textColor=colors.HexColor("#1F2937"), alignment=1, spaceBefore=4)
 
-    def next_thumb_flowable():
+    def next_thumb_flowable(raw=None):
         nonlocal img_idx
-        if img_idx >= len(images):
-            return None
-        raw = images[img_idx]
-        img_idx += 1
+        if raw is None:
+            if img_idx >= len(images):
+                return None
+            raw = images[img_idx]
+            img_idx += 1
         try:
             thumb_w = min(W * 0.22, 110)
             sharp = _sharpen_for_print(raw, thumb_w)
@@ -257,8 +259,8 @@ def build_lesson_pdf_v2(chapter, section, number, title, blocks, images=None):
         except Exception:
             return None
 
-    def caption_cell(text):
-        thumb = next_thumb_flowable()
+    def caption_cell(text, raw=None):
+        thumb = next_thumb_flowable(raw)
         cell = [thumb] if thumb else []
         cell.append(Paragraph(text, caption_style))
         return cell
@@ -269,10 +271,11 @@ def build_lesson_pdf_v2(chapter, section, number, title, blocks, images=None):
         b = blocks[i]
         if b["t"] == "caption":
             # Légendes courtes d'un panneau (ex. « Virage à gauche ») : regroupées par 3 avec
-            # leur vignette, façon planche de panneaux comme dans le livre.
+            # leur vignette, façon planche de panneaux comme dans le livre. Chaque légende porte
+            # déjà (si extraite avec appariement spatial) l'image exacte qui lui correspond.
             run = []
             while i < len(blocks) and blocks[i]["t"] == "caption":
-                run.append(caption_cell(blocks[i]["text"]))
+                run.append(caption_cell(blocks[i]["text"], blocks[i].get("img_data")))
                 i += 1
             ncols = 3
             col_w = W / ncols
@@ -297,7 +300,7 @@ def build_lesson_pdf_v2(chapter, section, number, title, blocks, images=None):
             # Le sous-titre est maintenu avec son image et le début de son texte, pour ne
             # jamais le laisser seul en bas de page (titre détaché de son contenu).
             group = [Paragraph(f'<font color="{ORANGE}">●</font>&nbsp;&nbsp;{b["text"]}', h4)]
-            img_flow = next_image_flowable()
+            img_flow = next_image_flowable(b.get("img_data")) if b.get("img_data") else next_image_flowable()
             if img_flow:
                 group += img_flow
             else:

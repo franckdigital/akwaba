@@ -30,7 +30,8 @@
       },
       {
        "t": "h",
-       "text": "LE DANGER"
+       "text": "LE DANGER",
+       "img_path": "img_2.1_1.jpeg"
       },
       {
        "t": "p",
@@ -38,11 +39,13 @@
       },
       {
        "t": "caption",
-       "text": "Permanent"
+       "text": "Permanent",
+       "img_path": "img_2.1_2.jpeg"
       },
       {
        "t": "h",
-       "text": "L’OBLIGATION"
+       "text": "L’OBLIGATION",
+       "img_path": "img_2.1_3.jpeg"
       },
       {
        "t": "p",
@@ -62,7 +65,8 @@
       },
       {
        "t": "h",
-       "text": "L’INDICATION"
+       "text": "L’INDICATION",
+       "img_path": "img_2.1_4.png"
       },
       {
        "t": "p",
@@ -74,7 +78,8 @@
       },
       {
        "t": "caption",
-       "text": "Indications diverses"
+       "text": "Indications diverses",
+       "img_path": "img_2.1_5.png"
       },
       {
        "t": "h",
@@ -82,7 +87,8 @@
       },
       {
        "t": "caption",
-       "text": "Temporaire"
+       "text": "Temporaire",
+       "img_path": "img_2.1_6.jpeg"
       },
       {
        "t": "caption",
@@ -105,54 +111,36 @@
        "text": "Localisations touristiques"
       }
      ],
-     "images": [
+     "leftover_images": [
       {
-       "path": "img_2.1_1.jpeg"
-      },
-      {
-       "path": "img_2.1_2.jpeg"
-      },
-      {
-       "path": "img_2.1_3.jpeg"
-      },
-      {
-       "path": "img_2.1_4.png"
-      },
-      {
-       "path": "img_2.1_5.png"
-      },
-      {
-       "path": "img_2.1_6.jpeg"
-      },
-      {
-       "path": "img_2.1_7.jpeg"
-      },
-      {
-       "path": "img_2.1_8.png"
+       "path": "img_2.1_8.jpeg"
       },
       {
        "path": "img_2.1_9.jpeg"
       },
       {
-       "path": "img_2.1_11.jpeg"
+       "path": "img_2.1_10.jpeg"
       },
       {
-       "path": "img_2.1_12.jpeg"
+       "path": "img_2.1_11.png"
       },
       {
-       "path": "img_2.1_13.jpeg"
+       "path": "img_2.1_12.png"
       },
       {
-       "path": "img_2.1_14.png"
+       "path": "img_2.1_13.png"
       },
       {
-       "path": "img_2.1_15.png"
+       "path": "img_2.1_15.jpeg"
       },
       {
-       "path": "img_2.1_16.png"
+       "path": "img_2.1_16.jpeg"
       },
       {
        "path": "img_2.1_17.jpeg"
+      },
+      {
+       "path": "img_2.1_18.png"
       }
      ]
     },
@@ -182,7 +170,8 @@
       },
       {
        "t": "h",
-       "text": "PANONCEAUX DIRECTIONNELS"
+       "text": "PANONCEAUX DIRECTIONNELS",
+       "img_path": "img_2.2_19.jpeg"
       },
       {
        "t": "p",
@@ -198,7 +187,8 @@
       },
       {
        "t": "h",
-       "text": "PANONCEAUX DE CATÉGORIE"
+       "text": "PANONCEAUX DE CATÉGORIE",
+       "img_path": "img_2.2_20.jpeg"
       },
       {
        "t": "p",
@@ -214,7 +204,8 @@
       },
       {
        "t": "caption",
-       "text": "Désigne les cycles."
+       "text": "Désigne les cycles.",
+       "img_path": "img_2.2_21.jpeg"
       },
       {
        "t": "caption",
@@ -270,7 +261,8 @@
       },
       {
        "t": "caption",
-       "text": "Désigne les charrettes à bras."
+       "text": "Désigne les charrettes à bras.",
+       "img_path": "img_2.2_22.jpeg"
       },
       {
        "t": "p",
@@ -290,7 +282,8 @@
       },
       {
        "t": "h",
-       "text": "PANONCEAUX DIVERS"
+       "text": "PANONCEAUX DIVERS",
+       "img_path": "img_2.2_23.png"
       },
       {
        "t": "p",
@@ -298,7 +291,8 @@
       },
       {
        "t": "caption",
-       "text": "Désigne les piétons"
+       "text": "Désigne les piétons",
+       "img_path": "img_2.2_24.jpeg"
       },
       {
        "t": "p",
@@ -318,7 +312,8 @@
       },
       {
        "t": "caption",
-       "text": "Indique le numéro d’un échangeur."
+       "text": "Indique le numéro d’un échangeur.",
+       "img_path": "img_2.2_25.jpeg"
       },
       {
        "t": "p",
@@ -333,25 +328,7 @@
        "text": "Signale les prescriptions qui s’appliquent dans une aire pié- tonne."
       }
      ],
-     "images": [
-      {
-       "path": "img_2.2_19.jpeg"
-      },
-      {
-       "path": "img_2.2_20.jpeg"
-      },
-      {
-       "path": "img_2.2_21.jpeg"
-      },
-      {
-       "path": "img_2.2_22.jpeg"
-      },
-      {
-       "path": "img_2.2_23.jpeg"
-      },
-      {
-       "path": "img_2.2_25.jpeg"
-      },
+     "leftover_images": [
       {
        "path": "img_2.2_26.jpeg"
       },
@@ -363,9 +340,6 @@
       },
       {
        "path": "img_2.2_29.jpeg"
-      },
-      {
-       "path": "img_2.2_30.jpeg"
       },
       {
        "path": "img_2.2_31.jpeg"
@@ -389,6 +363,9 @@
        "path": "img_2.2_37.jpeg"
       },
       {
+       "path": "img_2.2_38.jpeg"
+      },
+      {
        "path": "img_2.2_39.jpeg"
       },
       {
@@ -398,22 +375,19 @@
        "path": "img_2.2_41.jpeg"
       },
       {
-       "path": "img_2.2_42.jpeg"
-      },
-      {
        "path": "img_2.2_43.jpeg"
       },
       {
        "path": "img_2.2_44.jpeg"
       },
       {
-       "path": "img_2.2_46.png"
+       "path": "img_2.2_45.jpeg"
+      },
+      {
+       "path": "img_2.2_46.jpeg"
       },
       {
        "path": "img_2.2_47.jpeg"
-      },
-      {
-       "path": "img_2.2_48.jpeg"
       },
       {
        "path": "img_2.2_49.png"
@@ -465,7 +439,8 @@
       },
       {
        "t": "h",
-       "text": "DEUX CAS PARTICULIERS"
+       "text": "DEUX CAS PARTICULIERS",
+       "img_path": "img_2.3_60.jpeg"
       },
       {
        "t": "p",
@@ -473,7 +448,8 @@
       },
       {
        "t": "h",
-       "text": "PANNEAUX CONCERNANT LES VIRAGES"
+       "text": "PANNEAUX CONCERNANT LES VIRAGES",
+       "img_path": "img_2.3_61.jpeg"
       },
       {
        "t": "caption",
@@ -509,11 +485,13 @@
       },
       {
        "t": "caption",
-       "text": "Virage à droite"
+       "text": "Virage à droite",
+       "img_path": "img_2.3_62.jpeg"
       },
       {
        "t": "h",
-       "text": "PANNEAUX LIÉS À L’ÉTAT DE LA CHAUSSÉE"
+       "text": "PANNEAUX LIÉS À L’ÉTAT DE LA CHAUSSÉE",
+       "img_path": "img_2.3_63.jpeg"
       },
       {
        "t": "caption",
@@ -521,23 +499,28 @@
       },
       {
        "t": "caption",
-       "text": "Chaussée rétrécie"
+       "text": "Chaussée rétrécie",
+       "img_path": "img_2.3_64.jpeg"
       },
       {
        "t": "caption",
-       "text": "Chaussée rétrécie par la gauche"
+       "text": "Chaussée rétrécie par la gauche",
+       "img_path": "img_2.3_65.jpeg"
       },
       {
        "t": "caption",
-       "text": "Chaussée particulièrement glissante"
+       "text": "Chaussée particulièrement glissante",
+       "img_path": "img_2.3_66.jpeg"
       },
       {
        "t": "h",
-       "text": "PANNEAUX LIÉS À UN DÉBOUCHÉ OU UN OBSTACLE"
+       "text": "PANNEAUX LIÉS À UN DÉBOUCHÉ OU UN OBSTACLE",
+       "img_path": "img_2.3_67.jpeg"
       },
       {
        "t": "caption",
-       "text": "Ralentisseur de type dos-d’âne"
+       "text": "Ralentisseur de type dos-d’âne",
+       "img_path": "img_2.3_68.jpeg"
       },
       {
        "t": "p",
@@ -545,7 +528,8 @@
       },
       {
        "t": "caption",
-       "text": "Passage pour piétons"
+       "text": "Passage pour piétons",
+       "img_path": "img_2.3_69.jpeg"
       },
       {
        "t": "p",
@@ -553,15 +537,18 @@
       },
       {
        "t": "caption",
-       "text": "Passages d’animaux domestiques"
+       "text": "Passages d’animaux domestiques",
+       "img_path": "img_2.3_70.jpeg"
       },
       {
        "t": "caption",
-       "text": "Chaussée rétrécie par la droite"
+       "text": "Chaussée rétrécie par la droite",
+       "img_path": "img_2.3_71.jpeg"
       },
       {
        "t": "caption",
-       "text": "Passage d’animaux sauvages"
+       "text": "Passage d’animaux sauvages",
+       "img_path": "img_2.3_72.jpeg"
       },
       {
        "t": "p",
@@ -573,11 +560,13 @@
       },
       {
        "t": "caption",
-       "text": "Annonce de feux tricolores"
+       "text": "Annonce de feux tricolores",
+       "img_path": "img_2.3_73.jpeg"
       },
       {
        "t": "caption",
-       "text": "Descente dangereuse"
+       "text": "Descente dangereuse",
+       "img_path": "img_2.3_74.jpeg"
       },
       {
        "t": "p",
@@ -592,60 +581,21 @@
        "text": "Débouché sur un quai ou une berge"
       }
      ],
-     "images": [
+     "leftover_images": [
       {
-       "path": "img_2.3_60.jpeg"
-      },
-      {
-       "path": "img_2.3_61.jpeg"
-      },
-      {
-       "path": "img_2.3_62.jpeg"
-      },
-      {
-       "path": "img_2.3_63.jpeg"
-      },
-      {
-       "path": "img_2.3_65.jpeg"
-      },
-      {
-       "path": "img_2.3_66.jpeg"
-      },
-      {
-       "path": "img_2.3_67.jpeg"
-      },
-      {
-       "path": "img_2.3_68.jpeg"
-      },
-      {
-       "path": "img_2.3_69.jpeg"
-      },
-      {
-       "path": "img_2.3_70.jpeg"
-      },
-      {
-       "path": "img_2.3_71.jpeg"
-      },
-      {
-       "path": "img_2.3_72.jpeg"
-      },
-      {
-       "path": "img_2.3_73.jpeg"
-      },
-      {
-       "path": "img_2.3_74.jpeg"
+       "path": "img_2.3_75.jpeg"
       },
       {
        "path": "img_2.3_76.jpeg"
-      },
-      {
-       "path": "img_2.3_77.jpeg"
       },
       {
        "path": "img_2.3_78.jpeg"
       },
       {
        "path": "img_2.3_79.jpeg"
+      },
+      {
+       "path": "img_2.3_80.jpeg"
       },
       {
        "path": "img_2.3_81.jpeg"
@@ -664,12 +614,6 @@
       },
       {
        "path": "img_2.3_86.jpeg"
-      },
-      {
-       "path": "img_2.3_87.jpeg"
-      },
-      {
-       "path": "img_2.3_88.jpeg"
       },
       {
        "path": "img_2.3_89.jpeg"
@@ -710,7 +654,8 @@
       },
       {
        "t": "h",
-       "text": "PASSAGES À NIVEAU AVEC BARRIÈRE"
+       "text": "PASSAGES À NIVEAU AVEC BARRIÈRE",
+       "img_path": "img_2.4_99.jpeg"
       },
       {
        "t": "p",
@@ -736,7 +681,8 @@
       },
       {
        "t": "h",
-       "text": "PASSAGES À NIVEAU SANS BARRIÈRE"
+       "text": "PASSAGES À NIVEAU SANS BARRIÈRE",
+       "img_path": "img_2.4_100.jpeg"
       },
       {
        "t": "p",
@@ -755,13 +701,7 @@
        "text": "Ces quatre panneaux peuvent être complétés par un signal sonore et un feu clignotant dont le fonctionne- ment annonce l'arrivée des trains."
       }
      ],
-     "images": [
-      {
-       "path": "img_2.4_99.jpeg"
-      },
-      {
-       "path": "img_2.4_100.jpeg"
-      },
+     "leftover_images": [
       {
        "path": "img_2.4_101.jpeg"
       },
@@ -769,7 +709,7 @@
        "path": "img_2.4_102.jpeg"
       },
       {
-       "path": "img_2.4_104.jpeg"
+       "path": "img_2.4_103.jpeg"
       },
       {
        "path": "img_2.4_105.jpeg"
@@ -803,7 +743,7 @@
        "text": "Un panneau annonce un risque de vent latéral violent, fréquent sur les ponts, viaducs ou zones dégagées, pouvant déporter le véhicule."
       }
      ],
-     "images": []
+     "leftover_images": []
     },
     {
      "num": "2.6",
@@ -843,15 +783,18 @@
       },
       {
        "t": "caption",
-       "text": "Sens interdit à tout véhicule"
+       "text": "Sens interdit à tout véhicule",
+       "img_path": "img_2.6_113.jpeg"
       },
       {
        "t": "caption",
-       "text": "Arrêt au poste de douane"
+       "text": "Arrêt au poste de douane",
+       "img_path": "img_2.6_114.jpeg"
       },
       {
        "t": "caption",
-       "text": "Arrêt au poste de police"
+       "text": "Arrêt au poste de police",
+       "img_path": "img_2.6_115.jpeg"
       },
       {
        "t": "p",
@@ -871,7 +814,8 @@
       },
       {
        "t": "caption",
-       "text": "Accès interdit aux cycles"
+       "text": "Accès interdit aux cycles",
+       "img_path": "img_2.6_116.jpeg"
       },
       {
        "t": "p",
@@ -879,7 +823,8 @@
       },
       {
        "t": "caption",
-       "text": "Arrêt au poste de gendarmerie"
+       "text": "Arrêt au poste de gendarmerie",
+       "img_path": "img_2.6_117.jpeg"
       },
       {
        "t": "p",
@@ -895,7 +840,8 @@
       },
       {
        "t": "caption",
-       "text": "Arrêt au poste de péage"
+       "text": "Arrêt au poste de péage",
+       "img_path": "img_2.6_118.jpeg"
       },
       {
        "t": "p",
@@ -903,7 +849,8 @@
       },
       {
        "t": "caption",
-       "text": "Accès interdit aux véhicules à moteur"
+       "text": "Accès interdit aux véhicules à moteur",
+       "img_path": "img_2.6_119.jpeg"
       },
       {
        "t": "p",
@@ -951,36 +898,16 @@
       },
       {
        "t": "caption",
-       "text": "Signaux sonores interdits"
+       "text": "Signaux sonores interdits",
+       "img_path": "img_2.6_120.jpeg"
       }
      ],
-     "images": [
-      {
-       "path": "img_2.6_113.jpeg"
-      },
-      {
-       "path": "img_2.6_115.jpeg"
-      },
-      {
-       "path": "img_2.6_116.jpeg"
-      },
-      {
-       "path": "img_2.6_117.jpeg"
-      },
-      {
-       "path": "img_2.6_118.jpeg"
-      },
-      {
-       "path": "img_2.6_119.jpeg"
-      },
-      {
-       "path": "img_2.6_120.jpeg"
-      },
+     "leftover_images": [
       {
        "path": "img_2.6_121.jpeg"
       },
       {
-       "path": "img_2.6_122.jpeg"
+       "path": "img_2.6_123.jpeg"
       },
       {
        "path": "img_2.6_124.jpeg"
@@ -995,10 +922,10 @@
        "path": "img_2.6_127.jpeg"
       },
       {
-       "path": "img_2.6_128.png"
+       "path": "img_2.6_128.jpeg"
       },
       {
-       "path": "img_2.6_130.jpeg"
+       "path": "img_2.6_129.jpeg"
       },
       {
        "path": "img_2.6_131.jpeg"
@@ -1007,10 +934,7 @@
        "path": "img_2.6_132.jpeg"
       },
       {
-       "path": "img_2.6_133.jpeg"
-      },
-      {
-       "path": "img_2.6_134.jpeg"
+       "path": "img_2.6_133.png"
       },
       {
        "path": "img_2.6_135.jpeg"
@@ -1043,7 +967,7 @@
        "path": "img_2.6_144.jpeg"
       },
       {
-       "path": "img_2.6_146.jpeg"
+       "path": "img_2.6_145.jpeg"
       },
       {
        "path": "img_2.6_147.jpeg"
@@ -1106,20 +1030,16 @@
       },
       {
        "t": "caption",
-       "text": "Fin de limitation de vitesse"
+       "text": "Fin de limitation de vitesse",
+       "img_path": "img_2.7_155.jpeg"
       },
       {
        "t": "caption",
-       "text": "Fin d'interdiction de l’avertisseur sonore"
+       "text": "Fin d'interdiction de l’avertisseur sonore",
+       "img_path": "img_2.7_156.jpeg"
       }
      ],
-     "images": [
-      {
-       "path": "img_2.7_155.jpeg"
-      },
-      {
-       "path": "img_2.7_156.jpeg"
-      },
+     "leftover_images": [
       {
        "path": "img_2.7_157.jpeg"
       },
@@ -1158,7 +1078,8 @@
       },
       {
        "t": "caption",
-       "text": "Contournement obligatoire par la gauche"
+       "text": "Contournement obligatoire par la gauche",
+       "img_path": "img_2.8_164.jpeg"
       },
       {
        "t": "p",
@@ -1178,7 +1099,8 @@
       },
       {
        "t": "caption",
-       "text": "Chemin obligatoire pour piétons"
+       "text": "Chemin obligatoire pour piétons",
+       "img_path": "img_2.8_165.jpeg"
       },
       {
        "t": "p",
@@ -1186,15 +1108,18 @@
       },
       {
        "t": "caption",
-       "text": "Chemin obligatoire pour cavaliers"
+       "text": "Chemin obligatoire pour cavaliers",
+       "img_path": "img_2.8_166.jpeg"
       },
       {
        "t": "caption",
-       "text": "Vitesse minimum obligatoire"
+       "text": "Vitesse minimum obligatoire",
+       "img_path": "img_2.8_167.jpeg"
       },
       {
        "t": "caption",
-       "text": "Contournement obligatoire par la droite"
+       "text": "Contournement obligatoire par la droite",
+       "img_path": "img_2.8_168.jpeg"
       },
       {
        "t": "p",
@@ -1214,31 +1139,17 @@
       },
       {
        "t": "caption",
-       "text": "Voie réservée aux tramways"
+       "text": "Voie réservée aux tramways",
+       "img_path": "img_2.8_169.jpeg"
       },
       {
        "t": "p",
        "text": "Voie réservée aux véhicules des services réguliers de transport en commun"
       }
      ],
-     "images": [
+     "leftover_images": [
       {
-       "path": "img_2.8_164.jpeg"
-      },
-      {
-       "path": "img_2.8_165.jpeg"
-      },
-      {
-       "path": "img_2.8_166.jpeg"
-      },
-      {
-       "path": "img_2.8_167.jpeg"
-      },
-      {
-       "path": "img_2.8_168.jpeg"
-      },
-      {
-       "path": "img_2.8_169.jpeg"
+       "path": "img_2.8_170.jpeg"
       },
       {
        "path": "img_2.8_171.jpeg"
@@ -1251,9 +1162,6 @@
       },
       {
        "path": "img_2.8_174.jpeg"
-      },
-      {
-       "path": "img_2.8_175.jpeg"
       },
       {
        "path": "img_2.8_176.jpeg"
@@ -1300,13 +1208,11 @@
       },
       {
        "t": "caption",
-       "text": "Fin de voie réservée aux tramways"
+       "text": "Fin de voie réservée aux tramways",
+       "img_path": "img_2.9_184.jpeg"
       }
      ],
-     "images": [
-      {
-       "path": "img_2.9_184.jpeg"
-      },
+     "leftover_images": [
       {
        "path": "img_2.9_185.jpeg"
       },
@@ -1327,7 +1233,7 @@
        "text": "Un panneau de zone s'applique à l'ensemble des voies situées à l'intérieur d'une zone délimitée, jusqu'au panneau de fin de zone correspondant."
       }
      ],
-     "images": []
+     "leftover_images": []
     },
     {
      "num": "2.11",
@@ -1335,7 +1241,8 @@
      "blocks": [
       {
        "t": "caption",
-       "text": "Fin de vitesse minimum obligatoire"
+       "text": "Fin de vitesse minimum obligatoire",
+       "img_path": "img_2.11_189.jpeg"
       },
       {
        "t": "quote",
@@ -1355,11 +1262,13 @@
       },
       {
        "t": "caption",
-       "text": "Vitesse conseillée."
+       "text": "Vitesse conseillée.",
+       "img_path": "img_2.11_190.jpeg"
       },
       {
        "t": "caption",
-       "text": "Fin de vitesse conseillée"
+       "text": "Fin de vitesse conseillée",
+       "img_path": "img_2.11_191.jpeg"
       },
       {
        "t": "p",
@@ -1371,15 +1280,18 @@
       },
       {
        "t": "caption",
-       "text": "Risque d’incendie"
+       "text": "Risque d’incendie",
+       "img_path": "img_2.11_192.jpeg"
       },
       {
        "t": "caption",
-       "text": "Station de taxis"
+       "text": "Station de taxis",
+       "img_path": "img_2.11_193.jpeg"
       },
       {
        "t": "caption",
-       "text": "Arrêt d’autobus"
+       "text": "Arrêt d’autobus",
+       "img_path": "img_2.11_194.jpeg"
       },
       {
        "t": "p",
@@ -1391,7 +1303,8 @@
       },
       {
        "t": "caption",
-       "text": "Circulation à sens unique"
+       "text": "Circulation à sens unique",
+       "img_path": "img_2.11_195.jpeg"
       },
       {
        "t": "p",
@@ -1411,11 +1324,13 @@
       },
       {
        "t": "caption",
-       "text": "Passage pour piétons"
+       "text": "Passage pour piétons",
+       "img_path": "img_2.11_196.jpeg"
       },
       {
        "t": "caption",
-       "text": "Arrêt de tramway"
+       "text": "Arrêt de tramway",
+       "img_path": "img_2.11_197.jpeg"
       },
       {
        "t": "p",
@@ -1443,7 +1358,8 @@
       },
       {
        "t": "caption",
-       "text": "Impasse"
+       "text": "Impasse",
+       "img_path": "img_2.11_198.png"
       },
       {
        "t": "p",
@@ -1455,7 +1371,8 @@
       },
       {
        "t": "caption",
-       "text": "Traversée de tramways"
+       "text": "Traversée de tramways",
+       "img_path": "img_2.11_199.jpeg"
       },
       {
        "t": "p",
@@ -1506,37 +1423,7 @@
        "text": "Ces panneaux délimitent le début et la fin d’une piste ou bande cyclable réservée aux cycles à deux ou trois roues."
       }
      ],
-     "images": [
-      {
-       "path": "img_2.11_189.jpeg"
-      },
-      {
-       "path": "img_2.11_190.jpeg"
-      },
-      {
-       "path": "img_2.11_191.jpeg"
-      },
-      {
-       "path": "img_2.11_192.jpeg"
-      },
-      {
-       "path": "img_2.11_193.jpeg"
-      },
-      {
-       "path": "img_2.11_194.jpeg"
-      },
-      {
-       "path": "img_2.11_195.jpeg"
-      },
-      {
-       "path": "img_2.11_196.jpeg"
-      },
-      {
-       "path": "img_2.11_197.jpeg"
-      },
-      {
-       "path": "img_2.11_199.jpeg"
-      },
+     "leftover_images": [
       {
        "path": "img_2.11_200.jpeg"
       },
@@ -1553,16 +1440,13 @@
        "path": "img_2.11_204.jpeg"
       },
       {
-       "path": "img_2.11_205.jpeg"
+       "path": "img_2.11_206.jpeg"
       },
       {
        "path": "img_2.11_207.jpeg"
       },
       {
        "path": "img_2.11_208.jpeg"
-      },
-      {
-       "path": "img_2.11_209.jpeg"
       },
       {
        "path": "img_2.11_210.jpeg"
@@ -1586,7 +1470,7 @@
        "path": "img_2.11_216.jpeg"
       },
       {
-       "path": "img_2.11_217.png"
+       "path": "img_2.11_217.jpeg"
       },
       {
        "path": "img_2.11_218.jpeg"
@@ -1666,11 +1550,13 @@
       },
       {
        "t": "caption",
-       "text": "Poste de secours"
+       "text": "Poste de secours",
+       "img_path": "img_2.12_243.jpeg"
       },
       {
        "t": "caption",
-       "text": "Poste d’appel d’urgence"
+       "text": "Poste d’appel d’urgence",
+       "img_path": "img_2.12_244.jpeg"
       },
       {
        "t": "p",
@@ -1686,7 +1572,8 @@
       },
       {
        "t": "caption",
-       "text": "Auberge de jeunesse"
+       "text": "Auberge de jeunesse",
+       "img_path": "img_2.12_245.jpeg"
       },
       {
        "t": "p",
@@ -1698,7 +1585,8 @@
       },
       {
        "t": "caption",
-       "text": "Point de pique-nique"
+       "text": "Point de pique-nique",
+       "img_path": "img_2.12_246.jpeg"
       },
       {
        "t": "p",
@@ -1706,11 +1594,13 @@
       },
       {
        "t": "caption",
-       "text": "Gare auto/train"
+       "text": "Gare auto/train",
+       "img_path": "img_2.12_247.jpeg"
       },
       {
        "t": "caption",
-       "text": "Embarcadère"
+       "text": "Embarcadère",
+       "img_path": "img_2.12_248.jpeg"
       },
       {
        "t": "p",
@@ -1761,36 +1651,18 @@
        "text": "Moyen de lutte contre l’incendie Issue de secours vers la droite Installations ou services divers Issue de secours vers la gauche"
       }
      ],
-     "images": [
-      {
-       "path": "img_2.12_243.jpeg"
-      },
-      {
-       "path": "img_2.12_244.jpeg"
-      },
-      {
-       "path": "img_2.12_245.jpeg"
-      },
-      {
-       "path": "img_2.12_246.jpeg"
-      },
-      {
-       "path": "img_2.12_247.jpeg"
-      },
-      {
-       "path": "img_2.12_248.jpeg"
-      },
+     "leftover_images": [
       {
        "path": "img_2.12_249.jpeg"
+      },
+      {
+       "path": "img_2.12_250.jpeg"
       },
       {
        "path": "img_2.12_251.jpeg"
       },
       {
        "path": "img_2.12_252.jpeg"
-      },
-      {
-       "path": "img_2.12_253.jpeg"
       },
       {
        "path": "img_2.12_254.jpeg"
@@ -1912,7 +1784,8 @@
       },
       {
        "t": "h",
-       "text": "DÉFINITION DES COULEURS"
+       "text": "DÉFINITION DES COULEURS",
+       "img_path": "img_2.13_280.jpeg"
       },
       {
        "t": "p",
@@ -1932,7 +1805,8 @@
       },
       {
        "t": "h",
-       "text": "SIGNALISATION AVANCÉE"
+       "text": "SIGNALISATION AVANCÉE",
+       "img_path": "img_2.13_281.jpeg"
       },
       {
        "t": "p",
@@ -1944,7 +1818,8 @@
       },
       {
        "t": "h",
-       "text": "PANNEAUX DE PRÉSIGNALISATION"
+       "text": "PANNEAUX DE PRÉSIGNALISATION",
+       "img_path": "img_2.13_282.jpeg"
       },
       {
        "t": "p",
@@ -1964,7 +1839,8 @@
       },
       {
        "t": "h",
-       "text": "PANNEAUX D’AVERTISSEMENT"
+       "text": "PANNEAUX D’AVERTISSEMENT",
+       "img_path": "img_2.13_283.jpeg"
       },
       {
        "t": "p",
@@ -1976,7 +1852,8 @@
       },
       {
        "t": "h",
-       "text": "PANNEAUX DE CONFIRMATION"
+       "text": "PANNEAUX DE CONFIRMATION",
+       "img_path": "img_2.13_284.jpeg"
       },
       {
        "t": "p",
@@ -1988,7 +1865,8 @@
       },
       {
        "t": "h",
-       "text": "SORTIE SANS AFFECTATION DE VOIE"
+       "text": "SORTIE SANS AFFECTATION DE VOIE",
+       "img_path": "img_2.13_285.jpeg"
       },
       {
        "t": "p",
@@ -2008,7 +1886,8 @@
       },
       {
        "t": "h",
-       "text": "SORTIE AVEC AFFECTATION DE VOIE"
+       "text": "SORTIE AVEC AFFECTATION DE VOIE",
+       "img_path": "img_2.13_286.jpeg"
       },
       {
        "t": "p",
@@ -2027,33 +1906,12 @@
        "text": "4- Confirmation Le panneau placé sur la bande centrale confirme la direction aux usagers qui continuent sur cette route."
       }
      ],
-     "images": [
+     "leftover_images": [
       {
-       "path": "img_2.13_280.jpeg"
+       "path": "img_2.13_287.jpeg"
       },
       {
-       "path": "img_2.13_281.jpeg"
-      },
-      {
-       "path": "img_2.13_282.jpeg"
-      },
-      {
-       "path": "img_2.13_283.jpeg"
-      },
-      {
-       "path": "img_2.13_284.jpeg"
-      },
-      {
-       "path": "img_2.13_285.jpeg"
-      },
-      {
-       "path": "img_2.13_286.jpeg"
-      },
-      {
-       "path": "img_2.13_287.png"
-      },
-      {
-       "path": "img_2.13_288.png"
+       "path": "img_2.13_288.jpeg"
       },
       {
        "path": "img_2.13_289.jpeg"
@@ -2065,31 +1923,31 @@
        "path": "img_2.13_291.jpeg"
       },
       {
-       "path": "img_2.13_292.png"
+       "path": "img_2.13_292.jpeg"
       },
       {
-       "path": "img_2.13_294.jpeg"
+       "path": "img_2.13_293.jpeg"
       },
       {
-       "path": "img_2.13_295.jpeg"
+       "path": "img_2.13_294.png"
+      },
+      {
+       "path": "img_2.13_295.png"
       },
       {
        "path": "img_2.13_296.jpeg"
       },
       {
+       "path": "img_2.13_297.jpeg"
+      },
+      {
        "path": "img_2.13_298.jpeg"
       },
       {
-       "path": "img_2.13_299.jpeg"
-      },
-      {
-       "path": "img_2.13_300.jpeg"
+       "path": "img_2.13_299.png"
       },
       {
        "path": "img_2.13_301.jpeg"
-      },
-      {
-       "path": "img_2.13_302.jpeg"
       },
       {
        "path": "img_2.13_303.jpeg"
@@ -2107,10 +1965,10 @@
        "path": "img_2.13_307.jpeg"
       },
       {
-       "path": "img_2.13_309.jpeg"
+       "path": "img_2.13_308.jpeg"
       },
       {
-       "path": "img_2.13_310.jpeg"
+       "path": "img_2.13_309.jpeg"
       },
       {
        "path": "img_2.13_311.jpeg"
@@ -2164,7 +2022,8 @@
       },
       {
        "t": "caption",
-       "text": "Localisation d’une aire autoroutière"
+       "text": "Localisation d’une aire autoroutière",
+       "img_path": "img_2.14_320.jpeg"
       },
       {
        "t": "p",
@@ -2196,11 +2055,13 @@
       },
       {
        "t": "caption",
-       "text": "Balises de signalisation d'obstacle"
+       "text": "Balises de signalisation d'obstacle",
+       "img_path": "img_2.14_321.jpeg"
       },
       {
        "t": "caption",
-       "text": "Balisage de virage"
+       "text": "Balisage de virage",
+       "img_path": "img_2.14_322.jpeg"
       },
       {
        "t": "p",
@@ -2212,7 +2073,8 @@
       },
       {
        "t": "h",
-       "text": "IDÉOGRAMMES"
+       "text": "IDÉOGRAMMES",
+       "img_path": "img_2.14_323.jpeg"
       },
       {
        "t": "p",
@@ -2220,7 +2082,8 @@
       },
       {
        "t": "caption",
-       "text": "Aéroport"
+       "text": "Aéroport",
+       "img_path": "img_2.14_324.jpeg"
       },
       {
        "t": "caption",
@@ -2232,7 +2095,8 @@
       },
       {
        "t": "caption",
-       "text": "Hôpital ou clinique assurant les urgences"
+       "text": "Hôpital ou clinique assurant les urgences",
+       "img_path": "img_2.14_325.jpeg"
       },
       {
        "t": "p",
@@ -2240,32 +2104,16 @@
       },
       {
        "t": "caption",
-       "text": "Poste d'appel téléphonique"
+       "text": "Poste d'appel téléphonique",
+       "img_path": "img_2.14_326.jpeg"
       },
       {
        "t": "caption",
-       "text": "Poste d’appel d’urgence"
+       "text": "Poste d’appel d’urgence",
+       "img_path": "img_2.14_327.jpeg"
       }
      ],
-     "images": [
-      {
-       "path": "img_2.14_320.jpeg"
-      },
-      {
-       "path": "img_2.14_321.jpeg"
-      },
-      {
-       "path": "img_2.14_322.jpeg"
-      },
-      {
-       "path": "img_2.14_323.jpeg"
-      },
-      {
-       "path": "img_2.14_325.jpeg"
-      },
-      {
-       "path": "img_2.14_327.jpeg"
-      },
+     "leftover_images": [
       {
        "path": "img_2.14_328.jpeg"
       },
@@ -2274,12 +2122,6 @@
       },
       {
        "path": "img_2.14_330.jpeg"
-      },
-      {
-       "path": "img_2.14_331.jpeg"
-      },
-      {
-       "path": "img_2.14_332.jpeg"
       },
       {
        "path": "img_2.14_333.jpeg"
@@ -2299,19 +2141,23 @@
       },
       {
        "t": "caption",
-       "text": "Cassis, dos d’âne"
+       "text": "Cassis, dos d’âne",
+       "img_path": "img_2.15_336.jpeg"
       },
       {
        "t": "caption",
-       "text": "Chaussée rétrécie"
+       "text": "Chaussée rétrécie",
+       "img_path": "img_2.15_337.jpeg"
       },
       {
        "t": "caption",
-       "text": "Projection de gravillons"
+       "text": "Projection de gravillons",
+       "img_path": "img_2.15_338.jpeg"
       },
       {
        "t": "caption",
-       "text": "Autres dangers"
+       "text": "Autres dangers",
+       "img_path": "img_2.15_339.jpeg"
       },
       {
        "t": "p",
@@ -2327,7 +2173,8 @@
       },
       {
        "t": "caption",
-       "text": "Chaussée glissante"
+       "text": "Chaussée glissante",
+       "img_path": "img_2.15_340.jpeg"
       },
       {
        "t": "p",
@@ -2339,7 +2186,8 @@
       },
       {
        "t": "caption",
-       "text": "Travaux"
+       "text": "Travaux",
+       "img_path": "img_2.15_341.jpeg"
       },
       {
        "t": "p",
@@ -2363,45 +2211,25 @@
       },
       {
        "t": "caption",
-       "text": "Bouchon"
+       "text": "Bouchon",
+       "img_path": "img_2.15_342.jpeg"
       }
      ],
-     "images": [
-      {
-       "path": "img_2.15_336.jpeg"
-      },
-      {
-       "path": "img_2.15_337.jpeg"
-      },
-      {
-       "path": "img_2.15_338.jpeg"
-      },
-      {
-       "path": "img_2.15_339.jpeg"
-      },
-      {
-       "path": "img_2.15_341.jpeg"
-      },
-      {
-       "path": "img_2.15_342.jpeg"
-      },
-      {
-       "path": "img_2.15_343.jpeg"
-      },
+     "leftover_images": [
       {
        "path": "img_2.15_344.jpeg"
       },
       {
-       "path": "img_2.15_345.png"
+       "path": "img_2.15_345.jpeg"
       },
       {
-       "path": "img_2.15_346.jpeg"
+       "path": "img_2.15_346.png"
       },
       {
-       "path": "img_2.15_347.png"
+       "path": "img_2.15_347.jpeg"
       },
       {
-       "path": "img_2.15_348.jpeg"
+       "path": "img_2.15_348.png"
       },
       {
        "path": "img_2.15_349.jpeg"
@@ -2421,7 +2249,8 @@
       },
       {
        "t": "h",
-       "text": "ROUTE"
+       "text": "ROUTE",
+       "img_path": "img_2.16_352.jpeg"
       },
       {
        "t": "h",
@@ -2473,7 +2302,8 @@
       },
       {
        "t": "h",
-       "text": "LIGNES DE RIVE"
+       "text": "LIGNES DE RIVE",
+       "img_path": "img_2.16_353.jpeg"
       },
       {
        "t": "p",
@@ -2481,7 +2311,8 @@
       },
       {
        "t": "h",
-       "text": "LIGNE CONTINUE"
+       "text": "LIGNE CONTINUE",
+       "img_path": "img_2.16_354.jpeg"
       },
       {
        "t": "h",
@@ -2493,7 +2324,8 @@
       },
       {
        "t": "h",
-       "text": "LIGNE DE DISSUASION"
+       "text": "LIGNE DE DISSUASION",
+       "img_path": "img_2.16_355.jpeg"
       },
       {
        "t": "p",
@@ -2501,7 +2333,8 @@
       },
       {
        "t": "h",
-       "text": "LIGNE D’AVERTISSEMENT"
+       "text": "LIGNE D’AVERTISSEMENT",
+       "img_path": "img_2.16_356.jpeg"
       },
       {
        "t": "p",
@@ -2521,7 +2354,8 @@
       },
       {
        "t": "h",
-       "text": "FLÈCHES DE RABATTEMENT"
+       "text": "FLÈCHES DE RABATTEMENT",
+       "img_path": "img_2.16_357.jpeg"
       },
       {
        "t": "p",
@@ -2529,7 +2363,8 @@
       },
       {
        "t": "h",
-       "text": "FLÈCHES DE SÉLECTION"
+       "text": "FLÈCHES DE SÉLECTION",
+       "img_path": "img_2.16_358.jpeg"
       },
       {
        "t": "h",
@@ -2557,7 +2392,8 @@
       },
       {
        "t": "h",
-       "text": "VOIES ET ARRÊTS RÉSERVÉS AUX AUTOBUS"
+       "text": "VOIES ET ARRÊTS RÉSERVÉS AUX AUTOBUS",
+       "img_path": "img_2.16_359.jpeg"
       },
       {
        "t": "p",
@@ -2581,7 +2417,8 @@
       },
       {
        "t": "h",
-       "text": "BANDES ET PISTES CYCLABLES"
+       "text": "BANDES ET PISTES CYCLABLES",
+       "img_path": "img_2.16_360.jpeg"
       },
       {
        "t": "p",
@@ -2589,7 +2426,8 @@
       },
       {
        "t": "h",
-       "text": "PASSAGES POUR PIÉTONS"
+       "text": "PASSAGES POUR PIÉTONS",
+       "img_path": "img_2.16_361.jpeg"
       },
       {
        "t": "p",
@@ -2597,7 +2435,8 @@
       },
       {
        "t": "h",
-       "text": "ZEBRAS"
+       "text": "ZEBRAS",
+       "img_path": "img_2.16_362.jpeg"
       },
       {
        "t": "p",
@@ -2625,7 +2464,8 @@
       },
       {
        "t": "h",
-       "text": "MARCHE NORMALE"
+       "text": "MARCHE NORMALE",
+       "img_path": "img_2.16_363.jpeg"
       },
       {
        "t": "p",
@@ -2666,7 +2506,8 @@
       },
       {
        "t": "h",
-       "text": "CHANGEMENT DE DIRECTION"
+       "text": "CHANGEMENT DE DIRECTION",
+       "img_path": "img_2.16_364.jpeg"
       },
       {
        "t": "p",
@@ -2686,7 +2527,8 @@
       },
       {
        "t": "h",
-       "text": "QUITTER SON STATIONNEMENT"
+       "text": "QUITTER SON STATIONNEMENT",
+       "img_path": "img_2.16_365.jpeg"
       },
       {
        "t": "p",
@@ -2701,40 +2543,7 @@
        ]
       }
      ],
-     "images": [
-      {
-       "path": "img_2.16_352.jpeg"
-      },
-      {
-       "path": "img_2.16_354.jpeg"
-      },
-      {
-       "path": "img_2.16_355.jpeg"
-      },
-      {
-       "path": "img_2.16_356.jpeg"
-      },
-      {
-       "path": "img_2.16_358.jpeg"
-      },
-      {
-       "path": "img_2.16_359.jpeg"
-      },
-      {
-       "path": "img_2.16_361.jpeg"
-      },
-      {
-       "path": "img_2.16_362.jpeg"
-      },
-      {
-       "path": "img_2.16_363.jpeg"
-      },
-      {
-       "path": "img_2.16_364.jpeg"
-      },
-      {
-       "path": "img_2.16_365.jpeg"
-      },
+     "leftover_images": [
       {
        "path": "img_2.16_367.jpeg"
       },
@@ -2743,9 +2552,6 @@
       },
       {
        "path": "img_2.16_369.jpeg"
-      },
-      {
-       "path": "img_2.16_371.jpeg"
       },
       {
        "path": "img_2.16_372.jpeg"
@@ -2760,19 +2566,13 @@
        "path": "img_2.16_376.jpeg"
       },
       {
-       "path": "img_2.16_377.jpeg"
-      },
-      {
        "path": "img_2.16_378.jpeg"
       },
       {
+       "path": "img_2.16_379.jpeg"
+      },
+      {
        "path": "img_2.16_380.jpeg"
-      },
-      {
-       "path": "img_2.16_382.jpeg"
-      },
-      {
-       "path": "img_2.16_383.jpeg"
       },
       {
        "path": "img_2.16_384.jpeg"
