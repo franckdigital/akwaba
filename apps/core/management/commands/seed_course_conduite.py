@@ -140,7 +140,7 @@ class Command(BaseCommand):
                 "objectives": ["Appliquer la règle de priorité adaptée à chaque intersection.",
                                "Exécuter un dépassement ou un croisement en toute sécurité.",
                                "Adopter la bonne conduite sur autoroute, de nuit et par mauvais temps."],
-                "duration_minutes": len(all_modules) * 3, "is_published": True, "sequential": True,
+                "duration_minutes": len(all_modules) * 3, "order": 3, "is_published": True, "sequential": True,
             },
         )
         course.materials.all().delete()

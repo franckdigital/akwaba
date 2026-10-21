@@ -50,7 +50,7 @@ class Command(BaseCommand):
                           "de localisation, marques sur la route et signalisation temporaire.",
                 "objectives": ["Reconnaître les principales familles de panneaux et leur signification.",
                                "Identifier les marques au sol et la signalisation temporaire de chantier."],
-                "duration_minutes": len(lessons) * 4, "is_published": True, "sequential": True,
+                "duration_minutes": len(lessons) * 4, "order": 2, "is_published": True, "sequential": True,
             },
         )
         course.materials.all().delete()

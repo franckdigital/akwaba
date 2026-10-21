@@ -39,7 +39,7 @@ class Command(BaseCommand):
                           "stationnement, véhicules, infractions...",
                 "objectives": ["Connaître le sens exact des termes employés dans le code de la route.",
                                "Distinguer les différentes catégories de véhicules et de voies."],
-                "duration_minutes": len(letters) * 3, "is_published": True, "sequential": True,
+                "duration_minutes": len(letters) * 3, "order": 1, "is_published": True, "sequential": True,
             },
         )
         course.materials.all().delete()
