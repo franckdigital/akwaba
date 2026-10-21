@@ -5,7 +5,7 @@
    "lessons": [
     {
      "num": "2.1",
-     "title": "Qu’est-ce qu’un panneau ?",
+     "title": "Qu'est-ce qu'un panneau ?",
      "blocks": [
       {
        "t": "quote",
@@ -16,17 +16,28 @@
        "items": [
         "La forme est TRIANGULAIRE.",
         "La couleur est ROUGE.",
-        "L’ensemble donne le FOND : un triangle bordé de rouge.",
+        "L'ensemble donne le FOND : un triangle bordé de rouge.",
         "À la vue du panneau, vous devez savoir quelle attitude vous devez adopter."
        ]
       },
       {
        "t": "p",
-       "text": "Le symbole n’est que le complément d’information."
+       "text": "Le symbole n'est que le complément d'information."
       },
       {
-       "t": "p",
-       "text": "C’est une forme C’est une couleur C’est un fond C’est un  symbole"
+       "t": "caption",
+       "text": "C'est une forme",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "C'est une couleur / C'est un fond",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "C'est un symbole",
+       "img_path": null
       },
       {
        "t": "h",
@@ -35,7 +46,7 @@
       },
       {
        "t": "p",
-       "text": "Les panneaux ayant la forme d’un triangle bordé de rouge annoncent un danger."
+       "text": "Les panneaux ayant la forme d'un triangle bordé de rouge annoncent un danger."
       },
       {
        "t": "caption",
@@ -43,30 +54,35 @@
        "img_path": "img_2.1_2.jpeg"
       },
       {
-       "t": "h",
-       "text": "L’OBLIGATION",
-       "img_path": "img_2.1_3.jpeg"
-      },
-      {
-       "t": "p",
-       "text": "Les panneaux ayant la forme d’un rond rouge annon- cent une interdiction."
-      },
-      {
-       "t": "p",
-       "text": "Les panneaux ayant la forme d’un rond bleu annoncent une obligation."
-      },
-      {
-       "t": "p",
-       "text": "Les panneaux ayant la forme d’un rond blanc barré de noir annoncent une fin d’interdiction."
-      },
-      {
-       "t": "p",
-       "text": "Ces mêmes panneaux barrés de rouge annoncent une fin d’obligation."
+       "t": "caption",
+       "text": "Temporaire",
+       "img_path": "img_2.1_6.jpeg"
       },
       {
        "t": "h",
-       "text": "L’INDICATION",
-       "img_path": "img_2.1_4.png"
+       "text": "L'OBLIGATION",
+       "img_path": null
+      },
+      {
+       "t": "p",
+       "text": "Les panneaux ayant la forme d'un rond rouge annoncent une interdiction."
+      },
+      {
+       "t": "p",
+       "text": "Les panneaux ayant la forme d'un rond bleu annoncent une obligation."
+      },
+      {
+       "t": "p",
+       "text": "Les panneaux ayant la forme d'un rond blanc barré de noir annoncent une fin d'interdiction."
+      },
+      {
+       "t": "p",
+       "text": "Ces mêmes panneaux barrés de rouge annoncent une fin d'obligation."
+      },
+      {
+       "t": "h",
+       "text": "L'INDICATION",
+       "img_path": null
       },
       {
        "t": "p",
@@ -74,7 +90,8 @@
       },
       {
        "t": "caption",
-       "text": "Indications de conduite"
+       "text": "Indications de conduite",
+       "img_path": null
       },
       {
        "t": "caption",
@@ -83,66 +100,36 @@
       },
       {
        "t": "h",
-       "text": "LA DIRECTION"
+       "text": "LA DIRECTION",
+       "img_path": null
       },
       {
        "t": "caption",
-       "text": "Temporaire",
-       "img_path": "img_2.1_6.jpeg"
+       "text": "Liaisons autoroutières",
+       "img_path": null
       },
       {
        "t": "caption",
-       "text": "Liaisons autoroutières"
-      },
-      {
-       "t": "caption",
-       "text": "Liaisons intervilles"
+       "text": "Liaisons intervilles",
+       "img_path": null
       },
       {
        "t": "h",
-       "text": "LA LOCALISATION"
+       "text": "LA LOCALISATION",
+       "img_path": null
       },
       {
        "t": "caption",
-       "text": "Localisations diverses"
+       "text": "Localisations diverses",
+       "img_path": null
       },
       {
        "t": "caption",
-       "text": "Localisations touristiques"
+       "text": "Localisations touristiques",
+       "img_path": null
       }
      ],
-     "leftover_images": [
-      {
-       "path": "img_2.1_8.jpeg"
-      },
-      {
-       "path": "img_2.1_9.jpeg"
-      },
-      {
-       "path": "img_2.1_10.jpeg"
-      },
-      {
-       "path": "img_2.1_11.png"
-      },
-      {
-       "path": "img_2.1_12.png"
-      },
-      {
-       "path": "img_2.1_13.png"
-      },
-      {
-       "path": "img_2.1_15.jpeg"
-      },
-      {
-       "path": "img_2.1_16.jpeg"
-      },
-      {
-       "path": "img_2.1_17.jpeg"
-      },
-      {
-       "path": "img_2.1_18.png"
-      }
-     ]
+     "leftover_images": []
     },
     {
      "num": "2.2",
@@ -154,19 +141,21 @@
       },
       {
        "t": "h",
-       "text": "PANONCEAUX DE DISTANCE"
+       "text": "PANONCEAUX DE DISTANCE",
+       "img_path": null
       },
       {
        "t": "p",
-       "text": "Ils indiquent la longueur de la section comprise entre le signal et le point qui fait l’objet de l’indication."
+       "text": "Ils indiquent la longueur de la section comprise entre le signal et le point qui fait l'objet de l'indication."
       },
       {
        "t": "h",
-       "text": "PANONCEAUX D’ÉTENDUE"
+       "text": "PANONCEAUX D'ÉTENDUE",
+       "img_path": null
       },
       {
        "t": "p",
-       "text": "Ils indiquent la longueur de la section visée par l’indication."
+       "text": "Ils indiquent la longueur de la section visée par l'indication."
       },
       {
        "t": "h",
@@ -175,11 +164,11 @@
       },
       {
        "t": "p",
-       "text": "Ils indiquent la position de la voie concernée par le panneau qu’ils complètent."
+       "text": "Ils indiquent la position de la voie concernée par le panneau qu'ils complètent."
       },
       {
        "t": "p",
-       "text": "Celui-ci indique que le panneau qu’il complète se rapporte à la voie au-dessus de laquelle il est implanté."
+       "text": "Celui-ci indique que le panneau qu'il complète se rapporte à la voie au-dessus de laquelle il est implanté."
       },
       {
        "t": "p",
@@ -191,16 +180,19 @@
        "img_path": "img_2.2_20.jpeg"
       },
       {
-       "t": "p",
-       "text": "Désigne les véhicules ou ensembles de véhicules dont le poids total autorisé en charge ou le poids total roulant autorisé est inférieur à 3,5 tonnes."
+       "t": "caption",
+       "text": "Désigne les véhicules ou ensembles de véhicules dont le poids total autorisé en charge ou le poids total roulant autorisé est inférieur à 3,5 tonnes.",
+       "img_path": null
       },
       {
-       "t": "p",
-       "text": "Désigne les véhicules de transport en commun de personnes."
+       "t": "caption",
+       "text": "Désigne les véhicules de transport en commun de personnes.",
+       "img_path": null
       },
       {
-       "t": "p",
-       "text": "Désigne les motocyclettes et motocyclettes légères."
+       "t": "caption",
+       "text": "Désigne les motocyclettes et motocyclettes légères.",
+       "img_path": null
       },
       {
        "t": "caption",
@@ -209,55 +201,73 @@
       },
       {
        "t": "caption",
-       "text": "Désigne les cyclomoteurs."
+       "text": "Désigne les cyclomoteurs.",
+       "img_path": null
       },
       {
        "t": "caption",
-       "text": "Indique les usagers concernés."
-      },
-      {
-       "t": "p",
-       "text": "Désigne les véhicules affectés au transport de marchandises."
-      },
-      {
-       "t": "p",
-       "text": "Désigne les véhicules,articulés,trains doubles ou ensembles de véhicules dont le poids total autorisé en charge ou le poids total roulant autorisé excède le nombre indiqué."
+       "text": "Indique les usagers concernés.",
+       "img_path": null
       },
       {
        "t": "caption",
-       "text": "Désigne les véhicules agricoles à moteur."
-      },
-      {
-       "t": "p",
-       "text": "Désigne les véhicules équipés de chaînes à neige."
-      },
-      {
-       "t": "p",
-       "text": "Désigne les véhicules transportant des marchandises explosives ou facilement inflammables."
-      },
-      {
-       "t": "p",
-       "text": "Désigne les véhicules transportant des marchandises de nature à polluer les eaux."
-      },
-      {
-       "t": "p",
-       "text": "Désigne les installations aménagées pour handicapés physiques."
-      },
-      {
-       "t": "p",
-       "text": "Désigne les véhicules transportant des marchandises dan- gereuses."
-      },
-      {
-       "t": "p",
-       "text": "Désigne les véhicules, articulés, trains doubles ou ensembles de véhicules dont la longueur est supérieure au nombre indiqué."
-      },
-      {
-       "t": "p",
-       "text": "Désigne les véhicules pesant sur un essieu plus que le nombre indiqué."
+       "text": "Désigne les véhicules affectés au transport de marchandises.",
+       "img_path": null
       },
       {
        "t": "caption",
-       "text": "Désigne les véhicules à traction animale."
+       "text": "Désigne les véhicules, articulés, trains doubles ou ensembles de véhicules dont le poids total autorisé en charge ou le poids total roulant autorisé excède le nombre indiqué.",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Désigne les véhicules agricoles à moteur.",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Désigne les véhicules équipés de chaînes à neige.",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Désigne les véhicules transportant des marchandises explosives ou facilement inflammables.",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Désigne les véhicules transportant des marchandises de nature à polluer les eaux.",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Désigne les installations aménagées pour handicapés physiques.",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Désigne les piétons.",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Désigne les véhicules transportant des marchandises dangereuses.",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Désigne les véhicules, articulés, trains doubles ou ensembles de véhicules dont la longueur est supérieure au nombre indiqué.",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Désigne les véhicules pesant sur un essieu plus que le nombre indiqué.",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Désigne les véhicules à traction animale.",
+       "img_path": null
       },
       {
        "t": "caption",
@@ -265,20 +275,14 @@
        "img_path": "img_2.2_22.jpeg"
       },
       {
-       "t": "p",
-       "text": "Désigne les véhicules dont la largeur, chargement compris, est supérieure au nombre indiqué."
+       "t": "caption",
+       "text": "Désigne les véhicules dont la largeur, chargement compris, est supérieure au nombre indiqué.",
+       "img_path": null
       },
       {
-       "t": "p",
-       "text": "Désigne les véhicules dont la hauteur,chargement compris, est supérieure au nombre indiqué."
-      },
-      {
-       "t": "p",
-       "text": "Désigne les véhicules tractant une remorque dont le poids total autorisé en charge dépasse 250 kg."
-      },
-      {
-       "t": "p",
-       "text": "Désigne les véhicules tractant une caravane ou une remorque de plus de 250 kg et dont le poids total roulant, véhicule plus remorque, n’excède pas 3,5 tonnes."
+       "t": "caption",
+       "text": "Désigne les véhicules dont la hauteur, chargement compris, est supérieure au nombre indiqué.",
+       "img_path": null
       },
       {
        "t": "h",
@@ -286,140 +290,62 @@
        "img_path": "img_2.2_23.png"
       },
       {
-       "t": "p",
-       "text": "Indique que le panneau auquel il est associé concerne une aire de danger aérien."
+       "t": "caption",
+       "text": "Désigne les véhicules tractant une remorque dont le poids total autorisé en charge dépasse 250 kg.",
+       "img_path": null
       },
       {
        "t": "caption",
-       "text": "Désigne les piétons",
-       "img_path": "img_2.2_24.jpeg"
-      },
-      {
-       "t": "p",
-       "text": "Indique que le passage pour piétons est surélevé."
-      },
-      {
-       "t": "p",
-       "text": "Indique que l’emplacement d’arrêt d’urgence est doté d’un poste d’appel d’urgence."
-      },
-      {
-       "t": "p",
-       "text": "Indique que l’emplacement d’arrêt d’urgence est doté d’un poste d’appel d’urgence et d’un moyen de lutte contre l’incendie."
-      },
-      {
-       "t": "p",
-       "text": "Indique le numéro d’une route ou d’une autoroute."
+       "text": "Désigne les véhicules tractant une caravane ou une remorque de plus de 250 kg et dont le poids total roulant, véhicule plus remorque, n'excède pas 3,5 tonnes.",
+       "img_path": null
       },
       {
        "t": "caption",
-       "text": "Indique le numéro d’un échangeur.",
-       "img_path": "img_2.2_25.jpeg"
+       "text": "Indique que le panneau auquel il est associé concerne une aire de danger aérien.",
+       "img_path": null
       },
       {
-       "t": "p",
-       "text": "Indique le nom propre d’un site ou de certains services."
+       "t": "caption",
+       "text": "Indique que le passage pour piétons est surélevé.",
+       "img_path": null
       },
       {
-       "t": "p",
-       "text": "Signale les dérogations aux prescriptions qui s’appliquent à une route à accès réglementé."
+       "t": "caption",
+       "text": "Indique que l'emplacement d'arrêt d'urgence est doté d'un poste d'appel d'urgence.",
+       "img_path": null
       },
       {
-       "t": "p",
-       "text": "Signale les prescriptions qui s’appliquent dans une aire pié- tonne."
+       "t": "caption",
+       "text": "Indique que l'emplacement d'arrêt d'urgence est doté d'un poste d'appel d'urgence et d'un moyen de lutte contre l'incendie.",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Indique le numéro d'une route ou d'une autoroute.",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Indique le numéro d'un échangeur.",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Indique le nom propre d'un site ou de certains services.",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Signale les dérogations aux prescriptions qui s'appliquent à une route à accès réglementé.",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Signale les prescriptions qui s'appliquent dans une aire piétonne.",
+       "img_path": null
       }
      ],
-     "leftover_images": [
-      {
-       "path": "img_2.2_26.jpeg"
-      },
-      {
-       "path": "img_2.2_27.jpeg"
-      },
-      {
-       "path": "img_2.2_28.jpeg"
-      },
-      {
-       "path": "img_2.2_29.jpeg"
-      },
-      {
-       "path": "img_2.2_31.jpeg"
-      },
-      {
-       "path": "img_2.2_32.jpeg"
-      },
-      {
-       "path": "img_2.2_33.jpeg"
-      },
-      {
-       "path": "img_2.2_34.jpeg"
-      },
-      {
-       "path": "img_2.2_35.jpeg"
-      },
-      {
-       "path": "img_2.2_36.jpeg"
-      },
-      {
-       "path": "img_2.2_37.jpeg"
-      },
-      {
-       "path": "img_2.2_38.jpeg"
-      },
-      {
-       "path": "img_2.2_39.jpeg"
-      },
-      {
-       "path": "img_2.2_40.jpeg"
-      },
-      {
-       "path": "img_2.2_41.jpeg"
-      },
-      {
-       "path": "img_2.2_43.jpeg"
-      },
-      {
-       "path": "img_2.2_44.jpeg"
-      },
-      {
-       "path": "img_2.2_45.jpeg"
-      },
-      {
-       "path": "img_2.2_46.jpeg"
-      },
-      {
-       "path": "img_2.2_47.jpeg"
-      },
-      {
-       "path": "img_2.2_49.png"
-      },
-      {
-       "path": "img_2.2_50.jpeg"
-      },
-      {
-       "path": "img_2.2_51.jpeg"
-      },
-      {
-       "path": "img_2.2_52.jpeg"
-      },
-      {
-       "path": "img_2.2_53.jpeg"
-      },
-      {
-       "path": "img_2.2_54.jpeg"
-      },
-      {
-       "path": "img_2.2_55.jpeg"
-      },
-      {
-       "path": "img_2.2_56.jpeg"
-      },
-      {
-       "path": "img_2.2_57.jpeg"
-      },
-      {
-       "path": "img_2.2_58.jpeg"
-      }
-     ]
+     "leftover_images": []
     },
     {
      "num": "2.3",
@@ -431,11 +357,11 @@
       },
       {
        "t": "p",
-       "text": "En général, ils sont implantés à environ 50 mètres en agglomération et 150 mètres hors agglomération, du danger qu’ils annoncent."
+       "text": "En général, ils sont implantés à environ 50 mètres en agglomération et 150 mètres hors agglomération, du danger qu'ils annoncent."
       },
       {
        "t": "p",
-       "text": "L’objet de la signalisation de danger est d’attirer l’attention des usagers de la route sur les endroits où leur vigilance doit redoubler en raison de la pré- sence d’obstacles ou de points dangereux."
+       "text": "L'objet de la signalisation de danger est d'attirer l'attention des usagers de la route sur les endroits où leur vigilance doit redoubler en raison de la présence d'obstacles ou de points dangereux."
       },
       {
        "t": "h",
@@ -443,8 +369,14 @@
        "img_path": "img_2.3_60.jpeg"
       },
       {
-       "t": "p",
-       "text": "Seul le panneau « circulation à double sens » est implanté en position au début de la zone."
+       "t": "caption",
+       "text": "Seul le panneau « circulation à double sens » est implanté en position au début de la zone.",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Ce panneau annonce un danger pour lequel il n'existe pas de symbole. Il signifie : « autres dangers ». La nature du danger pouvant être précisée ou non par un panonceau.",
+       "img_path": null
       },
       {
        "t": "h",
@@ -453,27 +385,31 @@
       },
       {
        "t": "caption",
-       "text": "Virage à gauche"
+       "text": "Virage à gauche",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Virage à droite"
       },
       {
        "t": "p",
-       "text": "Les deux panneaux ci-dessous annoncent deux ou trois virages ; lorsque la chaussée a plus de trois virages, ils sont complétés par un panonceau d’é- tendue placé au-dessous du panneau."
+       "text": "Les deux panneaux ci-dessous annoncent deux ou trois virages ; lorsque la chaussée a plus de trois virages, ils sont complétés par un panonceau d'étendue placé au-dessus du panneau."
       },
       {
-       "t": "p",
-       "text": "Succession de virages dont le premier est à gauche"
+       "t": "caption",
+       "text": "Succession de virages dont le premier est à gauche",
+       "img_path": null
       },
       {
-       "t": "p",
-       "text": "Succession de virages dont le premier est à droite"
+       "t": "caption",
+       "text": "Succession de virages dont le premier est à droite",
+       "img_path": null
       },
       {
        "t": "h",
-       "text": "SIGNALISATION DE POSITION DANS LES VIRAGES"
-      },
-      {
-       "t": "p",
-       "text": "Ce panneau annonce un danger pour lequel il n’existe pas de symbo- le. Il signifie : « autres dangers ». La nature du danger pouvant être précisée ou non par un panonceau."
+       "text": "SIGNALISATION DE POSITION DANS LES VIRAGES",
+       "img_path": null
       },
       {
        "t": "p",
@@ -481,21 +417,22 @@
       },
       {
        "t": "p",
-       "text": "Cette balise est implantée à l’exté- rieur du virage et indique le sens de la courbe. Elle peut aussi être utilisée pour signaler le sens d’un rétrécissement de la chaussée."
-      },
-      {
-       "t": "caption",
-       "text": "Virage à droite",
-       "img_path": "img_2.3_62.jpeg"
+       "text": "Cette balise est implantée à l'extérieur du virage et indique le sens de la courbe. Elle peut aussi être utilisée pour signaler le sens d'un rétrécissement de la chaussée."
       },
       {
        "t": "h",
-       "text": "PANNEAUX LIÉS À L’ÉTAT DE LA CHAUSSÉE",
-       "img_path": "img_2.3_63.jpeg"
+       "text": "PANNEAUX LIÉS À L'ÉTAT DE LA CHAUSSÉE",
+       "img_path": null
       },
       {
        "t": "caption",
-       "text": "Cassis ou dos-d’âne"
+       "text": "Cassis ou dos-d'âne",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Ralentisseur de type dos-d'âne",
+       "img_path": null
       },
       {
        "t": "caption",
@@ -504,13 +441,28 @@
       },
       {
        "t": "caption",
+       "text": "Chaussée rétrécie par la droite",
+       "img_path": "img_2.3_71.jpeg"
+      },
+      {
+       "t": "caption",
        "text": "Chaussée rétrécie par la gauche",
        "img_path": "img_2.3_65.jpeg"
       },
       {
        "t": "caption",
+       "text": "Pont mobile. La circulation peut être interrompue par une barrière et un feu rouge.",
+       "img_path": null
+      },
+      {
+       "t": "caption",
        "text": "Chaussée particulièrement glissante",
        "img_path": "img_2.3_66.jpeg"
+      },
+      {
+       "t": "caption",
+       "text": "Descente dangereuse",
+       "img_path": "img_2.3_74.jpeg"
       },
       {
        "t": "h",
@@ -519,12 +471,8 @@
       },
       {
        "t": "caption",
-       "text": "Ralentisseur de type dos-d’âne",
-       "img_path": "img_2.3_68.jpeg"
-      },
-      {
-       "t": "p",
-       "text": "Traversée de voies de tramways"
+       "text": "Traversée de voies de tramways",
+       "img_path": null
       },
       {
        "t": "caption",
@@ -532,31 +480,24 @@
        "img_path": "img_2.3_69.jpeg"
       },
       {
-       "t": "p",
-       "text": "Endroit fréquenté par les enfants"
+       "t": "caption",
+       "text": "Endroit fréquenté par les enfants",
+       "img_path": null
       },
       {
        "t": "caption",
-       "text": "Passages d’animaux domestiques",
-       "img_path": "img_2.3_70.jpeg"
+       "text": "Passage d'animaux sauvages",
+       "img_path": null
       },
       {
        "t": "caption",
-       "text": "Chaussée rétrécie par la droite",
-       "img_path": "img_2.3_71.jpeg"
+       "text": "Passages d'animaux domestiques",
+       "img_path": null
       },
       {
        "t": "caption",
-       "text": "Passage d’animaux sauvages",
-       "img_path": "img_2.3_72.jpeg"
-      },
-      {
-       "t": "p",
-       "text": "Pont mobile. La circulation peut être interrompue par une barrière et un feu rouge"
-      },
-      {
-       "t": "p",
-       "text": "Risque de chutes de pierres ou de présence sur la route de pierres tombées"
+       "text": "Risque de chutes de pierres ou de présence sur la route de pierres tombées",
+       "img_path": null
       },
       {
        "t": "caption",
@@ -565,84 +506,21 @@
       },
       {
        "t": "caption",
-       "text": "Descente dangereuse",
-       "img_path": "img_2.3_74.jpeg"
+       "text": "Débouché sur un quai ou une berge",
+       "img_path": null
       },
       {
-       "t": "p",
-       "text": "Traversée d’une aire de danger aérien"
+       "t": "caption",
+       "text": "Traversée d'une aire de danger aérien",
+       "img_path": null
       },
       {
-       "t": "p",
-       "text": "Débouché de cyclistes venant de droite ou de gauche"
-      },
-      {
-       "t": "p",
-       "text": "Débouché sur un quai ou une berge"
+       "t": "caption",
+       "text": "Débouché de cyclistes venant de droite ou de gauche",
+       "img_path": null
       }
      ],
-     "leftover_images": [
-      {
-       "path": "img_2.3_75.jpeg"
-      },
-      {
-       "path": "img_2.3_76.jpeg"
-      },
-      {
-       "path": "img_2.3_78.jpeg"
-      },
-      {
-       "path": "img_2.3_79.jpeg"
-      },
-      {
-       "path": "img_2.3_80.jpeg"
-      },
-      {
-       "path": "img_2.3_81.jpeg"
-      },
-      {
-       "path": "img_2.3_82.jpeg"
-      },
-      {
-       "path": "img_2.3_83.jpeg"
-      },
-      {
-       "path": "img_2.3_84.jpeg"
-      },
-      {
-       "path": "img_2.3_85.jpeg"
-      },
-      {
-       "path": "img_2.3_86.jpeg"
-      },
-      {
-       "path": "img_2.3_89.jpeg"
-      },
-      {
-       "path": "img_2.3_90.jpeg"
-      },
-      {
-       "path": "img_2.3_91.jpeg"
-      },
-      {
-       "path": "img_2.3_92.jpeg"
-      },
-      {
-       "path": "img_2.3_93.jpeg"
-      },
-      {
-       "path": "img_2.3_94.jpeg"
-      },
-      {
-       "path": "img_2.3_95.jpeg"
-      },
-      {
-       "path": "img_2.3_96.jpeg"
-      },
-      {
-       "path": "img_2.3_97.jpeg"
-      }
-     ]
+     "leftover_images": []
     },
     {
      "num": "2.4",
@@ -658,22 +536,22 @@
        "img_path": "img_2.4_99.jpeg"
       },
       {
-       "t": "p",
-       "text": "Ce panonceau indique un passage à niveau muni de barrières à fonctionnement manuel lors du passage des trains."
+       "t": "caption",
+       "text": "Ce panonceau indique un passage à niveau muni de barrières à fonctionnement manuel lors du passage des trains.",
+       "img_path": null
       },
       {
        "t": "p",
-       "text": "Ce panonceau complète le panneau quand les barrières sont automatiques"
+       "text": "Ce panonceau complète le panneau quand les barrières sont automatiques."
       },
       {
        "t": "p",
        "text": "Ce panonceau indique que, au passage à niveau, la voie ferrée est électrifiée."
       },
       {
-       "t": "ul",
-       "items": [
-        "Balises"
-       ]
+       "t": "h",
+       "text": "BALISES",
+       "img_path": null
       },
       {
        "t": "p",
@@ -685,54 +563,26 @@
        "img_path": "img_2.4_100.jpeg"
       },
       {
-       "t": "p",
-       "text": "Passage à niveau sans barrière ni demi – barrière"
+       "t": "caption",
+       "text": "Passage à niveau sans barrière ni demi-barrière",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Signalisation de position des passages à niveau à plusieurs voies sans barrière ni demi-barrière et non munis de signalisation automatique.",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Signalisation de position des passages à niveau à une voie sans barrière ni demi-barrière et non munis de signalisation automatique.",
+       "img_path": null
       },
       {
        "t": "p",
-       "text": "Signalisation de position des passages à niveau à plusieurs voies sans barrière ni demi-barrière et non munis de signalisation automatique."
-      },
-      {
-       "t": "p",
-       "text": "Signalisation de position des passages à niveau à une voie sans barrière ni demi-barrière et non munis de signalisation automatique."
-      },
-      {
-       "t": "p",
-       "text": "Ces quatre panneaux peuvent être complétés par un signal sonore et un feu clignotant dont le fonctionne- ment annonce l'arrivée des trains."
+       "text": "Ces quatre panneaux peuvent être complétés par un signal sonore et un feu clignotant dont le fonctionnement annonce l'arrivée des trains."
       }
      ],
-     "leftover_images": [
-      {
-       "path": "img_2.4_101.jpeg"
-      },
-      {
-       "path": "img_2.4_102.jpeg"
-      },
-      {
-       "path": "img_2.4_103.jpeg"
-      },
-      {
-       "path": "img_2.4_105.jpeg"
-      },
-      {
-       "path": "img_2.4_106.jpeg"
-      },
-      {
-       "path": "img_2.4_107.jpeg"
-      },
-      {
-       "path": "img_2.4_108.jpeg"
-      },
-      {
-       "path": "img_2.4_109.jpeg"
-      },
-      {
-       "path": "img_2.4_110.jpeg"
-      },
-      {
-       "path": "img_2.4_111.jpeg"
-      }
-     ]
+     "leftover_images": []
     },
     {
      "num": "2.5",
@@ -740,46 +590,31 @@
      "blocks": [
       {
        "t": "quote",
-       "text": "Un panneau annonce un risque de vent latéral violent, fréquent sur les ponts, viaducs ou zones dégagées, pouvant déporter le véhicule."
+       "text": "Ce panneau peut être complété par une manche à air qui indique le sens et la force du vent."
+      },
+      {
+       "t": "p",
+       "text": "Manche à air : balise indiquant l'endroit où souffle fréquemment un vent latéral violent ainsi que l'intensité et la direction de celui-ci."
       }
      ],
      "leftover_images": []
     },
     {
      "num": "2.6",
-     "title": "Panneaux d’interdiction",
+     "title": "Panneaux d'interdiction",
      "blocks": [
       {
        "t": "quote",
-       "text": "Les panneaux d’interdiction sont de forme circulaire à fond blanc avec une bande rouge, excepté le panneau « sens interdit » qui est rouge avec une bande blanche."
+       "text": "Les panneaux d'interdiction sont de forme circulaire à fond blanc avec une bande rouge, excepté le panneau « sens interdit » qui est rouge avec une bande blanche."
       },
       {
        "t": "p",
-       "text": "L'interdiction s'applique à partir du panneau, sauf si un panonceau de dis- tance est associé et diffère le début de l'interdiction. Elle est valable jusqu'à la prochaine intersection ou jusqu'à la signalisation de fin d'interdiction."
+       "text": "L'interdiction s'applique à partir du panneau, sauf si un panonceau de distance est associé et diffère le début de l'interdiction. Elle est valable jusqu'à la prochaine intersection ou jusqu'à la signalisation de fin d'interdiction."
       },
       {
-       "t": "p",
-       "text": "Circulation interdite à tout véhicule dans les deux sens"
-      },
-      {
-       "t": "p",
-       "text": "Interdiction de faire demi-tour sur la route suivie jusqu’ à la prochaine intersection"
-      },
-      {
-       "t": "p",
-       "text": "Interdiction de tourner à droite à la prochaine intersection"
-      },
-      {
-       "t": "p",
-       "text": "Interdiction de tourner à gauche à la prochaine intersection"
-      },
-      {
-       "t": "p",
-       "text": "Interdiction aux véhicules dont le poids est supérieur à 3.5 tonnes de dépasser tous les véhicules à moteur autres que ceux à deux roues sans side-car."
-      },
-      {
-       "t": "p",
-       "text": "Interdiction de dépasser tous les véhicules à moteur autres que ceux à deux roues sans side-car"
+       "t": "caption",
+       "text": "Circulation interdite à tout véhicule dans les deux sens",
+       "img_path": null
       },
       {
        "t": "caption",
@@ -788,38 +623,33 @@
       },
       {
        "t": "caption",
+       "text": "Interdiction de faire demi-tour sur la route suivie jusqu'à la prochaine intersection",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Interdiction de tourner à droite à la prochaine intersection",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Interdiction de tourner à gauche à la prochaine intersection",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Interdiction de dépasser tous les véhicules à moteur autres que ceux à deux roues sans side-car",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Interdiction aux véhicules dont le poids est supérieur à 3,5 tonnes de dépasser tous les véhicules à moteur autres que ceux à deux roues sans side-car",
+       "img_path": null
+      },
+      {
+       "t": "caption",
        "text": "Arrêt au poste de douane",
        "img_path": "img_2.6_114.jpeg"
-      },
-      {
-       "t": "caption",
-       "text": "Arrêt au poste de police",
-       "img_path": "img_2.6_115.jpeg"
-      },
-      {
-       "t": "p",
-       "text": "Accès interdit aux véhicules à moteur à l'exception des cyclomoteurs"
-      },
-      {
-       "t": "p",
-       "text": "Accès interdit aux véhicules affectés au transport de marchandises."
-      },
-      {
-       "t": "p",
-       "text": "Si ce panneau est complété par ce panonceau , l'interdiction ne s'applique que si le poids total autorisé en charge ou le poids total roulant autorisé du véhicule, véhicule articulé, train double ou ensemble de véhicules excède le nombre indiqué sur le panonceau"
-      },
-      {
-       "t": "p",
-       "text": "Accès interdit aux piétons"
-      },
-      {
-       "t": "caption",
-       "text": "Accès interdit aux cycles",
-       "img_path": "img_2.6_116.jpeg"
-      },
-      {
-       "t": "p",
-       "text": "Accès interdit aux véhicules à traction animale"
       },
       {
        "t": "caption",
@@ -827,16 +657,9 @@
        "img_path": "img_2.6_117.jpeg"
       },
       {
-       "t": "p",
-       "text": "Accès interdit aux cyclomoteurs"
-      },
-      {
-       "t": "p",
-       "text": "Accès interdit aux voitures à bras"
-      },
-      {
-       "t": "p",
-       "text": "Accès interdit aux véhicules de transport en commun de personnes"
+       "t": "caption",
+       "text": "Arrêt au poste de police",
+       "img_path": "img_2.6_115.jpeg"
       },
       {
        "t": "caption",
@@ -844,8 +667,9 @@
        "img_path": "img_2.6_118.jpeg"
       },
       {
-       "t": "p",
-       "text": "Accès interdit aux véhicules tractant une caravane ou une remorque de plus de 250 kg. Le poids total roulant autorisé, véhicule et caravane ou véhicule et remorque, ne doit pas dépasser 3,5 tonnes."
+       "t": "caption",
+       "text": "Accès interdit aux véhicules à moteur à l'exception des cyclomoteurs",
+       "img_path": null
       },
       {
        "t": "caption",
@@ -853,180 +677,109 @@
        "img_path": "img_2.6_119.jpeg"
       },
       {
-       "t": "p",
-       "text": "Accès interdit aux véhicules agricoles à moteur"
+       "t": "caption",
+       "text": "Accès interdit aux véhicules affectés au transport de marchandises",
+       "img_path": null
       },
       {
        "t": "p",
-       "text": "Accès interdit aux motocyclettes et motocyclettes légères"
-      },
-      {
-       "t": "p",
-       "text": "Accès interdit aux véhicules, véhicules articulés, trains doubles ou ensemble de véhicules dont la lon- gueur est supérieure au nombre indiqué"
-      },
-      {
-       "t": "p",
-       "text": "Accès interdit aux véhicules dont la largeur, chargement compris, est supérieure au nombre indiqué"
-      },
-      {
-       "t": "p",
-       "text": "Accès interdit aux véhicules dont la hauteur, chargement compris, est supérieure au nombre indiqué"
-      },
-      {
-       "t": "p",
-       "text": "Accès interdit aux véhicules pesant sur un essieu plus que le nombre indiqué"
-      },
-      {
-       "t": "p",
-       "text": "Limitation de vitesse. Ce panneau notifie l'interdiction de dépasser la vitesse indiquée"
-      },
-      {
-       "t": "p",
-       "text": "Interdiction aux véhicules de circuler sans maintenir entre eux un intervalle au moins égal au nombre indiqué"
-      },
-      {
-       "t": "p",
-       "text": "Cédez le passage à la circulation venant en sens inverse"
-      },
-      {
-       "t": "p",
-       "text": "Accès interdit aux véhicules transportant des marchandises dangereuses"
-      },
-      {
-       "t": "p",
-       "text": "Autres interdictions dont la nature est indiquée par une inscription sur le panneau"
+       "text": "Si ce panneau est complété par ce panonceau, l'interdiction ne s'applique que si le poids total autorisé en charge ou le poids total roulant autorisé du véhicule, véhicule articulé, train double ou ensemble de véhicules excède le nombre indiqué sur le panonceau."
       },
       {
        "t": "caption",
-       "text": "Signaux sonores interdits",
-       "img_path": "img_2.6_120.jpeg"
+       "text": "Accès interdit aux piétons",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Accès interdit aux cycles",
+       "img_path": "img_2.6_116.jpeg"
+      },
+      {
+       "t": "caption",
+       "text": "Accès interdit aux véhicules à traction animale",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Accès interdit aux voitures à bras",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Accès interdit aux véhicules de transport en commun de personnes",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Accès interdit aux cyclomoteurs",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Accès interdit aux véhicules agricoles à moteur",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Accès interdit aux motocyclettes et motocyclettes légères",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Accès interdit aux véhicules tractant une caravane ou une remorque de plus de 250 kg. Le poids total roulant autorisé, véhicule et caravane ou véhicule et remorque, ne doit pas dépasser 3,5 tonnes.",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Accès interdit aux véhicules affectés au transport de marchandises.",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Accès interdit aux véhicules, véhicules articulés, trains doubles ou ensemble de véhicules dont la longueur est supérieure au nombre indiqué.",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Accès interdit aux véhicules dont la largeur, chargement compris, est supérieure au nombre indiqué.",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Accès interdit aux véhicules dont la hauteur, chargement compris, est supérieure au nombre indiqué.",
+       "img_path": null
       }
      ],
-     "leftover_images": [
-      {
-       "path": "img_2.6_121.jpeg"
-      },
-      {
-       "path": "img_2.6_123.jpeg"
-      },
-      {
-       "path": "img_2.6_124.jpeg"
-      },
-      {
-       "path": "img_2.6_125.jpeg"
-      },
-      {
-       "path": "img_2.6_126.jpeg"
-      },
-      {
-       "path": "img_2.6_127.jpeg"
-      },
-      {
-       "path": "img_2.6_128.jpeg"
-      },
-      {
-       "path": "img_2.6_129.jpeg"
-      },
-      {
-       "path": "img_2.6_131.jpeg"
-      },
-      {
-       "path": "img_2.6_132.jpeg"
-      },
-      {
-       "path": "img_2.6_133.png"
-      },
-      {
-       "path": "img_2.6_135.jpeg"
-      },
-      {
-       "path": "img_2.6_136.jpeg"
-      },
-      {
-       "path": "img_2.6_137.jpeg"
-      },
-      {
-       "path": "img_2.6_138.jpeg"
-      },
-      {
-       "path": "img_2.6_139.jpeg"
-      },
-      {
-       "path": "img_2.6_140.jpeg"
-      },
-      {
-       "path": "img_2.6_141.jpeg"
-      },
-      {
-       "path": "img_2.6_142.jpeg"
-      },
-      {
-       "path": "img_2.6_143.jpeg"
-      },
-      {
-       "path": "img_2.6_144.jpeg"
-      },
-      {
-       "path": "img_2.6_145.jpeg"
-      },
-      {
-       "path": "img_2.6_147.jpeg"
-      },
-      {
-       "path": "img_2.6_148.jpeg"
-      },
-      {
-       "path": "img_2.6_149.jpeg"
-      },
-      {
-       "path": "img_2.6_150.jpeg"
-      },
-      {
-       "path": "img_2.6_151.jpeg"
-      },
-      {
-       "path": "img_2.6_152.jpeg"
-      },
-      {
-       "path": "img_2.6_153.jpeg"
-      }
-     ]
+     "leftover_images": []
     },
     {
      "num": "2.7",
-     "title": "Panneaux de fin d’interdiction",
+     "title": "Panneaux de fin d'interdiction",
      "blocks": [
       {
        "t": "quote",
-       "text": "Les panneaux de fin d’interdiction sont de forme circulaire à fond blanc barré de noir."
+       "text": "Les panneaux de fin d'interdiction sont de forme circulaire à fond blanc barré de noir."
       },
       {
-       "t": "p",
-       "text": "Accès interdit aux véhicules, véhicules articulés, trains doubles ou ensemble de véhicules dont le poids total autorisé en charge ou le poids total roulant autorisé excède le nombre indiqué"
+       "t": "caption",
+       "text": "Fin de toutes les interdictions précédemment signalées, imposées aux véhicules en mouvement. Ce panneau ne met pas fin aux interdictions de stationner ou de s'arrêter.",
+       "img_path": null
       },
       {
-       "t": "p",
-       "text": "Fin de toutes les interdictions précé- demment signalées, imposées aux véhicules en mouvement. Ce panneau ne met pas fin aux  interdictions de stationner ou de s’arrêter"
+       "t": "caption",
+       "text": "Fin d'interdiction aux véhicules affectés au transport de marchandises dont le poids total autorisé en charge ou le poids total roulant autorisé est supérieur à 3,5 tonnes, de dépasser tous les véhicules à moteur autres que ceux à deux roues sans side-car",
+       "img_path": null
       },
       {
-       "t": "p",
-       "text": "Fin d'interdiction aux véhicules affectés au transport de marchandises dont le poids total autorisé en charge ou le poids total roulant autorisé est supérieur à 3.5 tonnes, de dépasser tous les véhicules à moteur autres que ceux à deux roues sans side-car"
+       "t": "caption",
+       "text": "Fin d'interdiction de dépasser tous les véhicules à moteur autres que ceux à deux roues sans side-car",
+       "img_path": null
       },
       {
-       "t": "p",
-       "text": "Accès interdit aux véhicules transportant des marchandises explosives ou facilement inflammables"
-      },
-      {
-       "t": "p",
-       "text": "Fin d'interdiction de dépasser tous les véhicules à moteur autres que ceux à deux roues sans side-car"
-      },
-      {
-       "t": "p",
-       "text": "Fin d'interdiction dont la nature est indiquée sur le panneau"
-      },
-      {
-       "t": "p",
-       "text": "Accès interdit aux véhicules transportant des marchandises susceptibles de polluer les eaux"
+       "t": "caption",
+       "text": "Fin d'interdiction dont la nature est indiquée sur le panneau",
+       "img_path": null
       },
       {
        "t": "caption",
@@ -1035,46 +788,34 @@
       },
       {
        "t": "caption",
-       "text": "Fin d'interdiction de l’avertisseur sonore",
-       "img_path": "img_2.7_156.jpeg"
+       "text": "Fin d'interdiction de l'avertisseur sonore",
+       "img_path": null
       }
      ],
-     "leftover_images": [
-      {
-       "path": "img_2.7_157.jpeg"
-      },
-      {
-       "path": "img_2.7_158.jpeg"
-      },
-      {
-       "path": "img_2.7_159.jpeg"
-      },
-      {
-       "path": "img_2.7_160.jpeg"
-      },
-      {
-       "path": "img_2.7_161.jpeg"
-      },
-      {
-       "path": "img_2.7_162.jpeg"
-      }
-     ]
+     "leftover_images": []
     },
     {
      "num": "2.8",
-     "title": "Panneaux d’obligation",
+     "title": "Panneaux d'obligation",
      "blocks": [
       {
        "t": "quote",
-       "text": "Les panneaux qui imposent une obligation interdisent d’autres comporte- ments : l’obligation d’emprunter une direction implique l’interdiction d’en suivre une autre, etc."
+       "text": "Les panneaux qui imposent une obligation interdisent d'autres comportements : l'obligation d'emprunter une direction implique l'interdiction d'en suivre une autre, etc."
       },
       {
-       "t": "p",
-       "text": "Obligation de tourner à droite avant le panneau"
+       "t": "caption",
+       "text": "Obligation de tourner à droite avant le panneau",
+       "img_path": null
       },
       {
-       "t": "p",
-       "text": "Direction obligatoire à la prochaine intersection : tout droit"
+       "t": "caption",
+       "text": "Direction obligatoire à la prochaine intersection : tout droit",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Obligation de tourner à gauche avant le panneau",
+       "img_path": null
       },
       {
        "t": "caption",
@@ -1082,29 +823,44 @@
        "img_path": "img_2.8_164.jpeg"
       },
       {
-       "t": "p",
-       "text": "Direction obligatoire à la prochaine intersection : à droite"
+       "t": "caption",
+       "text": "Contournement obligatoire par la droite",
+       "img_path": "img_2.8_168.jpeg"
       },
       {
-       "t": "p",
-       "text": "Direction obligatoire à la prochaine intersection : à droite et à gauche"
+       "t": "caption",
+       "text": "Direction obligatoire à la prochaine intersection : à droite",
+       "img_path": null
       },
       {
-       "t": "p",
-       "text": "Direction obligatoire à la prochaine intersection : tout droit et à droite"
+       "t": "caption",
+       "text": "Direction obligatoire à la prochaine intersection : à gauche",
+       "img_path": null
       },
       {
-       "t": "p",
-       "text": "Piste ou bande obligatoire pour les cycles sans side-car ou remorque"
+       "t": "caption",
+       "text": "Direction obligatoire à la prochaine intersection : tout droit et à droite",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Direction obligatoire à la prochaine intersection : tout droit et à gauche",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Direction obligatoire à la prochaine intersection : à droite et à gauche",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Piste ou bande obligatoire pour les cycles sans side-car ou remorque",
+       "img_path": null
       },
       {
        "t": "caption",
        "text": "Chemin obligatoire pour piétons",
        "img_path": "img_2.8_165.jpeg"
-      },
-      {
-       "t": "p",
-       "text": "Obligation de tourner à gauche avant le panneau"
       },
       {
        "t": "caption",
@@ -1118,24 +874,13 @@
       },
       {
        "t": "caption",
-       "text": "Contournement obligatoire par la droite",
-       "img_path": "img_2.8_168.jpeg"
+       "text": "Chaînes à neige obligatoires sur au moins deux roues motrices",
+       "img_path": null
       },
       {
-       "t": "p",
-       "text": "Chaînes à neige obligatoires sur au moins deux roues motrices"
-      },
-      {
-       "t": "p",
-       "text": "Autres obligations dont la nature est mentionnée par une inscription sur le panneau"
-      },
-      {
-       "t": "p",
-       "text": "Direction obligatoire à la prochaine intersection : à gauche"
-      },
-      {
-       "t": "p",
-       "text": "Direction obligatoire à la prochaine intersection : tout droit et à gauche"
+       "t": "caption",
+       "text": "Autres obligations dont la nature est mentionnée par une inscription sur le panneau",
+       "img_path": null
       },
       {
        "t": "caption",
@@ -1143,122 +888,99 @@
        "img_path": "img_2.8_169.jpeg"
       },
       {
-       "t": "p",
-       "text": "Voie réservée aux véhicules des services réguliers de transport en commun"
-      }
-     ],
-     "leftover_images": [
-      {
-       "path": "img_2.8_170.jpeg"
-      },
-      {
-       "path": "img_2.8_171.jpeg"
-      },
-      {
-       "path": "img_2.8_172.jpeg"
-      },
-      {
-       "path": "img_2.8_173.jpeg"
-      },
-      {
-       "path": "img_2.8_174.jpeg"
-      },
-      {
-       "path": "img_2.8_176.jpeg"
-      },
-      {
-       "path": "img_2.8_177.jpeg"
-      },
-      {
-       "path": "img_2.8_178.jpeg"
-      },
-      {
-       "path": "img_2.8_179.jpeg"
-      },
-      {
-       "path": "img_2.8_180.jpeg"
-      },
-      {
-       "path": "img_2.8_181.jpeg"
-      },
-      {
-       "path": "img_2.8_182.jpeg"
-      }
-     ]
-    },
-    {
-     "num": "2.9",
-     "title": "Panneaux de fin d’obligation",
-     "blocks": [
-      {
-       "t": "quote",
-       "text": "Les panneaux de fin d’obligation sont ronds à fond bleu barré de rouge"
-      },
-      {
-       "t": "p",
-       "text": "Fin de piste ou bande obligatoire pour cycle"
-      },
-      {
-       "t": "p",
-       "text": "Fin de chemin obligatoire pour cavaliers"
-      },
-      {
-       "t": "p",
-       "text": "Fin de l’obligation de l’usage des chaînes à neige"
-      },
-      {
        "t": "caption",
-       "text": "Fin de voie réservée aux tramways",
-       "img_path": "img_2.9_184.jpeg"
-      }
-     ],
-     "leftover_images": [
-      {
-       "path": "img_2.9_185.jpeg"
-      },
-      {
-       "path": "img_2.9_186.jpeg"
-      },
-      {
-       "path": "img_2.9_187.jpeg"
-      }
-     ]
-    },
-    {
-     "num": "2.10",
-     "title": "Panneaux de zone",
-     "blocks": [
-      {
-       "t": "quote",
-       "text": "Un panneau de zone s'applique à l'ensemble des voies situées à l'intérieur d'une zone délimitée, jusqu'au panneau de fin de zone correspondant."
+       "text": "Voie réservée aux véhicules des services réguliers de transport en commun",
+       "img_path": null
       }
      ],
      "leftover_images": []
     },
     {
-     "num": "2.11",
-     "title": "Panneaux d’indication",
+     "num": "2.9",
+     "title": "Panneaux de fin d'obligation",
      "blocks": [
+      {
+       "t": "quote",
+       "text": "Les panneaux de fin d'obligation sont ronds à fond bleu barré de rouge."
+      },
+      {
+       "t": "caption",
+       "text": "Fin de piste ou bande obligatoire pour cycle",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Fin de chemin obligatoire pour piétons",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Fin de chemin obligatoire pour cavaliers",
+       "img_path": null
+      },
       {
        "t": "caption",
        "text": "Fin de vitesse minimum obligatoire",
        "img_path": "img_2.11_189.jpeg"
       },
       {
-       "t": "quote",
-       "text": "Lieu aménagé pour le stationnement"
+       "t": "caption",
+       "text": "Fin de l'obligation de l'usage des chaînes à neige",
+       "img_path": null
       },
       {
-       "t": "p",
-       "text": "Lieu aménagé pour le stationnement payant"
+       "t": "caption",
+       "text": "Fin d'obligation dont la nature est mentionnée par une inscription sur le panneau",
+       "img_path": null
       },
       {
-       "t": "p",
-       "text": "Lieu aménagé pour le stationnement gratuit à durée limitée avec contrôle par un dispositif approprié."
+       "t": "caption",
+       "text": "Fin de voie réservée aux tramways",
+       "img_path": "img_2.9_184.jpeg"
       },
       {
-       "t": "p",
-       "text": "Fin d'obligation dont la nature est mentionnée par une inscription sur le panneau"
+       "t": "caption",
+       "text": "Fin de voie réservée aux véhicules des services réguliers de transport en commun",
+       "img_path": null
+      }
+     ],
+     "leftover_images": []
+    },
+    {
+     "num": "2.10",
+     "title": "Panneaux de zone",
+     "blocks": [
+      {
+       "t": "caption",
+       "text": "Entrée d'une zone à vitesse limitée à 30 km/h",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Sortie d'une zone à vitesse limitée à 30 km/h",
+       "img_path": null
+      }
+     ],
+     "leftover_images": []
+    },
+    {
+     "num": "2.11",
+     "title": "Panneaux d'indication",
+     "blocks": [
+      {
+       "t": "caption",
+       "text": "Lieu aménagé pour le stationnement",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Lieu aménagé pour le stationnement payant",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Lieu aménagé pour le stationnement gratuit à durée limitée avec contrôle par un dispositif approprié.",
+       "img_path": null
       },
       {
        "t": "caption",
@@ -1275,13 +997,9 @@
        "text": "Ce panneau indique la vitesse à laquelle il est conseillé de circuler si les circonstances le permettent et si l'usager n'est pas tenu de respecter une vitesse inférieure spécifique à la catégorie de véhicule qu'il conduit."
       },
       {
-       "t": "p",
-       "text": "Fin de voie réservée aux véhicules des services réguliers de transport en commun"
-      },
-      {
        "t": "caption",
-       "text": "Risque d’incendie",
-       "img_path": "img_2.11_192.jpeg"
+       "text": "Risque d'incendie",
+       "img_path": null
       },
       {
        "t": "caption",
@@ -1290,42 +1008,8 @@
       },
       {
        "t": "caption",
-       "text": "Arrêt d’autobus",
-       "img_path": "img_2.11_194.jpeg"
-      },
-      {
-       "t": "p",
-       "text": "L’arrêt et le stationne- ment sont réservés aux taxis en service ;le mar- quage au sol approprié signale l’étendue de cette réservation."
-      },
-      {
-       "t": "p",
-       "text": "L'arrêt et le stationne- ment des autres véhi- cules sont interdits, sur une étendue signalée par le marquage au sol approprié."
-      },
-      {
-       "t": "caption",
-       "text": "Circulation à sens unique",
-       "img_path": "img_2.11_195.jpeg"
-      },
-      {
-       "t": "p",
-       "text": "Emplacement d'arrêt d'urgence"
-      },
-      {
-       "t": "p",
-       "text": "L'emplacement constitué par un aménagement ponctuel de l'accote- ment est réservé aux arrêts d'urgence."
-      },
-      {
-       "t": "p",
-       "text": "Présignalisation d’une impasse"
-      },
-      {
-       "t": "p",
-       "text": "Stationnement réglementé pour les caravanes et les autocaravanes"
-      },
-      {
-       "t": "caption",
-       "text": "Passage pour piétons",
-       "img_path": "img_2.11_196.jpeg"
+       "text": "Arrêt d'autobus",
+       "img_path": null
       },
       {
        "t": "caption",
@@ -1333,28 +1017,37 @@
        "img_path": "img_2.11_197.jpeg"
       },
       {
-       "t": "p",
-       "text": "Présignalisation de la praticabilité d'une section de route"
+       "t": "caption",
+       "text": "Présignalisation de la praticabilité d'une section de route",
+       "img_path": null
       },
       {
        "t": "p",
-       "text": "L’arrêt et le stationne- ment sont réservés aux tramways. Ce panneau signale qu'une section de route est ouverte ou fermée à la circulation publique. En cas d'ouverture, il précise, le cas échéant, les conditions particulières d'équipement auxquelles sont soumis les véhicules en circulation."
-      },
-      {
-       "t": "p",
-       "text": "Priorité par rapport à la circulation venant en sens inverse"
-      },
-      {
-       "t": "p",
-       "text": "Conditions particulières de circulation par voie sur la route suivie"
-      },
-      {
-       "t": "p",
-       "text": "Ces panneaux indiquent des conditions particulières de circulation telles que le nombre de voies, le sens de circulation par voie ou des indications concernant une ou plusieurs voies de la chaussée."
+       "text": "Ce panneau signale qu'une section de route est ouverte ou fermée à la circulation publique. En cas d'ouverture, il précise, le cas échéant, les conditions particulières d'équipement auxquelles sont soumis les véhicules en circulation."
       },
       {
        "t": "caption",
-       "text": "Voies affectées."
+       "text": "Emplacement d'arrêt d'urgence",
+       "img_path": null
+      },
+      {
+       "t": "p",
+       "text": "L'emplacement constitué par un aménagement ponctuel de l'accotement est réservé aux arrêts d'urgence."
+      },
+      {
+       "t": "caption",
+       "text": "Circulation à sens unique",
+       "img_path": "img_2.11_195.jpeg"
+      },
+      {
+       "t": "caption",
+       "text": "Priorité par rapport à la circulation venant en sens inverse",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Présignalisation d'une impasse",
+       "img_path": null
       },
       {
        "t": "caption",
@@ -1362,12 +1055,14 @@
        "img_path": "img_2.11_198.png"
       },
       {
-       "t": "p",
-       "text": "La voie de gauche est réservée aux véhicules tournant à gauche. Les deux voies centrales permettent d’aller tout droit et la voie de droite est réservée aux véhicules tournant à droite."
+       "t": "caption",
+       "text": "Stationnement réglementé pour les caravanes et les autocaravanes",
+       "img_path": null
       },
       {
-       "t": "p",
-       "text": "Ces panneaux  indiquent l’affectation des voies à l’approche d’une intersection."
+       "t": "caption",
+       "text": "Passage pour piétons",
+       "img_path": "img_2.3_69.jpeg"
       },
       {
        "t": "caption",
@@ -1376,177 +1071,86 @@
       },
       {
        "t": "p",
+       "text": "Conditions particulières de circulation par voie sur la route suivie : ces panneaux indiquent des conditions particulières de circulation telles que le nombre de voies, le sens de circulation par voie ou des indications concernant une ou plusieurs voies de la chaussée."
+      },
+      {
+       "t": "caption",
+       "text": "Voies affectées.",
+       "img_path": null
+      },
+      {
+       "t": "p",
+       "text": "La voie de gauche est réservée aux véhicules tournant à gauche. Les deux voies centrales permettent d'aller tout droit et la voie de droite est réservée aux véhicules tournant à droite. Ces panneaux indiquent l'affectation des voies à l'approche d'une intersection."
+      },
+      {
+       "t": "p",
        "text": "Ces panneaux indiquent des conditions particulières de circulation sur la chaussée abordée, telles que le nombre de voies, le sens de circulation par voie, ou des indications concernant une ou plusieurs voies."
       },
       {
-       "t": "p",
-       "text": "Indication aux frontières des limites de vitesse sur le territoire français"
+       "t": "caption",
+       "text": "Indication aux frontières des limites de vitesse sur le territoire français",
+       "img_path": null
       },
       {
-       "t": "p",
-       "text": "Voie de détresse à gauche"
+       "t": "caption",
+       "text": "Rappel des limites de vitesse sur autoroute",
+       "img_path": null
       },
       {
-       "t": "p",
-       "text": "Surélévation de la chaussée"
+       "t": "caption",
+       "text": "Réduction du nombre de voies sur une route à chaussées séparées ou sur un créneau de dépassement à chaussées séparées",
+       "img_path": null
       },
       {
-       "t": "p",
-       "text": "Réduction du nombre de voies sur une route à chaussées séparées ou sur un créneau de dépasse- ment à chaussées séparées"
+       "t": "caption",
+       "text": "Fin d'un créneau de dépassement à trois voies",
+       "img_path": null
       },
       {
-       "t": "p",
-       "text": "Fin d'un créneau de dépassement à trois voies"
+       "t": "caption",
+       "text": "Présignalisation d'un créneau de dépassement \"deux voies dans un sens et une voie dans l'autre\"",
+       "img_path": null
       },
       {
-       "t": "p",
-       "text": "Rappel des limites de vitesse sur autoroute"
+       "t": "caption",
+       "text": "Présignalisation d'un créneau de dépassement ou d'une section de route à chaussées séparées",
+       "img_path": null
       },
       {
-       "t": "p",
-       "text": "Présignalisation d’un créneau de dépas- sement \"deux voies dans un sens et une voie dans l’autre\""
+       "t": "caption",
+       "text": "Voie de détresse à gauche",
+       "img_path": null
       },
       {
-       "t": "p",
-       "text": "Présignalisation d’un créneau de dépassement ou d'une section de route à chaussées séparées"
+       "t": "caption",
+       "text": "Surélévation de la chaussée",
+       "img_path": null
       },
       {
-       "t": "p",
-       "text": "Voie de détresse à droite"
+       "t": "caption",
+       "text": "Voie de détresse à droite",
+       "img_path": null
       },
       {
-       "t": "p",
-       "text": "Ces panneaux délimitent le début et la fin d’une zone affectée à la circulation des piétons."
+       "t": "caption",
+       "text": "Ces panneaux délimitent le début et la fin d'une piste ou bande cyclable réservée aux cycles à deux ou trois roues.",
+       "img_path": null
       },
       {
-       "t": "p",
-       "text": "Ces panneaux délimitent le début et la fin d’une piste ou bande cyclable réservée aux cycles à deux ou trois roues."
+       "t": "caption",
+       "text": "Ces panneaux délimitent le début et la fin d'une zone affectée à la circulation des piétons.",
+       "img_path": null
       }
      ],
-     "leftover_images": [
-      {
-       "path": "img_2.11_200.jpeg"
-      },
-      {
-       "path": "img_2.11_201.jpeg"
-      },
-      {
-       "path": "img_2.11_202.jpeg"
-      },
-      {
-       "path": "img_2.11_203.jpeg"
-      },
-      {
-       "path": "img_2.11_204.jpeg"
-      },
-      {
-       "path": "img_2.11_206.jpeg"
-      },
-      {
-       "path": "img_2.11_207.jpeg"
-      },
-      {
-       "path": "img_2.11_208.jpeg"
-      },
-      {
-       "path": "img_2.11_210.jpeg"
-      },
-      {
-       "path": "img_2.11_211.jpeg"
-      },
-      {
-       "path": "img_2.11_212.jpeg"
-      },
-      {
-       "path": "img_2.11_213.jpeg"
-      },
-      {
-       "path": "img_2.11_214.jpeg"
-      },
-      {
-       "path": "img_2.11_215.jpeg"
-      },
-      {
-       "path": "img_2.11_216.jpeg"
-      },
-      {
-       "path": "img_2.11_217.jpeg"
-      },
-      {
-       "path": "img_2.11_218.jpeg"
-      },
-      {
-       "path": "img_2.11_219.jpeg"
-      },
-      {
-       "path": "img_2.11_220.jpeg"
-      },
-      {
-       "path": "img_2.11_222.jpeg"
-      },
-      {
-       "path": "img_2.11_223.jpeg"
-      },
-      {
-       "path": "img_2.11_224.jpeg"
-      },
-      {
-       "path": "img_2.11_225.jpeg"
-      },
-      {
-       "path": "img_2.11_227.jpeg"
-      },
-      {
-       "path": "img_2.11_228.jpeg"
-      },
-      {
-       "path": "img_2.11_229.jpeg"
-      },
-      {
-       "path": "img_2.11_230.jpeg"
-      },
-      {
-       "path": "img_2.11_231.jpeg"
-      },
-      {
-       "path": "img_2.11_232.jpeg"
-      },
-      {
-       "path": "img_2.11_233.jpeg"
-      },
-      {
-       "path": "img_2.11_234.jpeg"
-      },
-      {
-       "path": "img_2.11_235.jpeg"
-      },
-      {
-       "path": "img_2.11_236.jpeg"
-      },
-      {
-       "path": "img_2.11_237.jpeg"
-      },
-      {
-       "path": "img_2.11_238.jpeg"
-      },
-      {
-       "path": "img_2.11_239.jpeg"
-      },
-      {
-       "path": "img_2.11_240.jpeg"
-      },
-      {
-       "path": "img_2.11_241.jpeg"
-      }
-     ]
+     "leftover_images": []
     },
     {
      "num": "2.12",
-     "title": "Panneaux d’indication de services",
+     "title": "Panneaux d'indication de services",
      "blocks": [
       {
        "t": "quote",
-       "text": "Les panneaux d'indication des services donnent des informations sur la présence ou la proximité de services ou d’installations susceptibles d’être utiles aux usagers."
+       "text": "Les panneaux d'indication des services donnent des informations sur la présence ou la proximité de services ou d'installations susceptibles d'être utiles aux usagers."
       },
       {
        "t": "caption",
@@ -1555,20 +1159,33 @@
       },
       {
        "t": "caption",
-       "text": "Poste d’appel d’urgence",
-       "img_path": "img_2.12_244.jpeg"
+       "text": "Poste d'appel d'urgence",
+       "img_path": null
       },
       {
-       "t": "p",
-       "text": "Informations relatives aux services ou activités touristiques"
+       "t": "caption",
+       "text": "Cabine téléphonique publique",
+       "img_path": null
       },
       {
-       "t": "p",
-       "text": "Panneau d’information service faisant partie du relais d’information service"
+       "t": "caption",
+       "text": "Informations relatives aux services ou activités touristiques",
+       "img_path": null
       },
       {
-       "t": "p",
-       "text": "Terrain de camping pour caravanes et autocaravances"
+       "t": "caption",
+       "text": "Panneau d'information service faisant partie du relais d'information service",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Terrain de camping pour tentes",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Terrain de camping pour caravanes et autocaravances",
+       "img_path": null
       },
       {
        "t": "caption",
@@ -1576,21 +1193,24 @@
        "img_path": "img_2.12_245.jpeg"
       },
       {
-       "t": "p",
-       "text": "Point de départ d’un itinéraire pédestre"
+       "t": "caption",
+       "text": "Chambres d'hôtes ou gîte",
+       "img_path": null
       },
       {
-       "t": "p",
-       "text": "Point de départ d’un circuit de ski de fond"
+       "t": "caption",
+       "text": "Point de départ d'un itinéraire pédestre",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Point de départ d'un circuit de ski de fond",
+       "img_path": null
       },
       {
        "t": "caption",
        "text": "Point de pique-nique",
        "img_path": "img_2.12_246.jpeg"
-      },
-      {
-       "t": "p",
-       "text": "Cabine téléphonique publique"
       },
       {
        "t": "caption",
@@ -1603,140 +1223,112 @@
        "img_path": "img_2.12_248.jpeg"
       },
       {
-       "t": "p",
-       "text": "Toilettes ouvertes au public"
+       "t": "caption",
+       "text": "Toilettes ouvertes au public",
+       "img_path": null
       },
       {
-       "t": "p",
-       "text": "Terrain de camping pour tentes"
+       "t": "caption",
+       "text": "Installations accessibles aux personnes handicapées à mobilité réduite",
+       "img_path": null
       },
       {
-       "t": "p",
-       "text": "Installations accessibles aux personnes handica- pées à mobilité réduite"
+       "t": "caption",
+       "text": "Restaurant ouvert 7 jours sur 7",
+       "img_path": null
       },
       {
-       "t": "p",
-       "text": "Restaurant ouvert 7 jours sur 7"
+       "t": "caption",
+       "text": "Hôtel ou motel ouvert 7 jours sur 7",
+       "img_path": null
       },
       {
-       "t": "p",
-       "text": "Hôtel ou motel ouvert 7 jours sur 7"
+       "t": "caption",
+       "text": "Poste de distribution de carburant ouvert 7 jours sur 7 et 24 heures sur 24, délivrant ou non du GPL (gaz de pétrole liquéfié), avec ou non la mention de la marque du poste de distribution",
+       "img_path": null
       },
       {
-       "t": "p",
-       "text": "Poste de distribution de carburant ouvert 7 jours sur 7 et 24 heures sur 24, délivrant ou non du GPL (gaz de pétrole liquéfié), avec ou non la mention de la marque du poste de distribution"
+       "t": "caption",
+       "text": "Débit de boissons ouvert 7 jours sur 7",
+       "img_path": null
       },
       {
-       "t": "p",
-       "text": "Chambres d’hôtes ou gîte"
+       "t": "caption",
+       "text": "Mise à l'eau d'embarcations légères",
+       "img_path": null
       },
       {
-       "t": "p",
-       "text": "Gare de téléphérique Mise à l’eau d’embarcations légères"
+       "t": "caption",
+       "text": "Gare de téléphérique",
+       "img_path": null
       },
       {
-       "t": "p",
-       "text": "Débit de boissons ouvert 7 jours sur 7"
+       "t": "caption",
+       "text": "Point de départ d'un télésiège ou d'une télécabine",
+       "img_path": null
       },
       {
-       "t": "p",
-       "text": "Point de vue Jeux d’enfants Station de radio sur la circulation routière"
+       "t": "caption",
+       "text": "Point de vue",
+       "img_path": null
       },
       {
-       "t": "p",
-       "text": "Distributeur de billets de banque Point de détente Station de gonflage Point de dépannage"
+       "t": "caption",
+       "text": "Station de radio sur la circulation routière",
+       "img_path": null
       },
       {
-       "t": "p",
-       "text": "Moyen de lutte contre l’incendie Issue de secours vers la droite Installations ou services divers Issue de secours vers la gauche"
+       "t": "caption",
+       "text": "Jeux d'enfants",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Station de vidange",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Distributeur de billets de banque",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Station de gonflage",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Point de détente",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Point de dépannage",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Moyen de lutte contre l'incendie",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Installations ou services divers",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Issue de secours vers la droite",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Issue de secours vers la gauche",
+       "img_path": null
       }
      ],
-     "leftover_images": [
-      {
-       "path": "img_2.12_249.jpeg"
-      },
-      {
-       "path": "img_2.12_250.jpeg"
-      },
-      {
-       "path": "img_2.12_251.jpeg"
-      },
-      {
-       "path": "img_2.12_252.jpeg"
-      },
-      {
-       "path": "img_2.12_254.jpeg"
-      },
-      {
-       "path": "img_2.12_255.jpeg"
-      },
-      {
-       "path": "img_2.12_256.jpeg"
-      },
-      {
-       "path": "img_2.12_257.jpeg"
-      },
-      {
-       "path": "img_2.12_258.jpeg"
-      },
-      {
-       "path": "img_2.12_259.jpeg"
-      },
-      {
-       "path": "img_2.12_260.jpeg"
-      },
-      {
-       "path": "img_2.12_261.jpeg"
-      },
-      {
-       "path": "img_2.12_262.jpeg"
-      },
-      {
-       "path": "img_2.12_263.jpeg"
-      },
-      {
-       "path": "img_2.12_264.jpeg"
-      },
-      {
-       "path": "img_2.12_265.jpeg"
-      },
-      {
-       "path": "img_2.12_266.jpeg"
-      },
-      {
-       "path": "img_2.12_267.jpeg"
-      },
-      {
-       "path": "img_2.12_268.jpeg"
-      },
-      {
-       "path": "img_2.12_269.jpeg"
-      },
-      {
-       "path": "img_2.12_271.jpeg"
-      },
-      {
-       "path": "img_2.12_272.jpeg"
-      },
-      {
-       "path": "img_2.12_273.jpeg"
-      },
-      {
-       "path": "img_2.12_274.jpeg"
-      },
-      {
-       "path": "img_2.12_275.jpeg"
-      },
-      {
-       "path": "img_2.12_276.jpeg"
-      },
-      {
-       "path": "img_2.12_277.jpeg"
-      },
-      {
-       "path": "img_2.12_278.jpeg"
-      }
-     ]
+     "leftover_images": []
     },
     {
      "num": "2.13",
@@ -1744,43 +1336,40 @@
      "blocks": [
       {
        "t": "quote",
-       "text": "Les panneaux de direction guident le conducteur. Ils annoncent les intersec- tions et les villes desservies, ils précisent le type et le numéro des routes."
+       "text": "Les panneaux de direction guident le conducteur. Ils annoncent les intersections et les villes desservies, ils précisent le type et le numéro des routes."
       },
       {
        "t": "p",
-       "text": "Point de départ d'un télésiège ou d'une télécabine"
+       "text": "Les routes sont classées en différentes catégories qui indiquent l'administration qui en a la gestion. On les reconnaît par un cartouche placé au-dessus ou par un encart. La couleur, la lettre et le chiffre de la route permettent de l'identifier sur les cartes routières. Le cartouche est placé au-dessus des panneaux et l'encart est inclus dans le panneau."
+      },
+      {
+       "t": "caption",
+       "text": "Cartouche à fond rouge, caractérisant les routes et autoroutes du réseau national",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Cartouche à fond jaune, caractérisant les routes du réseau départemental",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Cartouche à fond vert, caractérisant les routes du réseau forestier",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Cartouche à fond blanc, caractérisant les routes des réseaux communaux ou ruraux",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Cartouche à fond vert, caractérisant les routes du réseau européen",
+       "img_path": null
       },
       {
        "t": "p",
-       "text": "Les routes sont classées en différentes catégories qui indiquent l'adminis- tration qui en a la gestion. On les reconnaît par un cartouche placé au-des- sus ou par un encart. La couleur, la lettre et le chiffre de la route permet- tent de l'identifier sur les cartes rou- tières. Le cartouche est placé au-des- sus des panneaux et l'encart est inclus dans le panneau."
-      },
-      {
-       "t": "p",
-       "text": "Station de vidange"
-      },
-      {
-       "t": "p",
-       "text": "Cartouche à fond rouge, caractérisant les routes et autoroutes du réseau national"
-      },
-      {
-       "t": "p",
-       "text": "Cartouche à fond jaune, caractérisant les routes du réseau départemental"
-      },
-      {
-       "t": "p",
-       "text": "Cartouche à fond vert, caractérisant les routes du réseau forestier"
-      },
-      {
-       "t": "p",
-       "text": "Cartouche à fond blanc, caractérisant les routes des réseaux communaux ou ruraux"
-      },
-      {
-       "t": "p",
-       "text": "L‘encart identifie la route ou l’autoroute que l’on peut rejoindre mais pas celle où je circule."
-      },
-      {
-       "t": "p",
-       "text": "Cartouche à fond vert, caractérisant les routes du réseau européen"
+       "text": "L'encart identifie la route ou l'autoroute que l'on peut rejoindre mais pas celle où je circule."
       },
       {
        "t": "h",
@@ -1789,19 +1378,32 @@
       },
       {
        "t": "p",
-       "text": "La couleur du fond des panneaux de direction correspond au type d’itinéraire et de destination :"
+       "text": "La couleur du fond des panneaux de direction correspond au type d'itinéraire et destination :"
       },
       {
        "t": "caption",
-       "text": "Fond bleu pour les autoroutes."
+       "text": "Fond bleu pour les autoroutes.",
+       "img_path": null
       },
       {
        "t": "caption",
-       "text": "Fond blanc pour les directions locales"
+       "text": "Fond vert pour les itinéraires reliant les villes importantes entre elles",
+       "img_path": null
       },
       {
        "t": "caption",
-       "text": "Fond marron pour les sites touristiques"
+       "text": "Fond blanc pour les directions locales",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Fond jaune pour les itinéraires à caractère temporaire",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Fond marron pour les sites touristiques",
+       "img_path": null
       },
       {
        "t": "h",
@@ -1809,12 +1411,14 @@
        "img_path": "img_2.13_281.jpeg"
       },
       {
-       "t": "p",
-       "text": "Sans affectation de voie"
+       "t": "caption",
+       "text": "Sans affectation de voie",
+       "img_path": null
       },
       {
-       "t": "p",
-       "text": "Avec affectation de voie"
+       "t": "caption",
+       "text": "Avec affectation de voie",
+       "img_path": null
       },
       {
        "t": "h",
@@ -1822,33 +1426,34 @@
        "img_path": "img_2.13_282.jpeg"
       },
       {
-       "t": "p",
-       "text": "Panneau de pré signalisation d'affectation de voie de sortie numérotée"
+       "t": "caption",
+       "text": "Panneau de présignalisation des carrefours complexes",
+       "img_path": null
       },
       {
-       "t": "p",
-       "text": "Panneau de présignalisation des carrefours complexes"
+       "t": "caption",
+       "text": "Panneau de pré signalisation d'affectation de voie de sortie numérotée",
+       "img_path": null
       },
       {
-       "t": "p",
-       "text": "Panneau de présignalisation d’un sens giratoire"
-      },
-      {
-       "t": "p",
-       "text": "Fond vert pour les itinéraires reliant les villes importantes entre elles"
+       "t": "caption",
+       "text": "Panneau de présignalisation d'un sens giratoire",
+       "img_path": null
       },
       {
        "t": "h",
-       "text": "PANNEAUX D’AVERTISSEMENT",
-       "img_path": "img_2.13_283.jpeg"
+       "text": "PANNEAUX D'AVERTISSEMENT",
+       "img_path": null
       },
       {
-       "t": "p",
-       "text": "Fond jaune pour les itinéraires à caractère temporaire"
+       "t": "caption",
+       "text": "Panneau d'avertissement de sortie avec affectation de voie",
+       "img_path": null
       },
       {
-       "t": "p",
-       "text": "Panneau d’avertissement de sortie simple Panneau d’avertissement de sortie avec affectation de voie"
+       "t": "caption",
+       "text": "Panneau d'avertissement de sortie simple",
+       "img_path": null
       },
       {
        "t": "h",
@@ -1856,13 +1461,22 @@
        "img_path": "img_2.13_284.jpeg"
       },
       {
-       "t": "p",
-       "text": "Panneau de confirmation courante utilisés sur route"
+       "t": "caption",
+       "text": "Panneau de confirmation courante utilisés sur route",
+       "img_path": null
       },
       {
-       "t": "p",
-       "text": "Panneau de siganlisation complémentaire des différentes sorties desservant une agglomération"
-      },
+       "t": "caption",
+       "text": "Panneau de signalisation complémentaire des différentes sorties desservant une agglomération",
+       "img_path": null
+      }
+     ],
+     "leftover_images": []
+    },
+    {
+     "num": "2.14",
+     "title": "Panneaux de localisation",
+     "blocks": [
       {
        "t": "h",
        "text": "SORTIE SANS AFFECTATION DE VOIE",
@@ -1870,19 +1484,19 @@
       },
       {
        "t": "p",
-       "text": "1- Avertissement Le panneau avec une flèche simple annonce une sortie sans affec- tation de voie. Le conducteur n’a pas à choisir une voie en fonction de sa direction."
+       "text": "1- Avertissement : le panneau avec une flèche simple annonce une sortie sans affectation de voie. Le conducteur n'a pas à choisir une voie en fonction de sa direction."
       },
       {
        "t": "p",
-       "text": "2- Présignalisation Le panneau indique la distance restant à parcourir si on veut quitter cette route. Si on sort, on doit, en marche normale, se placer dans la voie de droite."
+       "text": "2- Présignalisation : le panneau indique la distance restant à parcourir si on veut quitter cette route. Si on sort, on doit, en marche normale, se placer dans la voie de droite."
       },
       {
        "t": "p",
-       "text": "3- Signalisation avancée Placée au début de la sortie, elle ne comporte plus d’indication de distance."
+       "text": "3- Signalisation avancée : placée au début de la sortie, elle ne comporte plus d'indication de distance."
       },
       {
        "t": "p",
-       "text": "4- Confirmation Le panneau placé sur la bande centrale confirme la direction aux usagers qui continuent sur cette route."
+       "text": "4- Confirmation : le panneau placé sur la bande centrale confirme la direction aux usagers qui continuent sur cette route."
       },
       {
        "t": "h",
@@ -1891,167 +1505,126 @@
       },
       {
        "t": "p",
-       "text": "1- Avertissement Les deux flèches séparées annoncent qu’il y a affectation des voies."
+       "text": "1- Avertissement : les deux flèches séparées annoncent qu'il y a affectation des voies."
       },
       {
        "t": "p",
-       "text": "2- Présignalisation Les panneaux comportent des flèches correspondant aux voies concernées avec la distance restant à par- courir jusqu’à la séparation des voies.Dès cette signa- lisation,le conducteur doit faire son choix et se placer dans la voie correspondant à sa direction."
+       "text": "2- Présignalisation : les panneaux comportent des flèches correspondant aux voies concernées avec la distance restant à parcourir jusqu'à la séparation des voies. Dès cette signalisation, le conducteur doit faire son choix et se placer dans la voie correspondant à sa direction."
       },
       {
        "t": "p",
-       "text": "3- Signalisation avancée Les panneaux sont situés à la séparation des voies : c’est pour cela qu’il n’y a plus d’indication de distan- ce. Le choix doit être fait, il n’est plus question de changer de direction."
+       "text": "3- Signalisation avancée : les panneaux sont situés à la séparation des voies : c'est pour cela qu'il n'y a plus d'indication de distance. Le choix doit être fait, il n'est plus question de changer de direction."
       },
       {
        "t": "p",
-       "text": "4- Confirmation Le panneau placé sur la bande centrale confirme la direction aux usagers qui continuent sur cette route."
-      }
-     ],
-     "leftover_images": [
-      {
-       "path": "img_2.13_287.jpeg"
-      },
-      {
-       "path": "img_2.13_288.jpeg"
-      },
-      {
-       "path": "img_2.13_289.jpeg"
-      },
-      {
-       "path": "img_2.13_290.jpeg"
-      },
-      {
-       "path": "img_2.13_291.jpeg"
-      },
-      {
-       "path": "img_2.13_292.jpeg"
-      },
-      {
-       "path": "img_2.13_293.jpeg"
-      },
-      {
-       "path": "img_2.13_294.png"
-      },
-      {
-       "path": "img_2.13_295.png"
-      },
-      {
-       "path": "img_2.13_296.jpeg"
-      },
-      {
-       "path": "img_2.13_297.jpeg"
-      },
-      {
-       "path": "img_2.13_298.jpeg"
-      },
-      {
-       "path": "img_2.13_299.png"
-      },
-      {
-       "path": "img_2.13_301.jpeg"
-      },
-      {
-       "path": "img_2.13_303.jpeg"
-      },
-      {
-       "path": "img_2.13_304.jpeg"
-      },
-      {
-       "path": "img_2.13_305.jpeg"
-      },
-      {
-       "path": "img_2.13_306.jpeg"
-      },
-      {
-       "path": "img_2.13_307.jpeg"
-      },
-      {
-       "path": "img_2.13_308.jpeg"
-      },
-      {
-       "path": "img_2.13_309.jpeg"
-      },
-      {
-       "path": "img_2.13_311.jpeg"
-      },
-      {
-       "path": "img_2.13_312.jpeg"
-      },
-      {
-       "path": "img_2.13_313.jpeg"
-      },
-      {
-       "path": "img_2.13_314.jpeg"
-      },
-      {
-       "path": "img_2.13_315.jpeg"
-      },
-      {
-       "path": "img_2.13_316.jpeg"
-      },
-      {
-       "path": "img_2.13_317.jpeg"
-      },
-      {
-       "path": "img_2.13_318.jpeg"
-      }
-     ]
-    },
-    {
-     "num": "2.14",
-     "title": "Panneaux de localisation",
-     "blocks": [
-      {
-       "t": "quote",
-       "text": "Localisation de tous les lieux traversés par la route. En rencontrant ce panneau, on doit ralentir s’il y a des habitations, ce qui ne signifie pas que la vitesse soit limi- tée et les avertisseurs sonores interdits."
-      },
-      {
-       "t": "caption",
-       "text": "Localisation d’un cours d’eau"
-      },
-      {
-       "t": "p",
-       "text": "Appartenance d'une commune à un parc national, à un parc naturel régio- nal, à une réserve naturelle ou à une zone du Conservatoire du littoral et des rivages lacustres"
-      },
-      {
-       "t": "p",
-       "text": "Localisation d'un parc national, d'un parc naturel régional, d'une réserve naturelle ou d'une zone du Conservatoire du littoral et des  rivages lacustres"
-      },
-      {
-       "t": "p",
-       "text": "Fin de localisation d’une aire autoroutière"
-      },
-      {
-       "t": "caption",
-       "text": "Localisation d’une aire autoroutière",
-       "img_path": "img_2.14_320.jpeg"
-      },
-      {
-       "t": "p",
-       "text": "Localisation d'une région ou d'un département"
-      },
-      {
-       "t": "p",
-       "text": "Localisation d'un Etat appartenant à l’union européenne"
-      },
-      {
-       "t": "p",
-       "text": "PANNEAUX D’ENTRÉE ET DE SORTIE D’AGGLOMÉRATION"
-      },
-      {
-       "t": "p",
-       "text": "Panneau d’entrée d’agglomération Ce panneau indique, sauf indications contraires, que la vitesse est limitée à 50 km/h et que l’usage de l’avertisseur sonore est interdit s'il n'y a pas de danger immédiat"
+       "text": "4- Confirmation : le panneau placé sur la bande centrale confirme la direction aux usagers qui continuent sur cette route."
       },
       {
        "t": "h",
-       "text": "BALISES"
+       "text": "PANNEAUX DE LOCALISATION",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Localisation de tous les lieux traversés par la route",
+       "img_path": null
       },
       {
        "t": "p",
-       "text": "1 2 3"
+       "text": "En rencontrant ce panneau, on doit ralentir s'il y a des habitations, ce qui ne signifie pas que la vitesse soit limitée et les avertisseurs sonores interdits."
+      },
+      {
+       "t": "caption",
+       "text": "Localisation d'un cours d'eau",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Localisation d'un parc national, d'un parc naturel régional, d'une réserve naturelle ou d'une zone du Conservatoire du littoral et des rivages lacustres",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Appartenance d'une commune à un parc national, à un parc naturel régional, à une réserve naturelle ou à une zone du Conservatoire du littoral et des rivages lacustres",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Localisation d'une aire autoroutière",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Fin de localisation d'une aire autoroutière",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Localisation d'une région ou d'un département",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Localisation d'un Etat appartenant à l'union européenne",
+       "img_path": null
+      },
+      {
+       "t": "h",
+       "text": "PANNEAUX D'ENTRÉE ET DE SORTIE D'AGGLOMÉRATION",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Panneau d'entrée d'agglomération",
+       "img_path": null
       },
       {
        "t": "p",
-       "text": "1- Balise de virage 2- Balise de virage sur les routes fréquemment enneigées 3- Balise de position des intersections, elle ne donne aucune indication sur la priorité."
+       "text": "Ce panneau indique, sauf indications contraires, que la vitesse est limitée à 50 km/h et que l'usage de l'avertisseur sonore est interdit s'il n'y a pas de danger immédiat."
+      },
+      {
+       "t": "caption",
+       "text": "Panneau de sortie d'agglomération",
+       "img_path": null
+      },
+      {
+       "t": "p",
+       "text": "Ce panneau met fin aux obligations, aux interdictions et aux limitations applicables dans l'agglomération."
+      },
+      {
+       "t": "h",
+       "text": "BALISES",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Balise de virage",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Balise de virage sur les routes fréquemment enneigées",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Balise de position des intersections, elle ne donne aucune indication sur la priorité.",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Signalisation des têtes d'îlots directionnels à contournement par la droite",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Balisage de virage",
+       "img_path": "img_2.14_322.jpeg"
+      },
+      {
+       "t": "caption",
+       "text": "Balises de musoir, signalant la divergence des voies",
+       "img_path": null
       },
       {
        "t": "caption",
@@ -2060,16 +1633,8 @@
       },
       {
        "t": "caption",
-       "text": "Balisage de virage",
-       "img_path": "img_2.14_322.jpeg"
-      },
-      {
-       "t": "p",
-       "text": "Balises de musoir, signalant la divergence des voies"
-      },
-      {
-       "t": "p",
-       "text": "Panneau de sortie d’agglomération Ce panneau met fin  aux obligations, aux interdictions et aux limitations applicables dans l’agglomération."
+       "text": "Délinéateurs. Balisage des limites de la chaussée.",
+       "img_path": null
       },
       {
        "t": "h",
@@ -2082,16 +1647,13 @@
       },
       {
        "t": "caption",
-       "text": "Aéroport",
-       "img_path": "img_2.14_324.jpeg"
+       "text": "Parc de stationnement",
+       "img_path": null
       },
       {
        "t": "caption",
-       "text": "Parc de stationnement"
-      },
-      {
-       "t": "p",
-       "text": "Signalisation des têtes d'îlots direction- nels à contournement par la droite"
+       "text": "Aéroport",
+       "img_path": "img_2.14_324.jpeg"
       },
       {
        "t": "caption",
@@ -2099,37 +1661,17 @@
        "img_path": "img_2.14_325.jpeg"
       },
       {
-       "t": "p",
-       "text": "Délinéateurs. Balisage des limites de la chaussée."
+       "t": "caption",
+       "text": "Poste d'appel d'urgence",
+       "img_path": null
       },
       {
        "t": "caption",
        "text": "Poste d'appel téléphonique",
        "img_path": "img_2.14_326.jpeg"
-      },
-      {
-       "t": "caption",
-       "text": "Poste d’appel d’urgence",
-       "img_path": "img_2.14_327.jpeg"
       }
      ],
-     "leftover_images": [
-      {
-       "path": "img_2.14_328.jpeg"
-      },
-      {
-       "path": "img_2.14_329.jpeg"
-      },
-      {
-       "path": "img_2.14_330.jpeg"
-      },
-      {
-       "path": "img_2.14_333.jpeg"
-      },
-      {
-       "path": "img_2.14_334.jpeg"
-      }
-     ]
+     "leftover_images": []
     },
     {
      "num": "2.15",
@@ -2141,13 +1683,23 @@
       },
       {
        "t": "caption",
-       "text": "Cassis, dos d’âne",
-       "img_path": "img_2.15_336.jpeg"
+       "text": "Cassis, dos d'âne",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Chaussée glissante",
+       "img_path": "img_2.15_340.jpeg"
       },
       {
        "t": "caption",
        "text": "Chaussée rétrécie",
-       "img_path": "img_2.15_337.jpeg"
+       "img_path": "img_2.3_64.jpeg"
+      },
+      {
+       "t": "caption",
+       "text": "Travaux",
+       "img_path": "img_2.15_341.jpeg"
       },
       {
        "t": "caption",
@@ -2156,88 +1708,116 @@
       },
       {
        "t": "caption",
+       "text": "Annonce de signaux lumineux réglant la circulation",
+       "img_path": null
+      },
+      {
+       "t": "caption",
        "text": "Autres dangers",
        "img_path": "img_2.15_339.jpeg"
-      },
-      {
-       "t": "p",
-       "text": "Barrages. Signalisation de travaux ou de tout autre obstacle temporaire"
-      },
-      {
-       "t": "p",
-       "text": "Fanion. Signalisation d'un obstacle temporaire de faible importance"
-      },
-      {
-       "t": "p",
-       "text": "Dispositif conique Balise d'alignement Piquet Balise de guidage"
-      },
-      {
-       "t": "caption",
-       "text": "Chaussée glissante",
-       "img_path": "img_2.15_340.jpeg"
-      },
-      {
-       "t": "p",
-       "text": "Signal de position des limites d’obstacles temporaires"
-      },
-      {
-       "t": "p",
-       "text": "Signal de position d'une déviation ou d'un rétrécissement temporaire de chaussée"
-      },
-      {
-       "t": "caption",
-       "text": "Travaux",
-       "img_path": "img_2.15_341.jpeg"
-      },
-      {
-       "t": "p",
-       "text": "Portique. Signal de présignalisation de gabarit limité"
-      },
-      {
-       "t": "p",
-       "text": "Annonce de signaux lumineux réglant la circulation"
-      },
-      {
-       "t": "p",
-       "text": "Signaux servant à régler manuellement la circulation"
-      },
-      {
-       "t": "p",
-       "text": "Ruban. Signal de délimitation de chantier"
-      },
-      {
-       "t": "p",
-       "text": "Séparateur modulaire de voie. Dispositif continu de séparation ou de délimitation et de guidage"
       },
       {
        "t": "caption",
        "text": "Bouchon",
        "img_path": "img_2.15_342.jpeg"
+      },
+      {
+       "t": "h",
+       "text": "SIGNAL DE POSITION DES LIMITES D'OBSTACLES TEMPORAIRES",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Fanion. Signalisation d'un obstacle temporaire de faible importance",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Barrages. Signalisation de travaux ou de tout autre obstacle temporaire",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Dispositif conique",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Piquet",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Balise d'alignement",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Balise de guidage",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Signal de position d'une déviation ou d'un rétrécissement temporaire de chaussée",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Portique. Signal de présignalisation de gabarit limité",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Signaux servant à régler manuellement la circulation",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Séparateur modulaire de voie. Dispositif continu de séparation ou de délimitation et de guidage",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Ruban. Signal de délimitation de chantier",
+       "img_path": null
+      },
+      {
+       "t": "h",
+       "text": "PRÉSIGNALISATION",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Présignalisation de changement de chaussée",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Affectation de voies",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Annonce de la réduction du nombre des voies laissées libres à la circulation",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Direction de déviation",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Encart de présignalisation de l'origine d'un itinéraire de déviation",
+       "img_path": null
+      },
+      {
+       "t": "caption",
+       "text": "Présignalisation de déviation",
+       "img_path": null
       }
      ],
-     "leftover_images": [
-      {
-       "path": "img_2.15_344.jpeg"
-      },
-      {
-       "path": "img_2.15_345.jpeg"
-      },
-      {
-       "path": "img_2.15_346.png"
-      },
-      {
-       "path": "img_2.15_347.jpeg"
-      },
-      {
-       "path": "img_2.15_348.png"
-      },
-      {
-       "path": "img_2.15_349.jpeg"
-      },
-      {
-       "path": "img_2.15_350.png"
-      }
-     ]
+     "leftover_images": []
     },
     {
      "num": "2.16",
@@ -2245,16 +1825,12 @@
      "blocks": [
       {
        "t": "quote",
-       "text": "Une route, c’est l’ensemble des voies ouvertes à la circulation publique."
+       "text": "Une route, c'est l'ensemble des voies ouvertes à la circulation publique."
       },
       {
        "t": "h",
-       "text": "ROUTE",
-       "img_path": "img_2.16_352.jpeg"
-      },
-      {
-       "t": "h",
-       "text": "LA CHAUSSÉE"
+       "text": "LA CHAUSSÉE",
+       "img_path": null
       },
       {
        "t": "p",
@@ -2262,39 +1838,34 @@
       },
       {
        "t": "h",
-       "text": "LA VOIE"
+       "text": "LA VOIE",
+       "img_path": null
       },
       {
        "t": "p",
-       "text": "La chaussée peut être divisée en plusieurs voies. Les voies sont matériali- sées par des lignes continues ou discontinues. Certaines voies peuvent être réservées à certains catégories de véhicules."
-      },
-      {
-       "t": "p",
-       "text": "Annonce de la réduction du nombre des voies laissées libres à la circulation"
+       "text": "La chaussée peut être divisée en plusieurs voies. Les voies sont matérialisées par des lignes continues ou discontinues. Certaines voies peuvent être réservées à certaines catégories de véhicules."
       },
       {
        "t": "h",
-       "text": "LES ACCOTEMENTS"
+       "text": "LES ACCOTEMENTS",
+       "img_path": null
       },
       {
        "t": "p",
        "text": "Ils bordent la chaussée de chaque côté et font partie de la route. Ils peuvent être utilisés pour l'arrêt, le stationnement ou la circulation des piétons."
       },
       {
-       "t": "p",
-       "text": "DÉLIMITATION GÉNÉRALE DES VOIES DE CIRCULATION"
+       "t": "h",
+       "text": "DÉLIMITATION GÉNÉRALE DES VOIES DE CIRCULATION",
+       "img_path": null
       },
       {
        "t": "p",
-       "text": "Présignalisation de déviation"
+       "text": "En marche normale, il faut circuler en A dans la voie de droite. On ne peut franchir les lignes que pour dépasser au point B ou pour tourner à gauche en C."
       },
       {
        "t": "p",
-       "text": "En marche normale, il faut circuler en A dans la voie de droite. On ne peut franchir les lignes que pour dépasser le point B ou pour tourner à gauche en C."
-      },
-      {
-       "t": "p",
-       "text": "Sur une chaussée à double sens de circulation, qui comporte un nombre impair de voies,il est interdit d'emprunter la voie la plus à gauche. Par exemple, sur une chaussée à trois voies, il est interdit d'emprunter la troisième voie, située la plus à gauche."
+       "text": "Sur une chaussée à double sens de circulation, qui comporte un nombre impair de voies, il est interdit d'emprunter la voie la plus à gauche. Par exemple, sur une chaussée à trois voies, il est interdit d'emprunter la troisième voie, située la plus à gauche."
       },
       {
        "t": "p",
@@ -2307,7 +1878,7 @@
       },
       {
        "t": "p",
-       "text": "Elles séparent l’accotement de la chaussée.Il est permis de les franchir pour s’arrêter ou pour stationner, sauf indications contraires. Les traits sont de 3 mètres avec un intervalle de 3,5 mètres. A l'approche des intersections, les traits peuvent être de 20 mètres avec un intervalle de 6 mètres."
+       "text": "Elles séparent l'accotement de la chaussée. Il est permis de les franchir pour s'arrêter ou pour stationner, sauf indications contraires. Les traits sont de 3 mètres avec un intervalle de 3,5 mètres. À l'approche des intersections, les traits peuvent être de 20 mètres avec un intervalle de 6 mètres."
       },
       {
        "t": "h",
@@ -2315,8 +1886,13 @@
        "img_path": "img_2.16_354.jpeg"
       },
       {
+       "t": "p",
+       "text": "Cette ligne ne peut être franchie, ni pour effectuer un changement de direction, ni pour dépasser."
+      },
+      {
        "t": "h",
-       "text": "LIGNE DISCONTINUE"
+       "text": "LIGNE DISCONTINUE",
+       "img_path": null
       },
       {
        "t": "p",
@@ -2329,28 +1905,25 @@
       },
       {
        "t": "p",
-       "text": "Sur des routes étroites ou sinueuses, la ligne de dissuasion remplace une ligne continue afin de permettre le dépassement de véhicules roulant très lentement comme un tracteur agricole par exemple. Les traits mesurent 3 mètres avec un intervalle de 1.33 mètre."
+       "text": "Sur des routes étroites ou sinueuses, la ligne de dissuasion remplace une ligne continue afin de permettre le dépassement de véhicules roulant très lentement comme un tracteur agricole par exemple. Les traits mesurent 3 mètres avec un intervalle de 1,33 mètre."
       },
       {
        "t": "h",
-       "text": "LIGNE D’AVERTISSEMENT",
-       "img_path": "img_2.16_356.jpeg"
+       "text": "LIGNE D'AVERTISSEMENT",
+       "img_path": null
       },
       {
        "t": "p",
        "text": "Cette ligne est semblable à une ligne de dissuasion, mais elle annonce une ligne continue. Je peux terminer mon dépassement mais pas le commencer."
       },
       {
-       "t": "p",
-       "text": "Cette ligne ne peut être franchie, ni pour effectuer un changement de direction, ni pour dépasser."
-      },
-      {
        "t": "h",
-       "text": "LIGNE MIXTE"
+       "text": "LIGNE MIXTE",
+       "img_path": null
       },
       {
        "t": "p",
-       "text": "C’est une ligne composée d’une ligne continue et d’une ligne discontinue accolée. Le conducteur doit tenir compte de la ligne la plus proche de lui, l’autre concernant les véhicules circulant en sens inverse."
+       "text": "C'est une ligne composée d'une ligne continue et d'une ligne discontinue accolée. Le conducteur doit tenir compte de la ligne la plus proche de lui, l'autre concernant les véhicules circulant en sens inverse."
       },
       {
        "t": "h",
@@ -2359,20 +1932,24 @@
       },
       {
        "t": "p",
+       "text": "Les flèches de rabattement sont intercalées dans une ligne d'avertissement ou dans une ligne mixte."
+      },
+      {
+       "t": "p",
+       "text": "Elles indiquent que la ligne discontinue va prendre fin et que le conducteur va rencontrer une ligne continue."
+      },
+      {
+       "t": "p",
+       "text": "Ces flèches sont au nombre de trois. Dès que l'on voit la première flèche, il est trop tard pour entreprendre le dépassement d'un véhicule roulant normalement."
+      },
+      {
+       "t": "p",
        "text": "La pointe de la flèche est toujours dirigée vers le sens de la circulation du conducteur concerné."
       },
       {
        "t": "h",
-       "text": "FLÈCHES DE SÉLECTION",
-       "img_path": "img_2.16_358.jpeg"
-      },
-      {
-       "t": "h",
-       "text": "VOIES DE STOCKAGE"
-      },
-      {
-       "t": "p",
-       "text": "Les flèches de rabattement sont intercalées dans une ligne d’avertis- sement ou dans une ligne mixte."
+       "text": "VOIES DE STOCKAGE",
+       "img_path": null
       },
       {
        "t": "p",
@@ -2380,15 +1957,7 @@
       },
       {
        "t": "p",
-       "text": "Elles indiquent que la ligne disconti- nue va prendre fin et que le conduc- teur va rencontrer une ligne conti- nue."
-      },
-      {
-       "t": "p",
-       "text": "Aménagées de façon à permettre un changement de direction sans gêner la circulation des usagers conti- nuant tout droit, elles comportent des flèches de sélection."
-      },
-      {
-       "t": "p",
-       "text": "Ces flèches sont au nombre de trois. Dès que l'on voit la première flèche, il est trop tard pour entreprendre le dépassement d'un véhicule roulant normalement."
+       "text": "Aménagées de façon à permettre un changement de direction sans gêner la circulation des usagers continuant tout droit, elles comportent des flèches de sélection."
       },
       {
        "t": "h",
@@ -2397,23 +1966,28 @@
       },
       {
        "t": "p",
-       "text": "La voie de droite est réservée aux autobus, elle est délimitée par des lignes blanches très larges. Ces lignes sont continues ou disconti- nues. L’accès de cette voie réservée est interdit à tous les autres usagers."
+       "text": "La voie de droite est réservée aux autobus, elle est délimitée par des lignes blanches très larges. Ces lignes sont continues ou discontinues. L'accès de cette voie réservée est interdit à tous les autres usagers."
       },
       {
        "t": "p",
-       "text": "La réglementation locale autorise habituellement les taxis et les ambulances, parfois même les cyclistes comme à Paris,à l’emprunter."
+       "text": "La réglementation locale autorise habituellement les taxis et les ambulances, parfois même les cyclistes comme à Paris, à l'emprunter."
       },
       {
-       "t": "p",
-       "text": "Dans une rue à sens unique, la voie de bus peut être à contresens : il convient donc d’être prudent. Il est permis de la traverser pour quitter la rue ou pour la rejoindre."
-      },
-      {
-       "t": "p",
-       "text": "Lorsque des flèches sont apposées dans les voies de circulation, le conducteur doit se placer dans la voie correspondant à la direction qu'il veut suivre dès la première flèche. Il est interdit ensuite de changer de voie, même si le marquage est discontinu."
+       "t": "quote",
+       "text": "Dans une rue à sens unique, la voie de bus peut être à contresens : il convient donc d'être prudent. Il est permis de la traverser pour quitter la rue ou pour la rejoindre."
       },
       {
        "t": "p",
        "text": "Cet emplacement est toujours matérialisé par une ligne en zigzag jaune. En circulation normale, on peut circuler sur cet emplacement, mais on ne peut ni s'arrêter ni stationner."
+      },
+      {
+       "t": "h",
+       "text": "FLÈCHES DE SÉLECTION",
+       "img_path": "img_2.16_358.jpeg"
+      },
+      {
+       "t": "p",
+       "text": "Lorsque des flèches sont apposées dans les voies de circulation, le conducteur doit se placer dans la voie correspondant à la direction qu'il veut suivre dès la première flèche. Il est interdit ensuite de changer de voie, même si le marquage est discontinu."
       },
       {
        "t": "h",
@@ -2422,7 +1996,7 @@
       },
       {
        "t": "p",
-       "text": "Les bandes et pistes cyclables sont annoncées par ce panneau. La piste cyclable est une chaussée séparée. La bande cyclable fait partie de la chaussée principale, elle n’est séparée que par une ligne discontinue ou continue à traits épais. Il est interdit aux autres usagers de circuler, de s’arrêter ou de stationner sur les bandes ou pistes cyclables."
+       "text": "Les bandes et pistes cyclables sont annoncées par ce panneau. La piste cyclable est une chaussée séparée. La bande cyclable fait partie de la chaussée principale, elle n'est séparée que par une ligne discontinue ou continue à traits épais. Il est interdit aux autres usagers de circuler, de s'arrêter ou de stationner sur les bandes ou pistes cyclables."
       },
       {
        "t": "h",
@@ -2431,7 +2005,7 @@
       },
       {
        "t": "p",
-       "text": "Cet endroit est matérialisé par de larges bandes blanches visibles de loin et traversant la chaussée. Le conducteur doit s’arrêter et céder le passage aux piétons qui y sont engagés. Il est interdit de s’y arrêter et d’y stationner."
+       "text": "Cet endroit est matérialisé par de larges bandes blanches visibles de loin et traversant la chaussée. Le conducteur doit s'arrêter et céder le passage aux piétons qui y sont engagés. Il est interdit de s'y arrêter et d'y stationner."
       },
       {
        "t": "h",
@@ -2440,144 +2014,10 @@
       },
       {
        "t": "p",
-       "text": "Les zébras sont des hachures peintes pour remplacer un terre-plein. Il est interdit d’y circuler, de s’y arrêter et d’y stationner."
-      },
-      {
-       "t": "p",
-       "text": "LES RÈGLES DE CIRCULATION LES RÈGLES DE CIRCULATION 3"
-      },
-      {
-       "t": "p",
-       "text": "3.1 Les règles de circulation"
-      },
-      {
-       "t": "p",
-       "text": "Le fait de placer ou de tenter de placer un objet, ou d’employer ou de tenter d’employer un moyen quelconque, qui entrave ou gêne la circulation sur une voie ouverte à la circulation publique, est puni de deux ans d’emprisonne- ment, de  4 500 euros d’amende et donne lieu de plein droit à la perte de six points du permis de conduire."
-      },
-      {
-       "t": "p",
-       "text": "Tout conducteur qui commet cette infraction encourt également la peine complémentaire de suspension, pour une durée de trois ans au plus, du per- mis de conduire, cette suspension pouvant être limitée à la conduite en dehors de l’activité professionnelle."
-      },
-      {
-       "t": "p",
-       "text": "Si cette infraction est commise à l’aide d’un véhicule, l’immobilisation et la mise en fourrière de celui-ci peuvent être prescrites."
-      },
-      {
-       "t": "h",
-       "text": "MARCHE NORMALE",
-       "img_path": "img_2.16_363.jpeg"
-      },
-      {
-       "t": "p",
-       "text": "En marche normale, tout conducteur doit maintenir son véhicule près du bord droit de la chaussée, autant que le lui permet l’état ou le profil de celle-ci."
-      },
-      {
-       "t": "p",
-       "text": "Si la voie de droite est réser- vée à une autre catégorie de véhicules, il utilise la voie située immédiatement à côté."
-      },
-      {
-       "t": "p",
-       "text": "La circulation sur les bandes d’arrêt d’urgence est interdite."
-      },
-      {
-       "t": "p",
-       "text": "Le fait, pour tout conducteur, de circuler, en marche normale, sur la partie gauche d’une chaussée à double sens de circulation, ou de circuler sur une bande d’arrêt d’urgence, donne lieu de plein droit à la réduction de trois points du permis de conduire."
-      },
-      {
-       "t": "h",
-       "text": "CIRCULATION EN FILES"
-      },
-      {
-       "t": "p",
-       "text": "En cas de circulation en files ininterrompues sur toutes les voies, il faut conserver une distance de sécurité suffisante."
-      },
-      {
-       "t": "p",
-       "text": "Chaque conducteur :"
-      },
-      {
-       "t": "ul",
-       "items": [
-        "doit rester dans sa file ;",
-        "peut quitter sa file pour préparer un changement de direction, à condition de le faire sans danger et sans gêner les autres usagers ;",
-        "peut dépasser les véhicules d’une autre file à l’arrêt, ce n’est pas considéré comme un dépassement ;",
-        "doit allumer ses feux de détresse,s’il est le dernier de la file, pour prévenir les autres usagers du ralentissement."
-       ]
-      },
-      {
-       "t": "h",
-       "text": "CHANGEMENT DE DIRECTION",
-       "img_path": "img_2.16_364.jpeg"
-      },
-      {
-       "t": "p",
-       "text": "Tout conducteur d’un véhicule qui s’apprête à changer de direction doit avertir de son intention les autres usagers, notamment lorsqu’il va :"
-      },
-      {
-       "t": "ul",
-       "items": [
-        "se porter à gauche ;",
-        "traverser la chaussée ;",
-        "reprendre sa place dans la circulation après un arrêt ou un stationnement."
-       ]
-      },
-      {
-       "t": "p",
-       "text": "Toute infraction constatée donne lieu de plein droit à la perte de trois points du per- mis de conduire."
-      },
-      {
-       "t": "h",
-       "text": "QUITTER SON STATIONNEMENT",
-       "img_path": "img_2.16_365.jpeg"
-      },
-      {
-       "t": "p",
-       "text": "Avant de quitter un lieu de stationne- ment, le conducteur doit :"
-      },
-      {
-       "t": "ul",
-       "items": [
-        "surveiller toute la circulation ;",
-        "allumer le clignotant sans surprendre les autres usagers ;",
-        "quitter son stationnement sans danger pour les autres usagers."
-       ]
+       "text": "Les zébras sont des hachures peintes pour remplacer un terre-plein. Il est interdit d'y circuler, de s'y arrêter et d'y stationner."
       }
      ],
-     "leftover_images": [
-      {
-       "path": "img_2.16_367.jpeg"
-      },
-      {
-       "path": "img_2.16_368.jpeg"
-      },
-      {
-       "path": "img_2.16_369.jpeg"
-      },
-      {
-       "path": "img_2.16_372.jpeg"
-      },
-      {
-       "path": "img_2.16_373.jpeg"
-      },
-      {
-       "path": "img_2.16_374.jpeg"
-      },
-      {
-       "path": "img_2.16_376.jpeg"
-      },
-      {
-       "path": "img_2.16_378.jpeg"
-      },
-      {
-       "path": "img_2.16_379.jpeg"
-      },
-      {
-       "path": "img_2.16_380.jpeg"
-      },
-      {
-       "path": "img_2.16_384.jpeg"
-      }
-     ]
+     "leftover_images": []
     }
    ]
   }
