@@ -227,7 +227,10 @@ def build_lesson_pdf_v2(chapter, section, number, title, blocks, images=None):
             if not sharp:
                 return []
             data, ratio = sharp
-            img_w, img_h = _fit_box(W, W * ratio, W, 720)
+            # 630pt max : garantit que l'image tient sous l'en-tête (fil d'Ariane + badge/titre,
+            # ~91pt) sur une page A4 fraîche (~655pt disponibles), au lieu de basculer entière
+            # sur la page suivante et laisser la première quasi vide.
+            img_w, img_h = _fit_box(W, W * ratio, W, 630)
             return [Image(data, width=img_w, height=img_h), Spacer(1, 6)]
         elif b["t"] == "img":
             img_w = min(W * 0.55, 280)
