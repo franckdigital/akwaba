@@ -1,13 +1,13 @@
-"""Crée le cours « La conduite » en leçons PDF fidèles au livre source (docs/code_route.pdf) :
-chaque module du livre (introduction d'un sujet + chaque sous-titre comme MARCHE NORMALE,
-CIRCULATION EN FILES...) devient sa propre leçon, accessible individuellement depuis la sidebar,
-avec son texte complet et sa photo réelle.
+"""Crée le cours « La conduite » (chapitres 3 à 10 du livre source docs/code_route.pdf), une
+leçon par sujet numéroté (3.1, 4.1, 5.1...). Chaque leçon incruste un rendu haute résolution de
+sa vraie page/double-page du livre (même principe que pour Signalisation et Quelques
+définitions), fidélité garantie à 100%.
 
     python manage.py seed_course_conduite
 
 Idempotent : relancer la commande met à jour le cours et ses leçons sans créer de doublons.
-Contenu source : apps/pedagogy/data/conduite_lessons.json + apps/pedagogy/book_images_v2/
-(générés par extraction directe du PDF).
+Contenu source : apps/pedagogy/data/conduite_page_crops.json + apps/pedagogy/conduite_images/
+(générés par capture directe du PDF).
 """
 import json
 import os
@@ -19,117 +19,39 @@ from apps.pedagogy.lesson_pdf import build_lesson_pdf_v2
 from apps.pedagogy.models import Course, CourseMaterial
 
 CHAPTER = "La conduite"
-_DATA_PATH = os.path.join(os.path.dirname(__file__), "..", "..", "..", "pedagogy", "data", "conduite_lessons.json")
-_IMG_DIR = os.path.join(os.path.dirname(__file__), "..", "..", "..", "pedagogy", "book_images_v2")
+_CROPS_PATH = os.path.join(os.path.dirname(__file__), "..", "..", "..", "pedagogy", "data", "conduite_page_crops.json")
+_IMG_DIR = os.path.join(os.path.dirname(__file__), "..", "..", "..", "pedagogy", "conduite_images")
 
-# Les leçons sans contenu capté automatiquement (titre fusionné avec la leçon suivante dans le PDF
-# source) reçoivent un texte de repli minimal plutôt que d'être vides.
-_FALLBACK_TEXT = {
-    "La vitesse": [{"t": "quote", "text": "La vitesse maximale autorisée dépend du type de véhicule et du type de route "
-                    "(agglomération, hors agglomération, autoroute). Un conducteur doit toujours respecter ces limites."}],
+# Nom de la section (sous-chapitre du livre) pour chaque numéro de chapitre.
+SECTION_NAMES = {
+    "3": "Les règles de circulation", "4": "La vitesse", "5": "Intersection et priorité",
+    "6": "Croisements et dépassements", "7": "L'arrêt et le stationnement", "8": "L'autoroute",
+    "9": "La conduite de nuit", "10": "Les intempéries",
 }
-
-
-def _prettify(heading):
-    """« CIRCULATION EN FILES » -> « Circulation en files »."""
-    return heading.strip().capitalize()
-
-
-def _load_images(lesson):
-    out = []
-    for im in lesson["images"]:
-        path = os.path.join(_IMG_DIR, im["path"])
-        if os.path.exists(path):
-            with open(path, "rb") as fh:
-                out.append(fh.read())
-    return out
 
 
 def _read_img(filename):
     path = os.path.join(_IMG_DIR, filename)
+    if not os.path.exists(path):
+        return None
     with open(path, "rb") as fh:
         return fh.read()
 
 
-def _resolve_inline_images(blocks):
-    """Les blocs "img"/"img_row" du JSON portent un chemin de fichier ; on le résout en octets
-    avant de les passer au moteur PDF (qui ne connaît pas book_images_v2/)."""
-    out = []
-    for b in blocks:
-        if b["t"] == "img":
-            out.append({"t": "img", "data": _read_img(b["path"])})
-        elif b["t"] == "img_row":
-            out.append({"t": "img_row", "data": [_read_img(p) for p in b["paths"]]})
-        else:
-            out.append(b)
-    return out
-
-
-# Chapitres où chaque point numéroté (4.1, 4.2...) reste une seule leçon dans la sidebar,
-# avec ses sous-titres affichés à l'intérieur du PDF (au lieu d'être éclaté en un module par
-# sous-titre comme pour « La conduite »).
-UNSPLIT_SECTIONS = {"La vitesse"}
-
-
-def as_single_module(lesson, section):
-    blocks = lesson["blocks"] or _FALLBACK_TEXT.get(section, [{"t": "quote", "text": lesson["title"]}])
-    images = _load_images(lesson)
-    return [{"title": lesson["title"], "blocks": blocks, "images": images}]
-
-
-def split_into_modules(lesson, section):
-    """Découpe une entrée du livre (ex. 3.1 Les règles de circulation) en modules indépendants :
-    un module « introduction » (texte avant le premier sous-titre) puis un module par sous-titre
-    (MARCHE NORMALE, CIRCULATION EN FILES...), chacun avec sa propre photo. Chaque module devient
-    une leçon à part entière dans la sidebar.
-    """
-    blocks = lesson["blocks"] or _FALLBACK_TEXT.get(section, [{"t": "quote", "text": lesson["title"]}])
-    images = _load_images(lesson)
-    img_idx = 0
-    modules = []
-
-    first_h = next((i for i, b in enumerate(blocks) if b["t"] == "h"), len(blocks))
-    intro = blocks[:first_h]
-    if intro:
-        # Si le sujet n'a aucun sous-titre (pas de "h" dans tout le contenu), toutes ses images
-        # reviennent à ce module d'introduction plutôt que de rester orphelines.
-        intro_images = []
-        if first_h == len(blocks) and images:
-            intro_images = list(images)
-            img_idx = len(images)
-        modules.append({"title": lesson["title"], "blocks": intro, "images": intro_images})
-
-    i = first_h
-    while i < len(blocks):
-        heading = blocks[i]["text"]
-        j = i + 1
-        while j < len(blocks) and blocks[j]["t"] != "h":
-            j += 1
-        seg = blocks[i + 1:j]
-        image = images[img_idx] if img_idx < len(images) else None
-        img_idx += 1
-        modules.append({"title": _prettify(heading), "blocks": seg, "images": [image] if image else []})
-        i = j
-
-    if not modules:
-        modules.append({"title": lesson["title"], "blocks": [{"t": "quote", "text": lesson["title"]}], "images": []})
-    return modules
+def _num_key(num):
+    major, minor = num.split(".")
+    return (int(major), int(minor))
 
 
 class Command(BaseCommand):
-    help = "Crée/actualise le cours « La conduite », chaque module du livre devenant une leçon de la sidebar."
+    help = "Crée/actualise le cours « La conduite », une leçon par sujet numéroté (page du livre incrustée)."
 
     @transaction.atomic
     def handle(self, *args, **options):
-        with open(_DATA_PATH, encoding="utf-8") as f:
-            data = json.load(f)
+        with open(_CROPS_PATH, encoding="utf-8") as f:
+            crops = json.load(f)
 
-        all_modules = []
-        for sec in data["sections"]:
-            splitter = as_single_module if sec["section"] in UNSPLIT_SECTIONS else split_into_modules
-            for lesson in sec["lessons"]:
-                for mod in splitter(lesson, sec["section"]):
-                    all_modules.append((sec["section"], lesson["num"], mod))
+        nums = sorted(crops.keys(), key=_num_key)
 
         course, _ = Course.objects.update_or_create(
             school=None, title="La conduite",
@@ -140,20 +62,22 @@ class Command(BaseCommand):
                 "objectives": ["Appliquer la règle de priorité adaptée à chaque intersection.",
                                "Exécuter un dépassement ou un croisement en toute sécurité.",
                                "Adopter la bonne conduite sur autoroute, de nuit et par mauvais temps."],
-                "duration_minutes": len(all_modules) * 3, "order": 3, "is_published": True, "sequential": True,
+                "duration_minutes": len(nums) * 4, "order": 3, "is_published": True, "sequential": True,
             },
         )
         course.materials.all().delete()
         order = 0
-        for section, num, mod in all_modules:
+        for num in nums:
             order += 1
-            images = mod["images"]
-            blocks = _resolve_inline_images(mod["blocks"])
-            pdf = build_lesson_pdf_v2(CHAPTER, section, num, mod["title"], blocks, images=images)
+            entry = crops[num]
+            title = entry["title"]
+            section = SECTION_NAMES.get(num.split(".")[0], f"Chapitre {num.split('.')[0]}")
+            blocks = [{"t": "page_crop", "img_data": _read_img(p)} for p in entry["paths"]]
+            pdf = build_lesson_pdf_v2(CHAPTER, section, num, title, blocks, images=[])
             m = CourseMaterial.objects.create(
-                course=course, section=section, material_type="pdf", title=mod["title"],
-                order=order, duration_minutes=3, is_required=True, download_allowed=True, is_published=True,
+                course=course, section=section, material_type="pdf", title=title,
+                order=order, duration_minutes=4, is_required=True, download_allowed=True, is_published=True,
             )
             m.file.save(f"conduite-{order:03d}.pdf", pdf, save=True)
         self.stdout.write(self.style.SUCCESS(
-            f"Cours « La conduite » prêt : {len(data['sections'])} sections, {order} leçons (une par module du livre)."))
+            f"Cours « La conduite » prêt : {order} leçons (page du livre incrustée)."))
