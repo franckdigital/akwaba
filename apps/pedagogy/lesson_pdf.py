@@ -217,6 +217,18 @@ def build_lesson_pdf_v2(chapter, section, number, title, blocks, images=None):
                                           ("LEFTPADDING", (0, 0), (-1, -1), 12), ("RIGHTPADDING", (0, 0), (-1, -1), 12),
                                           ("TOPPADDING", (0, 0), (-1, -1), 10), ("BOTTOMPADDING", (0, 0), (-1, -1), 10)]))
             return [note_tbl, Spacer(1, 10)]
+        elif b["t"] == "page_crop":
+            # Capture haute résolution d'une vraie page du livre (pages trop denses en
+            # pictogrammes pour un appariement légende<->image fiable) : fidélité garantie.
+            raw = b.get("img_data") or b.get("data")
+            if not raw:
+                return []
+            sharp = _sharpen_for_print(raw, W)
+            if not sharp:
+                return []
+            data, ratio = sharp
+            img_w, img_h = _fit_box(W, W * ratio, W, 720)
+            return [Image(data, width=img_w, height=img_h), Spacer(1, 6)]
         elif b["t"] == "img":
             img_w = min(W * 0.55, 280)
             sharp = _sharpen_for_print(b["data"], img_w)
