@@ -1,6 +1,5 @@
 """Attribue une image de couverture (apps/pedagogy/covers/) aux 6 cours du code de la route.
-Quelques définitions, Le conducteur, Le véhicule et Les permis utilisent une illustration générée
-(icône + scène de ville, dégradé rouge). Signalisation et La conduite utilisent une vraie photo.
+Les 6 cours utilisent désormais une vraie photo.
 
     python manage.py seed_course_covers
 """
@@ -14,12 +13,12 @@ from apps.pedagogy.models import Course
 _COVERS_DIR = os.path.join(os.path.dirname(__file__), "..", "..", "..", "pedagogy", "covers")
 
 COURSE_COVERS = {
-    "Quelques définitions": "definitions.png",
+    "Quelques définitions": "definitions.jpg",
     "Signalisation": "signalisation.jpg",
     "La conduite": "conduite.jpg",
-    "Le conducteur": "conducteur.png",
-    "Le véhicule": "vehicule.png",
-    "Les permis": "permis.png",
+    "Le conducteur": "conducteur.jpg",
+    "Le véhicule": "vehicule.jpg",
+    "Les permis": "permis.jpg",
 }
 
 
