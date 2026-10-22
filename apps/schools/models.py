@@ -83,6 +83,11 @@ BILLING_CYCLES = [("monthly", "1 mois"), ("quarterly", "3 mois"), ("semi_annual"
                   ("lifetime", "À vie"), ("custom", "Durée personnalisée (jours)")]
 CYCLE_DAYS = {"monthly": 30, "quarterly": 90, "semi_annual": 180, "yearly": 365, "lifetime": 365 * 100}
 
+# Choix réutilisé tel quel (pas de liste parallèle) : un plan « lié » à un type de demande doit toujours
+# recouvrir exactement les 4 offres de apps.admissions (OfferTypeConfig.offer / IndividualQuote.offer).
+# Import différé pour casser le cycle : apps.admissions.models importe déjà CATEGORIES depuis ce module.
+from apps.admissions.models import OFFERS as LINKED_OFFER_CHOICES
+
 
 class Plan(TimeStamped):
     """Plan d'abonnement. Trois publics :
@@ -127,6 +132,9 @@ class Plan(TimeStamped):
     includes_quizzes = models.BooleanField(default=True)
     includes_exams = models.BooleanField(default=True)
     includes_courses = models.BooleanField(default=True)
+    linked_offer = models.CharField(
+        max_length=20, blank=True, choices=LINKED_OFFER_CHOICES,
+        help_text="Si renseigné, ce plan correspond à un type de demande de devis précis (vendu depuis « Mes demandes »).")
 
     class Meta:
         ordering = ["audience", "sort_order", "price"]

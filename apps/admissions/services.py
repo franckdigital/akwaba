@@ -250,6 +250,41 @@ def notify_quote_decision(quote):
                        email=quote.email, phone=quote.phone, school_id=quote.school_id)
 
 
+def sync_plan_for_offer_config(config):
+    """Génère/maintient à jour le Plan individuel « attaché » à ce type de demande (OfferTypeConfig), vendable
+    séparément depuis l'écran « mes demandes » du candidat, EN PLUS des plans génériques (Découverte/Réussite…) —
+    décision produit : chacune des 4 offres devient son propre plan achetable, purement additif.
+
+    Idempotent, clé = (school, linked_offer=config.offer) : ré-exécuté à chaque sauvegarde de la config (admin)
+    et par la commande sync_offer_type_plans (tous les OfferTypeConfig), pour garder le Plan synchronisé plutôt
+    que de le créer une seule fois puis le laisser diverger.
+
+    Choix de modélisation (Plan n'a pas de champ `is_on_sale`/`duration_days` — ce sont des propriétés calculées) :
+    - `is_active` du plan reflète `config.is_active` (désactiver la config retire le plan de la vente au prochain
+      sync, puisque `Plan.is_on_sale` vaut `is_active and dans la fenêtre de vente` — on laisse available_from/
+      until vides pour que is_on_sale ne dépende que de is_active) ;
+    - `billing_cycle="yearly"` (365 jours, cf. CYCLE_DAYS) : un recyclage/une démarche de permis est un accès
+      « jusqu'à ce que la prestation soit terminée », pas un abonnement récurrent court — 1 an est la durée la
+      plus proche déjà utilisée pour un plan individuel non récurrent dans ce projet (ex. "Permis B — Annuel",
+      cf. seed_plans.py) et reste largement suffisant pour couvrir une démarche administrative.
+    """
+    from apps.schools.models import Plan
+    plan, _ = Plan.objects.update_or_create(
+        school=config.school, linked_offer=config.offer,
+        defaults=dict(
+            audience="individual",
+            name=config.title or config.get_offer_display(),
+            price=config.base_price,
+            billing_cycle="yearly",
+            includes_courses=config.includes_courses,
+            includes_quizzes=config.includes_quizzes,
+            includes_exams=config.includes_exams,
+            features=config.features,
+            is_active=config.is_active,
+        ))
+    return plan
+
+
 def engagement_pdf_response():
     """Fiche d'engagement (à télécharger, remplir et signer par le candidat pour confirmer son engagement)."""
     from pathlib import Path

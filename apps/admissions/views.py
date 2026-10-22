@@ -12,6 +12,7 @@ from apps.core import audit
 from apps.core.notify import notify
 from apps.core.permissions import AKWABA_ADMIN
 from apps.core.viewsets import BaseModelSerializer, ScopedModelViewSet, make_serializer
+from apps.subscriptions.services import learner_subscribed_to_offer
 
 from . import services
 from .models import (PERMIT_BUNDLE_PRICES, STATUS, IndividualQuote, OfferTypeConfig, PermitCandidate, RecyclingItem,
@@ -39,12 +40,23 @@ class OfferTypeConfigSerializer(BaseModelSerializer):
 
 
 class OfferTypeConfigViewSet(ScopedModelViewSet):
-    """Paramétrage, côté secrétariat/direction, du contenu « ce qui est inclus » par type de demande."""
+    """Paramétrage, côté secrétariat/direction, du contenu « ce qui est inclus » par type de demande.
+
+    Chaque sauvegarde (création/modification) resynchronise automatiquement le Plan individuel « attaché »
+    à cette offre (cf. services.sync_plan_for_offer_config) : le staff n'a pas à relancer la commande
+    sync_offer_type_plans après avoir changé un prix/des features depuis l'admin."""
     resource = "offer_type_configs"
     queryset = OfferTypeConfig.objects.select_related("school").prefetch_related("courses", "recycling_items")
     serializer_class = OfferTypeConfigSerializer
     filterset_fields = ["offer", "is_active"]
     search_fields = ["title"]
+
+    def after_create(self, instance):
+        services.sync_plan_for_offer_config(instance)
+
+    def perform_update(self, serializer):
+        super().perform_update(serializer)
+        services.sync_plan_for_offer_config(serializer.instance)
 
 
 class RecyclingReminderSettingsSerializer(BaseModelSerializer):
@@ -242,6 +254,7 @@ class MyQuotesView(APIView):
                 "paid_amount": q.paid_amount, "balance": q.balance,
                 "reject_reason": q.reject_reason, "correction_note": q.correction_note,
                 "offer_type_config": _offer_type_config_public_payload(cfg) if cfg else None,
+                "subscribed": learner_subscribed_to_offer(learner, q.offer),
             })
         return Response(data)
 

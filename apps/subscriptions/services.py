@@ -124,6 +124,22 @@ def learner_has_access(learner, feature="quizzes"):
     return False
 
 
+def learner_subscribed_to_offer(learner, offer):
+    """Le candidat détient-il un abonnement ACTIF (en cours de validité) sur un plan lié à ce type de demande
+    (Plan.linked_offer) — pour l'écran « mes demandes » : « Souscrire » vs « Déjà souscrit ». Même schéma de
+    filtrage (statut + fenêtre de dates) que learner_has_access, mais le critère de correspondance est
+    `plan.linked_offer == offer` plutôt qu'un flag de fonctionnalité."""
+    t = today()
+    if LearnerSubscription.objects.filter(learner=learner, plan__linked_offer=offer, status="active",
+                                          start_date__lte=t, end_date__gte=t).exists():
+        return True
+    if learner.cohort_id and OrganizationSubscription.objects.filter(
+            cohorts=learner.cohort_id, plan__linked_offer=offer, status="active",
+            start_date__lte=t, end_date__gte=t).exists():
+        return True
+    return False
+
+
 def require_access(learner, feature):
     if learner_has_access(learner, feature):
         return
