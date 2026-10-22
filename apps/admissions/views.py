@@ -16,7 +16,8 @@ from apps.core.viewsets import BaseModelSerializer, ScopedModelViewSet, make_ser
 from . import services
 from .models import PERMIT_BUNDLE_PRICES, STATUS, IndividualQuote, PermitCandidate, RecyclingItem, RecyclingReminderSettings
 
-RecyclingItemSerializer = make_serializer(RecyclingItem)
+RecyclingItemSerializer = make_serializer(
+    RecyclingItem, extra_fields={"duration_minutes": serializers.IntegerField(read_only=True)})
 
 
 class RecyclingItemViewSet(ScopedModelViewSet):
@@ -75,6 +76,10 @@ class IndividualQuoteSerializer(BaseModelSerializer):
                 attrs.get("categories_expiry", getattr(self.instance, "categories_expiry", {})))
         if offer in ("theory_refresh", "practical_refresh") and not attrs.get("license_no", getattr(self.instance, "license_no", "")):
             raise ValidationError({"license_no": "Le numéro de permis existant est requis pour cette offre."})
+        # Note : license_photo_front/license_photo_back (recto/verso du permis déjà détenu) ne sont
+        # pertinentes que pour extension / theory_refresh / practical_refresh (pas new_license, le candidat
+        # n'ayant alors pas encore de permis). Volontairement non bloquantes ici : la secrétaire peut les
+        # redemander lors du traitement du dossier (cf. resubmit) sans empêcher le dépôt initial de la demande.
         return attrs
 
 
@@ -115,7 +120,8 @@ class IndividualQuoteViewSet(ScopedModelViewSet):
         quote = self.get_object()
         if quote.status != "correction_requested":
             raise ValidationError({"detail": "Cette demande n'est pas en attente de correction."})
-        for f in ("id_document_type", "id_document_no", "last_name", "first_name", "phone", "email", "residence"):
+        for f in ("id_document_type", "id_document_no", "last_name", "first_name", "phone", "email", "residence",
+                 "license_no", "license_photo_front", "license_photo_back"):
             if f in request.data:
                 setattr(quote, f, request.data[f])
         quote.status = "submitted"
@@ -171,7 +177,8 @@ def public_recycling_items(request):
     qs = RecyclingItem.objects.filter(is_active=True)
     if school_id:
         qs = qs.filter(school_id=school_id)
-    return Response([{"id": i.id, "kind": i.kind, "label": i.label, "price": i.price} for i in qs])
+    return Response([{"id": i.id, "kind": i.kind, "label": i.label, "price": i.price,
+                      "sessions_count": i.sessions_count, "duration_minutes": i.duration_minutes} for i in qs])
 
 
 class PublicIndividualQuoteSerializer(BaseModelSerializer):
@@ -188,6 +195,7 @@ class PublicIndividualQuoteSerializer(BaseModelSerializer):
                                         attrs.get("categories_expiry", {}))
         if offer in ("theory_refresh", "practical_refresh") and not attrs.get("license_no"):
             raise ValidationError({"license_no": "Le numéro de permis existant est requis pour cette offre."})
+        # Idem IndividualQuoteSerializer.validate : license_photo_front/back non bloquantes au dépôt public.
         return attrs
 
 

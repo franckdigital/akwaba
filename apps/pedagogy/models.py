@@ -179,7 +179,7 @@ class Quiz(TimeStamped):
     num_questions = models.PositiveIntegerField(default=20)
     duration_minutes = models.PositiveIntegerField(default=30)
     points_per_question = models.DecimalField(max_digits=5, decimal_places=2, default=1)
-    max_attempts = models.PositiveIntegerField("Tentatives max (0 = illimité)", default=0)
+    max_attempts = models.PositiveIntegerField("Tentatives max (0 = illimité)", default=3)
     shuffle = models.BooleanField(default=True)
     show_corrections = models.BooleanField(default=True)
     is_exam = models.BooleanField("Examen final", default=False)

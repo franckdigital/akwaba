@@ -57,7 +57,7 @@ class Command(BaseCommand):
             defaults={"description": "Test d'entraînement complet de 40 questions tirées du livre « Code de la route » "
                                       "(chapitre 16), avec photos de conduite réelles et corrections détaillées.",
                       "category": "B", "mode": Quiz.MANUAL, "num_questions": len(questions),
-                      "duration_minutes": 40, "points_per_question": 1, "max_attempts": 0,
+                      "duration_minutes": 40, "points_per_question": 1, "max_attempts": 3,
                       "shuffle": False, "show_corrections": True, "is_exam": True, "pass_threshold": 70,
                       "is_published": True},
         )

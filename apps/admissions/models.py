@@ -22,8 +22,20 @@ OFFERS = [
     ("theory_refresh", "Recyclage théorique"),
     ("practical_refresh", "Recyclage pratique"),
 ]
-ID_TYPES = [("resident_card", "Carte de résident"), ("passport", "Passeport + visa à jour"),
-            ("id_attestation", "Attestation d'identité"), ("other", "Autre pièce")]
+ID_TYPES = [
+    ("cni", "Carte nationale d'identité (CNI)"),
+    ("cni_foreign", "Carte nationale d'identité (non nationaux)"),
+    ("passport", "Passeport"),
+    ("resident_card", "Carte de résident"),
+    ("consular_card", "Carte consulaire"),
+    ("diplomatic_letter", "Lettre diplomatique"),
+    ("id_attestation", "Attestation d'identité"),
+    ("refugee_card", "Carte d'identité du réfugié"),
+    ("driver_license", "Permis de conduire"),
+    ("no_id", "Sans identification"),
+    ("unknown", "Inconnu"),
+    ("other", "Autre"),
+]
 
 # §8 — A/B : validité permanente. C, D, E : périodique selon l'âge du titulaire.
 PERIODIC_CATEGORIES = {"C", "D", "E"}
@@ -49,6 +61,9 @@ class RecyclingItem(TimeStamped):
     kind = models.CharField(max_length=10, choices=KIND, default="module")
     label = models.CharField(max_length=200)
     price = models.DecimalField(max_digits=12, decimal_places=0, default=0)
+    sessions_count = models.PositiveIntegerField(
+        "Nombre de séances", null=True, blank=True,
+        help_text="Pour les formules de recyclage pratique : nombre de séances de 45 minutes incluses.")
     modules = models.ManyToManyField("self", symmetrical=False, blank=True, related_name="packages",
                                      limit_choices_to={"kind": "module"},
                                      help_text="Modules inclus (uniquement pour un package).")
@@ -61,6 +76,10 @@ class RecyclingItem(TimeStamped):
 
     def __str__(self):
         return self.label
+
+    @property
+    def duration_minutes(self):
+        return self.sessions_count * 45 if self.sessions_count else None
 
 
 class RecyclingReminderSettings(TimeStamped):
@@ -95,7 +114,7 @@ class IndividualQuote(TimeStamped):
     offer = models.CharField(max_length=20, choices=OFFERS)
 
     # Identité (commune aux 4 offres) — §2, §3.1
-    id_document_type = models.CharField(max_length=20, choices=ID_TYPES, blank=True)
+    id_document_type = models.CharField(max_length=30, choices=ID_TYPES, blank=True)
     id_document_no = EncryptedCharField(blank=True)
     id_document_hash = models.CharField(max_length=64, blank=True, db_index=True)
     last_name = models.CharField(max_length=100)
@@ -103,6 +122,11 @@ class IndividualQuote(TimeStamped):
     phone = models.CharField(max_length=30, blank=True)
     email = models.EmailField(blank=True)
     residence = models.CharField("Lieu de résidence", max_length=255, blank=True)
+
+    # Photos du permis déjà détenu — pertinent pour les offres extension / recyclage théorique / recyclage
+    # pratique (pas pour "new_license", le candidat n'ayant alors pas encore de permis).
+    license_photo_front = models.FileField("Photo du permis (recto)", upload_to="quotes/license_photos/", null=True, blank=True)
+    license_photo_back = models.FileField("Photo du permis (verso)", upload_to="quotes/license_photos/", null=True, blank=True)
 
     # §3.1 — Nouveau permis de conduire
     categories_requested = models.JSONField(default=list, blank=True)

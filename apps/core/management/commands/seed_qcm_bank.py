@@ -37,13 +37,13 @@ class Command(BaseCommand):
             school=None, title="QCM d'entraînement — Code de la route", is_exam=False,
             defaults={"description": "Tirage aléatoire parmi toute la banque de questions.", "category": "B", "mode": Quiz.RANDOM,
                       "themes": themes, "difficulties": ["easy", "medium", "hard"], "num_questions": 20, "duration_minutes": 25,
-                      "points_per_question": 1, "max_attempts": 0, "shuffle": True, "show_corrections": True, "is_published": True},
+                      "points_per_question": 1, "max_attempts": 3, "shuffle": True, "show_corrections": True, "is_published": True},
         )
         Quiz.objects.update_or_create(
             school=None, title="Examen blanc — Code de la route", is_exam=True,
             defaults={"description": "Examen blanc chronométré, tirage aléatoire parmi toute la banque de questions.", "category": "B",
                       "mode": Quiz.RANDOM, "themes": themes, "difficulties": ["easy", "medium", "hard"], "num_questions": len(QUESTIONS),
-                      "duration_minutes": 40, "points_per_question": 1, "max_attempts": 0, "shuffle": True, "show_corrections": True,
+                      "duration_minutes": 40, "points_per_question": 1, "max_attempts": 3, "shuffle": True, "show_corrections": True,
                       "is_published": True, "pass_threshold": 70},
         )
         self.stdout.write(self.style.SUCCESS(
