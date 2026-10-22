@@ -10,6 +10,7 @@ from apps.core import audit
 from apps.core.permissions import AKWABA_ADMIN, LEARNER, allowed
 from apps.core.viewsets import SCHOOL, BaseModelSerializer, ScopedModelViewSet, make_serializer, scope_queryset
 from apps.learners.models import Learner
+from apps.subscriptions.services import require_access
 
 from . import services
 from .models import (LEVELS, THEMES, Attempt, AttemptAnswer, Choice, Course, CourseEnrollment, CourseMaterial, ImportJob, MaterialAnswer,
@@ -175,6 +176,15 @@ def course_status(enrollment, progress):
 def enrollment_payload(course, enrollment, progress):
     return {"id": enrollment.id, "status": course_status(enrollment, progress), "progress_percent": progress["percent"],
             "last_material": enrollment.last_material_id, "last_opened_at": enrollment.last_opened_at}
+
+
+def _require_course_access(user):
+    """Bloque un apprenant sans abonnement actif couvrant les cours (même garde que pour les QCM)."""
+    if user.role != LEARNER:
+        return
+    learner = Learner.objects.filter(user=user).first()
+    if learner is not None:
+        require_access(learner, "courses")
 
 
 def touch_enrollment(user, course, material=None):
@@ -360,6 +370,7 @@ class CourseViewSet(ScopedModelViewSet):
     @action(detail=True, methods=["post"])
     def enroll(self, request, pk=None):
         """« Suivre ce cours » : crée l'inscription (idempotent) et renvoie le cours avec sa progression."""
+        _require_course_access(request.user)
         course = self.get_object()
         touch_enrollment(request.user, course)
         return Response(self.get_serializer(self.get_object()).data)
@@ -418,6 +429,7 @@ class MaterialViewSet(ScopedModelViewSet):
         """POST : marque le contenu comme terminé ; DELETE : le remet « à faire ». Renvoie la progression du cours."""
         m = self.get_object()
         if request.method == "POST":
+            _require_course_access(request.user)
             done = set(MaterialProgress.objects.filter(user=request.user).values_list("material_id", flat=True))
             if request.user.role == LEARNER and m.id in locked_material_ids(m.course, done):
                 raise PermissionDenied("Ce contenu est verrouillé : terminez d'abord les contenus précédents du parcours.")
@@ -438,6 +450,7 @@ class MaterialViewSet(ScopedModelViewSet):
     def open(self, request, pk=None):
         """Ouverture d'une leçon : mémorise la reprise (« Continuer l'apprentissage ») et inscrit au cours."""
         m = self.get_object()
+        _require_course_access(request.user)
         self._guard_locked(request, m)
         enr = touch_enrollment(request.user, m.course, m)
         return Response({"course": m.course_id, "last_material": enr.last_material_id})
