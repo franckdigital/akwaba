@@ -190,17 +190,23 @@ def create_learner_enrollment_invoice(learner, cohort):
     inscription ponctuelle : ne s'applique que si la cohorte a un contrat dont la catégorie correspond à celle
     demandée par l'apprenant ; sinon on ne crée rien (laissé au secrétariat). N'échoue jamais « bruyamment » :
     l'appelant (inscription en ligne) ne doit pas être bloqué par cette facturation annexe.
+
+    Le candidat n'est facturé que sur sa PART (`contract.learner_contribution`), pas sur le prix net total du
+    contrat (`unit_price`) qui inclut la part prise en charge par l'organisation — cohérent avec
+    `generate_contract_invoices`, qui applique la même séparation part organisation / part apprenant.
     """
     contract = cohort.contract
     if contract is None or contract.category != learner.category:
         return None
     if Invoice.objects.filter(learner=learner, cohort=cohort, kind=Invoice.INVOICE).exists():
         return None
+    part = contract.learner_contribution
+    if part <= 0:
+        return None
     inv = Invoice.objects.create(school=learner.school, kind=Invoice.INVOICE, learner=learner, organization=cohort.organization,
                                  contract=contract, cohort=cohort, title=f"Permis {learner.category} — {cohort.name}",
-                                 total=contract.unit_price, issue_date=timezone.localdate())
-    InvoiceLine.objects.create(invoice=inv, description=f"{contract.training.name} — {cohort.name}", quantity=1,
-                               unit_price=contract.unit_price)
+                                 total=part, issue_date=timezone.localdate())
+    InvoiceLine.objects.create(invoice=inv, description=f"{contract.training.name} — {cohort.name}", quantity=1, unit_price=part)
     return inv
 
 
