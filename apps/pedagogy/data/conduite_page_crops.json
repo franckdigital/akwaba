@@ -1,401 +1,387 @@
 {
- "3.1": {
-  "title": "Les règles de circulation",
-  "paths": [
-   "page_3.1_0.png",
-   "page_3.1_1.png",
-   "page_3.1_2.png",
-   "page_3.1_3.png",
-   "page_3.1_4.png",
-   "page_3.1_5.png",
-   "page_3.1_6.png"
-  ]
- },
- "4.1": {
-  "title": "La vitesse",
-  "paths": [
-   "page_4.2_0.png"
-  ]
- },
- "4.2": {
-  "title": "Le permis probatoire",
-  "paths": [
-   "page_4.2_1.png",
-   "page_4.2_2.png"
-  ]
- },
- "4.3": {
-  "title": "Non-respect des limitations de vitesse",
-  "paths": [
-   "page_4.3_0.png",
-   "page_4.3_1.png",
-   "page_4.3_2.png"
-  ]
- },
- "4.4": {
-  "title": "Signalisation",
-  "paths": [
-   "page_4.4_0.png"
-  ]
- },
- "4.5": {
-  "title": "Réduction de la vitesse",
-  "paths": [
-   "page_4.5_0.png",
-   "page_4.5_1.png"
-  ]
- },
- "4.6": {
-  "title": "Temps de réaction",
-  "paths": [
-   "page_4.6_0.png",
-   "page_4.6_1.png"
-  ]
- },
- "4.7": {
-  "title": "Distance de sécurité",
-  "paths": [
-   "page_4.7_0.png",
-   "page_4.7_1.png"
-  ]
- },
- "4.8": {
-  "title": "Distance de freinage",
-  "paths": [
-   "page_4.8_0.png",
-   "page_4.8_1.png"
-  ]
- },
- "4.9": {
-  "title": "Distance d’arrêt",
-  "paths": [
-   "page_4.9_0.png"
-  ]
- },
- "4.10": {
-  "title": "Véhicules équipés de pneus à crampons",
-  "paths": [
-   "page_4.10_0.png",
-   "page_4.10_1.png",
-   "page_4.10_2.png"
-  ]
- },
- "5.1": {
-  "title": "L’intersection",
-  "paths": [
-   "page_5.1_0.png",
-   "page_5.1_1.png",
-   "page_5.1_2.png"
-  ]
- },
- "5.2": {
-  "title": "La signalisation de priorité",
-  "paths": [
-   "page_5.2_0.png",
-   "page_5.2_1.png"
-  ]
- },
- "5.3": {
-  "title": "La priorité à droite",
-  "paths": [
-   "page_5.3_0.png",
-   "page_5.3_1.png"
-  ]
- },
- "5.4": {
-  "title": "Les routes prioritaires",
-  "paths": [
-   "page_5.4_0.png",
-   "page_5.4_1.png",
-   "page_5.4_2.png"
-  ]
- },
- "5.5": {
-  "title": "La priorité ponctuelle",
-  "paths": [
-   "page_5.5_0.png",
-   "page_5.5_1.png"
-  ]
- },
- "5.6": {
-  "title": "Le stop",
-  "paths": [
-   "page_5.6_0.png",
-   "page_5.6_1.png"
-  ]
- },
- "5.7": {
-  "title": "Cédez le passage",
-  "paths": [
-   "page_5.7_0.png",
-   "page_5.7_1.png"
-  ]
- },
- "5.8": {
-  "title": "Le carrefour à sens giratoire",
-  "paths": [
-   "page_5.8_0.png",
-   "page_5.8_1.png"
-  ]
- },
- "5.9": {
-  "title": "Les feux tricolores",
-  "paths": [
-   "page_5.9_0.png",
-   "page_5.9_1.png",
-   "page_5.9_2.png"
-  ]
- },
- "5.10": {
-  "title": "Les feux clignotants",
-  "paths": [
-   "page_5.10_0.png",
-   "page_5.10_1.png"
-  ]
- },
- "5.11": {
-  "title": "Les feux avec signalisation",
-  "paths": [
-   "page_5.11_0.png",
-   "page_5.11_1.png"
-  ]
- },
- "5.12": {
-  "title": "Le véhicule prioritaire",
-  "paths": [
-   "page_5.12_0.png",
-   "page_5.12_1.png"
-  ]
- },
- "5.13": {
-  "title": "Autres cas de priorité",
-  "paths": [
-   "page_5.13_0.png",
-   "page_5.13_1.png",
-   "page_5.13_2.png",
-   "page_5.13_3.png"
-  ]
- },
- "6.1": {
-  "title": "Croisements",
-  "paths": [
-   "page_6.1_0.png",
-   "page_6.1_1.png"
-  ]
- },
- "6.2": {
-  "title": "Sur une chaussée en pente",
-  "paths": [
-   "page_6.2_0.png",
-   "page_6.2_1.png"
-  ]
- },
- "6.3": {
-  "title": "Dépassements",
-  "paths": [
-   "page_6.3_0.png",
-   "page_6.3_1.png",
-   "page_6.3_2.png"
-  ]
- },
- "6.4": {
-  "title": "Dépassements interdits",
-  "paths": [
-   "page_6.4_0.png",
-   "page_6.4_1.png",
-   "page_6.4_2.png",
-   "page_6.4_3.png"
-  ]
- },
- "6.5": {
-  "title": "Dépassements autorisés",
-  "paths": [
-   "page_6.5_0.png",
-   "page_6.5_1.png",
-   "page_6.5_2.png",
-   "page_6.5_3.png"
-  ]
- },
- "7.1": {
-  "title": "Définition de l'arrêt",
-  "paths": [
-   "page_7.1_0.png",
-   "page_7.1_1.png"
-  ]
- },
- "7.2": {
-  "title": "Définition du stationnement",
-  "paths": [
-   "page_7.2_0.png",
-   "page_7.2_1.png",
-   "page_7.2_2.png",
-   "page_7.2_3.png",
-   "page_7.2_4.png",
-   "page_7.2_5.png"
-  ]
- },
- "7.3": {
-  "title": "Stationnement et arrêt dangereux",
-  "paths": [
-   "page_7.3_0.png"
-  ]
- },
- "7.4": {
-  "title": "Stationnement et arrêt gênants",
-  "paths": [
-   "page_7.4_0.png",
-   "page_7.4_1.png",
-   "page_7.4_2.png"
-  ]
- },
- "7.5": {
-  "title": "Les manœuvres",
-  "paths": [
-   "page_7.5_0.png",
-   "page_7.5_1.png",
-   "page_7.5_2.png"
-  ]
- },
- "8.1": {
-  "title": "Se diriger vers l’autoroute",
-  "paths": [
-   "page_8.1_0.png"
-  ]
- },
- "8.2": {
-  "title": "Entrer sur l’autoroute",
-  "paths": [
-   "page_8.2_0.png",
-   "page_8.2_1.png"
-  ]
- },
- "8.3": {
-  "title": "Le péage",
-  "paths": [
-   "page_8.3_0.png",
-   "page_8.3_1.png"
-  ]
- },
- "8.4": {
-  "title": "Bretelle de raccordement autoroutière",
-  "paths": [
-   "page_8.4_0.png",
-   "page_8.4_1.png"
-  ]
- },
- "8.5": {
-  "title": "Caractéristiques de l’autoroute",
-  "paths": [
-   "page_8.5_0.png",
-   "page_8.5_1.png"
-  ]
- },
- "8.6": {
-  "title": "Marche normale",
-  "paths": [
-   "page_8.6_0.png",
-   "page_8.6_1.png"
-  ]
- },
- "8.7": {
-  "title": "Circulation de nuit",
-  "paths": [
-   "page_8.7_0.png",
-   "page_8.7_1.png"
-  ]
- },
- "8.8": {
-  "title": "Manœuvres interdites",
-  "paths": [
-   "page_8.8_0.png",
-   "page_8.8_1.png"
-  ]
- },
- "8.9": {
-  "title": "Bifurcation",
-  "paths": [
-   "page_8.9_0.png",
-   "page_8.9_1.png"
-  ]
- },
- "8.10": {
-  "title": "Jonction",
-  "paths": [
-   "page_8.10_0.png",
-   "page_8.10_1.png"
-  ]
- },
- "8.11": {
-  "title": "Sorties",
-  "paths": [
-   "page_8.11_0.png",
-   "page_8.11_1.png",
-   "page_8.11_2.png",
-   "page_8.11_3.png"
-  ]
- },
- "9.1": {
-  "title": "Généralités",
-  "paths": [
-   "page_9.1_0.png",
-   "page_9.1_1.png",
-   "page_9.1_2.png",
-   "page_9.1_3.png"
-  ]
- },
- "9.2": {
-  "title": "Quelques conseils",
-  "paths": [
-   "page_9.2_0.png",
-   "page_9.2_1.png",
-   "page_9.2_2.png",
-   "page_9.2_3.png"
-  ]
- },
- "10.1": {
-  "title": "La pluie",
-  "paths": [
-   "page_10.1_0.png",
-   "page_10.1_1.png",
-   "page_10.1_2.png"
-  ]
- },
- "10.2": {
-  "title": "Le brouillard",
-  "paths": [
-   "page_10.2_0.png"
-  ]
- },
- "10.3": {
-  "title": "Le vent",
-  "paths": [
-   "page_10.3_0.png",
-   "page_10.3_1.png"
-  ]
- },
- "10.4": {
-  "title": "La neige",
-  "paths": [
-   "page_10.4_0.png",
-   "page_10.4_1.png"
-  ]
- },
- "10.5": {
-  "title": "Le verglas",
-  "paths": [
-   "page_10.5_0.png",
-   "page_10.5_1.png"
-  ]
- },
- "10.6": {
-  "title": "La conduite en montagne",
-  "paths": [
-   "page_10.6_0.png",
-   "page_10.6_1.png",
-   "page_10.6_2.png",
-   "page_10.6_3.png",
-   "page_10.6_4.png",
-   "page_10.6_5.png"
-  ]
- }
+  "3.1": {
+    "title": "Les règles de circulation",
+    "paths": [
+      "page_3.1_0.png",
+      "page_3.1_1.png",
+      "page_3.1_2.png",
+      "page_3.1_3.png",
+      "page_3.1_4.png"
+    ]
+  },
+  "4.1": {
+    "title": "La vitesse",
+    "paths": [
+      "page_4.2_0.png"
+    ]
+  },
+  "4.2": {
+    "title": "Le permis probatoire",
+    "paths": [
+      "page_4.2_1.png",
+      "page_4.2_2.png"
+    ]
+  },
+  "4.3": {
+    "title": "Non-respect des limitations de vitesse",
+    "paths": [
+      "page_4.3_0.png",
+      "page_4.3_1.png",
+      "page_4.3_2.png"
+    ]
+  },
+  "4.4": {
+    "title": "Signalisation",
+    "paths": [
+      "page_4.4_0.png"
+    ]
+  },
+  "4.5": {
+    "title": "Réduction de la vitesse",
+    "paths": [
+      "page_4.5_0.png",
+      "page_4.5_1.png"
+    ]
+  },
+  "4.6": {
+    "title": "Temps de réaction",
+    "paths": [
+      "page_4.6_0.png",
+      "page_4.6_1.png"
+    ]
+  },
+  "4.7": {
+    "title": "Distance de sécurité",
+    "paths": [
+      "page_4.7_0.png",
+      "page_4.7_1.png"
+    ]
+  },
+  "4.8": {
+    "title": "Distance de freinage",
+    "paths": [
+      "page_4.8_0.png",
+      "page_4.8_1.png"
+    ]
+  },
+  "4.9": {
+    "title": "Distance d’arrêt",
+    "paths": [
+      "page_4.9_0.png"
+    ]
+  },
+  "4.10": {
+    "title": "Véhicules équipés de pneus à crampons",
+    "paths": [
+      "page_4.10_0.png"
+    ]
+  },
+  "5.1": {
+    "title": "L’intersection",
+    "paths": [
+      "page_5.1_0.png",
+      "page_5.1_1.png",
+      "page_5.1_2.png"
+    ]
+  },
+  "5.2": {
+    "title": "La signalisation de priorité",
+    "paths": [
+      "page_5.2_0.png",
+      "page_5.2_1.png"
+    ]
+  },
+  "5.3": {
+    "title": "La priorité à droite",
+    "paths": [
+      "page_5.3_0.png",
+      "page_5.3_1.png"
+    ]
+  },
+  "5.4": {
+    "title": "Les routes prioritaires",
+    "paths": [
+      "page_5.4_0.png",
+      "page_5.4_1.png",
+      "page_5.4_2.png"
+    ]
+  },
+  "5.5": {
+    "title": "La priorité ponctuelle",
+    "paths": [
+      "page_5.5_0.png",
+      "page_5.5_1.png"
+    ]
+  },
+  "5.6": {
+    "title": "Le stop",
+    "paths": [
+      "page_5.6_0.png",
+      "page_5.6_1.png"
+    ]
+  },
+  "5.7": {
+    "title": "Cédez le passage",
+    "paths": [
+      "page_5.7_0.png",
+      "page_5.7_1.png"
+    ]
+  },
+  "5.8": {
+    "title": "Le carrefour à sens giratoire",
+    "paths": [
+      "page_5.8_0.png",
+      "page_5.8_1.png"
+    ]
+  },
+  "5.9": {
+    "title": "Les feux tricolores",
+    "paths": [
+      "page_5.9_0.png",
+      "page_5.9_1.png",
+      "page_5.9_2.png"
+    ]
+  },
+  "5.10": {
+    "title": "Les feux clignotants",
+    "paths": [
+      "page_5.10_0.png",
+      "page_5.10_1.png"
+    ]
+  },
+  "5.11": {
+    "title": "Les feux avec signalisation",
+    "paths": [
+      "page_5.11_0.png",
+      "page_5.11_1.png"
+    ]
+  },
+  "5.12": {
+    "title": "Le véhicule prioritaire",
+    "paths": [
+      "page_5.12_0.png",
+      "page_5.12_1.png"
+    ]
+  },
+  "5.13": {
+    "title": "Autres cas de priorité",
+    "paths": [
+      "page_5.13_0.png",
+      "page_5.13_1.png"
+    ]
+  },
+  "6.1": {
+    "title": "Croisements",
+    "paths": [
+      "page_6.1_0.png",
+      "page_6.1_1.png"
+    ]
+  },
+  "6.2": {
+    "title": "Sur une chaussée en pente",
+    "paths": [
+      "page_6.2_0.png",
+      "page_6.2_1.png"
+    ]
+  },
+  "6.3": {
+    "title": "Dépassements",
+    "paths": [
+      "page_6.3_0.png",
+      "page_6.3_1.png",
+      "page_6.3_2.png"
+    ]
+  },
+  "6.4": {
+    "title": "Dépassements interdits",
+    "paths": [
+      "page_6.4_0.png",
+      "page_6.4_1.png",
+      "page_6.4_2.png",
+      "page_6.4_3.png"
+    ]
+  },
+  "6.5": {
+    "title": "Dépassements autorisés",
+    "paths": [
+      "page_6.5_0.png",
+      "page_6.5_1.png"
+    ]
+  },
+  "7.1": {
+    "title": "Définition de l'arrêt",
+    "paths": [
+      "page_7.1_0.png",
+      "page_7.1_1.png"
+    ]
+  },
+  "7.2": {
+    "title": "Définition du stationnement",
+    "paths": [
+      "page_7.2_0.png",
+      "page_7.2_1.png",
+      "page_7.2_2.png",
+      "page_7.2_3.png",
+      "page_7.2_4.png",
+      "page_7.2_5.png"
+    ]
+  },
+  "7.3": {
+    "title": "Stationnement et arrêt dangereux",
+    "paths": [
+      "page_7.3_0.png"
+    ]
+  },
+  "7.4": {
+    "title": "Stationnement et arrêt gênants",
+    "paths": [
+      "page_7.4_0.png",
+      "page_7.4_1.png",
+      "page_7.4_2.png"
+    ]
+  },
+  "7.5": {
+    "title": "Les manœuvres",
+    "paths": [
+      "page_7.5_0.png"
+    ]
+  },
+  "8.1": {
+    "title": "Se diriger vers l’autoroute",
+    "paths": [
+      "page_8.1_0.png"
+    ]
+  },
+  "8.2": {
+    "title": "Entrer sur l’autoroute",
+    "paths": [
+      "page_8.2_0.png",
+      "page_8.2_1.png"
+    ]
+  },
+  "8.3": {
+    "title": "Le péage",
+    "paths": [
+      "page_8.3_0.png",
+      "page_8.3_1.png"
+    ]
+  },
+  "8.4": {
+    "title": "Bretelle de raccordement autoroutière",
+    "paths": [
+      "page_8.4_0.png",
+      "page_8.4_1.png"
+    ]
+  },
+  "8.5": {
+    "title": "Caractéristiques de l’autoroute",
+    "paths": [
+      "page_8.5_0.png",
+      "page_8.5_1.png"
+    ]
+  },
+  "8.6": {
+    "title": "Marche normale",
+    "paths": [
+      "page_8.6_0.png",
+      "page_8.6_1.png"
+    ]
+  },
+  "8.7": {
+    "title": "Circulation de nuit",
+    "paths": [
+      "page_8.7_0.png",
+      "page_8.7_1.png"
+    ]
+  },
+  "8.8": {
+    "title": "Manœuvres interdites",
+    "paths": [
+      "page_8.8_0.png",
+      "page_8.8_1.png"
+    ]
+  },
+  "8.9": {
+    "title": "Bifurcation",
+    "paths": [
+      "page_8.9_0.png",
+      "page_8.9_1.png"
+    ]
+  },
+  "8.10": {
+    "title": "Jonction",
+    "paths": [
+      "page_8.10_0.png",
+      "page_8.10_1.png"
+    ]
+  },
+  "8.11": {
+    "title": "Sorties",
+    "paths": [
+      "page_8.11_0.png",
+      "page_8.11_1.png"
+    ]
+  },
+  "9.1": {
+    "title": "Généralités",
+    "paths": [
+      "page_9.1_0.png",
+      "page_9.1_1.png",
+      "page_9.1_2.png",
+      "page_9.1_3.png"
+    ]
+  },
+  "9.2": {
+    "title": "Quelques conseils",
+    "paths": [
+      "page_9.2_0.png",
+      "page_9.2_1.png"
+    ]
+  },
+  "10.1": {
+    "title": "La pluie",
+    "paths": [
+      "page_10.1_0.png",
+      "page_10.1_1.png",
+      "page_10.1_2.png"
+    ]
+  },
+  "10.2": {
+    "title": "Le brouillard",
+    "paths": [
+      "page_10.2_0.png"
+    ]
+  },
+  "10.3": {
+    "title": "Le vent",
+    "paths": [
+      "page_10.3_0.png",
+      "page_10.3_1.png"
+    ]
+  },
+  "10.4": {
+    "title": "La neige",
+    "paths": [
+      "page_10.4_0.png",
+      "page_10.4_1.png"
+    ]
+  },
+  "10.5": {
+    "title": "Le verglas",
+    "paths": [
+      "page_10.5_0.png",
+      "page_10.5_1.png"
+    ]
+  },
+  "10.6": {
+    "title": "La conduite en montagne",
+    "paths": [
+      "page_10.6_0.png",
+      "page_10.6_1.png",
+      "page_10.6_2.png",
+      "page_10.6_3.png",
+      "page_10.6_4.png",
+      "page_10.6_5.png"
+    ]
+  }
 }
