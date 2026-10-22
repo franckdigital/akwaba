@@ -3,7 +3,7 @@ import secrets
 from django.http import FileResponse, Http404
 from rest_framework import serializers
 from rest_framework.decorators import action
-from rest_framework.exceptions import ValidationError
+from rest_framework.exceptions import PermissionDenied, ValidationError
 from rest_framework.parsers import FormParser, JSONParser, MultiPartParser
 from rest_framework.response import Response
 
@@ -26,14 +26,18 @@ class LearnerSerializer(serializers.ModelSerializer):
     engagement_mode = serializers.SerializerMethodField()
 
     def get_engagement_mode(self, l):
-        """« paper » (remise physiquement au secrétariat) ou « electronic » (copie déposée en ligne)."""
+        """« paper » (remise physiquement au secrétariat), « electronic » (copie déposée en ligne)
+        ou « digital » (lecture + confirmation in-app, sans document ni remise papier)."""
+        if l.engagement_confirmed_at:
+            return "digital"
         if any(d.doc_type == "engagement" for d in l.documents.all()):
             return "electronic"
         return "paper" if l.engagement_paper_received_at else None
 
     def get_engagement_status(self, l):
-        """Fiche d'engagement : « submitted » (fiche signée déposée), « downloaded » ou « pending »."""
-        if l.engagement_paper_received_at or any(d.doc_type == "engagement" for d in l.documents.all()):
+        """Fiche d'engagement : « submitted » (fiche signée déposée ou engagement confirmé numériquement),
+        « downloaded » ou « pending »."""
+        if l.engagement_confirmed_at or l.engagement_paper_received_at or any(d.doc_type == "engagement" for d in l.documents.all()):
             return "submitted"
         return "downloaded" if l.engagement_downloaded_at else "pending"
 
@@ -76,7 +80,8 @@ class LearnerViewSet(ScopedModelViewSet):
     instructor_lookup = "lessons__instructor__user"
     limit_key = "learners"
     action_verbs = {"create_account": "change", "progress": "view", "driving_log": "view", "export": "export",
-                    "approve_registration": "validate", "exam_access": "view", "engagement": "view", "engagement_paper": "validate"}
+                    "approve_registration": "validate", "exam_access": "view", "engagement": "view",
+                    "engagement_confirm": "view", "engagement_paper": "validate"}
     parser_classes = [JSONParser, MultiPartParser, FormParser]
     filterset_fields = ["status", "category", "training", "cohort", "group", "organization", "agency", "school", "source", "approval_status"]
     search_fields = ["last_name", "first_name", "matricule", "phone", "email", "employee_ref"]
@@ -181,6 +186,21 @@ class LearnerViewSet(ScopedModelViewSet):
             learner.engagement_downloaded_at = timezone.now()
             learner.save(update_fields=["engagement_downloaded_at", "updated_at"])
         return engagement_pdf_response()
+
+    @action(detail=True, methods=["post"], url_path="engagement/confirm")
+    def engagement_confirm(self, request, pk=None):
+        """Confirmation numérique de l'engagement (apprenant non affilié à une organisation) : l'apprenant lit
+        le texte d'engagement in-app jusqu'au bout puis « Adhère » — aucun document à déposer. Idempotent."""
+        from django.utils import timezone
+        learner = self.get_object()
+        is_owner = learner.user_id == request.user.id
+        if not is_owner and request.user.role == LEARNER:
+            raise PermissionDenied({"detail": "Dossier inaccessible."})
+        if not learner.engagement_confirmed_at:
+            learner.engagement_confirmed_at = timezone.now()
+            learner.save(update_fields=["engagement_confirmed_at", "updated_at"])
+            audit.log(request, "confirm_engagement", learner, new={"learner": learner.pk})
+        return Response(self.get_serializer(self.get_queryset().get(pk=learner.pk)).data)
 
     @action(detail=True, methods=["post", "delete"], url_path="engagement-paper")
     def engagement_paper(self, request, pk=None):
