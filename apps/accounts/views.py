@@ -331,6 +331,11 @@ class RegisterView(APIView):
                                          email=d["email"], phone=d["phone"], category=d["category"], training=training,
                                          birth_date=d.get("birth_date"), sex=d["sex"], source="online", status="new",
                                          zone=zone, id_document_no=id_doc, quote=quote, approval_status="pending")
+        if quote is not None:
+            # Parcours devis -> inscription (§2) : relie le devis à l'apprenant résultant (en miroir de
+            # Learner.quote, pour pouvoir consulter IndividualQuote.learner directement).
+            quote.learner = learner
+            quote.save(update_fields=["learner", "updated_at"])
         if cohort is not None:
             # Facturation individuelle au cumul payé (§C) : facture créée en meilleur effort, jamais bloquante.
             from apps.billing.services import create_learner_enrollment_invoice

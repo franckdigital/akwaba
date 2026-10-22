@@ -82,6 +82,30 @@ class RecyclingItem(TimeStamped):
         return self.sessions_count * 45 if self.sessions_count else None
 
 
+class OfferTypeConfig(TimeStamped):
+    """Paramétrage admin du contenu « ce qui est inclus » par type de demande (offre), par auto-école —
+    alimente les 4 cartes du formulaire public de devis et l'écran « mes demandes » du candidat."""
+    school = models.ForeignKey("schools.School", on_delete=models.CASCADE, related_name="offer_type_configs")
+    offer = models.CharField(max_length=20, choices=OFFERS)
+    title = models.CharField(max_length=120, blank=True, help_text="Titre affiché ; vide = libellé par défaut de l'offre.")
+    description = models.TextField(blank=True)
+    base_price = models.DecimalField(max_digits=12, decimal_places=0, default=0)
+    courses = models.ManyToManyField("pedagogy.Course", blank=True, related_name="offer_type_configs")
+    recycling_items = models.ManyToManyField(RecyclingItem, blank=True, related_name="offer_type_configs")
+    includes_courses = models.BooleanField(default=True)
+    includes_quizzes = models.BooleanField(default=True)
+    includes_exams = models.BooleanField(default=False)
+    features = models.JSONField(default=list, blank=True)
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        unique_together = [("school", "offer")]
+        ordering = ["school", "offer"]
+
+    def __str__(self):
+        return f"{self.get_offer_display()} — {self.school}"
+
+
 class RecyclingReminderSettings(TimeStamped):
     """Relance automatique et paramétrable depuis l'admin des titulaires d'un permis (§3.3)."""
     school = models.OneToOneField("schools.School", on_delete=models.CASCADE, related_name="recycling_reminder_settings")
@@ -145,6 +169,11 @@ class IndividualQuote(TimeStamped):
     status = models.CharField(max_length=20, choices=STATUS, default="submitted")
     reject_reason = models.TextField(blank=True)
     correction_note = models.TextField(blank=True)
+
+    # Apprenant résultant de cette demande, une fois l'inscription effectuée (cf. RegisterView, parcours
+    # devis -> inscription). Renseigné en miroir de Learner.quote (relation inverse) pour permettre à
+    # IndividualQuote.learner d'être consulté directement (jointure "mes demandes" côté apprenant).
+    learner = models.ForeignKey("learners.Learner", null=True, blank=True, on_delete=models.SET_NULL, related_name="quotes")
 
     base_price = models.DecimalField(max_digits=12, decimal_places=0, default=0)
     negotiated_price = models.DecimalField(max_digits=12, decimal_places=0, null=True, blank=True)

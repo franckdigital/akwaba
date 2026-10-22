@@ -52,6 +52,7 @@ r("groups", orgs.GroupViewSet, basename="group")
 r("quote-requests", orgs.QuoteRequestViewSet, basename="quote-request")
 r("individual-quotes", admissions.IndividualQuoteViewSet, basename="individual-quote")
 r("recycling-items", admissions.RecyclingItemViewSet, basename="recycling-item")
+r("offer-type-configs", admissions.OfferTypeConfigViewSet, basename="offer-type-config")
 r("recycling-reminder-settings", admissions.RecyclingReminderSettingsViewSet, basename="recycling-reminder-settings")
 r("permit-candidates", admissions.PermitCandidateViewSet, basename="permit-candidate")
 r("subscription-orders", subs.OrderViewSet, basename="subscription-order")
@@ -95,6 +96,8 @@ urlpatterns = [
     path("api/public/quotes/", orgs.PublicQuoteView.as_view()),
     path("api/public/individual-quotes/", admissions.PublicIndividualQuoteView.as_view()),
     path("api/public/recycling-items/", admissions.public_recycling_items),
+    path("api/public/offer-type-configs/", admissions.public_offer_type_configs),
+    path("api/my-quotes/", admissions.MyQuotesView.as_view()),
     path("api/public/fiche-engagement/", admissions.public_engagement_sheet),
     path("api/public/permit-candidates/", admissions.PublicPermitCandidateView.as_view()),
     path("api/certificates/verify/<str:code>/", exams.verify_certificate),

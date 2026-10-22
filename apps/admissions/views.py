@@ -3,7 +3,7 @@ from django.http import FileResponse
 from rest_framework import serializers
 from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.exceptions import PermissionDenied, ValidationError
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.throttling import ScopedRateThrottle
 from rest_framework.views import APIView
@@ -14,7 +14,8 @@ from apps.core.permissions import AKWABA_ADMIN
 from apps.core.viewsets import BaseModelSerializer, ScopedModelViewSet, make_serializer
 
 from . import services
-from .models import PERMIT_BUNDLE_PRICES, STATUS, IndividualQuote, PermitCandidate, RecyclingItem, RecyclingReminderSettings
+from .models import (PERMIT_BUNDLE_PRICES, STATUS, IndividualQuote, OfferTypeConfig, PermitCandidate, RecyclingItem,
+                     RecyclingReminderSettings)
 
 RecyclingItemSerializer = make_serializer(
     RecyclingItem, extra_fields={"duration_minutes": serializers.IntegerField(read_only=True)})
@@ -26,6 +27,24 @@ class RecyclingItemViewSet(ScopedModelViewSet):
     serializer_class = RecyclingItemSerializer
     filterset_fields = ["kind", "is_active"]
     search_fields = ["label"]
+
+
+class OfferTypeConfigSerializer(BaseModelSerializer):
+    school_name = serializers.CharField(source="school.commercial_name", read_only=True, default="")
+    offer_label = serializers.CharField(source="get_offer_display", read_only=True)
+
+    class Meta:
+        model = OfferTypeConfig
+        fields = "__all__"
+
+
+class OfferTypeConfigViewSet(ScopedModelViewSet):
+    """Paramétrage, côté secrétariat/direction, du contenu « ce qui est inclus » par type de demande."""
+    resource = "offer_type_configs"
+    queryset = OfferTypeConfig.objects.select_related("school").prefetch_related("courses", "recycling_items")
+    serializer_class = OfferTypeConfigSerializer
+    filterset_fields = ["offer", "is_active"]
+    search_fields = ["title"]
 
 
 class RecyclingReminderSettingsSerializer(BaseModelSerializer):
@@ -179,6 +198,52 @@ def public_recycling_items(request):
         qs = qs.filter(school_id=school_id)
     return Response([{"id": i.id, "kind": i.kind, "label": i.label, "price": i.price,
                       "sessions_count": i.sessions_count, "duration_minutes": i.duration_minutes} for i in qs])
+
+
+def _offer_type_config_public_payload(c):
+    return {"id": c.id, "school": c.school_id, "offer": c.offer, "offer_label": c.get_offer_display(),
+            "title": c.title or c.get_offer_display(), "description": c.description,
+            "base_price": c.base_price, "features": c.features,
+            "includes_courses": c.includes_courses, "includes_quizzes": c.includes_quizzes,
+            "includes_exams": c.includes_exams}
+
+
+@api_view(["GET"])
+@permission_classes([AllowAny])
+def public_offer_type_configs(request):
+    """Contenu « ce qui est inclus » par type de demande, pour le formulaire public de devis (§2-3) —
+    champs sûrs uniquement (pas de tarification interne négociée)."""
+    school_id = request.query_params.get("school")
+    qs = OfferTypeConfig.objects.filter(is_active=True)
+    if school_id:
+        qs = qs.filter(school_id=school_id)
+    return Response([_offer_type_config_public_payload(c) for c in qs])
+
+
+class MyQuotesView(APIView):
+    """Écran « mes demandes » du candidat : ses devis individuels, chacun avec le paramétrage « ce qui est
+    inclus » (OfferTypeConfig) correspondant à son (school, offer)."""
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        learner = getattr(request.user, "learner_profile", None)
+        if not learner:
+            return Response([])
+        quotes = IndividualQuote.objects.filter(learner=learner).select_related("school").prefetch_related("recycling_items")
+        configs = {(c.school_id, c.offer): c for c in
+                  OfferTypeConfig.objects.filter(is_active=True, school_id__in=[q.school_id for q in quotes])}
+        data = []
+        for q in quotes:
+            cfg = configs.get((q.school_id, q.offer))
+            data.append({
+                "id": q.id, "offer": q.offer, "offer_label": q.get_offer_display(), "status": q.status,
+                "status_label": q.get_status_display(), "created_at": q.created_at,
+                "base_price": q.base_price, "negotiated_price": q.negotiated_price, "price": q.price,
+                "paid_amount": q.paid_amount, "balance": q.balance,
+                "reject_reason": q.reject_reason, "correction_note": q.correction_note,
+                "offer_type_config": _offer_type_config_public_payload(cfg) if cfg else None,
+            })
+        return Response(data)
 
 
 class PublicIndividualQuoteSerializer(BaseModelSerializer):
