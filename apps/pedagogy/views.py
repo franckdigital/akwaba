@@ -10,7 +10,7 @@ from apps.core import audit
 from apps.core.permissions import AKWABA_ADMIN, LEARNER, allowed
 from apps.core.viewsets import SCHOOL, BaseModelSerializer, ScopedModelViewSet, make_serializer, scope_queryset
 from apps.learners.models import Learner
-from apps.subscriptions.services import require_access
+from apps.subscriptions.services import learner_has_access, require_access
 
 from . import services
 from .models import (LEVELS, THEMES, Attempt, AttemptAnswer, Choice, Course, CourseEnrollment, CourseMaterial, ImportJob, MaterialAnswer,
@@ -61,12 +61,23 @@ def locked_material_ids(course, done):
     return locked
 
 
+def _has_course_access(serializer, user):
+    """Accès « cours » de l'apprenant (abonnement actif), mis en cache dans le contexte de sérialisation."""
+    ctx = serializer.context
+    if "_course_access" not in ctx:
+        learner = Learner.objects.filter(user=user).first() if user and user.is_authenticated else None
+        ctx["_course_access"] = learner is None or learner_has_access(learner, "courses")
+    return ctx["_course_access"]
+
+
 def _locked_ids(serializer, course):
     """Verrouillage mis en cache (par cours) dans le contexte de sérialisation, comme _done_ids."""
     ctx = serializer.context
     req = ctx.get("request")
     if req and getattr(req.user, "role", None) != LEARNER:
         return set()   # le parcours séquentiel ne s'applique qu'aux apprenants ; le staff prévisualise librement
+    if req and not _has_course_access(serializer, req.user):
+        return set(course.materials.values_list("id", flat=True))   # abonnement inactif : tout le cours est verrouillé
     key = f"_locked_{course.id}"
     if key not in ctx:
         ctx[key] = locked_material_ids(course, _done_ids(serializer))
@@ -105,6 +116,8 @@ class CourseMaterialSerializer(BaseModelSerializer):
         if not m.file:
             return None
         req = self.context.get("request")
+        if req and getattr(req.user, "role", None) == LEARNER and not _has_course_access(self, req.user):
+            return None   # abonnement inactif : le contenu n'est pas exposé, pas seulement grisé côté client
         return req.build_absolute_uri(m.file.url) if req else m.file.url
 
     def get_completed(self, m):
