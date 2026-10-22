@@ -91,6 +91,7 @@ urlpatterns = [
     path("api/auth/", include(auth_patterns)),
     path("api/public/schools/", schools.public_schools),
     path("api/public/organizations/", orgs.public_organizations),
+    path("api/public/cohort-code/<str:code>/", orgs.public_cohort_code),
     path("api/public/quotes/", orgs.PublicQuoteView.as_view()),
     path("api/public/individual-quotes/", admissions.PublicIndividualQuoteView.as_view()),
     path("api/public/recycling-items/", admissions.public_recycling_items),

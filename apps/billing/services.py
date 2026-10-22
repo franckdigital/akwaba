@@ -88,6 +88,41 @@ def fail_payment(payment, payload=None):
     return payment
 
 
+# --------------------------------------------------------------------------- règlement direct d'une facture (CinetPay, montant libre)
+def init_invoice_payment(invoice, user, amount, phone, base_url=None):
+    """Démarre, via CinetPay, le règlement d'un MONTANT LIBRE sur une facture (hors SubscriptionOrder).
+
+    Réutilise le même client CinetPay que les abonnements (apps.subscriptions.providers.init_payment), généralisé
+    pour accepter un montant/une devise explicites au lieu de les lire sur un SubscriptionOrder. Le Payment n'est
+    créé/persisté qu'après le succès de l'appel fournisseur (comme le flux SubscriptionOrder évite les
+    enregistrements orphelins en cas d'échec). -> (payment, redirect_url).
+    """
+    from apps.subscriptions import providers
+    payment = Payment(school=invoice.school, invoice=invoice, method="cinetpay", amount=amount, payer_phone=phone, recorded_by=user)
+    result = providers.init_payment(payment, user, phone, f"Facture {invoice.number}"[:120], base_url,
+                                    amount=amount, currency="XOF", return_qs=f"invoice={invoice.pk}")
+    payment.provider_ref = result.reference
+    payment.save()
+    return payment, result.redirect_url
+
+
+def finalize_payment(payment):
+    """Re-vérifie auprès de CinetPay l'état d'un règlement direct de facture (jamais sur la foi du navigateur/webhook).
+
+    Équivalent de `apps.subscriptions.services.finalize(order)` mais pour un Payment non lié à un SubscriptionOrder.
+    """
+    from apps.subscriptions import providers
+    payment.refresh_from_db()
+    if payment.status != "pending" or not payment.provider_ref:
+        return payment
+    state, raw = providers.verify_payment(payment.provider_ref)
+    if state == "succeeded":
+        return confirm_payment(payment, raw)
+    if state == "failed":
+        return fail_payment(payment, raw)
+    return payment
+
+
 def sign(body: bytes) -> str:
     return hmac.new(settings.PAYMENT_WEBHOOK_SECRET.encode(), body, hashlib.sha256).hexdigest()
 
@@ -145,6 +180,28 @@ def generate_contract_invoices(contract, first_due):
                 make_installments(inv, contract.installments_count, first_due)
             result["learner_invoices"] += 1
     return result
+
+
+@transaction.atomic
+def create_learner_enrollment_invoice(learner, cohort):
+    """Facture individuelle créée en meilleur effort à l'inscription via code d'adhésion (§B.5).
+
+    Même filet que `generate_contract_invoices` (une facture par apprenant, au tarif du contrat) mais pour UNE
+    inscription ponctuelle : ne s'applique que si la cohorte a un contrat dont la catégorie correspond à celle
+    demandée par l'apprenant ; sinon on ne crée rien (laissé au secrétariat). N'échoue jamais « bruyamment » :
+    l'appelant (inscription en ligne) ne doit pas être bloqué par cette facturation annexe.
+    """
+    contract = cohort.contract
+    if contract is None or contract.category != learner.category:
+        return None
+    if Invoice.objects.filter(learner=learner, cohort=cohort, kind=Invoice.INVOICE).exists():
+        return None
+    inv = Invoice.objects.create(school=learner.school, kind=Invoice.INVOICE, learner=learner, organization=cohort.organization,
+                                 contract=contract, cohort=cohort, title=f"Permis {learner.category} — {cohort.name}",
+                                 total=contract.unit_price, issue_date=timezone.localdate())
+    InvoiceLine.objects.create(invoice=inv, description=f"{contract.training.name} — {cohort.name}", quantity=1,
+                               unit_price=contract.unit_price)
+    return inv
 
 
 def send_installment_reminders(today=None):

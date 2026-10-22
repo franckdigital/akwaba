@@ -16,8 +16,9 @@ from rest_framework.throttling import ScopedRateThrottle
 from rest_framework.views import APIView
 
 from apps.core import audit
-from apps.core.permissions import AKWABA_ADMIN, LEARNER
+from apps.core.permissions import AKWABA_ADMIN, LEARNER, SCHOOL_ROLES
 from apps.core.viewsets import BaseModelSerializer, ScopedModelViewSet, make_serializer
+from apps.subscriptions import providers
 
 from . import services
 from .models import MOBILE_MONEY, Expense, Installment, Invoice, InvoiceLine, Payment
@@ -96,7 +97,7 @@ class InvoiceViewSet(ScopedModelViewSet):
     serializer_class = InvoiceSerializer
     org_lookup = "organization"
     learner_lookup = "learner__user"
-    action_verbs = {"pdf": "print", "installments": "create", "convert": "create", "credit_note": "create"}
+    action_verbs = {"pdf": "print", "installments": "create", "convert": "create", "credit_note": "create", "pay": "view"}
     filterset_fields = ["kind", "status", "learner", "organization", "contract", "cohort", "school"]
     search_fields = ["number", "title", "learner__last_name", "learner__first_name", "organization__name"]
 
@@ -143,6 +144,42 @@ class InvoiceViewSet(ScopedModelViewSet):
             inv.recompute()
         audit.log(request, "credit_note", note, new={"parent": inv.number, "amount": str(amount)})
         return Response(self.get_serializer(note).data, status=201)
+
+    @action(detail=True, methods=["post"])
+    def pay(self, request, pk=None):
+        """Règlement Mobile Money (CinetPay) d'un MONTANT LIBRE sur cette facture : POST {"amount": <montant>}.
+
+        Jugement (§D) : réservé à l'apprenant propriétaire de la facture, ou au personnel de l'auto-école
+        (secretary/accountant/director/akwaba_admin) qui l'assiste par téléphone ; les rôles « organisation »
+        (org_admin, etc.) ne sont volontairement PAS autorisés à initier ce paiement individuel à la place d'un
+        apprenant. Le dépassement du solde restant est refusé (pas de sur-paiement : le plus simple et le plus sûr).
+        action_verbs mappe « pay » -> « view » (vérifié ensuite ci-dessous par un contrôle de rôle explicite,
+        comme le fait déjà PaymentViewSet.perform_create) car l'apprenant n'a que le verbe « view »/« print » sur
+        la ressource « invoices » dans la matrice RBAC.
+        """
+        inv = self.get_object()
+        u = request.user
+        if u.role == LEARNER:
+            if not inv.learner_id or inv.learner.user_id != u.id:
+                raise PermissionDenied("Cette facture ne vous concerne pas.")
+        elif u.role not in SCHOOL_ROLES and u.role != AKWABA_ADMIN:
+            raise PermissionDenied("Paiement réservé à l'apprenant concerné ou au personnel de l'auto-école.")
+        if inv.kind != Invoice.INVOICE or inv.status in ("cancelled", "draft"):
+            raise serializers.ValidationError({"invoice": "Facture non payable."})
+        try:
+            amount = Decimal(str(request.data.get("amount", "0")))
+        except Exception:
+            raise serializers.ValidationError({"amount": "Montant invalide."})
+        if amount <= 0 or amount > inv.balance:
+            raise serializers.ValidationError({"amount": f"Montant invalide (reste à payer : {int(inv.balance)})."})
+        phone = (request.data.get("phone") or (inv.learner.phone if inv.learner else "") or getattr(u, "phone", "") or "").strip()
+        base_url = request.data.get("origin") or request.headers.get("Origin")
+        try:
+            payment, redirect_url = services.init_invoice_payment(inv, u, amount, phone, base_url)
+        except providers.PaymentError as e:
+            raise serializers.ValidationError({"detail": str(e)})
+        audit.log(request, "invoice_pay", inv, new={"amount": str(amount), "payment": payment.pk, "method": "cinetpay"})
+        return Response({"payment": PaymentSerializer(payment).data, "redirect_url": redirect_url, "mock": providers.is_mock()}, status=201)
 
 
 class InstallmentViewSet(ScopedModelViewSet):
@@ -191,7 +228,7 @@ class PaymentViewSet(ScopedModelViewSet):
     learner_lookup = "invoice__learner__user"
     http_method_names = ["get", "post", "head", "options"]
     parser_classes = [JSONParser, MultiPartParser, FormParser]
-    action_verbs = {"receipt": "print", "sandbox_confirm": "create", "proof": "view", "attach_proof": "create"}
+    action_verbs = {"receipt": "print", "sandbox_confirm": "create", "proof": "view", "attach_proof": "create", "verify": "view"}
     filterset_fields = ["status", "method", "invoice", "school"]
     search_fields = ["provider_ref", "reference", "receipt_number", "invoice__number"]
 
@@ -259,6 +296,17 @@ class PaymentViewSet(ScopedModelViewSet):
         resp = HttpResponse(services.receipt_pdf(p), content_type="application/pdf")
         resp["Content-Disposition"] = f'inline; filename="{p.receipt_number}.pdf"'
         return resp
+
+    @action(detail=True, methods=["post"])
+    def verify(self, request, pk=None):
+        """Retour de la page de paiement CinetPay (règlement direct de facture, §D) : re-vérification serveur du
+        statut auprès de CinetPay, jamais sur la foi du navigateur (même principe que OrderViewSet.verify)."""
+        p = self.get_object()
+        try:
+            p = services.finalize_payment(p)
+        except providers.PaymentError as e:
+            return Response({"detail": str(e)}, status=502)
+        return Response(self.get_serializer(p).data)
 
     @action(detail=True, methods=["post"], url_path="sandbox-confirm")
     def sandbox_confirm(self, request, pk=None):

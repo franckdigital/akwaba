@@ -1,3 +1,4 @@
+import secrets
 from decimal import Decimal
 
 from django.db import models
@@ -8,6 +9,10 @@ from apps.schools.models import CATEGORIES
 ORG_TYPES = [("company", "Entreprise"), ("university", "Université"), ("grande_ecole", "Grande école"),
              ("school", "École"), ("administration", "Administration"), ("ngo", "ONG"),
              ("association", "Association"), ("other", "Autre")]
+
+# Alphabet sans caractères ambigus à l'oral/à l'écrit (0/O, 1/I/L) : code à dicter au téléphone ou à relire facilement.
+JOIN_CODE_ALPHABET = "ABCDEFGHJKMNPQRSTUVWXYZ23456789"
+JOIN_CODE_LENGTH = 8
 
 
 class Organization(TimeStamped):
@@ -72,6 +77,7 @@ class Contract(TimeStamped):
 
 class Cohort(TimeStamped):
     STATUS = [("planned", "Planifiée"), ("running", "En cours"), ("done", "Terminée"), ("cancelled", "Annulée")]
+    ACTIVE_STATUSES = ("planned", "running")   # statuts pour lesquels un code d'adhésion reste utilisable à l'inscription
     school = models.ForeignKey("schools.School", on_delete=models.CASCADE, related_name="cohorts")
     agency = models.ForeignKey("schools.Agency", null=True, blank=True, on_delete=models.SET_NULL, related_name="cohorts")
     organization = models.ForeignKey(Organization, null=True, blank=True, on_delete=models.SET_NULL, related_name="cohorts")
@@ -84,12 +90,49 @@ class Cohort(TimeStamped):
     location = models.CharField(max_length=200, blank=True)
     instructors = models.ManyToManyField("practice.Instructor", blank=True, related_name="cohorts")
     status = models.CharField(max_length=12, choices=STATUS, default="planned")
+    join_code = models.CharField(
+        "Code d'adhésion", max_length=20, null=True, blank=True, unique=True, db_index=True,
+        help_text="Code à transmettre aux bénéficiaires pour rejoindre cette cohorte à l'inscription en ligne "
+                   "(généré automatiquement, régénérable).")
 
     class Meta:
         ordering = ["-start_date", "name"]
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        if not self.join_code:
+            self.join_code = generate_join_code()
+        super().save(*args, **kwargs)
+
+
+def generate_join_code():
+    """Code court, unique, lisible/dictable au téléphone (8 caractères, alphabet sans ambiguïté 0/O/1/I/L)."""
+    while True:
+        code = "".join(secrets.choice(JOIN_CODE_ALPHABET) for _ in range(JOIN_CODE_LENGTH))
+        if not Cohort.objects.filter(join_code=code).exists():
+            return code
+
+
+def resolve_join_code(code):
+    """Résout un code d'adhésion cohorte pour l'inscription en ligne.
+
+    -> (cohort, None) si le code est valide, actif et la cohorte n'est pas complète ; (None, message) sinon.
+    Utilisé à la fois par le point d'entrée public de vérification du code et par l'inscription elle-même,
+    pour garantir les mêmes règles de validité aux deux endroits.
+    """
+    from apps.learners.models import Learner
+    code = (code or "").strip().upper()
+    invalid = (None, "Code invalide ou cohorte complète.")
+    if not code:
+        return invalid
+    cohort = Cohort.objects.select_related("organization", "contract", "contract__training", "training").filter(join_code=code).first()
+    if cohort is None or cohort.status not in Cohort.ACTIVE_STATUSES:
+        return invalid
+    if cohort.capacity and Learner.objects.filter(cohort=cohort).count() >= cohort.capacity:
+        return invalid
+    return cohort, None
 
 
 class Group(TimeStamped):

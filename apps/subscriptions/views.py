@@ -377,12 +377,25 @@ class CinetPayWebhookView(APIView):
 
     def post(self, request):
         ref = request.data.get("merchant_transaction_id") or request.data.get("cpm_trans_id")
-        order = SubscriptionOrder.objects.filter(provider_ref=ref).first() if ref else None
-        if not order:
+        if not ref:
+            return Response(status=404)
+        order = SubscriptionOrder.objects.filter(provider_ref=ref).first()
+        if order:
+            try:
+                order = services.finalize(order)
+            except providers.PaymentError:
+                return Response(status=502)   # CinetPay renverra la notification
+            audit.log(request, "cinetpay_webhook", order, new={"status": order.status}, model="subscriptions.SubscriptionOrder")
+            return Response({"result": order.status})
+        # Pas un SubscriptionOrder : peut-être un règlement direct de facture apprenant (§D, hors SubscriptionOrder).
+        from apps.billing.models import Payment
+        from apps.billing.services import finalize_payment
+        payment = Payment.objects.filter(provider_ref=ref, method="cinetpay").first()
+        if not payment:
             return Response(status=404)
         try:
-            order = services.finalize(order)
+            payment = finalize_payment(payment)
         except providers.PaymentError:
-            return Response(status=502)   # CinetPay renverra la notification
-        audit.log(request, "cinetpay_webhook", order, new={"status": order.status}, model="subscriptions.SubscriptionOrder")
-        return Response({"result": order.status})
+            return Response(status=502)
+        audit.log(request, "cinetpay_webhook_invoice_payment", payment, new={"status": payment.status}, model="billing.Payment")
+        return Response({"result": payment.status})

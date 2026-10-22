@@ -1324,3 +1324,173 @@ class CashReceiptAndPaperEngagementTests(Base):
         self.assertEqual(self.as_user(self.lu).post(f"/api/learners/{self.learner.id}/engagement-paper/").status_code, 403)
         r = sec.delete(f"/api/learners/{self.learner.id}/engagement-paper/")
         self.assertEqual(r.json()["engagement_status"], "pending")
+
+
+class JoinCodeTests(Base):
+    """Code d'adhésion de cohorte : inscription en ligne d'un bénéficiaire de collectivité (§A/§B)."""
+
+    def setUp(self):
+        super().setUp()
+        from apps.organizations.models import Contract, Organization
+        self.org = Organization.objects.create(school=self.school, name="ABC")
+        self.contract = Contract.objects.create(school=self.school, organization=self.org, training=self.training,
+                                                category="B", unit_price=85000, beneficiaries_count=5)
+        self.cohort = Cohort.objects.create(school=self.school, organization=self.org, contract=self.contract,
+                                            training=self.training, name="C1", capacity=2)
+
+    def test_join_code_is_generated_unique_and_regenerable_by_staff_only(self):
+        self.assertEqual(len(self.cohort.join_code), 8)
+        other = Cohort.objects.create(school=self.school, training=self.training, name="C2")
+        self.assertNotEqual(self.cohort.join_code, other.join_code)
+        old = self.cohort.join_code
+        r = self.as_user(self.secretary).post(f"/api/cohorts/{self.cohort.id}/regenerate-code/")
+        self.assertEqual(r.status_code, 200, r.content)
+        self.cohort.refresh_from_db()
+        self.assertNotEqual((self.cohort.join_code, old == r.json()["join_code"]), (old, False))
+        org_admin = make_user("oa@abc.ci", "org_admin", self.school, organization=self.org)
+        self.assertEqual(self.as_user(org_admin).post(f"/api/cohorts/{self.cohort.id}/regenerate-code/").status_code, 403)
+
+    def test_public_lookup_valid_invalid_and_full(self):
+        anon = APIClient()
+        r = anon.get(f"/api/public/cohort-code/{self.cohort.join_code}/")
+        self.assertEqual(r.status_code, 200, r.content)
+        self.assertEqual(r.json(), {"valid": True, "organization_name": "ABC", "cohort_name": "C1", "category": "B"})
+        self.assertEqual(anon.get("/api/public/cohort-code/NOPE0000/").status_code, 404)
+        for n in "12":
+            Learner.objects.create(school=self.school, organization=self.org, cohort=self.cohort, training=self.training,
+                                   first_name=n, last_name="E", category="B")
+        self.assertEqual(anon.get(f"/api/public/cohort-code/{self.cohort.join_code}/").status_code, 404)  # capacité (2) atteinte
+
+    def test_capacity_zero_means_unlimited(self):
+        unlimited = Cohort.objects.create(school=self.school, organization=self.org, training=self.training, name="Illimitée", capacity=0)
+        for n in range(5):
+            Learner.objects.create(school=self.school, organization=self.org, cohort=unlimited, training=self.training,
+                                   first_name=str(n), last_name="E", category="B")
+        self.assertTrue(APIClient().get(f"/api/public/cohort-code/{unlimited.join_code}/").json()["valid"])
+
+    def test_registration_via_join_code_links_organization_cohort_and_creates_invoice(self):
+        r = APIClient().post("/api/auth/register/", {"school": self.school.id, "first_name": "Yves", "last_name": "K",
+                                                      "email": "yves@ex.ci", "password": "Motdepasse@1", "phone": "0700000001",
+                                                      "category": "B", "join_code": self.cohort.join_code}, format="json")
+        self.assertEqual(r.status_code, 201, r.content)
+        learner = Learner.objects.get(email="yves@ex.ci")
+        self.assertEqual((learner.organization_id, learner.cohort_id, learner.training_id), (self.org.id, self.cohort.id, self.training.id))
+        inv = Invoice.objects.get(learner=learner)
+        self.assertEqual((inv.contract_id, int(inv.total), inv.cohort_id), (self.contract.id, 85000, self.cohort.id))
+
+    def test_registration_rejects_unknown_code_and_inconsistent_organization(self):
+        from apps.organizations.models import Organization
+        other_org = Organization.objects.create(school=self.school, name="XYZ")
+        r = APIClient().post("/api/auth/register/", {"school": self.school.id, "first_name": "N", "last_name": "N",
+                                                      "email": "n1@ex.ci", "password": "Motdepasse@1", "join_code": "ZZZZZZZZ"}, format="json")
+        self.assertEqual(r.status_code, 400)
+        self.assertIn("join_code", r.json())
+        self.assertFalse(User.objects.filter(email="n1@ex.ci").exists())
+        r2 = APIClient().post("/api/auth/register/", {"school": self.school.id, "first_name": "N", "last_name": "N",
+                                                       "email": "n2@ex.ci", "password": "Motdepasse@1",
+                                                       "join_code": self.cohort.join_code, "organization": other_org.id}, format="json")
+        self.assertEqual(r2.status_code, 400)
+        self.assertIn("organization", r2.json())
+
+    def test_no_invoice_created_when_category_does_not_match_contract(self):
+        r = APIClient().post("/api/auth/register/", {"school": self.school.id, "first_name": "M", "last_name": "M",
+                                                      "email": "m@ex.ci", "password": "Motdepasse@1", "category": "A",
+                                                      "join_code": self.cohort.join_code}, format="json")
+        self.assertEqual(r.status_code, 201, r.content)
+        learner = Learner.objects.get(email="m@ex.ci")
+        self.assertEqual((learner.organization_id, learner.cohort_id), (self.org.id, self.cohort.id))  # rattachement OK
+        self.assertFalse(Invoice.objects.filter(learner=learner).exists())                             # facturation : non (meilleur effort)
+
+
+class InstallmentAccessTests(Base):
+    """Accès conditionné au cumul payé sur la facture individuelle d'un bénéficiaire de cohorte (§C)."""
+
+    def setUp(self):
+        super().setUp()
+        from apps.organizations.models import Organization
+        self.school.subscription_required = True
+        self.school.save()
+        self.org = Organization.objects.create(school=self.school, name="ABC")
+        self.plan = Plan.objects.create(audience="organization", school=None, name="Équipe", price=90000, billing_cycle="quarterly")
+        self.cohort = Cohort.objects.create(school=self.school, organization=self.org, training=self.training, name="C1")
+        self.sub = OrganizationSubscription.objects.create(school=self.school, organization=self.org, plan=self.plan,
+                                                           start_date=timezone.localdate() - timedelta(days=5),
+                                                           end_date=timezone.localdate() + timedelta(days=85))
+        self.sub.cohorts.set([self.cohort])
+        self.learner.cohort, self.learner.organization = self.cohort, self.org
+        self.learner.save()
+        self.quiz = Quiz.objects.create(school=self.school, title="QCM", category="B", mode="manual", is_published=True)
+        self.quiz.questions.set([make_question(self.school, "INST1")])
+
+    def test_months_covered_and_valid_until_helpers(self):
+        from datetime import date
+        from apps.subscriptions.services import access_valid_until, add_months, months_covered_by_payment
+        self.sub.start_date, self.sub.end_date = date(2026, 1, 15), date(2026, 4, 15)   # 3 mois pleins
+        self.sub.save()
+        inv = Invoice.objects.create(school=self.school, learner=self.learner, cohort=self.cohort, kind="invoice", total=90000, status="issued")
+        inv.paid = 30000                              # 1 mensualité (90000/3) réglée, sans passer par recompute()
+        self.assertEqual(months_covered_by_payment(inv, self.sub), 1)
+        self.assertEqual(access_valid_until(self.sub, 1), date(2026, 2, 15))
+        inv.paid = 59999
+        self.assertEqual(months_covered_by_payment(inv, self.sub), 1)   # arrondi entier : pas encore 2 mensualités pleines
+        inv.paid = 90000                              # payée intégralement -> couverture totale, même avec un arrondi défavorable
+        self.assertEqual(months_covered_by_payment(inv, self.sub), 3)
+        self.assertEqual(add_months(date(2026, 1, 31), 1), date(2026, 2, 28))   # jour borné à la fin du mois cible
+
+    def test_access_follows_cumulative_payment_month_by_month(self):
+        inv = Invoice.objects.create(school=self.school, learner=self.learner, cohort=self.cohort, kind="invoice", total=90000, status="issued")
+        from rest_framework.exceptions import PermissionDenied
+        from apps.subscriptions.services import learner_has_access, require_access
+        self.assertFalse(learner_has_access(self.learner, "quizzes"))      # aucun paiement : pas d'accès malgré l'abonnement actif
+        with self.assertRaises(PermissionDenied) as ctx:
+            require_access(self.learner, "quizzes")
+        self.assertEqual(ctx.exception.get_codes(), "installment_due")     # code distinct de "subscription_required"
+        inv.paid = 30000
+        inv.save(update_fields=["paid"])
+        self.assertTrue(learner_has_access(self.learner, "quizzes"))       # 1 mensualité réglée : accès rétabli
+        inv.paid = 90000
+        inv.save(update_fields=["paid"])
+        self.assertTrue(learner_has_access(self.learner, "quizzes"))       # payée intégralement : accès pour toute la période
+
+    def test_no_personal_invoice_keeps_unconditional_cohort_access(self):
+        from apps.subscriptions.services import learner_has_access
+        self.assertTrue(learner_has_access(self.learner, "quizzes"))       # pas de facture individuelle : comportement inchangé (tarif négocié)
+
+    def test_access_blocked_via_api_with_distinct_message(self):
+        Invoice.objects.create(school=self.school, learner=self.learner, cohort=self.cohort, kind="invoice", total=90000, status="issued")
+        r = self.as_user(self.lu).post(f"/api/quizzes/{self.quiz.id}/start/")
+        self.assertEqual(r.status_code, 403)
+        self.assertIn("mensuel", r.json()["detail"])
+
+
+@override_settings(DEBUG=True, CINETPAY_MOCK=True)
+class InvoiceDirectPaymentTests(Base):
+    """Règlement Mobile Money (CinetPay) d'un montant libre sur sa propre facture (§D)."""
+
+    def setUp(self):
+        super().setUp()
+        self.invoice = Invoice.objects.create(school=self.school, learner=self.learner, kind="invoice", total=90000, status="issued")
+
+    def test_learner_pays_partial_amount_rejects_overpayment_and_other_learners(self):
+        lc = self.as_user(self.lu)
+        r = lc.post(f"/api/invoices/{self.invoice.id}/pay/", {"amount": 30000, "phone": "0707070707"}, format="json")
+        self.assertEqual(r.status_code, 201, r.content)
+        body = r.json()
+        self.assertIn("/checkout/cinetpay-mock", body["redirect_url"])
+        payment = Payment.objects.get(pk=body["payment"]["id"])
+        self.assertEqual((payment.status, int(payment.amount), payment.method), ("pending", 30000, "cinetpay"))
+        self.assertEqual(lc.post(f"/api/invoices/{self.invoice.id}/pay/", {"amount": 999999}, format="json").status_code, 400)
+        other = make_user("other@a.ci", "learner", self.school)
+        self.assertEqual(self.as_user(other).post(f"/api/invoices/{self.invoice.id}/pay/", {"amount": 1000}, format="json").status_code, 404)
+        return payment
+
+    def test_webhook_confirms_invoice_payment_like_subscription_order(self):
+        payment = self.test_learner_pays_partial_amount_rejects_overpayment_and_other_learners()
+        anon = APIClient()
+        with mock.patch("apps.subscriptions.providers.verify_payment", return_value=("succeeded", {"status": "SUCCESS"})):
+            resp = anon.post("/api/subscriptions/cinetpay-webhook/", {"merchant_transaction_id": payment.provider_ref}, format="json")
+        self.assertEqual(resp.json()["result"], "confirmed")
+        self.invoice.refresh_from_db()
+        self.assertEqual((self.invoice.status, int(self.invoice.paid)), ("partial", 30000))
+        v = self.as_user(self.lu).post(f"/api/payments/{payment.id}/verify/")
+        self.assertEqual(v.status_code, 200)

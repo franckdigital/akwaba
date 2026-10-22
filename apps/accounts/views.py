@@ -256,6 +256,9 @@ class RegisterSerializer(serializers.Serializer):
     organization = serializers.IntegerField(required=False, allow_null=True)
     id_document_no = serializers.CharField(required=False, allow_blank=True, default="")
     quote = serializers.IntegerField(required=False, allow_null=True)
+    # §A/§B — code d'adhésion cohorte (collectivité) : rattache directement organisation + cohorte, et prime sur
+    # le champ `organization` explicite (qui doit alors lui être cohérent).
+    join_code = serializers.CharField(required=False, allow_blank=True, default="")
 
     def validate_email(self, v):
         if User.objects.filter(email=v.lower()).exists():
@@ -300,17 +303,42 @@ class RegisterView(APIView):
             h = hashlib.sha256(id_doc.upper().encode()).hexdigest()
             if Learner.objects.filter(id_document_hash=h).exists():
                 return Response({"id_document_no": "Un dossier existe déjà dans le système pour cette pièce d'identité."}, status=400)
-        organization = Organization.objects.filter(pk=d.get("organization"), school=school, is_active=True).first() if d.get("organization") else None
+        # §A/§B — code d'adhésion cohorte : résolu avec les MÊMES règles de validité que le point d'entrée public
+        # (/api/public/cohort-code/<code>/), et prioritaire sur un éventuel `organization` explicite (qui doit
+        # alors lui être cohérent : on refuse plutôt que d'ignorer silencieusement une incohérence).
+        from apps.organizations.models import resolve_join_code
+        cohort = None
+        join_code = (d.get("join_code") or "").strip()
+        if join_code:
+            cohort, join_error = resolve_join_code(join_code)
+            if cohort is None:
+                return Response({"join_code": join_error or "Code invalide ou cohorte complète."}, status=400)
+            if cohort.school_id != school.id:
+                return Response({"join_code": "Ce code ne correspond pas à cette auto-école."}, status=400)
+            if d.get("organization") and d.get("organization") != cohort.organization_id:
+                return Response({"organization": "Incohérente avec le code cohorte fourni."}, status=400)
+            organization = cohort.organization
+        else:
+            organization = Organization.objects.filter(pk=d.get("organization"), school=school, is_active=True).first() if d.get("organization") else None
         quote = IndividualQuote.objects.filter(pk=d.get("quote")).first() if d.get("quote") else None
         check_limit(school, "learners")
         training = Training.objects.filter(pk=d.get("training"), school=school).first() if d.get("training") else None
+        training = training or (cohort.training if cohort else None)
         user = User.objects.create_user(d["email"], d["password"], first_name=d["first_name"], last_name=d["last_name"],
                                         phone=d["phone"], role=LEARNER, school=school, organization=organization)
-        learner = Learner.objects.create(user=user, school=school, organization=organization, first_name=d["first_name"], last_name=d["last_name"],
+        learner = Learner.objects.create(user=user, school=school, organization=organization, cohort=cohort,
+                                         first_name=d["first_name"], last_name=d["last_name"],
                                          email=d["email"], phone=d["phone"], category=d["category"], training=training,
                                          birth_date=d.get("birth_date"), sex=d["sex"], source="online", status="new",
                                          zone=zone, id_document_no=id_doc, quote=quote, approval_status="pending")
-        audit.log(request, "register", learner, user=user, new={"email": user.email})
+        if cohort is not None:
+            # Facturation individuelle au cumul payé (§C) : facture créée en meilleur effort, jamais bloquante.
+            from apps.billing.services import create_learner_enrollment_invoice
+            try:
+                create_learner_enrollment_invoice(learner, cohort)
+            except Exception:
+                pass
+        audit.log(request, "register", learner, user=user, new={"email": user.email, "cohort": getattr(cohort, "id", None)})
         notify(user, "registration", "Inscription reçue",
               f"Votre inscription à {school} est en cours d'examen par le secrétariat. "
               f"En attendant, téléchargez votre fiche d'engagement : {settings.BACKEND_BASE_URL}/api/public/fiche-engagement/")

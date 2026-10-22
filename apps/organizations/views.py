@@ -12,7 +12,7 @@ from apps.core.permissions import ORG_ADMIN, ORG_ROLES
 from apps.core.viewsets import SCHOOL, BaseModelSerializer, ScopedModelViewSet, make_serializer
 from apps.learners.models import Learner
 
-from .models import Cohort, Contract, Group, Organization, QuoteRequest
+from .models import Cohort, Contract, Group, Organization, QuoteRequest, resolve_join_code
 
 OrganizationSerializer = make_serializer(Organization, extra_fields={
     "learners_count": serializers.SerializerMethodField(),
@@ -131,7 +131,7 @@ class CohortViewSet(ScopedModelViewSet):
     instructor_lookup = "instructors__user"
     limit_key = "cohorts"
     parser_classes = [JSONParser, MultiPartParser, FormParser]
-    action_verbs = {"import_learners": "create", "import_template": "view", "stats": "view"}
+    action_verbs = {"import_learners": "create", "import_template": "view", "stats": "view", "regenerate_code": "change"}
     filterset_fields = ["status", "organization", "training", "agency", "school"]
     search_fields = ["name", "location"]
 
@@ -205,6 +205,16 @@ class CohortViewSet(ScopedModelViewSet):
         from apps.reports.services import cohort_stats
         return Response(cohort_stats(self.get_object()))
 
+    @action(detail=True, methods=["post"], url_path="regenerate-code")
+    def regenerate_code(self, request, pk=None):
+        """Régénère le code d'adhésion (ex. fuite, remplacement) : réservé au personnel (verbe « change »)."""
+        cohort = self.get_object()
+        old = cohort.join_code
+        cohort.join_code = ""
+        cohort.save()
+        audit.log(request, "regenerate_join_code", cohort, old={"join_code": old}, new={"join_code": cohort.join_code})
+        return Response({"join_code": cohort.join_code})
+
 
 class GroupViewSet(ScopedModelViewSet):
     resource = "groups"
@@ -266,6 +276,26 @@ def public_organizations(request):
     if school_id:
         qs = qs.filter(school_id=school_id)
     return Response([{"id": o.id, "name": o.name, "org_type": o.org_type} for o in qs])
+
+
+@api_view(["GET"])
+@permission_classes([AllowAny])
+def public_cohort_code(request, code):
+    """Résolution publique d'un code d'adhésion cohorte (saisi à l'inscription en ligne), sans donnée sensible.
+
+    Jugement : « valide » = cohorte « planned »/« running » (pas de littéral « active » dans Cohort.STATUS) et non
+    complète (capacity=0 = illimité, même convention que OrganizationSubscription.seats). `category` reflète
+    uniquement le contrat lié, le cas échéant (pas de repli sur la catégorie de la formation).
+    """
+    cohort, error = resolve_join_code(code)
+    if cohort is None:
+        return Response({"valid": False, "detail": error}, status=404)
+    return Response({
+        "valid": True,
+        "organization_name": cohort.organization.name if cohort.organization_id else None,
+        "cohort_name": cohort.name,
+        "category": cohort.contract.category if cohort.contract_id else None,
+    })
 
 
 class PublicQuoteView(APIView):

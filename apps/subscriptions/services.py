@@ -54,6 +54,46 @@ def check_cohort_seat(cohort, learner=None):
                                              "Augmentez le nombre de places pour ajouter des bénéficiaires."})
 
 
+# --------------------------------------------------------------------------- accès au mois (facturation échelonnée §C)
+def add_months(d, n):
+    """Ajoute n mois à une date, jour borné à la fin du mois cible (ex. 31/01 + 1 mois -> 28/02)."""
+    import calendar
+    month_index = d.month - 1 + int(n)
+    year = d.year + month_index // 12
+    month = month_index % 12 + 1
+    day = min(d.day, calendar.monthrange(year, month)[1])
+    return d.replace(year=year, month=month, day=day)
+
+
+def _subscription_duration_months(subscription):
+    """Durée (en mois pleins, minimum 1) de la période d'abonnement d'entreprise couvrant la cohorte."""
+    months = ((subscription.end_date.year - subscription.start_date.year) * 12
+              + (subscription.end_date.month - subscription.start_date.month))
+    return max(months, 1)
+
+
+def months_covered_by_payment(invoice, subscription):
+    """Nombre de mois pleins couverts par le cumul payé sur la facture PERSONNELLE de l'apprenant, au prorata de
+    la durée de l'abonnement d'entreprise qui couvre sa cohorte (mensualité = total / durée).
+
+    Une facture intégralement payée couvre TOUTE la période de l'abonnement, même si l'arrondi mensuel laisserait
+    croire le contraire (ex. 85 000 FCFA payés en une fois pour 3 mensualités de 28 334 : 85000 // 28334 = 2 mois
+    seulement en arithmétique entière, ce qui pénaliserait à tort un paiement intégral en une fois).
+    """
+    duration = _subscription_duration_months(subscription)
+    if invoice.paid >= invoice.total:
+        return duration
+    monthly = Decimal(invoice.total) / duration
+    if monthly <= 0:
+        return duration    # facture à 0 : rien à répartir, on ne bloque pas sur une division par zéro
+    return int(Decimal(invoice.paid) // monthly)
+
+
+def access_valid_until(subscription, months_covered):
+    """Dernier jour d'accès couvert par le cumul payé, à partir du début de l'abonnement d'entreprise."""
+    return add_months(subscription.start_date, months_covered)
+
+
 # --------------------------------------------------------------------------- droits d'accès
 def learner_has_access(learner, feature="quizzes"):
     if not learner.school.subscription_required:
@@ -64,20 +104,49 @@ def learner_has_access(learner, feature="quizzes"):
         if getattr(sub.plan, flag) and sub.plan.category in ("", learner.category):
             return True
     if learner.cohort_id:
+        from apps.billing.models import Invoice
         for sub in OrganizationSubscription.objects.filter(cohorts=learner.cohort_id, status="active", start_date__lte=t,
                                                            end_date__gte=t).select_related("plan"):
-            if getattr(sub.plan, flag) and sub.plan.category in ("", learner.category):
+            if not (getattr(sub.plan, flag) and sub.plan.category in ("", learner.category)):
+                continue
+            # Palier additionnel (§C) : si une facture individuelle existe pour cette cohorte, l'accès est en plus
+            # conditionné au cumul payé dessus (mensualité). Sans facture individuelle (ex. tarif négocié pris en
+            # charge intégralement par l'organisation), on n'ajoute AUCUNE contrainte : comportement inchangé.
+            invoice = (Invoice.objects.filter(learner=learner, cohort_id=learner.cohort_id, kind="invoice")
+                      .order_by("-issue_date", "-pk").first())
+            if invoice is None:
+                return True
+            if invoice.paid >= invoice.total:
+                return True
+            months = months_covered_by_payment(invoice, sub)
+            if t <= access_valid_until(sub, months):
                 return True
     return False
 
 
 def require_access(learner, feature):
-    if not learner_has_access(learner, feature):
-        if learner.cohort_id and OrganizationSubscription.objects.filter(cohorts=learner.cohort_id, status="suspended", end_date__gte=today()).exists():
+    if learner_has_access(learner, feature):
+        return
+    t = today()
+    if learner.cohort_id:
+        if OrganizationSubscription.objects.filter(cohorts=learner.cohort_id, status="suspended", end_date__gte=t).exists():
             raise PermissionDenied("L'abonnement de votre entreprise est suspendu (défaut de paiement). Contactez votre responsable.",
                                    code="subscription_suspended")
-        raise PermissionDenied("Abonnement requis : souscrivez à un plan (menu « Mon abonnement ») pour accéder à ce contenu.",
-                               code="subscription_required")
+        # Abonnement d'entreprise actif mais mensualité personnelle en retard (§C) : message distinct, plus parlant
+        # que le générique "abonnement requis" (approximation : on ne revérifie pas ici le flag/catégorie du plan,
+        # seulement qu'un abonnement actif couvre la cohorte — learner_has_access reste la seule source de vérité
+        # pour l'autorisation elle-même).
+        from apps.billing.models import Invoice
+        sub = (OrganizationSubscription.objects.filter(cohorts=learner.cohort_id, status="active", start_date__lte=t, end_date__gte=t)
+               .select_related("plan").first())
+        if sub is not None:
+            invoice = (Invoice.objects.filter(learner=learner, cohort_id=learner.cohort_id, kind="invoice")
+                      .order_by("-issue_date", "-pk").first())
+            if invoice is not None and invoice.paid < invoice.total:
+                raise PermissionDenied("Votre paiement mensuel n'est pas à jour. Réglez votre mensualité pour continuer.",
+                                       code="installment_due")
+    raise PermissionDenied("Abonnement requis : souscrivez à un plan (menu « Mon abonnement ») pour accéder à ce contenu.",
+                           code="subscription_required")
 
 
 # --------------------------------------------------------------------------- commande

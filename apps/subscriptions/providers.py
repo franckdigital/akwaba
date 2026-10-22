@@ -78,12 +78,21 @@ def _token():
     return token
 
 
-def init_payment(order, user, phone, designation, base_url=None):
-    """Démarre un paiement. -> InitResult(reference, redirect_url)."""
+def init_payment(order, user, phone, designation, base_url=None, amount=None, currency=None, return_qs=None):
+    """Démarre un paiement. -> InitResult(reference, redirect_url).
+
+    `order` est l'objet « payable » principal : un SubscriptionOrder pour le flux d'abonnement (comportement
+    historique, inchangé : montant/devise/URL de retour lus sur l'objet), ou tout autre objet muni d'un `.pk`
+    (ex. un billing.Payment pas encore enregistré) dès lors que `amount`/`currency`/`return_qs` sont fournis
+    explicitement — ce qui permet de régler un montant libre (facture apprenant) sans dépendre d'un SubscriptionOrder.
+    """
     ref = new_reference()
     base = (base_url or settings.PUBLIC_WEB_URL).rstrip("/")
+    amount = order.amount if amount is None else amount
+    currency = currency or order.currency
+    qs = return_qs or f"order={order.pk}"
     if is_mock():
-        url = f"{base}/checkout/cinetpay-mock?order={order.pk}&tid={ref}"
+        url = f"{base}/checkout/cinetpay-mock?{qs}&tid={ref}"
         logger.warning("CinetPay MOCK — pas d'appel réseau (%s)", url)
         return InitResult(ref, url, {"mock": True}, mock=True)
 
@@ -92,9 +101,9 @@ def init_payment(order, user, phone, designation, base_url=None):
     local = normalize_ci_phone(phone)
     if len(local) != 14:
         raise PaymentError("Numéro de téléphone invalide : saisissez un mobile ivoirien à 10 chiffres (ex. 0707123456).")
-    back = f"{base}/checkout/return?order={order.pk}"
+    back = f"{base}/checkout/return?{qs}"
     payload = {
-        "currency": order.currency, "merchant_transaction_id": ref, "amount": int(order.amount), "lang": "fr",
+        "currency": currency, "merchant_transaction_id": ref, "amount": int(amount), "lang": "fr",
         "designation": designation[:120], "client_email": user.email, "client_phone_number": local,
         "client_first_name": (user.first_name or "Client")[:255], "client_last_name": (user.last_name or "Akwaba")[:255],
         "direct_pay": False, "success_url": back, "failed_url": back,
