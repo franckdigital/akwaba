@@ -3,10 +3,12 @@ from datetime import date
 from decimal import Decimal
 from io import BytesIO
 
+from django.conf import settings
 from django.core.mail import send_mail
 from django.utils import timezone
 from rest_framework.exceptions import ValidationError
 
+from apps.core.messaging import send_text
 from apps.core.notify import notify
 
 from .models import ACTIVE_STATUSES, PERIODIC_CATEGORIES, IndividualQuote, RecyclingReminderLog, RecyclingReminderSettings
@@ -202,9 +204,11 @@ def send_quote(quote, channel):
                   f"Bonjour {quote.first_name},\n\nVeuillez trouver votre devis en pièce jointe.\n\n"
                   f"Tarif : {int(quote.price)} FCFA.\n\nAkwaba Auto-École",
                   None, [quote.email], fail_silently=True)
-    elif channel == "whatsapp":
-        import logging
-        logging.getLogger("akwaba.notify").info("[whatsapp] -> %s : devis #%s (%s FCFA)", quote.phone, quote.pk, int(quote.price))
+    elif channel == "whatsapp" and quote.phone:
+        pdf_url = f"{settings.BACKEND_BASE_URL}{quote.quote_pdf.url}"
+        send_text("whatsapp", quote.phone,
+                  f"Bonjour {quote.first_name}, voici votre devis Akwaba Auto-École : {pdf_url}\n"
+                  f"Tarif : {int(quote.price)} FCFA.")
     return quote
 
 

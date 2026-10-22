@@ -321,6 +321,14 @@ class RegisterView(APIView):
         else:
             organization = Organization.objects.filter(pk=d.get("organization"), school=school, is_active=True).first() if d.get("organization") else None
         quote = IndividualQuote.objects.filter(pk=d.get("quote")).first() if d.get("quote") else None
+        if d.get("quote") and quote is None:
+            return Response({"quote": "Devis introuvable."}, status=400)
+        if quote is not None:
+            if quote.learner_id is not None:
+                return Response({"quote": "Ce devis a déjà été utilisé pour une inscription."}, status=400)
+            if quote.status not in ("quoted", "approved", "accepted"):
+                return Response({"quote": "Ce devis n'est pas encore disponible : attendez qu'il vous soit envoyé "
+                                           "par l'auto-école avant de créer votre compte."}, status=400)
         check_limit(school, "learners")
         training = Training.objects.filter(pk=d.get("training"), school=school).first() if d.get("training") else None
         training = training or (cohort.training if cohort else None)
@@ -333,9 +341,11 @@ class RegisterView(APIView):
                                          zone=zone, id_document_no=id_doc, quote=quote, approval_status="pending")
         if quote is not None:
             # Parcours devis -> inscription (§2) : relie le devis à l'apprenant résultant (en miroir de
-            # Learner.quote, pour pouvoir consulter IndividualQuote.learner directement).
+            # Learner.quote, pour pouvoir consulter IndividualQuote.learner directement), et marque le
+            # devis comme accepté — c'est la création du compte qui vaut souscription à cette demande.
             quote.learner = learner
-            quote.save(update_fields=["learner", "updated_at"])
+            quote.status = "accepted"
+            quote.save(update_fields=["learner", "status", "updated_at"])
         if cohort is not None:
             # Facturation individuelle au cumul payé (§C) : facture créée en meilleur effort, jamais bloquante.
             from apps.billing.services import create_learner_enrollment_invoice
