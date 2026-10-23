@@ -647,13 +647,14 @@ class SubscriptionTests(Base):
         self.assertEqual((inv.status, int(inv.paid)), ("paid", 5000))   # la recette apparaît dans la facturation de l'auto-école
         self.assertEqual(lc.post(f"/api/quizzes/{self.quiz.id}/start/").status_code, 201)
 
-    def test_renewal_stacks_after_current_period(self):
+    def test_cannot_resubscribe_while_current_subscription_active(self):
+        """Un seul abonnement actif à la fois : impossible d'en racheter un second tant que le premier n'a pas expiré."""
         lc = self.as_user(self.lu)
-        for _ in range(2):
-            oid = self._buy(lc, self.ip).json()["order"]["id"]
-            lc.post(f"/api/subscription-orders/{oid}/mock-confirm/", {"success": True}, format="json")
-        first, second = LearnerSubscription.objects.order_by("start_date")
-        self.assertEqual(second.start_date, first.end_date + timedelta(days=1))
+        oid = self._buy(lc, self.ip).json()["order"]["id"]
+        lc.post(f"/api/subscription-orders/{oid}/mock-confirm/", {"success": True}, format="json")
+        res = self._buy(lc, self.ip)
+        self.assertEqual(res.status_code, 400)
+        self.assertEqual(LearnerSubscription.objects.filter(learner=self.learner).count(), 1)
 
     def test_failed_payment_does_not_activate(self):
         lc = self.as_user(self.lu)
@@ -825,8 +826,9 @@ class SubscriptionAdvancedTests(Base):
     def test_suspend_and_reactivate_all_plans_of_an_organization(self):
         sec = self.as_user(self.secretary)
         self._cash_org(sec)
+        # Un seul abonnement actif à la fois par cohorte : le second achat porte sur une AUTRE cohorte.
         self._cash_org(sec, plan=Plan.objects.create(audience="organization", name="Autre", price=1000, max_cohorts=1, included_beneficiaries=10),
-                       )
+                       cohorts=[self.cohort2.id])
         member = self._member()
         mc = self.as_user(member)
         self.assertEqual(mc.post(f"/api/quizzes/{self.quiz.id}/start/").status_code, 201)

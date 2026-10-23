@@ -221,8 +221,32 @@ def build_order(user, plan, data):
     if learner and plan.category and plan.category != learner.category:
         raise ValidationError({"plan": f"Ce plan est réservé au permis {plan.category}."})
 
+    # Un seul abonnement actif à la fois (particulier) : il faut attendre la fin de l'abonnement en
+    # cours (qu'il vienne d'un achat individuel ou d'une cohorte d'organisation) avant d'en souscrire
+    # un autre, quel que soit le plan visé.
+    if learner is not None:
+        t = today()
+        current = LearnerSubscription.objects.filter(learner=learner, status="active", start_date__lte=t, end_date__gte=t).order_by("-end_date").first()
+        if current is None and learner.cohort_id:
+            org_sub = OrganizationSubscription.objects.filter(cohorts=learner.cohort_id, status="active",
+                                                               start_date__lte=t, end_date__gte=t).order_by("-end_date").first()
+            if org_sub is not None:
+                current = org_sub
+        if current is not None:
+            raise ValidationError({"plan": f"Vous avez déjà un abonnement en cours jusqu'au {current.end_date:%d/%m/%Y}. "
+                                           "Patientez jusqu'à son expiration pour souscrire un autre abonnement."})
+
     cohort_ids, extra, seats = [], 0, 0
     if plan.audience == "organization":
+        # Même règle côté organisation : pas de double abonnement actif sur une cohorte déjà couverte.
+        ids_preview = [int(i) for i in as_list(data, "cohorts")] or ([plan.cohort_id] if plan.cohort_id else [])
+        if ids_preview:
+            t = today()
+            clash = OrganizationSubscription.objects.filter(cohorts__in=ids_preview, status="active",
+                                                             start_date__lte=t, end_date__gte=t).select_related("plan").first()
+            if clash is not None:
+                raise ValidationError({"cohorts": f"Une cohorte sélectionnée a déjà un abonnement actif (« {clash.plan.name} », "
+                                                  f"jusqu'au {clash.end_date:%d/%m/%Y}) : attendez son expiration."})
         from apps.learners.models import Learner
         from apps.organizations.models import Cohort
         ids = [int(i) for i in as_list(data, "cohorts")]
