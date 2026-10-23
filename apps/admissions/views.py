@@ -203,11 +203,15 @@ class IndividualQuoteViewSet(ScopedModelViewSet):
 @api_view(["GET"])
 @permission_classes([AllowAny])
 def public_recycling_items(request):
-    """§3.3 — catalogue des modules/packages de recyclage théorique, pour le formulaire public de devis."""
+    """§3.3 — catalogue des modules/packages de recyclage, pour le formulaire public de devis et l'achat
+    à la carte côté candidat (web/mobile n'ont pas accès au CRUD staff /recycling-items/)."""
     school_id = request.query_params.get("school")
+    kind = request.query_params.get("kind")
     qs = RecyclingItem.objects.filter(is_active=True)
     if school_id:
         qs = qs.filter(school_id=school_id)
+    if kind:
+        qs = qs.filter(kind=kind)
     return Response([{"id": i.id, "kind": i.kind, "label": i.label, "price": i.price,
                       "sessions_count": i.sessions_count, "duration_minutes": i.duration_minutes} for i in qs])
 
