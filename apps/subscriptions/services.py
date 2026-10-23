@@ -29,8 +29,33 @@ def as_list(data, key):
 
 
 # --------------------------------------------------------------------------- tarification
-def price_for(plan, extra_seats=0):
-    """Prix d'une commande : prix du plan + places supplémentaires (organisations uniquement)."""
+RECYCLING_ITEM_KIND = {"theory_refresh": "module", "practical_refresh": "package"}
+
+
+def recycling_items_for(plan, recycling_item_ids):
+    """Résout la sélection à la carte (modules/packages du catalogue RecyclingItem) pour un des 2 plans de
+    recyclage. Renvoie [] si le plan n'est pas concerné ou si aucun id n'est fourni (= achat du pack complet,
+    comportement inchangé). Si des ids sont fournis mais qu'aucun n'est valide, lève une erreur explicite plutôt
+    que de laisser facturer 0 FCFA en silence."""
+    kind = RECYCLING_ITEM_KIND.get(plan.linked_offer)
+    if not kind or not recycling_item_ids:
+        return []
+    from apps.admissions.models import RecyclingItem
+    qs = RecyclingItem.objects.filter(pk__in=recycling_item_ids, kind=kind, is_active=True)
+    if plan.school_id:                         # plan rattaché à une auto-école précise (cas normal, cf. sync_plan_for_offer_config)
+        qs = qs.filter(school_id=plan.school_id)
+    items = list(qs)
+    if not items:
+        raise ValidationError({"recycling_items": "Aucun des éléments sélectionnés n'est valide pour ce plan."})
+    return items
+
+
+def price_for(plan, extra_seats=0, recycling_item_ids=None):
+    """Prix d'une commande : prix du plan + places supplémentaires (organisations uniquement) — ou, pour un achat
+    à la carte sur un plan de recyclage, somme des éléments choisis du catalogue RecyclingItem."""
+    items = recycling_items_for(plan, recycling_item_ids)
+    if items:
+        return sum((Decimal(i.price) for i in items), Decimal(0))
     extra = plan.extra_beneficiary_price * extra_seats if plan.audience == "organization" else 0
     return Decimal(plan.price) + Decimal(extra)
 
@@ -268,21 +293,32 @@ def build_order(user, plan, data):
             raise ValidationError({"extra_seats": f"Les cohortes choisies comptent {needed} bénéficiaires pour {seats} place(s) : "
                                                   f"ajoutez au moins {needed - seats} place(s) supplémentaire(s)."})
         cohort_ids = [c.id for c in cohorts]
+
+    # Achat à la carte (recyclage uniquement) : modules/séances choisis plutôt que le pack complet au prix plat.
+    recycling_item_ids = [int(i) for i in as_list(data, "recycling_items")]
+    recycling_items = recycling_items_for(plan, recycling_item_ids)
     return dict(school=school, learner=learner, organization=org, cohort_ids=cohort_ids, extra_seats=extra, seats=seats,
-                amount=price_for(plan, extra), currency=plan.currency)
+                amount=price_for(plan, extra, recycling_item_ids), currency=plan.currency, recycling_items=recycling_items)
 
 
 @transaction.atomic
 def create_order(user, plan, data):
     from apps.billing.models import Invoice, InvoiceLine
     params = build_order(user, plan, data)
+    recycling_items = params.pop("recycling_items")
     order = SubscriptionOrder.objects.create(plan=plan, audience=plan.audience, created_by=user, method=data.get("method") or "cinetpay",
                                              payer_phone=data.get("phone") or "", **params)
+    if recycling_items:
+        order.recycling_items.set(recycling_items)
     if plan.audience != "school" and order.amount > 0:
         invoice = Invoice.objects.create(school=order.school, learner=order.learner, organization=order.organization,
                                          title=f"Abonnement {plan.name}", total=order.amount, issue_date=today())
-        InvoiceLine.objects.create(invoice=invoice, description=f"Abonnement {plan.name} ({plan.get_billing_cycle_display()})",
-                                   quantity=1, unit_price=plan.price)
+        if recycling_items:        # achat à la carte : une ligne par élément choisi, plutôt qu'une ligne unique pour le pack
+            for item in recycling_items:
+                InvoiceLine.objects.create(invoice=invoice, description=item.label, quantity=1, unit_price=item.price)
+        else:
+            InvoiceLine.objects.create(invoice=invoice, description=f"Abonnement {plan.name} ({plan.get_billing_cycle_display()})",
+                                       quantity=1, unit_price=plan.price)
         if order.extra_seats:
             InvoiceLine.objects.create(invoice=invoice, description="Places supplémentaires", quantity=order.extra_seats,
                                        unit_price=plan.extra_beneficiary_price)

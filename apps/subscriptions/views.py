@@ -55,6 +55,7 @@ class OrderSerializer(serializers.ModelSerializer):
     school_name = serializers.CharField(source="school.__str__", read_only=True)
     invoice_number = serializers.CharField(source="invoice.number", read_only=True, default=None)
     status_label = serializers.CharField(source="get_status_display", read_only=True)
+    recycling_items = serializers.SerializerMethodField()
 
     class Meta:
         model = SubscriptionOrder
@@ -62,6 +63,11 @@ class OrderSerializer(serializers.ModelSerializer):
 
     def get_has_proof(self, o):
         return bool(o.proof)
+
+    def get_recycling_items(self, o):
+        """Détail (pas seulement les id) des modules/séances choisis pour un achat à la carte (recyclage) ;
+        liste vide = achat du pack complet au prix plat du plan (comportement inchangé)."""
+        return [{"id": i.id, "label": i.label, "price": i.price} for i in o.recycling_items.all()]
 
 
 class OrderViewSet(ScopedModelViewSet):

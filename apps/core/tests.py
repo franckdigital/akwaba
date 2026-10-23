@@ -2,6 +2,7 @@ import hashlib
 import hmac
 import json
 from datetime import timedelta
+from decimal import Decimal
 from io import BytesIO
 
 from django.conf import settings
@@ -12,7 +13,7 @@ from openpyxl import Workbook
 from rest_framework.test import APIClient
 
 from apps.accounts.models import User
-from apps.billing.models import Invoice, Payment
+from apps.billing.models import Invoice, InvoiceLine, Payment
 from apps.core.models import Notification
 from apps.exams.models import Certificate
 from apps.learners.models import Learner
@@ -760,6 +761,52 @@ class SubscriptionTests(Base):
         self.assertEqual((lm["audience"], lm["required"], lm["current"]), ("individual", True, None))
         Subscription.objects.update(end_date=timezone.localdate() - timedelta(days=1))
         self.assertEqual(expire_subscriptions(), 1)
+
+    def test_recycling_a_la_carte_selection_prices_sum_of_selected_items(self):
+        """Plan de recyclage théorique : achat à la carte (modules choisis) -> montant = somme des modules
+        sélectionnés, PAS le prix plat du plan ; sans sélection -> comportement inchangé (prix plat)."""
+        from apps.admissions.models import RecyclingItem
+        plan = Plan.objects.create(audience="individual", school=self.school, name="Recyclage théorique", price=20000,
+                                   billing_cycle="yearly", linked_offer="theory_refresh")
+        modules = [RecyclingItem.objects.create(school=self.school, kind="module", label=f"Module {i}", price=p)
+                   for i, p in enumerate([3000, 4000, 5000, 6000, 7000], start=1)]
+        other_school_module = RecyclingItem.objects.create(school=self.other, kind="module", label="Autre école", price=1000)
+        inactive = RecyclingItem.objects.create(school=self.school, kind="module", label="Inactif", price=9000, is_active=False)
+        lc = self.as_user(self.lu)
+
+        # à la carte : 2 modules choisis -> montant = somme des 2, et une ligne de facture par module
+        chosen = [modules[0].id, modules[1].id]
+        r = self._buy(lc, plan, recycling_items=chosen)
+        self.assertEqual(r.status_code, 201, r.content)
+        body = r.json()["order"]
+        self.assertEqual(int(body["amount"]), 3000 + 4000)
+        order = SubscriptionOrder.objects.get(pk=body["id"])
+        self.assertEqual(sorted(order.recycling_items.values_list("id", flat=True)), sorted(chosen))
+        self.assertEqual(sorted(InvoiceLine.objects.filter(invoice=order.invoice).values_list("unit_price", flat=True)),
+                         [Decimal("3000"), Decimal("4000")])
+        self.assertEqual({i["label"] for i in body["recycling_items"]}, {"Module 1", "Module 2"})
+
+        # ids d'une autre auto-école ou inactifs : ignorés silencieusement, jamais facturés
+        order.delete()
+        r2 = self._buy(lc, plan, recycling_items=[modules[2].id, other_school_module.id, inactive.id])
+        self.assertEqual(r2.status_code, 201, r2.content)
+        self.assertEqual(int(r2.json()["order"]["amount"]), 5000)
+
+        # aucun id valide fourni -> erreur explicite plutôt qu'une commande à 0 FCFA
+        SubscriptionOrder.objects.all().delete()
+        r3 = self._buy(lc, plan, recycling_items=[other_school_module.id])
+        self.assertEqual(r3.status_code, 400)
+        self.assertIn("recycling_items", r3.json())
+        self.assertFalse(SubscriptionOrder.objects.exists())
+
+        # sans sélection : comportement inchangé, pack complet au prix plat du plan, une seule ligne de facture
+        r4 = self._buy(lc, plan)
+        self.assertEqual(r4.status_code, 201, r4.content)
+        self.assertEqual(int(r4.json()["order"]["amount"]), 20000)
+        order4 = SubscriptionOrder.objects.get(pk=r4.json()["order"]["id"])
+        self.assertEqual(order4.recycling_items.count(), 0)
+        self.assertEqual(list(InvoiceLine.objects.filter(invoice=order4.invoice).values_list("unit_price", flat=True)), [Decimal("20000")])
+        self.assertEqual(r4.json()["order"]["recycling_items"], [])
 
 
 from django.core.files.uploadedfile import SimpleUploadedFile

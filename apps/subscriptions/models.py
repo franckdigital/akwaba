@@ -15,6 +15,8 @@ class SubscriptionOrder(TimeStamped):
                                      related_name="subscription_orders")
     created_by = models.ForeignKey("accounts.User", null=True, blank=True, on_delete=models.SET_NULL, related_name="+")
     cohort_ids = models.JSONField(default=list, blank=True)
+    recycling_items = models.ManyToManyField("admissions.RecyclingItem", blank=True, related_name="subscription_orders",
+                                             help_text="Éléments choisis pour un achat à la carte (recyclage) ; vide = achat du pack complet.")
     extra_seats = models.PositiveIntegerField(default=0)
     seats = models.PositiveIntegerField(default=0)
     amount = models.DecimalField(max_digits=12, decimal_places=0, default=0)
