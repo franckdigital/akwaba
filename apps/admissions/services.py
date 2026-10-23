@@ -263,10 +263,9 @@ def sync_plan_for_offer_config(config):
     - `is_active` du plan reflète `config.is_active` (désactiver la config retire le plan de la vente au prochain
       sync, puisque `Plan.is_on_sale` vaut `is_active and dans la fenêtre de vente` — on laisse available_from/
       until vides pour que is_on_sale ne dépende que de is_active) ;
-    - `billing_cycle="yearly"` (365 jours, cf. CYCLE_DAYS) : un recyclage/une démarche de permis est un accès
-      « jusqu'à ce que la prestation soit terminée », pas un abonnement récurrent court — 1 an est la durée la
-      plus proche déjà utilisée pour un plan individuel non récurrent dans ce projet (ex. "Permis B — Annuel",
-      cf. seed_plans.py) et reste largement suffisant pour couvrir une démarche administrative.
+    - `billing_cycle`/`custom_days` sont désormais paramétrables depuis l'admin (champ équivalent sur
+      OfferTypeConfig, même liste de choix) plutôt que figés à "yearly" — la période de validité de chaque
+      formule peut donc être ajustée par la secrétaire/direction sans toucher au code.
     """
     from apps.schools.models import Plan
     plan, _ = Plan.objects.update_or_create(
@@ -275,7 +274,8 @@ def sync_plan_for_offer_config(config):
             audience="individual",
             name=config.title or config.get_offer_display(),
             price=config.base_price,
-            billing_cycle="yearly",
+            billing_cycle=config.billing_cycle,
+            custom_days=config.custom_days,
             includes_courses=config.includes_courses,
             includes_quizzes=config.includes_quizzes,
             includes_exams=config.includes_exams,

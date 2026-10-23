@@ -90,6 +90,14 @@ class OfferTypeConfig(TimeStamped):
     title = models.CharField(max_length=120, blank=True, help_text="Titre affiché ; vide = libellé par défaut de l'offre.")
     description = models.TextField(blank=True)
     base_price = models.DecimalField(max_digits=12, decimal_places=0, default=0)
+    # Dupliqué depuis apps.schools.models.BILLING_CYCLES (à garder synchronisé si cette liste évolue) plutôt
+    # qu'importé : schools.models importe déjà OFFERS depuis ce module, un import en sens inverse créerait
+    # un cycle d'imports circulaire au chargement de Django.
+    BILLING_CYCLES = [("monthly", "1 mois"), ("quarterly", "3 mois"), ("semi_annual", "6 mois"), ("yearly", "12 mois (1 an)"),
+                      ("lifetime", "À vie"), ("custom", "Durée personnalisée (jours)")]
+    billing_cycle = models.CharField(max_length=15, choices=BILLING_CYCLES, default="yearly",
+                                     help_text="Durée de validité de l'abonnement généré pour cette formule.")
+    custom_days = models.PositiveIntegerField("Durée personnalisée (jours)", null=True, blank=True)
     courses = models.ManyToManyField("pedagogy.Course", blank=True, related_name="offer_type_configs")
     recycling_items = models.ManyToManyField(RecyclingItem, blank=True, related_name="offer_type_configs")
     includes_courses = models.BooleanField(default=True)
