@@ -1013,7 +1013,13 @@ class SubscriptionAdvancedTests(Base):
         awa = Learner.objects.get(user__email="awa@x.ci")
         self.assertEqual((awa.cohort_id, awa.organization_id, awa.employee_ref), (self.cohort.id, self.org.id, "EMP-1"))
         self.assertEqual(User.objects.get(email="fatou@x.ci").organization_id, self.org.id)
-        # les identifiants générés fonctionnent
+        # les identifiants générés fonctionnent : première connexion d'un apprenant rattaché à une cohorte =
+        # code cohorte obligatoire (preuve d'appartenance), plus nécessaire ensuite
+        bad = APIClient().post("/api/auth/login/", {"email": "awa@x.ci", "password": creds["awa@x.ci"]["password"]}, format="json")
+        self.assertEqual(bad.status_code, 400)
+        ok = APIClient().post("/api/auth/login/", {"email": "awa@x.ci", "password": creds["awa@x.ci"]["password"],
+                                                    "join_code": self.cohort.join_code}, format="json")
+        self.assertEqual(ok.status_code, 200)
         self.assertEqual(APIClient().post("/api/auth/login/", {"email": "awa@x.ci", "password": creds["awa@x.ci"]["password"]}, format="json").status_code, 200)
         self.assertEqual(self.as_user(self.secretary).post("/api/users/import/", {"file": self._users_xlsx(rows)}, format="multipart").status_code, 403)
         self.assertEqual(dc.get("/api/users/import-template/").status_code, 200)

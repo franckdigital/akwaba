@@ -1,5 +1,6 @@
 from datetime import date, timedelta
 
+from django.core.mail import send_mail
 from django.db import transaction
 from django.http import HttpResponse
 from rest_framework import serializers
@@ -149,8 +150,31 @@ class CohortViewSet(ScopedModelViewSet):
 
     @action(detail=True, methods=["post"], url_path="import-learners", parser_classes=[MultiPartParser])
     def import_learners(self, request, pk=None):
+        import secrets
+        import string
+
         from openpyxl import load_workbook
+
+        from apps.accounts.models import User
+        from apps.core.messaging import send_text
+        from apps.core.permissions import LEARNER
         from apps.schools.services import check_limit
+
+        def gen_password():
+            alphabet = string.ascii_uppercase + string.ascii_lowercase + string.digits
+            return "".join(secrets.choice(alphabet) for _ in range(10))
+
+        def send_credentials(user, password):
+            # Même circuit d'envoi que les devis (e-mail réel, WhatsApp via send_text — à renseigner dans
+            # backend/.env, sinon simplement journalisé, cf. apps.core.messaging).
+            body = (f"Bonjour {user.first_name}, votre compte Akwaba Auto-École a été créé.\n"
+                   f"Identifiant : {user.email}\nMot de passe provisoire : {password}\n"
+                   "Connectez-vous sur l'application pour commencer, puis pensez à changer votre mot de passe.")
+            if user.email:
+                send_mail("Votre compte Akwaba Auto-École", body, None, [user.email], fail_silently=True)
+            if user.phone:
+                send_text("whatsapp", user.phone, body)
+
         cohort = self.get_object()
         f = request.FILES.get("file")
         if not f:
@@ -165,11 +189,14 @@ class CohortViewSet(ScopedModelViewSet):
         header = [HEADERS.get(str(h or "").strip().lower()) for h in rows[0]]
         if "last_name" not in header or "first_name" not in header:
             return Response({"file": "Colonnes 'Nom' et 'Prénom' obligatoires."}, status=400)
-        created, errors = 0, []
+        create_accounts = str(request.data.get("create_accounts", "")).lower() in ("1", "true", "on", "yes")
+        created, accounts_created, errors = 0, 0, []
         used = cohort.learners.count()
         emails = set(Learner.objects.filter(school=cohort.school).exclude(email="").values_list("email", flat=True))
         refs = set(Learner.objects.filter(school=cohort.school, organization=cohort.organization)
                    .exclude(employee_ref="").values_list("employee_ref", flat=True))
+        user_emails = set(User.objects.exclude(email="").values_list("email", flat=True))
+        pending_credentials = []   # (user, mot de passe) : notifiés après le commit, pour ne jamais notifier sur une transaction annulée
         with transaction.atomic():
             for idx, row in enumerate(rows[1:], start=2):
                 rec = {h: ("" if v is None else str(v).strip()) for h, v in zip(header, row) if h}
@@ -179,6 +206,10 @@ class CohortViewSet(ScopedModelViewSet):
                     errors.append({"row": idx, "message": "Nom ou prénom manquant."})
                 elif rec.get("email") and rec["email"].lower() in emails:
                     errors.append({"row": idx, "message": "E-mail déjà utilisé."})
+                elif create_accounts and rec.get("email") and rec["email"].lower() in user_emails:
+                    errors.append({"row": idx, "message": "E-mail déjà associé à un compte existant."})
+                elif create_accounts and not rec.get("email"):
+                    errors.append({"row": idx, "message": "E-mail requis pour créer un compte de connexion."})
                 elif rec.get("employee_ref") and rec["employee_ref"] in refs:
                     errors.append({"row": idx, "message": "Matricule déjà importé."})
                 elif used >= cohort.capacity:
@@ -187,18 +218,30 @@ class CohortViewSet(ScopedModelViewSet):
                     errors.append({"row": idx, "message": "Toutes les places de l'abonnement sont utilisées."})
                 else:
                     check_limit(cohort.school, "learners")
+                    user = None
+                    if create_accounts:
+                        password = gen_password()
+                        user = User.objects.create_user(
+                            rec["email"].lower(), password, first_name=rec["first_name"], last_name=rec["last_name"],
+                            phone=rec.get("phone", ""), role=LEARNER, school=cohort.school, organization=cohort.organization)
+                        pending_credentials.append((user, password))
+                        accounts_created += 1
                     Learner.objects.create(
-                        school=cohort.school, organization=cohort.organization, cohort=cohort, training=cohort.training,
+                        user=user, school=cohort.school, organization=cohort.organization, cohort=cohort, training=cohort.training,
                         category=cohort.training.category, source="organization", status="registered", agency=cohort.agency,
                         email=rec.get("email", "").lower(), **{k: rec.get(k, "") for k in ("last_name", "first_name", "phone", "employee_ref")})
                     created += 1
                     used += 1
                     if rec.get("email"):
                         emails.add(rec["email"].lower())
+                        user_emails.add(rec["email"].lower())
                     if rec.get("employee_ref"):
                         refs.add(rec["employee_ref"])
-        audit.log(request, "import_learners", cohort, new={"created": created, "errors": len(errors)})
-        return Response({"created": created, "errors": errors, "total": created + len(errors)})
+        for user, password in pending_credentials:
+            try: send_credentials(user, password)
+            except Exception: pass   # l'import ne doit jamais échouer à cause d'un envoi (email/WhatsApp mal configuré, etc.)
+        audit.log(request, "import_learners", cohort, new={"created": created, "accounts_created": accounts_created, "errors": len(errors)})
+        return Response({"created": created, "accounts_created": accounts_created, "errors": errors, "total": created + len(errors)})
 
     @action(detail=True, methods=["get"])
     def stats(self, request, pk=None):

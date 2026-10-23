@@ -103,9 +103,20 @@ class LoginView(APIView):
             return Response({"detail": "Identifiants invalides."}, status=status.HTTP_401_UNAUTHORIZED)
         if not auth.is_active:
             return Response({"detail": "Compte désactivé."}, status=status.HTTP_403_FORBIDDEN)
+        # Première connexion d'un candidat rattaché à une cohorte d'organisation : le code cohorte est
+        # exigé une seule fois, comme preuve d'appartenance (ex. compte créé en masse par le secrétariat,
+        # identifiants transmis séparément du code) — les connexions suivantes n'en ont plus besoin.
+        if auth.role == LEARNER and auth.last_login is None:
+            from apps.learners.models import Learner
+            learner = Learner.objects.filter(user=auth).select_related("cohort").first()
+            if learner is not None and learner.cohort_id:
+                code = (request.data.get("join_code") or "").strip()
+                if not code or code.upper() != (learner.cohort.join_code or "").upper():
+                    return Response({"join_code": "Code cohorte requis pour votre première connexion."}, status=400)
         auth.failed_attempts = 0
         auth.locked_until = None
-        auth.save(update_fields=["failed_attempts", "locked_until"])
+        auth.last_login = timezone.now()
+        auth.save(update_fields=["failed_attempts", "locked_until", "last_login"])
         audit.log(request, "login", user=auth, model="accounts.User")
         return Response(session_payload(auth))
 
