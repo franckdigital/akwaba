@@ -236,9 +236,39 @@ def public_offer_type_configs(request):
     return Response([_offer_type_config_public_payload(c) for c in qs])
 
 
+def _my_quote_row(q, cfg, learner):
+    return {
+        "id": q.id, "offer": q.offer, "offer_label": q.get_offer_display(), "status": q.status,
+        "status_label": q.get_status_display(), "created_at": q.created_at,
+        "base_price": q.base_price, "negotiated_price": q.negotiated_price, "price": q.price,
+        "paid_amount": q.paid_amount, "balance": q.balance,
+        "reject_reason": q.reject_reason, "correction_note": q.correction_note,
+        "offer_type_config": _offer_type_config_public_payload(cfg) if cfg else None,
+        "subscribed": learner_subscribed_to_offer(learner, q.offer),
+    }
+
+
+class MyQuoteCreateSerializer(BaseModelSerializer):
+    """§D — dépôt d'une nouvelle demande de devis par un candidat DÉJÀ authentifié, depuis l'écran « mes
+    demandes » (pas besoin de quitter la session pour repasser par le formulaire public). Volontairement
+    restreint aux champs propres à l'offre : l'identité (nom/prénom/téléphone/e-mail/école/apprenant) n'est
+    jamais acceptée du client ici — elle est auto-remplie depuis le dossier Learner/User du candidat connecté
+    par MyQuotesView.post, pour ne jamais faire confiance à une identité déclarée par un compte déjà authentifié."""
+
+    class Meta:
+        model = IndividualQuote
+        fields = ["offer", "id_document_type", "id_document_no", "residence", "categories_requested",
+                 "license_no", "categories_held", "categories_expiry", "categories_to_add",
+                 "license_photo_front", "license_photo_back"]
+
+    def validate(self, attrs):
+        return services.validate_quote_request(attrs)
+
+
 class MyQuotesView(APIView):
-    """Écran « mes demandes » du candidat : ses devis individuels, chacun avec le paramétrage « ce qui est
-    inclus » (OfferTypeConfig) correspondant à son (school, offer)."""
+    """Écran « mes demandes » du candidat : consultation de ses devis individuels (chacun avec le paramétrage
+    « ce qui est inclus », OfferTypeConfig, correspondant à son (school, offer)) et dépôt d'une nouvelle
+    demande sans quitter la session (§D)."""
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
@@ -248,19 +278,30 @@ class MyQuotesView(APIView):
         quotes = IndividualQuote.objects.filter(learner=learner).select_related("school").prefetch_related("recycling_items")
         configs = {(c.school_id, c.offer): c for c in
                   OfferTypeConfig.objects.filter(is_active=True, school_id__in=[q.school_id for q in quotes])}
-        data = []
-        for q in quotes:
-            cfg = configs.get((q.school_id, q.offer))
-            data.append({
-                "id": q.id, "offer": q.offer, "offer_label": q.get_offer_display(), "status": q.status,
-                "status_label": q.get_status_display(), "created_at": q.created_at,
-                "base_price": q.base_price, "negotiated_price": q.negotiated_price, "price": q.price,
-                "paid_amount": q.paid_amount, "balance": q.balance,
-                "reject_reason": q.reject_reason, "correction_note": q.correction_note,
-                "offer_type_config": _offer_type_config_public_payload(cfg) if cfg else None,
-                "subscribed": learner_subscribed_to_offer(learner, q.offer),
-            })
-        return Response(data)
+        return Response([_my_quote_row(q, configs.get((q.school_id, q.offer)), learner) for q in quotes])
+
+    def post(self, request):
+        """Dépôt authentifié (§D). Body : champs propres à l'offre uniquement (voir MyQuoteCreateSerializer) ;
+        identité/rattachement auto-remplis depuis le dossier du candidat connecté. 201 + même forme qu'une
+        ligne de GET /my-quotes/."""
+        learner = getattr(request.user, "learner_profile", None)
+        if not learner:
+            raise PermissionDenied("Réservé aux candidats disposant d'un dossier apprenant.")
+        ser = MyQuoteCreateSerializer(data=request.data)
+        ser.is_valid(raise_exception=True)
+        quote = ser.save(
+            learner=learner, school=learner.school, organization=learner.organization,
+            last_name=learner.last_name or request.user.last_name,
+            first_name=learner.first_name or request.user.first_name,
+            phone=learner.phone or request.user.phone, email=learner.email or request.user.email,
+        )
+        recycling_ids = request.data.get("recycling_items") or []
+        if recycling_ids:
+            quote.recycling_items.set(RecyclingItem.objects.filter(pk__in=recycling_ids, school=quote.school))
+            quote.base_price = services.compute_recycling_price(quote.recycling_items.all())
+            quote.save(update_fields=["base_price"])
+        cfg = OfferTypeConfig.objects.filter(is_active=True, school_id=quote.school_id, offer=quote.offer).first()
+        return Response(_my_quote_row(quote, cfg, learner), status=201)
 
 
 class PublicIndividualQuoteSerializer(BaseModelSerializer):
@@ -270,15 +311,8 @@ class PublicIndividualQuoteSerializer(BaseModelSerializer):
                    "quote_pdf", "sent_channel", "sent_at", "id_document_hash", "recycling_items"]
 
     def validate(self, attrs):
-        services.check_duplicate(attrs.get("id_document_no", ""))
-        offer = attrs.get("offer")
-        if offer == "extension":
-            services.validate_extension(attrs.get("categories_held", []), attrs.get("categories_to_add", []),
-                                        attrs.get("categories_expiry", {}))
-        if offer in ("theory_refresh", "practical_refresh") and not attrs.get("license_no"):
-            raise ValidationError({"license_no": "Le numéro de permis existant est requis pour cette offre."})
         # Idem IndividualQuoteSerializer.validate : license_photo_front/back non bloquantes au dépôt public.
-        return attrs
+        return services.validate_quote_request(attrs)
 
 
 class PublicIndividualQuoteView(APIView):

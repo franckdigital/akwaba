@@ -6,6 +6,7 @@ import unicodedata
 
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError as DjangoValidationError
+from django.core.mail import send_mail
 from django.db import transaction
 from rest_framework.exceptions import ValidationError
 
@@ -177,6 +178,24 @@ def build_template(school, blank=False):
     return wb
 
 
+def _send_import_credentials(user, password, cohort):
+    """Transmet les identifiants créés par l'import Excel (§B.2) — même circuit que l'import de cohorte
+    (CohortViewSet.import_learners) : e-mail réel + WhatsApp via send_text (journalisé si non configuré).
+    Inclut le code d'adhésion de la cohorte résolue pour cette ligne (ce point d'import peut couvrir
+    plusieurs cohortes/organisations à la fois, contrairement à l'import cohorte-par-cohorte), requis à la
+    première connexion de l'apprenant (cf. LoginView.post)."""
+    from apps.core.messaging import send_text
+    body = (f"Bonjour {user.first_name}, votre compte Akwaba Auto-École a été créé.\n"
+           f"Identifiant : {user.email}\nMot de passe provisoire : {password}\n")
+    if cohort is not None and cohort.join_code:
+        body += f"Code cohorte (requis à votre première connexion) : {cohort.join_code}\n"
+    body += "Connectez-vous sur l'application pour commencer, puis pensez à changer votre mot de passe."
+    if user.email:
+        send_mail("Votre compte Akwaba Auto-École", body, None, [user.email], fail_silently=True)
+    if user.phone:
+        send_text("whatsapp", user.phone, body)
+
+
 def _allowed_roles(actor):
     if actor.role == AKWABA_ADMIN:
         return {k for k, _ in ROLE_CHOICES} - FORBIDDEN_ROLES
@@ -213,6 +232,7 @@ def run_import(fileobj, actor, school, commit):
     existing = set(User.objects.values_list("email", flat=True))
     seen, errors, valid, credentials, created = set(), [], [], [], 0
     to_create = []
+    pending_notify = []   # (user, mot de passe, cohorte) : notifiés après le commit, jamais sur une analyse à blanc
     room = {}    # places restantes par cohorte couverte (simulation pour l'analyse à blanc)
     total = 0
 
@@ -320,8 +340,14 @@ def run_import(fileobj, actor, school, commit):
                         learner.category = category
                     learner.save()
                 credentials.append({"email": item["email"], "name": item["name"], "role": role, "password": password, "generated": not given})
+                pending_notify.append((user, password, cohort))
                 created += 1
         if not commit:
             transaction.set_rollback(True)
+    for user, password, cohort in pending_notify:
+        try:
+            _send_import_credentials(user, password, cohort)
+        except Exception:
+            pass   # l'import ne doit jamais échouer à cause d'un envoi (email/WhatsApp mal configuré, etc.)
     return {"total": total, "valid": len(valid), "created": created, "error_count": len(errors), "errors": errors[:300],
             "preview": valid[:30], "credentials": credentials, "dry_run": not commit}

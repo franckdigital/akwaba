@@ -1339,6 +1339,54 @@ class RegistrationDecisionMessageTests(Base):
         self.assertEqual(mail.outbox[-1].to, ["q@ex.ci"])
         self.assertIn("Motif X", mail.outbox[-1].body)
 
+    def test_quote_approval_notifies_candidate_by_email_and_whatsapp(self):
+        """§C — décision produit : TOUTE décision (pas seulement refus/correction) notifie désormais le
+        candidat sur les DEUX canaux automatiquement, sans que la secrétaire ait à cliquer sur les deux
+        boutons manuels séparément."""
+        from unittest import mock
+        from django.core import mail
+        from apps.admissions.models import IndividualQuote
+        q = IndividualQuote.objects.create(school=self.school, offer="new_license", last_name="K", first_name="Awa",
+                                           email="q3@ex.ci", phone="0700000003")
+        mail.outbox.clear()
+        with mock.patch("apps.core.notify.send_text") as send_text:
+            r = self.as_user(self.secretary).post(f"/api/individual-quotes/{q.id}/decide/", {"decision": "approved"}, format="json")
+        self.assertEqual(r.status_code, 200, r.content)
+        self.assertEqual(mail.outbox[-1].to, ["q3@ex.ci"])
+        send_text.assert_called_once()
+        self.assertEqual(send_text.call_args[0][0], "whatsapp")
+
+
+class MyQuotesSubmissionTests(Base):
+    """§D — un candidat déjà authentifié peut déposer une nouvelle demande de devis sans quitter sa session
+    (POST /api/my-quotes/), identité auto-remplie depuis son dossier (jamais celle du client)."""
+
+    def test_authenticated_learner_can_submit_quote_with_autofilled_identity(self):
+        c = self.as_user(self.lu)
+        r = c.post("/api/my-quotes/", {"offer": "new_license", "categories_requested": ["B"],
+                                       "last_name": "USURPÉ", "email": "pas-moi@ex.ci"}, format="json")
+        self.assertEqual(r.status_code, 201, r.content)
+        body = r.json()
+        self.assertEqual((body["offer"], body["offer_label"], body["status"]), ("new_license", "Nouveau permis de conduire", "submitted"))
+        from apps.admissions.models import IndividualQuote
+        quote = IndividualQuote.objects.get(pk=body["id"])
+        # identité auto-remplie depuis Learner/User — jamais les champs d'identité fournis par le client
+        self.assertEqual((quote.learner_id, quote.last_name, quote.first_name, quote.email, quote.school_id),
+                         (self.learner.id, "K", "Awa", "l@a.ci", self.school.id))
+
+    def test_authenticated_duplicate_request_is_rejected(self):
+        """L'anti-doublon (§3.1, ACTIVE_STATUSES) s'applique aussi au dépôt authentifié."""
+        c = self.as_user(self.lu)
+        r = c.post("/api/my-quotes/", {"offer": "new_license", "id_document_no": "CNI123"}, format="json")
+        self.assertEqual(r.status_code, 201, r.content)
+        r2 = c.post("/api/my-quotes/", {"offer": "new_license", "id_document_no": "CNI123"}, format="json")
+        self.assertEqual(r2.status_code, 400)
+        self.assertIn("id_document_no", r2.json())
+
+    def test_anonymous_cannot_submit(self):
+        r = APIClient().post("/api/my-quotes/", {"offer": "new_license"}, format="json")
+        self.assertIn(r.status_code, (401, 403))
+
 
 class EngagementSheetTests(Base):
     def test_public_download_and_learner_tracking_and_upload(self):
@@ -1423,38 +1471,32 @@ class JoinCodeTests(Base):
                                    first_name=str(n), last_name="E", category="B")
         self.assertTrue(APIClient().get(f"/api/public/cohort-code/{unlimited.join_code}/").json()["valid"])
 
-    def test_registration_via_join_code_links_organization_cohort_and_creates_invoice(self):
+    def test_registration_via_join_code_is_rejected(self):
+        """§A — décision produit : seuls les candidats individuels (sans organisation) peuvent encore
+        s'inscrire eux-mêmes. Un code cohorte valide est désormais refusé (le compte doit être créé par le
+        secrétariat/l'organisation, cf. CohortViewSet.import_learners ou /api/users/import/)."""
         r = APIClient().post("/api/auth/register/", {"school": self.school.id, "first_name": "Yves", "last_name": "K",
                                                       "email": "yves@ex.ci", "password": "Motdepasse@1", "phone": "0700000001",
                                                       "category": "B", "join_code": self.cohort.join_code}, format="json")
-        self.assertEqual(r.status_code, 201, r.content)
-        learner = Learner.objects.get(email="yves@ex.ci")
-        self.assertEqual((learner.organization_id, learner.cohort_id, learner.training_id), (self.org.id, self.cohort.id, self.training.id))
-        inv = Invoice.objects.get(learner=learner)
-        self.assertEqual((inv.contract_id, int(inv.total), inv.cohort_id), (self.contract.id, 85000, self.cohort.id))
+        self.assertEqual(r.status_code, 400, r.content)
+        self.assertIn("organisation", r.json()["join_code"])
+        self.assertFalse(User.objects.filter(email="yves@ex.ci").exists())
+        self.assertFalse(Invoice.objects.exists())
 
-    def test_registration_rejects_unknown_code_and_inconsistent_organization(self):
-        from apps.organizations.models import Organization
-        other_org = Organization.objects.create(school=self.school, name="XYZ")
+    def test_registration_rejects_unknown_code_and_plain_organization_id(self):
         r = APIClient().post("/api/auth/register/", {"school": self.school.id, "first_name": "N", "last_name": "N",
                                                       "email": "n1@ex.ci", "password": "Motdepasse@1", "join_code": "ZZZZZZZZ"}, format="json")
         self.assertEqual(r.status_code, 400)
         self.assertIn("join_code", r.json())
         self.assertFalse(User.objects.filter(email="n1@ex.ci").exists())
+        # §A — un `organization` brut (sans code), sans passer par le staff, est refusé de la même façon :
+        # le rattachement à une organisation ne se fait plus que par une création de compte pilotée par lui.
         r2 = APIClient().post("/api/auth/register/", {"school": self.school.id, "first_name": "N", "last_name": "N",
                                                        "email": "n2@ex.ci", "password": "Motdepasse@1",
-                                                       "join_code": self.cohort.join_code, "organization": other_org.id}, format="json")
+                                                       "organization": self.org.id}, format="json")
         self.assertEqual(r2.status_code, 400)
         self.assertIn("organization", r2.json())
-
-    def test_no_invoice_created_when_category_does_not_match_contract(self):
-        r = APIClient().post("/api/auth/register/", {"school": self.school.id, "first_name": "M", "last_name": "M",
-                                                      "email": "m@ex.ci", "password": "Motdepasse@1", "category": "A",
-                                                      "join_code": self.cohort.join_code}, format="json")
-        self.assertEqual(r.status_code, 201, r.content)
-        learner = Learner.objects.get(email="m@ex.ci")
-        self.assertEqual((learner.organization_id, learner.cohort_id), (self.org.id, self.cohort.id))  # rattachement OK
-        self.assertFalse(Invoice.objects.filter(learner=learner).exists())                             # facturation : non (meilleur effort)
+        self.assertFalse(User.objects.filter(email="n2@ex.ci").exists())
 
 
 class InstallmentAccessTests(Base):

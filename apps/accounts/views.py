@@ -288,12 +288,18 @@ class RegisterView(APIView):
     throttle_classes = [ScopedRateThrottle]
     throttle_scope = "auth"
 
+    # §A — décision produit : seuls les candidats INDIVIDUELS (sans organisation) peuvent encore créer leur
+    # compte eux-mêmes. Un candidat rattaché à une collectivité doit désormais passer par le secrétariat de
+    # son organisation / de l'auto-école (compte créé en masse, cf. CohortViewSet.import_learners ou l'import
+    # Excel du staff) : on refuse clairement plutôt que d'ignorer silencieusement `join_code`/`organization`.
+    ORG_SELF_REGISTER_MESSAGE = ("Les candidats d'une organisation ne peuvent plus créer leur compte eux-mêmes : "
+                                 "contactez votre organisation ou l'auto-école pour obtenir vos identifiants.")
+
     @transaction.atomic
     def post(self, request):
         import hashlib
         from apps.admissions.models import IndividualQuote
         from apps.learners.models import Learner
-        from apps.organizations.models import Organization
         from apps.schools.models import School, Training
         from apps.schools.services import check_limit
         ser = RegisterSerializer(data=request.data)
@@ -314,23 +320,21 @@ class RegisterView(APIView):
             h = hashlib.sha256(id_doc.upper().encode()).hexdigest()
             if Learner.objects.filter(id_document_hash=h).exists():
                 return Response({"id_document_no": "Un dossier existe déjà dans le système pour cette pièce d'identité."}, status=400)
-        # §A/§B — code d'adhésion cohorte : résolu avec les MÊMES règles de validité que le point d'entrée public
-        # (/api/public/cohort-code/<code>/), et prioritaire sur un éventuel `organization` explicite (qui doit
-        # alors lui être cohérent : on refuse plutôt que d'ignorer silencieusement une incohérence).
-        from apps.organizations.models import resolve_join_code
-        cohort = None
+        # §A — un code d'adhésion cohorte identifie toujours un candidat d'organisation : refusé, qu'il soit
+        # valide (on dirige vers le bon circuit) ou invalide (message d'origine conservé).
         join_code = (d.get("join_code") or "").strip()
         if join_code:
+            from apps.organizations.models import resolve_join_code
             cohort, join_error = resolve_join_code(join_code)
             if cohort is None:
                 return Response({"join_code": join_error or "Code invalide ou cohorte complète."}, status=400)
-            if cohort.school_id != school.id:
-                return Response({"join_code": "Ce code ne correspond pas à cette auto-école."}, status=400)
-            if d.get("organization") and d.get("organization") != cohort.organization_id:
-                return Response({"organization": "Incohérente avec le code cohorte fourni."}, status=400)
-            organization = cohort.organization
-        else:
-            organization = Organization.objects.filter(pk=d.get("organization"), school=school, is_active=True).first() if d.get("organization") else None
+            return Response({"join_code": self.ORG_SELF_REGISTER_MESSAGE}, status=400)
+        # §A — un `organization` explicite (sans code) ne doit plus non plus permettre de bypasser ce circuit :
+        # le rattachement à une organisation ne se fait désormais que par une création de compte pilotée par
+        # le staff (import Excel, création manuelle depuis l'admin).
+        if d.get("organization"):
+            return Response({"organization": self.ORG_SELF_REGISTER_MESSAGE}, status=400)
+        organization = None
         quote = IndividualQuote.objects.filter(pk=d.get("quote")).first() if d.get("quote") else None
         if d.get("quote") and quote is None:
             return Response({"quote": "Devis introuvable."}, status=400)
@@ -342,10 +346,9 @@ class RegisterView(APIView):
                                            "par l'auto-école avant de créer votre compte."}, status=400)
         check_limit(school, "learners")
         training = Training.objects.filter(pk=d.get("training"), school=school).first() if d.get("training") else None
-        training = training or (cohort.training if cohort else None)
         user = User.objects.create_user(d["email"], d["password"], first_name=d["first_name"], last_name=d["last_name"],
                                         phone=d["phone"], role=LEARNER, school=school, organization=organization)
-        learner = Learner.objects.create(user=user, school=school, organization=organization, cohort=cohort,
+        learner = Learner.objects.create(user=user, school=school, organization=organization,
                                          first_name=d["first_name"], last_name=d["last_name"],
                                          email=d["email"], phone=d["phone"], category=d["category"], training=training,
                                          birth_date=d.get("birth_date"), sex=d["sex"], source="online", status="new",
@@ -357,14 +360,7 @@ class RegisterView(APIView):
             quote.learner = learner
             quote.status = "accepted"
             quote.save(update_fields=["learner", "status", "updated_at"])
-        if cohort is not None:
-            # Facturation individuelle au cumul payé (§C) : facture créée en meilleur effort, jamais bloquante.
-            from apps.billing.services import create_learner_enrollment_invoice
-            try:
-                create_learner_enrollment_invoice(learner, cohort)
-            except Exception:
-                pass
-        audit.log(request, "register", learner, user=user, new={"email": user.email, "cohort": getattr(cohort, "id", None)})
+        audit.log(request, "register", learner, user=user, new={"email": user.email})
         notify(user, "registration", "Inscription reçue",
               f"Votre inscription à {school} est en cours d'examen par le secrétariat. "
               f"En attendant, téléchargez votre fiche d'engagement : {settings.BACKEND_BASE_URL}/api/public/fiche-engagement/")

@@ -9,7 +9,7 @@ from django.utils import timezone
 from rest_framework.exceptions import ValidationError
 
 from apps.core.messaging import send_text
-from apps.core.notify import notify
+from apps.core.notify import notify, notify_contact
 
 from .models import ACTIVE_STATUSES, PERIODIC_CATEGORIES, IndividualQuote, RecyclingReminderLog, RecyclingReminderSettings
 
@@ -139,6 +139,22 @@ def compute_recycling_price(recycling_items):
     return sum((i.price for i in recycling_items), start=0)
 
 
+def validate_quote_request(attrs):
+    """Règles communes à tout dépôt de demande de devis individuelle — formulaire public (sans compte) ou
+    dépôt authentifié par un candidat déjà connecté (§D) : anti-doublon par pièce d'identité (§3.1), cohérence
+    des catégories en cas d'extension, permis existant requis pour les recyclages. Extrait de
+    PublicIndividualQuoteSerializer pour être réutilisé tel quel par MyQuotesView.post (§D) sans dupliquer la
+    logique."""
+    check_duplicate(attrs.get("id_document_no", ""))
+    offer = attrs.get("offer")
+    if offer == "extension":
+        validate_extension(attrs.get("categories_held", []), attrs.get("categories_to_add", []),
+                           attrs.get("categories_expiry", {}))
+    if offer in ("theory_refresh", "practical_refresh") and not attrs.get("license_no"):
+        raise ValidationError({"license_no": "Le numéro de permis existant est requis pour cette offre."})
+    return attrs
+
+
 def quote_pdf_bytes(quote):
     from reportlab.lib.pagesizes import A4
     from reportlab.pdfgen import canvas
@@ -191,7 +207,14 @@ def quote_pdf_bytes(quote):
 
 
 def send_quote(quote, channel):
-    """§3.1/3.2 — envoi du devis par e-mail ou WhatsApp, au choix, en un clic."""
+    """§3.1/3.2 — envoi du devis par e-mail ou WhatsApp, au choix, en un clic (action manuelle du secrétariat).
+
+    §C — décision produit : le candidat doit systématiquement recevoir une copie sur LES DEUX canaux (e-mail
+    ET WhatsApp, selon les coordonnées renseignées), sans que la secrétaire ait à cliquer sur les deux boutons
+    séparément. Le canal manuel choisi ici reçoit le message « riche » (devis en pièce jointe / lien direct) ;
+    notify_quote_decision() complète ensuite avec l'AUTRE canal uniquement (`exclude_channel=channel`), pour ne
+    jamais notifier deux fois le même canal pour le même évènement.
+    """
     from django.core.files.base import ContentFile
     pdf_bytes = quote_pdf_bytes(quote)
     quote.quote_pdf.save(f"devis-{quote.pk}.pdf", ContentFile(pdf_bytes), save=False)
@@ -209,6 +232,7 @@ def send_quote(quote, channel):
         send_text("whatsapp", quote.phone,
                   f"Bonjour {quote.first_name}, voici votre devis Akwaba Auto-École : {pdf_url}\n"
                   f"Tarif : {int(quote.price)} FCFA.")
+    notify_quote_decision(quote, exclude_channel=channel)
     return quote
 
 
@@ -239,15 +263,45 @@ def send_recycling_reminders(today=None):
     return sent
 
 
-def notify_quote_decision(quote):
-    """Le candidat est informé par e-mail et WhatsApp du refus (avec le motif) ou de la correction demandée."""
-    from apps.core.notify import notify_contact
-    if quote.status == "rejected":
-        notify_contact("quote_rejected", "Votre demande de devis", f"Bonjour {quote.first_name}, {quote.reject_reason}",
-                       email=quote.email, phone=quote.phone, school_id=quote.school_id)
-    elif quote.status == "correction_requested":
-        notify_contact("quote_correction", "Votre demande de devis : une correction est nécessaire", f"Bonjour {quote.first_name}, {quote.correction_note}",
-                       email=quote.email, phone=quote.phone, school_id=quote.school_id)
+def _quote_pdf_message(quote):
+    link = f" : {settings.BACKEND_BASE_URL}{quote.quote_pdf.url}" if quote.quote_pdf else ""
+    return f"Bonjour {quote.first_name}, voici votre devis Akwaba Auto-École{link}\nTarif : {int(quote.price)} FCFA."
+
+
+# §C — décision produit : toute décision prise sur un devis individuel (pas seulement le refus/la correction)
+# déclenche une notification candidat, sur les DEUX canaux (e-mail + WhatsApp) à chaque fois — events/messages
+# par statut, réutilisés par notify_quote_decision() ci-dessous.
+QUOTE_DECISION_NOTIFICATIONS = {
+    "approved": ("quote_approved", "Votre demande de devis est approuvée",
+                lambda q: f"Bonjour {q.first_name}, votre demande de devis a été approuvée par l'auto-école. "
+                          "Votre devis chiffré va vous être transmis très prochainement."),
+    "rejected": ("quote_rejected", "Votre demande de devis",
+                lambda q: f"Bonjour {q.first_name}, {q.reject_reason}"),
+    "correction_requested": ("quote_correction", "Votre demande de devis : une correction est nécessaire",
+                             lambda q: f"Bonjour {q.first_name}, {q.correction_note}"),
+    "quoted": ("quote_quoted", "Votre devis est disponible", _quote_pdf_message),
+}
+
+
+def notify_quote_decision(quote, exclude_channel=None):
+    """Le candidat est informé par e-mail ET WhatsApp (selon les coordonnées renseignées) de toute décision
+    prise sur son devis — approbation, refus (avec motif), correction demandée, ou mise à disposition du
+    devis chiffré (§C). Appelé par IndividualQuoteViewSet.decide() pour approved/rejected/correction_requested,
+    et par send_quote() pour quoted.
+
+    `exclude_channel` évite de notifier deux fois le MÊME canal pour le MÊME évènement quand send_quote() a
+    déjà envoyé manuellement le devis sur ce canal (bouton « envoyer par e-mail/WhatsApp », §3.1/§3.2) : seul
+    le canal complémentaire est alors notifié ici.
+    """
+    entry = QUOTE_DECISION_NOTIFICATIONS.get(quote.status)
+    if entry is None:
+        return []
+    event, title, message_fn = entry
+    channels = tuple(c for c in ("email", "whatsapp") if c != exclude_channel)
+    if not channels:
+        return []
+    return notify_contact(event, title, message_fn(quote), email=quote.email, phone=quote.phone,
+                          school_id=quote.school_id, channels=channels)
 
 
 def sync_plan_for_offer_config(config):

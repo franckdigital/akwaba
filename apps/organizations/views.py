@@ -83,6 +83,10 @@ class CohortSerializer(BaseModelSerializer):
     organization_name = serializers.CharField(source="organization.name", read_only=True, default=None)
     training_name = serializers.CharField(source="training.name", read_only=True)
     subscription = serializers.SerializerMethodField()
+    # Lecture seule : généré automatiquement (Cohort.save) et modifiable uniquement via l'action dédiée
+    # /cohorts/{id}/regenerate-code/ — exposé ici pour que le sélecteur de cohorte du formulaire admin
+    # (« Nouvel utilisateur », import Excel) puisse l'afficher une fois la cohorte choisie (§B.3).
+    join_code = serializers.CharField(read_only=True)
 
     class Meta:
         model = Cohort
@@ -167,8 +171,11 @@ class CohortViewSet(ScopedModelViewSet):
         def send_credentials(user, password):
             # Même circuit d'envoi que les devis (e-mail réel, WhatsApp via send_text — à renseigner dans
             # backend/.env, sinon simplement journalisé, cf. apps.core.messaging).
+            # §B.1 — la cohorte est fixe pour tout l'import : le code d'adhésion est transmis avec les
+            # identifiants, requis à la première connexion (cf. LoginView.post).
             body = (f"Bonjour {user.first_name}, votre compte Akwaba Auto-École a été créé.\n"
                    f"Identifiant : {user.email}\nMot de passe provisoire : {password}\n"
+                   f"Code cohorte (requis à votre première connexion) : {cohort.join_code}\n"
                    "Connectez-vous sur l'application pour commencer, puis pensez à changer votre mot de passe.")
             if user.email:
                 send_mail("Votre compte Akwaba Auto-École", body, None, [user.email], fail_silently=True)
