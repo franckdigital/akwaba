@@ -1,4 +1,5 @@
 import hashlib
+import logging
 from datetime import date
 from decimal import Decimal
 from io import BytesIO
@@ -12,6 +13,8 @@ from apps.core.messaging import send_text
 from apps.core.notify import notify, notify_contact
 
 from .models import ACTIVE_STATUSES, PERIODIC_CATEGORIES, IndividualQuote, RecyclingReminderLog, RecyclingReminderSettings
+
+logger = logging.getLogger(__name__)
 
 CATEGORY_LABELS = dict([("A", "A"), ("B", "B"), ("C", "C"), ("D", "D"), ("E", "E"), ("OTHER", "Autre")])
 
@@ -302,6 +305,74 @@ def notify_quote_decision(quote, exclude_channel=None):
         return []
     return notify_contact(event, title, message_fn(quote), email=quote.email, phone=quote.phone,
                           school_id=quote.school_id, channels=channels)
+
+
+def _send_quote_account_credentials(user, password):
+    """§ décision produit — message dédié à la création automatique du compte à l'approbation d'un devis vitrine
+    (candidat public, sans compte) : identifiant (e-mail), mot de passe provisoire, consigne de changement.
+    DISTINCT de notify_quote_decision() (qui informe de la décision elle-même) : envoyé en PLUS, pas à la place,
+    sur les deux canaux (e-mail ET WhatsApp, selon les coordonnées disponibles), même circuit que
+    apps.organizations.views.CohortViewSet.import_learners/apps.accounts.services._send_import_credentials."""
+    body = (f"Bonjour {user.first_name}, votre compte Akwaba Auto-École a été créé automatiquement suite à "
+           "l'approbation de votre demande.\n"
+           f"Identifiant (e-mail) : {user.email}\nMot de passe provisoire : {password}\n"
+           "Connectez-vous sur l'application pour commencer, puis pensez à changer votre mot de passe.")
+    if user.email:
+        send_mail("Votre compte Akwaba Auto-École", body, None, [user.email], fail_silently=True)
+    if user.phone:
+        send_text("whatsapp", user.phone, body)
+
+
+def auto_create_account_for_quote(quote):
+    """§ décision produit — « l'inscription du candidat individuel doit se faire automatiquement, pilotée par le
+    système » : quand le secrétariat approuve un devis déposé depuis la vitrine PUBLIQUE (aucun compte rattaché
+    encore), le compte (User + Learner) est créé automatiquement, pour que le candidat puisse se connecter et
+    bénéficier de l'ouverture des fonctionnalités, puis payer son abonnement pour accéder aux ressources (§B,
+    cf. apps.subscriptions.services.build_order). Appelée par IndividualQuoteViewSet.decide() uniquement pour
+    decision == "approved".
+
+    Ne s'applique PAS (même « process » pour tout le monde, mais rien à créer ici) :
+    - si `quote.learner_id` est déjà renseigné : candidat déjà authentifié (ex. dépôt via POST /my-quotes/) ou
+      inscription déjà effectuée avant l'approbation — seul le déblocage lié au statut du devis compte alors ;
+    - si `quote.organization_id` est renseigné : candidat d'une collectivité, toujours créé par le staff (import
+      Excel / création en masse), jamais par cette création automatique déclenchée côté vitrine.
+
+    Défensif à chaque étape (ne doit JAMAIS empêcher l'approbation elle-même, déjà enregistrée en base avant cet
+    appel) : renvoie None et journalise un avertissement plutôt que de lever, dès qu'un préalable manque
+    (e-mail absent, compte déjà existant pour cet e-mail, auto-école non encore assignée au devis)."""
+    if quote.learner_id is not None or quote.organization_id is not None:
+        return None
+    if not quote.email:
+        logger.warning("Devis #%s approuvé sans e-mail renseigné : création automatique du compte impossible.", quote.pk)
+        return None
+    if not quote.school_id:
+        logger.warning("Devis #%s approuvé sans auto-école assignée : création automatique du compte impossible.", quote.pk)
+        return None
+    from apps.accounts.models import User
+    from apps.accounts.services import gen_password
+    from apps.core.permissions import LEARNER
+    from apps.learners.models import Learner
+    email = quote.email.strip().lower()
+    if User.objects.filter(email=email).exists():
+        logger.warning("Devis #%s approuvé : un compte existe déjà pour %s, création automatique ignorée.", quote.pk, email)
+        return None
+    category = ""
+    if quote.offer == "new_license" and quote.categories_requested:
+        category = quote.categories_requested[0]
+    elif quote.offer == "extension" and quote.categories_to_add:
+        category = quote.categories_to_add[0]
+    password = gen_password()
+    user = User.objects.create_user(email, password, first_name=quote.first_name, last_name=quote.last_name,
+                                    phone=quote.phone, role=LEARNER, school=quote.school)
+    learner_kwargs = dict(user=user, school=quote.school, first_name=quote.first_name, last_name=quote.last_name,
+                          email=email, phone=quote.phone, source="online", status="new", quote=quote)
+    if category:
+        learner_kwargs["category"] = category
+    learner = Learner.objects.create(**learner_kwargs)
+    quote.learner = learner
+    quote.save(update_fields=["learner", "updated_at"])
+    _send_quote_account_credentials(user, password)
+    return user
 
 
 def sync_plan_for_offer_config(config):

@@ -246,6 +246,22 @@ def build_order(user, plan, data):
     if learner and plan.category and plan.category != learner.category:
         raise ValidationError({"plan": f"Ce plan est réservé au permis {plan.category}."})
 
+    # §B — décision produit : un plan « attaché » à une offre (Plan.linked_offer, les 4 formules individuelles
+    # vendables séparément depuis « mes demandes ») ne peut être souscrit qu'une fois qu'une demande de devis
+    # VALIDÉE existe pour CETTE offre précise (statut approved/quoted/accepted) — « le candidat doit d'abord
+    # faire valider sa demande, les ressources s'ouvrent, puis il paie son abonnement pour en bénéficier ».
+    # Uniforme quelle que soit l'origine du compte (création auto à l'approbation d'un devis vitrine, import
+    # d'organisation, inscription en ligne classique) et quel que soit l'auteur de l'achat (le candidat lui-même
+    # ou le staff en son nom, cf. _resolve_target ci-dessus : `learner` est déjà résolu dans les deux cas) :
+    # seule compte l'existence d'un devis validé pour ce couple (apprenant, offre).
+    if learner is not None and plan.audience == "individual" and plan.linked_offer:
+        from apps.admissions.models import IndividualQuote
+        has_validated_quote = IndividualQuote.objects.filter(
+            learner=learner, offer=plan.linked_offer, status__in=("approved", "quoted", "accepted")).exists()
+        if not has_validated_quote:
+            raise ValidationError({"plan": "Vous devez d'abord faire une demande pour cette formule et attendre sa "
+                                           "validation par le secrétariat avant de pouvoir vous abonner."})
+
     # Un seul abonnement actif à la fois (particulier) : il faut attendre la fin de l'abonnement en
     # cours (qu'il vienne d'un achat individuel ou d'une cohorte d'organisation) avant d'en souscrire
     # un autre, quel que soit le plan visé.

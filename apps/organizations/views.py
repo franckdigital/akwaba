@@ -154,19 +154,13 @@ class CohortViewSet(ScopedModelViewSet):
 
     @action(detail=True, methods=["post"], url_path="import-learners", parser_classes=[MultiPartParser])
     def import_learners(self, request, pk=None):
-        import secrets
-        import string
-
         from openpyxl import load_workbook
 
         from apps.accounts.models import User
+        from apps.accounts.services import gen_password
         from apps.core.messaging import send_text
         from apps.core.permissions import LEARNER
         from apps.schools.services import check_limit
-
-        def gen_password():
-            alphabet = string.ascii_uppercase + string.ascii_lowercase + string.digits
-            return "".join(secrets.choice(alphabet) for _ in range(10))
 
         def send_credentials(user, password):
             # Même circuit d'envoi que les devis (e-mail réel, WhatsApp via send_text — à renseigner dans

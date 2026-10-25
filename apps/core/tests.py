@@ -772,6 +772,11 @@ class SubscriptionTests(Base):
                    for i, p in enumerate([3000, 4000, 5000, 6000, 7000], start=1)]
         other_school_module = RecyclingItem.objects.create(school=self.other, kind="module", label="Autre école", price=1000)
         inactive = RecyclingItem.objects.create(school=self.school, kind="module", label="Inactif", price=9000, is_active=False)
+        # §B — plan attaché à une offre : achat conditionné à une demande validée pour cette offre précise.
+        from apps.admissions.models import IndividualQuote
+        IndividualQuote.objects.create(school=self.school, offer="theory_refresh", learner=self.learner,
+                                       last_name=self.learner.last_name, first_name=self.learner.first_name,
+                                       license_no="X1", status="approved")
         lc = self.as_user(self.lu)
 
         # à la carte : 2 modules choisis -> montant = somme des 2, et une ligne de facture par module
@@ -807,6 +812,30 @@ class SubscriptionTests(Base):
         self.assertEqual(order4.recycling_items.count(), 0)
         self.assertEqual(list(InvoiceLine.objects.filter(invoice=order4.invoice).values_list("unit_price", flat=True)), [Decimal("20000")])
         self.assertEqual(r4.json()["order"]["recycling_items"], [])
+
+    def test_individual_offer_linked_plan_requires_validated_matching_quote(self):
+        """§B — décision produit : un plan attaché à une offre (Plan.linked_offer) ne se souscrit qu'une fois
+        qu'une demande de devis pour CETTE offre précise a été validée par le secrétariat (statut
+        approved/quoted/accepted) ; une demande validée pour une AUTRE offre ne suffit pas (correspondance stricte)."""
+        from apps.admissions.models import IndividualQuote
+        plan = Plan.objects.create(audience="individual", school=self.school, name="Nouveau permis", price=15000,
+                                   billing_cycle="yearly", linked_offer="new_license")
+        lc = self.as_user(self.lu)
+        r = self._buy(lc, plan)
+        self.assertEqual(r.status_code, 400)
+        self.assertIn("validation", r.json()["plan"])
+        self.assertFalse(SubscriptionOrder.objects.exists())
+        # demande validée existante, mais pour une autre offre : toujours refusé
+        IndividualQuote.objects.create(school=self.school, offer="extension", learner=self.learner,
+                                       last_name=self.learner.last_name, first_name=self.learner.first_name,
+                                       categories_held=["B"], categories_to_add=["C"], status="approved")
+        self.assertEqual(self._buy(lc, plan).status_code, 400)
+        # la demande correspondante (même offre) est validée : l'achat est désormais accepté
+        IndividualQuote.objects.create(school=self.school, offer="new_license", learner=self.learner,
+                                       last_name=self.learner.last_name, first_name=self.learner.first_name,
+                                       categories_requested=["B"], status="approved")
+        r2 = self._buy(lc, plan)
+        self.assertEqual(r2.status_code, 201, r2.content)
 
 
 from django.core.files.uploadedfile import SimpleUploadedFile
@@ -1355,6 +1384,57 @@ class RegistrationDecisionMessageTests(Base):
         self.assertEqual(mail.outbox[-1].to, ["q3@ex.ci"])
         send_text.assert_called_once()
         self.assertEqual(send_text.call_args[0][0], "whatsapp")
+
+    def test_approving_vitrine_quote_auto_creates_working_account(self):
+        """§A — décision produit : approuver un devis vitrine (public, sans compte ni organisation rattachés)
+        crée automatiquement le compte (User + Learner), avec des identifiants permettant de se connecter
+        immédiatement, et relie le devis au nouvel apprenant."""
+        from unittest import mock
+        from apps.admissions.models import IndividualQuote
+        q = IndividualQuote.objects.create(school=self.school, offer="new_license", last_name="Koffi", first_name="Jean",
+                                           email="jean.koffi@ex.ci", phone="0701020304", categories_requested=["B"])
+        with mock.patch("apps.accounts.services.gen_password", return_value="Fixe#Passw0rd1"):
+            r = self.as_user(self.secretary).post(f"/api/individual-quotes/{q.id}/decide/", {"decision": "approved"}, format="json")
+        self.assertEqual(r.status_code, 200, r.content)
+        q.refresh_from_db()
+        self.assertIsNotNone(q.learner_id)
+        learner = Learner.objects.get(pk=q.learner_id)
+        self.assertEqual((learner.email, learner.category, learner.quote_id, learner.school_id),
+                         ("jean.koffi@ex.ci", "B", q.id, self.school.id))
+        user = User.objects.get(email="jean.koffi@ex.ci")
+        self.assertEqual((user.role, user.school_id), ("learner", self.school.id))
+        login = APIClient().post("/api/auth/login/", {"email": "jean.koffi@ex.ci", "password": "Fixe#Passw0rd1"}, format="json")
+        self.assertEqual(login.status_code, 200, login.content)
+
+    def test_approving_quote_with_existing_learner_does_not_duplicate_account(self):
+        """§A — un devis déjà rattaché à un apprenant (ex. dépôt authentifié via /my-quotes/) ne provoque
+        aucune création de compte à l'approbation : seul le statut du devis évolue."""
+        from apps.admissions.models import IndividualQuote
+        before = User.objects.count()
+        q = IndividualQuote.objects.create(school=self.school, offer="new_license", learner=self.learner,
+                                           last_name="K", first_name="Awa", email="l@a.ci", categories_requested=["B"])
+        r = self.as_user(self.secretary).post(f"/api/individual-quotes/{q.id}/decide/", {"decision": "approved"}, format="json")
+        self.assertEqual(r.status_code, 200, r.content)
+        q.refresh_from_db()
+        self.assertEqual(q.learner_id, self.learner.id)
+        self.assertEqual(User.objects.count(), before)
+
+    def test_approving_organization_quote_does_not_auto_create_account(self):
+        """§A — un devis rattaché à une collectivité ne doit jamais créer de compte automatiquement : les
+        candidats d'organisation passent toujours par l'import/la création en masse du staff."""
+        from apps.admissions.models import IndividualQuote
+        from apps.organizations.models import Organization
+        org = Organization.objects.create(school=self.school, name="Collectivité X")
+        before = User.objects.count()
+        q = IndividualQuote.objects.create(school=self.school, organization=org, offer="new_license",
+                                           last_name="Diallo", first_name="Fatou", email="fatou.diallo@ex.ci",
+                                           categories_requested=["B"])
+        r = self.as_user(self.secretary).post(f"/api/individual-quotes/{q.id}/decide/", {"decision": "approved"}, format="json")
+        self.assertEqual(r.status_code, 200, r.content)
+        q.refresh_from_db()
+        self.assertIsNone(q.learner_id)
+        self.assertEqual(User.objects.count(), before)
+        self.assertFalse(User.objects.filter(email="fatou.diallo@ex.ci").exists())
 
 
 class MyQuotesSubmissionTests(Base):

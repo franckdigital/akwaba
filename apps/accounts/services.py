@@ -2,6 +2,7 @@
 import os
 import re
 import secrets
+import string
 import unicodedata
 
 from django.contrib.auth.password_validation import validate_password
@@ -14,6 +15,14 @@ from apps.core.permissions import AKWABA_ADMIN, DIRECTOR, LEARNER, ORG_ADMIN, OR
 from apps.schools.models import CATEGORIES
 
 from .models import User
+
+
+def gen_password():
+    """Mot de passe temporaire généré pour un compte créé automatiquement (import cohorte/Excel, ou création
+    automatique à l'approbation d'un devis vitrine, cf. apps.admissions.services.auto_create_account_for_quote) —
+    extrait ici pour être partagé par tous les points de création de compte plutôt que réimplémenté à chaque fois."""
+    alphabet = string.ascii_uppercase + string.ascii_lowercase + string.digits
+    return "".join(secrets.choice(alphabet) for _ in range(10))
 
 
 # --------------------------------------------------------------------------- téléphone / connexion vocale

@@ -143,6 +143,16 @@ class IndividualQuoteViewSet(ScopedModelViewSet):
         quote.save(update_fields=["status", "reject_reason", "correction_note", "updated_at"])
         audit.log(request, "decide", quote, old=old, new=self._snapshot(quote))
         services.notify_quote_decision(quote)
+        if decision == "approved":
+            # §A — création automatique du compte candidat (vitrine publique, pas de collectivité) : silencieuse
+            # côté réponse (pas de champ dédié) ; ne doit jamais faire échouer l'approbation elle-même, déjà
+            # enregistrée ci-dessus.
+            try:
+                services.auto_create_account_for_quote(quote)
+            except Exception:
+                import logging
+                logging.getLogger(__name__).exception(
+                    "Echec de la création automatique du compte pour le devis #%s", quote.pk)
         return Response(self.get_serializer(quote).data)
 
     @action(detail=True, methods=["post"])
