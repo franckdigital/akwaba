@@ -250,3 +250,81 @@ class PermitCandidate(TimeStamped):
         if not self.price:
             self.price = PERMIT_BUNDLE_PRICES.get(self.category_bundle, 0)
         super().save(*args, **kwargs)
+
+
+# --------------------------------------------------------------------------------------------------------
+# §produit — « je veux pouvoir créer et mettre à jour les messages par mail et WhatsApp pour les demandes
+# depuis l'admin » : remplace les chaînes figées de services.py (QUOTE_DECISION_NOTIFICATIONS,
+# _quote_pdf_message, messages "compte créé") par un gabarit éditable par auto-école. Variables disponibles
+# documentées ci-dessous ET exposées en lecture par l'API (cf. apps.admissions.views.MessageTemplateSerializer.
+# available_variables), pour que l'admin web affiche l'aide sans dupliquer cette liste côté JS.
+#
+#   quote_approved           : {prenom}, {nom}, {offre}
+#   quote_correction_default : {prenom}, {nom}, {offre} — texte PRÉ-REMPLI quand la secrétaire clique
+#                              « Demander correction » sans taper de note personnalisée (correction_note
+#                              reste par ailleurs un texte libre saisi au cas par cas, non concerné ici)
+#   quote_quoted              : {prenom}, {nom}, {offre}, {prix}, {lien_devis} (lien_devis inclut son
+#                              préfixe " : " et est vide si le PDF n'est pas encore généré)
+#   account_created            : {prenom}, {nom}, {email}, {mot_de_passe}, {code_cohorte} (ligne complète
+#                              pré-formatée avec retour à la ligne, vide si non applicable — ex. compte
+#                              individuel créé depuis la vitrine, sans cohorte)
+AVAILABLE_VARIABLES = {
+    "quote_approved": ["prenom", "nom", "offre"],
+    "quote_correction_default": ["prenom", "nom", "offre"],
+    "quote_quoted": ["prenom", "nom", "offre", "prix", "lien_devis"],
+    "account_created": ["prenom", "nom", "email", "mot_de_passe", "code_cohorte"],
+}
+
+
+class MessageTemplate(TimeStamped):
+    """Contenu, éditable depuis l'admin par auto-école, des messages candidat (e-mail/WhatsApp) liés aux
+    devis individuels. `body` est rendu via services.render_template (substitution sûre : une variable
+    absente du contexte devient une chaîne vide, jamais une exception) — cf. AVAILABLE_VARIABLES ci-dessus
+    pour les variables disponibles par clé.
+
+    §décision produit — unification « compte créé » : les 3 points d'entrée qui envoyaient un message
+    « votre compte a été créé, voici vos identifiants » (devis vitrine approuvé automatiquement, import
+    Excel d'une cohorte unique, import Excel multi-cohortes) sont regroupés sous UNE seule clé
+    (account_created) plutôt que 2-3 gabarits séparés : leur contenu était déjà quasi identique (même sujet
+    dans les 3 cas, même structure de corps), la seule vraie variation — la ligne optionnelle du code de
+    cohorte — est couverte par la variable {code_cohorte} (vide quand non applicable) plutôt que par un
+    gabarit distinct.
+
+    `subject` est ignoré pour WhatsApp (pas de sujet sur ce canal). Une ligne absente pour (school, key)
+    => le texte par défaut actuellement en dur (constantes DEFAULT_* de apps.admissions.services) continue
+    de s'appliquer : aucune régression avant que l'admin ne configure quoi que ce soit, ni avant l'exécution
+    de la commande seed_message_templates."""
+    KEYS = [
+        ("quote_approved", "Devis approuvé"),
+        ("quote_correction_default", "Correction demandée — texte par défaut"),
+        ("quote_quoted", "Devis envoyé (PDF disponible)"),
+        ("account_created", "Compte créé automatiquement (après approbation d'un devis vitrine, ou import de cohorte)"),
+    ]
+    school = models.ForeignKey("schools.School", on_delete=models.CASCADE, related_name="message_templates")
+    key = models.CharField(max_length=40, choices=KEYS)
+    subject = models.CharField(max_length=150, blank=True, help_text="E-mail uniquement ; ignoré pour WhatsApp.")
+    body = models.TextField(help_text="Variables disponibles : {prenom}, {nom}, ... (voir doc par clé, apps.admissions.models.AVAILABLE_VARIABLES)")
+
+    class Meta:
+        unique_together = [("school", "key")]
+        ordering = ["school", "key"]
+
+    def __str__(self):
+        return f"{self.get_key_display()} — {self.school}"
+
+
+class QuoteRejectReason(TimeStamped):
+    """Motifs de refus proposés à la secrétaire dans le menu « Rejeter » (web RejectMenu), par type d'offre
+    et par auto-école — remplace la constante JS figée REJECT_REASONS (anciennement web/src/resources.jsx)
+    comme SOURCE DE VÉRITÉ : désormais gérée (créée/modifiée/supprimée/réordonnée) depuis l'admin plutôt que
+    codée en dur côté front."""
+    school = models.ForeignKey("schools.School", on_delete=models.CASCADE, related_name="quote_reject_reasons")
+    offer = models.CharField(max_length=20, choices=OFFERS)
+    text = models.TextField()
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ["school", "offer", "order"]
+
+    def __str__(self):
+        return f"{self.text[:60]} ({self.get_offer_display()})"

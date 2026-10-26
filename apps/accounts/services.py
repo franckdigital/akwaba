@@ -7,7 +7,6 @@ import unicodedata
 
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError as DjangoValidationError
-from django.core.mail import send_mail
 from django.db import transaction
 from rest_framework.exceptions import ValidationError
 
@@ -188,21 +187,15 @@ def build_template(school, blank=False):
 
 
 def _send_import_credentials(user, password, cohort):
-    """Transmet les identifiants créés par l'import Excel (§B.2) — même circuit que l'import de cohorte
-    (CohortViewSet.import_learners) : e-mail réel + WhatsApp via send_text (journalisé si non configuré).
-    Inclut le code d'adhésion de la cohorte résolue pour cette ligne (ce point d'import peut couvrir
-    plusieurs cohortes/organisations à la fois, contrairement à l'import cohorte-par-cohorte), requis à la
-    première connexion de l'apprenant (cf. LoginView.post)."""
-    from apps.core.messaging import send_text
-    body = (f"Bonjour {user.first_name}, votre compte Akwaba Auto-École a été créé.\n"
-           f"Identifiant : {user.email}\nMot de passe provisoire : {password}\n")
-    if cohort is not None and cohort.join_code:
-        body += f"Code cohorte (requis à votre première connexion) : {cohort.join_code}\n"
-    body += "Connectez-vous sur l'application pour commencer, puis pensez à changer votre mot de passe."
-    if user.email:
-        send_mail("Votre compte Akwaba Auto-École", body, None, [user.email], fail_silently=True)
-    if user.phone:
-        send_text("whatsapp", user.phone, body)
+    """Transmet les identifiants créés par l'import Excel (§B.2) — même circuit, et même gabarit éditable
+    depuis l'admin, que l'import de cohorte (CohortViewSet.import_learners) et que la création automatique
+    de compte à l'approbation d'un devis vitrine (cf. apps.admissions.services.send_account_created_credentials,
+    MessageTemplate key="account_created", unifié pour ne pas dupliquer ce texte 3 fois). Inclut le code
+    d'adhésion de la cohorte résolue pour cette ligne (ce point d'import peut couvrir plusieurs
+    cohortes/organisations à la fois, contrairement à l'import cohorte-par-cohorte), requis à la première
+    connexion de l'apprenant (cf. LoginView.post)."""
+    from apps.admissions.services import send_account_created_credentials
+    send_account_created_credentials(user, password, school_id=user.school_id, cohort=cohort)
 
 
 def _allowed_roles(actor):

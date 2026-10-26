@@ -1,6 +1,5 @@
 from datetime import date, timedelta
 
-from django.core.mail import send_mail
 from django.db import transaction
 from django.http import HttpResponse
 from rest_framework import serializers
@@ -158,23 +157,17 @@ class CohortViewSet(ScopedModelViewSet):
 
         from apps.accounts.models import User
         from apps.accounts.services import gen_password
-        from apps.core.messaging import send_text
         from apps.core.permissions import LEARNER
         from apps.schools.services import check_limit
 
         def send_credentials(user, password):
-            # Même circuit d'envoi que les devis (e-mail réel, WhatsApp via send_text — à renseigner dans
-            # backend/.env, sinon simplement journalisé, cf. apps.core.messaging).
+            # Même circuit d'envoi que les devis, gabarit éditable depuis l'admin partagé avec les 2 autres
+            # points de création de compte (cf. apps.admissions.services.send_account_created_credentials :
+            # MessageTemplate key="account_created", unifié pour ne pas dupliquer ce texte 3 fois).
             # §B.1 — la cohorte est fixe pour tout l'import : le code d'adhésion est transmis avec les
             # identifiants, requis à la première connexion (cf. LoginView.post).
-            body = (f"Bonjour {user.first_name}, votre compte Akwaba Auto-École a été créé.\n"
-                   f"Identifiant : {user.email}\nMot de passe provisoire : {password}\n"
-                   f"Code cohorte (requis à votre première connexion) : {cohort.join_code}\n"
-                   "Connectez-vous sur l'application pour commencer, puis pensez à changer votre mot de passe.")
-            if user.email:
-                send_mail("Votre compte Akwaba Auto-École", body, None, [user.email], fail_silently=True)
-            if user.phone:
-                send_text("whatsapp", user.phone, body)
+            from apps.admissions.services import send_account_created_credentials
+            send_account_created_credentials(user, password, school_id=cohort.school_id, cohort=cohort)
 
         cohort = self.get_object()
         f = request.FILES.get("file")

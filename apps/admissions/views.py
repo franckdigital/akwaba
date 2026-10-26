@@ -15,8 +15,8 @@ from apps.core.viewsets import BaseModelSerializer, ScopedModelViewSet, make_ser
 from apps.subscriptions.services import learner_subscribed_to_offer
 
 from . import services
-from .models import (PERMIT_BUNDLE_PRICES, STATUS, IndividualQuote, OfferTypeConfig, PermitCandidate, RecyclingItem,
-                     RecyclingReminderSettings)
+from .models import (AVAILABLE_VARIABLES, PERMIT_BUNDLE_PRICES, STATUS, IndividualQuote, MessageTemplate,
+                     OfferTypeConfig, PermitCandidate, QuoteRejectReason, RecyclingItem, RecyclingReminderSettings)
 
 RecyclingItemSerializer = make_serializer(
     RecyclingItem, extra_fields={"duration_minutes": serializers.IntegerField(read_only=True)})
@@ -57,6 +57,58 @@ class OfferTypeConfigViewSet(ScopedModelViewSet):
     def perform_update(self, serializer):
         super().perform_update(serializer)
         services.sync_plan_for_offer_config(serializer.instance)
+
+
+class MessageTemplateSerializer(BaseModelSerializer):
+    school_name = serializers.CharField(source="school.commercial_name", read_only=True, default="")
+    key_label = serializers.CharField(source="get_key_display", read_only=True)
+    available_variables = serializers.SerializerMethodField()
+
+    class Meta:
+        model = MessageTemplate
+        fields = "__all__"
+
+    def get_available_variables(self, obj):
+        return AVAILABLE_VARIABLES.get(obj.key, [])
+
+
+class MessageTemplateViewSet(ScopedModelViewSet):
+    """CRUD staff des messages candidat (e-mail/WhatsApp) liés aux devis — § consigne produit « créer et
+    mettre à jour les messages ... depuis l'admin ». Une ligne par (school, key) ; absente => texte par
+    défaut en dur (aucune régression avant configuration, cf. apps.admissions.services.DEFAULT_*)."""
+    resource = "message_templates"
+    queryset = MessageTemplate.objects.select_related("school")
+    serializer_class = MessageTemplateSerializer
+    filterset_fields = ["key"]
+    search_fields = ["subject", "body"]
+
+    @action(detail=False, methods=["get"])
+    def keys(self, request):
+        """Liste des clés possibles (MessageTemplate.KEYS) avec leur libellé et leurs variables disponibles —
+        permet au formulaire de création de l'admin web de proposer un sélecteur de clé et d'afficher l'aide
+        « variables disponibles » avant même la création d'un gabarit pour cette clé."""
+        return Response([{"key": k, "label": label, "available_variables": AVAILABLE_VARIABLES.get(k, [])}
+                         for k, label in MessageTemplate.KEYS])
+
+
+class QuoteRejectReasonSerializer(BaseModelSerializer):
+    school_name = serializers.CharField(source="school.commercial_name", read_only=True, default="")
+    offer_label = serializers.CharField(source="get_offer_display", read_only=True)
+
+    class Meta:
+        model = QuoteRejectReason
+        fields = "__all__"
+
+
+class QuoteRejectReasonViewSet(ScopedModelViewSet):
+    """CRUD staff des motifs de refus proposés dans le menu « Rejeter » du staff (web RejectMenu) — remplace
+    la constante JS REJECT_REASONS comme source de vérité. `GET ?offer=theory_refresh` (filterset standard)
+    permet au front de n'afficher que les motifs pertinents pour l'offre de la demande traitée."""
+    resource = "quote_reject_reasons"
+    queryset = QuoteRejectReason.objects.select_related("school")
+    serializer_class = QuoteRejectReasonSerializer
+    filterset_fields = ["offer"]
+    search_fields = ["text"]
 
 
 class RecyclingReminderSettingsSerializer(BaseModelSerializer):
@@ -138,8 +190,7 @@ class IndividualQuoteViewSet(ScopedModelViewSet):
             quote.reject_reason = request.data.get("reject_reason") or \
                 "Nous sommes désolés de ne pas pouvoir répondre à votre attente car votre pièce d'identité est enregistrée ailleurs."
         elif decision == "correction_requested":
-            quote.correction_note = request.data.get("correction_note") or \
-                "Veuillez vérifier la conformité des informations de votre pièce d'identité."
+            quote.correction_note = request.data.get("correction_note") or services.default_correction_note(quote)
         quote.save(update_fields=["status", "reject_reason", "correction_note", "updated_at"])
         audit.log(request, "decide", quote, old=old, new=self._snapshot(quote))
         services.notify_quote_decision(quote)

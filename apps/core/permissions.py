@@ -45,7 +45,7 @@ RESOURCES = [
     "installments", "expenses", "exams", "certificates", "reports", "plans", "subscriptions",
     "audit", "notifications", "imports", "quotes", "subscription_orders", "member_subscriptions",
     "individual_quotes", "recycling_items", "recycling_reminder_settings", "alert_settings", "virtual_classes",
-    "permit_candidates", "offer_type_configs",
+    "permit_candidates", "offer_type_configs", "message_templates", "quote_reject_reasons",
 ]
 
 MATRIX = {
@@ -63,6 +63,11 @@ MATRIX = {
         "plans": RO, "subscription_orders": {"view", "create"}, "member_subscriptions": RO,
         "individual_quotes": RWD | {"validate", "print"}, "recycling_items": RO, "offer_type_configs": RO,
         "recycling_reminder_settings": RO, "virtual_classes": RWD, "permit_candidates": RWD,
+        # §produit — messages candidat (e-mail/WhatsApp) et motifs de refus liés aux devis : la secrétaire
+        # traite les devis au quotidien (individual_quotes ci-dessus en RWD) et doit pouvoir créer/modifier
+        # ces deux ressources depuis l'admin, pas seulement les consulter (contrairement à offer_type_configs/
+        # recycling_items, dont elle ne fait QUE consulter le paramétrage défini par la direction).
+        "message_templates": RWD, "quote_reject_reasons": RWD,
     },
     ACCOUNTANT: {
         "invoices": ALL, "payments": ALL, "installments": ALL, "expenses": ALL, "reports": ALL,

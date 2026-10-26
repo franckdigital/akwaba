@@ -1,5 +1,6 @@
 import hashlib
 import logging
+from collections import defaultdict
 from datetime import date
 from decimal import Decimal
 from io import BytesIO
@@ -12,7 +13,8 @@ from rest_framework.exceptions import ValidationError
 from apps.core.messaging import send_text
 from apps.core.notify import notify, notify_contact
 
-from .models import ACTIVE_STATUSES, PERIODIC_CATEGORIES, IndividualQuote, RecyclingReminderLog, RecyclingReminderSettings
+from .models import (ACTIVE_STATUSES, PERIODIC_CATEGORIES, IndividualQuote, MessageTemplate, RecyclingReminderLog,
+                     RecyclingReminderSettings)
 
 logger = logging.getLogger(__name__)
 
@@ -252,6 +254,69 @@ def quote_pdf_bytes(quote):
     return buf.getvalue()
 
 
+def render_template(body, **vars):
+    """Rendu sûr d'un corps de message éditable (MessageTemplate.body) : chaque variable `{cle}` fournie dans
+    `vars` est substituée ; toute variable RÉFÉRENCÉE dans le gabarit mais NON fournie devient simplement une
+    chaîne vide (defaultdict(str)) au lieu de lever une KeyError — un gabarit mal renseigné depuis l'admin ne
+    doit jamais empêcher l'envoi d'une notification. Également défensif sur les erreurs de format restantes
+    (ex. accolade non appariée dans un texte libre) : le corps est alors renvoyé tel quel, non rendu, plutôt
+    que de faire échouer l'appelant."""
+    ctx = defaultdict(str, {k: ("" if v is None else v) for k, v in vars.items()})
+    try:
+        return (body or "").format_map(ctx)
+    except (ValueError, IndexError, KeyError):
+        return body or ""
+
+
+def _message_template(school_id, key):
+    """Gabarit configuré depuis l'admin pour (school, key), ou None si aucun (=> texte par défaut en dur)."""
+    if not school_id:
+        return None
+    return MessageTemplate.objects.filter(school_id=school_id, key=key).first()
+
+
+# Textes par défaut (constantes Python) : utilisés tant qu'aucun MessageTemplate n'a été configuré pour une
+# auto-école donnée — repris mot pour mot du comportement d'origine, pour ne JAMAIS régresser avant que
+# l'admin ne personnalise quoi que ce soit, ni avant l'exécution de seed_message_templates.
+DEFAULT_QUOTE_APPROVED_SUBJECT = "Votre demande de devis est approuvée"
+DEFAULT_QUOTE_APPROVED_BODY = ("Bonjour {prenom}, votre demande de devis a été approuvée par l'auto-école. "
+                               "Votre devis chiffré va vous être transmis très prochainement.")
+
+DEFAULT_QUOTE_CORRECTION_DEFAULT_BODY = "Veuillez vérifier la conformité des informations de votre pièce d'identité."
+
+DEFAULT_QUOTE_QUOTED_SUBJECT = "Votre devis est disponible"
+DEFAULT_QUOTE_QUOTED_BODY = "Bonjour {prenom}, voici votre devis Akwaba Auto-École{lien_devis}\nTarif : {prix} FCFA."
+
+DEFAULT_ACCOUNT_CREATED_SUBJECT = "Votre compte Akwaba Auto-École"
+DEFAULT_ACCOUNT_CREATED_BODY = ("Bonjour {prenom}, votre compte Akwaba Auto-École a été créé.\n"
+                                "Identifiant (e-mail) : {email}\nMot de passe provisoire : {mot_de_passe}\n"
+                                "{code_cohorte}Connectez-vous sur l'application pour commencer, puis pensez à "
+                                "changer votre mot de passe.")
+
+
+def default_correction_note(quote):
+    """Texte PRÉ-REMPLI quand la secrétaire clique « Demander correction » sans taper de note personnalisée
+    (cf. IndividualQuoteViewSet.decide) — éditable depuis l'admin (MessageTemplate key="quote_correction_default"),
+    texte par défaut en dur sinon."""
+    tpl = _message_template(quote.school_id, "quote_correction_default")
+    body_tpl = tpl.body if tpl else DEFAULT_QUOTE_CORRECTION_DEFAULT_BODY
+    return render_template(body_tpl, prenom=quote.first_name, nom=quote.last_name, offre=quote.get_offer_display())
+
+
+def _quote_pdf_message(quote):
+    """Sujet + corps du message « devis disponible » (PDF chiffré) — réutilisé à la fois par send_quote()
+    (bouton d'envoi manuel, un seul canal) et par notify_quote_decision() (canal complémentaire, cf. §C) :
+    UN SEUL gabarit (key="quote_quoted") pour les deux, plutôt que deux textes légèrement différents comme
+    avant cette unification."""
+    tpl = _message_template(quote.school_id, "quote_quoted")
+    subject = (tpl.subject if tpl and tpl.subject else DEFAULT_QUOTE_QUOTED_SUBJECT)
+    body_tpl = tpl.body if tpl else DEFAULT_QUOTE_QUOTED_BODY
+    lien_devis = f" : {settings.BACKEND_BASE_URL}{quote.quote_pdf.url}" if quote.quote_pdf else ""
+    body = render_template(body_tpl, prenom=quote.first_name, nom=quote.last_name, offre=quote.get_offer_display(),
+                           prix=int(quote.price), lien_devis=lien_devis)
+    return subject, body
+
+
 def send_quote(quote, channel):
     """§3.1/3.2 — envoi du devis par e-mail ou WhatsApp, au choix, en un clic (action manuelle du secrétariat).
 
@@ -268,16 +333,11 @@ def send_quote(quote, channel):
     quote.sent_channel = channel
     quote.sent_at = timezone.now()
     quote.save(update_fields=["quote_pdf", "status", "sent_channel", "sent_at", "updated_at"])
+    subject, body = _quote_pdf_message(quote)
     if channel == "email" and quote.email:
-        send_mail("Votre devis Akwaba Auto-École",
-                  f"Bonjour {quote.first_name},\n\nVeuillez trouver votre devis en pièce jointe.\n\n"
-                  f"Tarif : {int(quote.price)} FCFA.\n\nAkwaba Auto-École",
-                  None, [quote.email], fail_silently=True)
+        send_mail(subject, body, None, [quote.email], fail_silently=True)
     elif channel == "whatsapp" and quote.phone:
-        pdf_url = f"{settings.BACKEND_BASE_URL}{quote.quote_pdf.url}"
-        send_text("whatsapp", quote.phone,
-                  f"Bonjour {quote.first_name}, voici votre devis Akwaba Auto-École : {pdf_url}\n"
-                  f"Tarif : {int(quote.price)} FCFA.")
+        send_text("whatsapp", quote.phone, body)
     notify_quote_decision(quote, exclude_channel=channel)
     return quote
 
@@ -309,23 +369,35 @@ def send_recycling_reminders(today=None):
     return sent
 
 
-def _quote_pdf_message(quote):
-    link = f" : {settings.BACKEND_BASE_URL}{quote.quote_pdf.url}" if quote.quote_pdf else ""
-    return f"Bonjour {quote.first_name}, voici votre devis Akwaba Auto-École{link}\nTarif : {int(quote.price)} FCFA."
+def _quote_approved_message(quote):
+    tpl = _message_template(quote.school_id, "quote_approved")
+    subject = (tpl.subject if tpl and tpl.subject else DEFAULT_QUOTE_APPROVED_SUBJECT)
+    body_tpl = tpl.body if tpl else DEFAULT_QUOTE_APPROVED_BODY
+    body = render_template(body_tpl, prenom=quote.first_name, nom=quote.last_name, offre=quote.get_offer_display())
+    return subject, body
+
+
+def _quote_rejected_message(quote):
+    # §CONTEXTE — enveloppe volontairement NON éditable depuis l'admin cette itération : le corps du message
+    # est le motif de refus lui-même (texte libre choisi/tapé par la secrétaire, cf. QuoteRejectReason), pas un
+    # gabarit ; seule l'enveloppe « Bonjour {prenom}, » est fixe.
+    return "Votre demande de devis", f"Bonjour {quote.first_name}, {quote.reject_reason}"
+
+
+def _quote_correction_message(quote):
+    # Idem rejected : le corps est la note de correction (texte libre, éventuellement pré-rempli par
+    # default_correction_note() ci-dessus si la secrétaire n'a rien tapé) ; seule l'enveloppe est fixe.
+    return "Votre demande de devis : une correction est nécessaire", f"Bonjour {quote.first_name}, {quote.correction_note}"
 
 
 # §C — décision produit : toute décision prise sur un devis individuel (pas seulement le refus/la correction)
-# déclenche une notification candidat, sur les DEUX canaux (e-mail + WhatsApp) à chaque fois — events/messages
-# par statut, réutilisés par notify_quote_decision() ci-dessous.
+# déclenche une notification candidat, sur les DEUX canaux (e-mail + WhatsApp) à chaque fois — events/message_fn
+# (quote) -> (titre, corps) par statut, réutilisés par notify_quote_decision() ci-dessous.
 QUOTE_DECISION_NOTIFICATIONS = {
-    "approved": ("quote_approved", "Votre demande de devis est approuvée",
-                lambda q: f"Bonjour {q.first_name}, votre demande de devis a été approuvée par l'auto-école. "
-                          "Votre devis chiffré va vous être transmis très prochainement."),
-    "rejected": ("quote_rejected", "Votre demande de devis",
-                lambda q: f"Bonjour {q.first_name}, {q.reject_reason}"),
-    "correction_requested": ("quote_correction", "Votre demande de devis : une correction est nécessaire",
-                             lambda q: f"Bonjour {q.first_name}, {q.correction_note}"),
-    "quoted": ("quote_quoted", "Votre devis est disponible", _quote_pdf_message),
+    "approved": ("quote_approved", _quote_approved_message),
+    "rejected": ("quote_rejected", _quote_rejected_message),
+    "correction_requested": ("quote_correction", _quote_correction_message),
+    "quoted": ("quote_quoted", _quote_pdf_message),
 }
 
 
@@ -342,28 +414,44 @@ def notify_quote_decision(quote, exclude_channel=None):
     entry = QUOTE_DECISION_NOTIFICATIONS.get(quote.status)
     if entry is None:
         return []
-    event, title, message_fn = entry
+    event, message_fn = entry
     channels = tuple(c for c in ("email", "whatsapp") if c != exclude_channel)
     if not channels:
         return []
-    return notify_contact(event, title, message_fn(quote), email=quote.email, phone=quote.phone,
+    title, message = message_fn(quote)
+    return notify_contact(event, title, message, email=quote.email, phone=quote.phone,
                           school_id=quote.school_id, channels=channels)
 
 
-def _send_quote_account_credentials(user, password):
-    """§ décision produit — message dédié à la création automatique du compte à l'approbation d'un devis vitrine
-    (candidat public, sans compte) : identifiant (e-mail), mot de passe provisoire, consigne de changement.
-    DISTINCT de notify_quote_decision() (qui informe de la décision elle-même) : envoyé en PLUS, pas à la place,
-    sur les deux canaux (e-mail ET WhatsApp, selon les coordonnées disponibles), même circuit que
-    apps.organizations.views.CohortViewSet.import_learners/apps.accounts.services._send_import_credentials."""
-    body = (f"Bonjour {user.first_name}, votre compte Akwaba Auto-École a été créé automatiquement suite à "
-           "l'approbation de votre demande.\n"
-           f"Identifiant (e-mail) : {user.email}\nMot de passe provisoire : {password}\n"
-           "Connectez-vous sur l'application pour commencer, puis pensez à changer votre mot de passe.")
+def send_account_created_credentials(user, password, school_id=None, cohort=None):
+    """Message dédié à la création d'un compte avec identifiants provisoires (identifiant e-mail, mot de
+    passe généré, consigne de changement) — UNIFIE les 3 points d'entrée qui envoyaient ce même type de
+    message avec un texte quasi identique (cf. MessageTemplate.account_created pour la justification du
+    regroupement) :
+      - apps.admissions.services.auto_create_account_for_quote (devis vitrine approuvé automatiquement) ;
+      - apps.organizations.views.CohortViewSet.import_learners (import Excel d'une cohorte unique) ;
+      - apps.accounts.services._send_import_credentials (import Excel multi-cohortes/organisations).
+    `cohort` : cohorte résolue pour CE compte, si pertinent (pour afficher son join_code) ; None sinon
+    (ex. compte individuel créé depuis la vitrine, {code_cohorte} vide dans ce cas).
+    DISTINCT de notify_quote_decision() (qui informe d'une décision sur un devis) : envoyé en PLUS, pas à la
+    place, sur les deux canaux (e-mail ET WhatsApp, selon les coordonnées disponibles)."""
+    tpl = _message_template(school_id, "account_created")
+    subject = (tpl.subject if tpl and tpl.subject else DEFAULT_ACCOUNT_CREATED_SUBJECT)
+    body_tpl = tpl.body if tpl else DEFAULT_ACCOUNT_CREATED_BODY
+    code_cohorte = f"Code cohorte (requis à votre première connexion) : {cohort.join_code}\n" \
+        if (cohort is not None and cohort.join_code) else ""
+    body = render_template(body_tpl, prenom=user.first_name, nom=user.last_name, email=user.email,
+                           mot_de_passe=password, code_cohorte=code_cohorte)
     if user.email:
-        send_mail("Votre compte Akwaba Auto-École", body, None, [user.email], fail_silently=True)
+        send_mail(subject, body, None, [user.email], fail_silently=True)
     if user.phone:
         send_text("whatsapp", user.phone, body)
+
+
+def _send_quote_account_credentials(user, password):
+    """Cas particulier de send_account_created_credentials() pour la création automatique du compte à
+    l'approbation d'un devis vitrine (candidat public, sans compte, donc jamais de cohorte)."""
+    send_account_created_credentials(user, password, school_id=user.school_id)
 
 
 def auto_create_account_for_quote(quote):

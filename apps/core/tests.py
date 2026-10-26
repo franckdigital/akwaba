@@ -1753,3 +1753,93 @@ class InvoiceDirectPaymentTests(Base):
         self.assertEqual((self.invoice.status, int(self.invoice.paid)), ("partial", 30000))
         v = self.as_user(self.lu).post(f"/api/payments/{payment.id}/verify/")
         self.assertEqual(v.status_code, 200)
+
+
+class MessageTemplateOverrideTests(Base):
+    """§produit — « créer et mettre à jour les messages ... depuis l'admin » : un MessageTemplate configuré
+    pour (school, key) remplace le texte par défaut en dur de apps.admissions.services ; son absence ne
+    régresse pas (texte par défaut inchangé)."""
+
+    def _quote(self, email):
+        from apps.admissions.models import IndividualQuote
+        # learner déjà rattaché : évite la création automatique de compte (et son e-mail « compte créé »)
+        # qui polluerait l'assertion sur le DERNIER e-mail envoyé (cf. apps.admissions.services.auto_create_account_for_quote).
+        return IndividualQuote.objects.create(school=self.school, offer="new_license", learner=self.learner,
+                                              last_name="K", first_name="Awa", email=email, categories_requested=["B"])
+
+    def test_configured_template_overrides_default_message(self):
+        from django.core import mail
+        from apps.admissions.models import MessageTemplate
+        MessageTemplate.objects.create(school=self.school, key="quote_approved",
+                                       subject="Sujet personnalisé", body="Coucou {prenom}, votre {offre} est bon !")
+        q = self._quote("tpl-override@ex.ci")
+        mail.outbox.clear()
+        r = self.as_user(self.secretary).post(f"/api/individual-quotes/{q.id}/decide/", {"decision": "approved"}, format="json")
+        self.assertEqual(r.status_code, 200, r.content)
+        sent = mail.outbox[-1]
+        self.assertEqual(sent.subject, "Sujet personnalisé")
+        self.assertEqual(sent.body, "Coucou Awa, votre Nouveau permis de conduire est bon !")
+
+    def test_no_template_falls_back_to_hardcoded_default(self):
+        from django.core import mail
+        from apps.admissions.models import MessageTemplate
+        self.assertFalse(MessageTemplate.objects.filter(school=self.school, key="quote_approved").exists())
+        q = self._quote("tpl-default@ex.ci")
+        mail.outbox.clear()
+        r = self.as_user(self.secretary).post(f"/api/individual-quotes/{q.id}/decide/", {"decision": "approved"}, format="json")
+        self.assertEqual(r.status_code, 200, r.content)
+        sent = mail.outbox[-1]
+        self.assertEqual(sent.subject, "Votre demande de devis est approuvée")
+        self.assertIn("votre demande de devis a été approuvée par l'auto-école", sent.body)
+
+    def test_render_template_never_raises_on_missing_variable(self):
+        from apps.admissions.services import render_template
+        self.assertEqual(render_template("Bonjour {prenom}, réf {inconnue}", prenom="Awa"), "Bonjour Awa, réf ")
+
+
+class MessageTemplateAndRejectReasonCrudTests(Base):
+    """RBAC des 2 nouvelles ressources admin (apps.core.permissions : message_templates, quote_reject_reasons) :
+    la secrétaire peut créer/modifier, un apprenant ou un visiteur non authentifié ne peuvent pas."""
+
+    def test_secretary_can_create_and_update_message_template(self):
+        c = self.as_user(self.secretary)
+        # "school" doit être fourni explicitement (comme pour offer-type-configs) : le unique_together
+        # (school, key) rend ce champ obligatoire côté validation DRF malgré required=False (BaseModelSerializer),
+        # perform_create() ne l'auto-complétant qu'APRÈS cette validation.
+        r = c.post("/api/message-templates/", {"school": self.school.id, "key": "quote_quoted",
+                                               "subject": "Sujet", "body": "Corps {prenom}"}, format="json")
+        self.assertEqual(r.status_code, 201, r.content)
+        body = r.json()
+        self.assertEqual(body["school"], self.school.id)
+        self.assertEqual(body["available_variables"], ["prenom", "nom", "offre", "prix", "lien_devis"])
+        r2 = c.patch(f"/api/message-templates/{body['id']}/", {"body": "Corps modifié {prenom}"}, format="json")
+        self.assertEqual(r2.status_code, 200, r2.content)
+        self.assertEqual(r2.json()["body"], "Corps modifié {prenom}")
+
+    def test_learner_and_anonymous_cannot_access_message_templates(self):
+        self.assertEqual(self.as_user(self.lu).get("/api/message-templates/").status_code, 403)
+        self.assertIn(APIClient().get("/api/message-templates/").status_code, (401, 403))
+        self.assertEqual(self.as_user(self.lu).post("/api/message-templates/", {"key": "quote_approved", "body": "x"}, format="json").status_code, 403)
+
+    def test_message_template_keys_action_exposes_available_variables(self):
+        r = self.as_user(self.secretary).get("/api/message-templates/keys/")
+        self.assertEqual(r.status_code, 200, r.content)
+        variables_by_key = {row["key"]: row["available_variables"] for row in r.json()}
+        self.assertEqual(variables_by_key["account_created"], ["prenom", "nom", "email", "mot_de_passe", "code_cohorte"])
+
+    def test_secretary_can_manage_quote_reject_reasons_and_filter_by_offer(self):
+        from apps.admissions.models import QuoteRejectReason
+        QuoteRejectReason.objects.create(school=self.school, offer="new_license", text="Motif A", order=0)
+        QuoteRejectReason.objects.create(school=self.school, offer="extension", text="Motif B", order=0)
+        c = self.as_user(self.secretary)
+        r = c.get("/api/quote-reject-reasons/?offer=new_license")
+        self.assertEqual(r.status_code, 200, r.content)
+        texts = [row["text"] for row in r.json()["results"]]
+        self.assertEqual(texts, ["Motif A"])
+        created = c.post("/api/quote-reject-reasons/", {"offer": "theory_refresh", "text": "Nouveau motif", "order": 0}, format="json")
+        self.assertEqual(created.status_code, 201, created.content)
+        self.assertEqual(c.delete(f"/api/quote-reject-reasons/{created.json()['id']}/").status_code, 204)
+
+    def test_learner_and_anonymous_cannot_access_quote_reject_reasons(self):
+        self.assertEqual(self.as_user(self.lu).get("/api/quote-reject-reasons/").status_code, 403)
+        self.assertIn(APIClient().get("/api/quote-reject-reasons/").status_code, (401, 403))
