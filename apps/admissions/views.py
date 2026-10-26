@@ -157,14 +157,14 @@ class IndividualQuoteViewSet(ScopedModelViewSet):
 
     @action(detail=True, methods=["post"])
     def resubmit(self, request, pk=None):
-        """Le candidat corrige et renvoie la MÊME demande (pas de nouvelle fiche, cf. anti-doublon §3.1)."""
+        """Côté staff : la secrétaire corrige et renvoie la MÊME demande pour le compte du candidat (pas de
+        nouvelle fiche, cf. anti-doublon §3.1) — ex. appel téléphonique, ou candidat sans accès à son espace.
+        Voir aussi MyQuoteResubmitView (candidat lui-même, depuis son espace, §A) qui applique la même liste
+        de champs « offre » (services.RESUBMIT_FIELDS) en PLUS des champs d'identité, propres à cette action."""
         quote = self.get_object()
         if quote.status != "correction_requested":
             raise ValidationError({"detail": "Cette demande n'est pas en attente de correction."})
-        for f in ("id_document_type", "id_document_no", "last_name", "first_name", "phone", "email", "residence",
-                 "license_no", "license_photo_front", "license_photo_back"):
-            if f in request.data:
-                setattr(quote, f, request.data[f])
+        services.apply_quote_resubmission(quote, request.data, extra_fields=("last_name", "first_name", "phone", "email"))
         quote.status = "submitted"
         quote.correction_note = ""
         quote.save()
@@ -310,8 +310,42 @@ class MyQuotesView(APIView):
             quote.recycling_items.set(RecyclingItem.objects.filter(pk__in=recycling_ids, school=quote.school))
             quote.base_price = services.compute_recycling_price(quote.recycling_items.all())
             quote.save(update_fields=["base_price"])
+        services.backfill_learner_from_quote_data(learner, request.data)
         cfg = OfferTypeConfig.objects.filter(is_active=True, school_id=quote.school_id, offer=quote.offer).first()
         return Response(_my_quote_row(quote, cfg, learner), status=201)
+
+
+class MyQuoteResubmitView(APIView):
+    """§A — Écran « mes demandes » du candidat : correction et renvoi de SA PROPRE demande en attente de
+    correction, sans passer par le staff (IndividualQuoteViewSet étant réservé au secrétariat, un candidat
+    n'a aucun accès RBAC à cette ressource — cf. apps.admissions.views.IndividualQuoteViewSet.resubmit pour
+    l'équivalent côté staff, qui partage la même liste de champs via services.apply_quote_resubmission).
+
+    POST /api/my-quotes/<id>/resubmit/ — body : mêmes champs que services.RESUBMIT_FIELDS (+ recycling_items,
+    liste d'ids). Jamais les champs d'identité (nom/téléphone/e-mail) : restent ceux du dossier Learner/User,
+    comme pour POST /my-quotes/. 404 si la demande n'appartient pas au candidat connecté (jamais une demande
+    d'un autre candidat, même l'existence n'est pas révélée) ; 400 si elle n'est pas en attente de correction.
+    200 + même forme qu'une ligne de GET /my-quotes/."""
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, pk=None):
+        learner = getattr(request.user, "learner_profile", None)
+        if not learner:
+            raise PermissionDenied("Réservé aux candidats disposant d'un dossier apprenant.")
+        try:
+            quote = IndividualQuote.objects.get(pk=pk, learner=learner)
+        except IndividualQuote.DoesNotExist:
+            from django.http import Http404
+            raise Http404
+        if quote.status != "correction_requested":
+            raise ValidationError({"detail": "Cette demande n'est pas en attente de correction."})
+        services.apply_quote_resubmission(quote, request.data)
+        quote.status = "submitted"
+        quote.correction_note = ""
+        quote.save()
+        services.backfill_learner_from_quote_data(learner, request.data)
+        cfg = OfferTypeConfig.objects.filter(is_active=True, school_id=quote.school_id, offer=quote.offer).first()
+        return Response(_my_quote_row(quote, cfg, learner))
 
 
 class PublicIndividualQuoteSerializer(BaseModelSerializer):

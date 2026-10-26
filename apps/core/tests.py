@@ -1468,6 +1468,88 @@ class MyQuotesSubmissionTests(Base):
         self.assertIn(r.status_code, (401, 403))
 
 
+class MyQuoteResubmitTests(Base):
+    """§A — un candidat corrige et renvoie SA PROPRE demande en attente de correction depuis son espace
+    (POST /api/my-quotes/<id>/resubmit/), sans passer par le staff (IndividualQuoteViewSet, réservé au
+    secrétariat). Vérifie aussi le report automatique (§B) sur son dossier Learner."""
+
+    def test_candidate_can_resubmit_own_correction_requested_quote(self):
+        from apps.admissions.models import IndividualQuote
+        q = IndividualQuote.objects.create(school=self.school, offer="new_license", learner=self.learner,
+                                           last_name="K", first_name="Awa", status="correction_requested",
+                                           correction_note="Pièce illisible, merci de la renvoyer.")
+        c = self.as_user(self.lu)
+        r = c.post(f"/api/my-quotes/{q.id}/resubmit/",
+                   {"residence": "Cocody", "id_document_type": "cni", "id_document_no": "CNI999"}, format="json")
+        self.assertEqual(r.status_code, 200, r.content)
+        body = r.json()
+        self.assertEqual(body["status"], "submitted")
+        self.assertEqual(body["correction_note"], "")
+        q.refresh_from_db()
+        self.assertEqual((q.status, q.correction_note, q.residence, q.id_document_type, q.id_document_no),
+                         ("submitted", "", "Cocody", "cni", "CNI999"))
+        # §B — report automatique sur le dossier Learner du candidat (synchronisation du profil).
+        self.learner.refresh_from_db()
+        self.assertEqual((self.learner.residence, self.learner.id_document_type, self.learner.id_document_no),
+                         ("Cocody", "cni", "CNI999"))
+
+    def test_candidate_cannot_resubmit_someone_elses_quote(self):
+        from apps.admissions.models import IndividualQuote
+        other_user = make_user("other-candidate@a.ci", "learner", self.school)
+        other_learner = Learner.objects.create(user=other_user, school=self.school, first_name="Yao", last_name="B")
+        q = IndividualQuote.objects.create(school=self.school, offer="new_license", learner=other_learner,
+                                           last_name="B", first_name="Yao", status="correction_requested")
+        r = self.as_user(self.lu).post(f"/api/my-quotes/{q.id}/resubmit/", {"residence": "Cocody"}, format="json")
+        self.assertEqual(r.status_code, 404)
+        q.refresh_from_db()
+        self.assertEqual(q.status, "correction_requested")
+
+    def test_cannot_resubmit_quote_not_pending_correction(self):
+        from apps.admissions.models import IndividualQuote
+        q = IndividualQuote.objects.create(school=self.school, offer="new_license", learner=self.learner,
+                                           last_name="K", first_name="Awa", status="submitted")
+        r = self.as_user(self.lu).post(f"/api/my-quotes/{q.id}/resubmit/", {"residence": "Cocody"}, format="json")
+        self.assertEqual(r.status_code, 400)
+        self.assertIn("detail", r.json())
+        q.refresh_from_db()
+        self.assertEqual(q.status, "submitted")
+
+    def test_anonymous_cannot_resubmit(self):
+        from apps.admissions.models import IndividualQuote
+        q = IndividualQuote.objects.create(school=self.school, offer="new_license", learner=self.learner,
+                                           last_name="K", first_name="Awa", status="correction_requested")
+        r = APIClient().post(f"/api/my-quotes/{q.id}/resubmit/", {"residence": "Cocody"}, format="json")
+        self.assertIn(r.status_code, (401, 403))
+
+
+class LearnerSelfProfileTests(Base):
+    """§B — écran profil du candidat : GET/PATCH /api/learners/me/ pour lire et mettre à jour ses propres
+    résidence/type et numéro de pièce d'identité/numéro de permis (champs ajoutés au modèle Learner)."""
+
+    def test_candidate_can_read_and_update_own_profile_fields(self):
+        c = self.as_user(self.lu)
+        r = c.get("/api/learners/me/")
+        self.assertEqual(r.status_code, 200, r.content)
+        self.assertIn("residence", r.json())
+        self.assertIn("id_document_type", r.json())
+        self.assertIn("license_no", r.json())
+
+        r = c.patch("/api/learners/me/", {"residence": "Yopougon", "id_document_type": "passport",
+                                          "id_document_no": "PP123", "license_no": "PERM-9",
+                                          "zone": "Abidjan", "status": "licensed"}, format="json")
+        self.assertEqual(r.status_code, 200, r.content)
+        self.learner.refresh_from_db()
+        self.assertEqual((self.learner.residence, self.learner.id_document_type, self.learner.id_document_no,
+                          self.learner.license_no, self.learner.zone),
+                         ("Yopougon", "passport", "PP123", "PERM-9", "Abidjan"))
+        # champ hors whitelist (statut du dossier) : jamais modifiable par le candidat lui-même ici.
+        self.assertEqual(self.learner.status, "in_training")
+
+    def test_anonymous_cannot_access_own_profile(self):
+        r = APIClient().get("/api/learners/me/")
+        self.assertIn(r.status_code, (401, 403))
+
+
 class EngagementSheetTests(Base):
     def test_public_download_and_learner_tracking_and_upload(self):
         from django.core.files.uploadedfile import SimpleUploadedFile

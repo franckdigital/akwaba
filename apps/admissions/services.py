@@ -142,6 +142,49 @@ def compute_recycling_price(recycling_items):
     return sum((i.price for i in recycling_items), start=0)
 
 
+# §A — champs propres à l'offre qu'une correction (statut correction_requested -> submitted) peut mettre à
+# jour, communs au staff (IndividualQuoteViewSet.resubmit) ET au candidat lui-même (MyQuoteResubmitView) :
+# extrait ici pour ne JAMAIS dupliquer cette liste entre les deux call-sites. Volontairement SANS les champs
+# d'identité (last_name/first_name/phone/email) : côté candidat ils restent server-controlled (dossier
+# Learner/User) ; côté staff ils sont passés en plus via `extra_fields` (cf. resubmit ci-dessous).
+RESUBMIT_FIELDS = ("id_document_type", "id_document_no", "residence", "license_no",
+                   "categories_requested", "categories_held", "categories_expiry", "categories_to_add",
+                   "license_photo_front", "license_photo_back")
+
+
+def apply_quote_resubmission(quote, data, extra_fields=()):
+    """Reporte sur `quote` les champs corrigés fournis dans `data` (RESUBMIT_FIELDS + extra_fields propres
+    à l'appelant), y compris le choix des modules/packages de recyclage (M2M, avec recalcul du tarif de base
+    comme au dépôt initial — cf. MyQuotesView.post). Ne change PAS le statut/la note de correction : laissé
+    à l'appelant (staff ou candidat), qui sait quel statut il remet (toujours "submitted" ici en pratique)."""
+    for f in RESUBMIT_FIELDS + tuple(extra_fields):
+        if f in data:
+            setattr(quote, f, data[f])
+    if "recycling_items" in data:
+        from .models import RecyclingItem
+        ids = data.get("recycling_items") or []
+        quote.recycling_items.set(RecyclingItem.objects.filter(pk__in=ids, school=quote.school))
+        quote.base_price = compute_recycling_price(quote.recycling_items.all())
+
+
+# §B — tient le profil Learner synchronisé automatiquement à partir des informations renseignées par le
+# candidat sur un devis (dépôt MyQuotesView.post ou correction MyQuoteResubmitView) : « le compte... pourra
+# mettre à jour son profil plus tard ». Ne touche QUE les champs transmis et NON VIDES, pour ne jamais écraser
+# une valeur déjà correcte côté Learner avec un champ laissé vide côté devis (ex. correction partielle).
+LEARNER_BACKFILL_FIELDS = ("residence", "id_document_type", "id_document_no", "license_no")
+
+
+def backfill_learner_from_quote_data(learner, data):
+    changed = []
+    for f in LEARNER_BACKFILL_FIELDS:
+        val = data.get(f)
+        if val:
+            setattr(learner, f, val)
+            changed.append(f)
+    if changed:
+        learner.save(update_fields=changed + ["updated_at"])
+
+
 def validate_quote_request(attrs):
     """Règles communes à tout dépôt de demande de devis individuelle — formulaire public (sans compte) ou
     dépôt authentifié par un candidat déjà connecté (§D) : anti-doublon par pièce d'identité (§3.1), cohérence

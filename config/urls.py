@@ -98,6 +98,7 @@ urlpatterns = [
     path("api/public/recycling-items/", admissions.public_recycling_items),
     path("api/public/offer-type-configs/", admissions.public_offer_type_configs),
     path("api/my-quotes/", admissions.MyQuotesView.as_view()),
+    path("api/my-quotes/<int:pk>/resubmit/", admissions.MyQuoteResubmitView.as_view()),
     path("api/public/fiche-engagement/", admissions.public_engagement_sheet),
     path("api/public/permit-candidates/", admissions.PublicPermitCandidateView.as_view()),
     path("api/certificates/verify/<str:code>/", exams.verify_certificate),

@@ -14,6 +14,27 @@ STATUSES = [
 SOURCES = [("secretary", "Secrétaire"), ("online", "En ligne"), ("organization", "Organisation")]
 APPROVAL_STATUSES = [("pending", "En attente d'approbation"), ("approved", "Approuvée"), ("rejected", "Rejetée")]
 
+# Dupliqué depuis apps.admissions.models.ID_TYPES (à garder synchronisé si cette liste évolue) plutôt
+# qu'importé : apps.schools.models importe déjà OFFERS depuis apps.admissions.models (cycle d'imports
+# schools <-> admissions résolu par un import différé en bas de schools/models.py), et ce module-ci importe
+# déjà CATEGORIES depuis apps.schools.models tout en haut — ajouter un import direct vers apps.admissions.models
+# ici créerait un troisième maillon fragile dans cette chaîne circulaire au chargement de Django. Même pattern
+# que OfferTypeConfig.BILLING_CYCLES (apps/admissions/models.py).
+ID_TYPES = [
+    ("cni", "Carte nationale d'identité (CNI)"),
+    ("cni_foreign", "Carte nationale d'identité (non nationaux)"),
+    ("passport", "Passeport"),
+    ("resident_card", "Carte de résident"),
+    ("consular_card", "Carte consulaire"),
+    ("diplomatic_letter", "Lettre diplomatique"),
+    ("id_attestation", "Attestation d'identité"),
+    ("refugee_card", "Carte d'identité du réfugié"),
+    ("driver_license", "Permis de conduire"),
+    ("no_id", "Sans identification"),
+    ("unknown", "Inconnu"),
+    ("other", "Autre"),
+]
+
 
 class Learner(TimeStamped):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL,
@@ -38,8 +59,12 @@ class Learner(TimeStamped):
     email = models.EmailField(blank=True)
     address = models.CharField(max_length=255, blank=True)
     photo = models.ImageField(upload_to="learners/photos/", null=True, blank=True)
+    id_document_type = models.CharField("Type de pièce d'identité", max_length=30, choices=ID_TYPES, blank=True)
     id_document_no = EncryptedCharField("N° pièce d'identité", blank=True)
     id_document_hash = models.CharField(max_length=64, blank=True, db_index=True)
+    residence = models.CharField("Lieu de résidence", max_length=255, blank=True)
+    license_no = models.CharField("N° de permis existant", max_length=60, blank=True,
+                                  help_text="Candidat déjà titulaire d'un permis (extension/recyclages) — repris automatiquement depuis son devis, cf. apps.admissions.services.backfill_learner_from_quote_data.")
     zone = models.CharField("Zone géographique déclarée", max_length=100, blank=True)
     category = models.CharField(max_length=10, choices=CATEGORIES, default="B")
     status = models.CharField(max_length=20, choices=STATUSES, default="new")

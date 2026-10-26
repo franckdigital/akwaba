@@ -81,7 +81,17 @@ class LearnerViewSet(ScopedModelViewSet):
     limit_key = "learners"
     action_verbs = {"create_account": "change", "progress": "view", "driving_log": "view", "export": "export",
                     "approve_registration": "validate", "exam_access": "view", "engagement": "view",
-                    "engagement_confirm": "view", "engagement_paper": "validate"}
+                    "engagement_confirm": "view", "engagement_paper": "validate",
+                    # "me" : verbe fixé à "view" quelle que soit la méthode (GET/PATCH), pour que le candidat
+                    # (rôle LEARNER, lecture seule sur la ressource "learners", cf. apps.core.permissions.MATRIX)
+                    # puisse éditer SON PROPRE dossier via cette action dédiée sans qu'il faille lui ouvrir le
+                    # verbe "change" global sur /learners/<id>/ (qui exposerait tous les dossiers de l'école).
+                    "me": "view"}
+    # §B — champs du dossier Learner qu'un candidat peut mettre à jour lui-même depuis /learners/me/ (écran
+    # profil) : identité « pièce »/permis + quelques informations déclaratives. Jamais matricule/statut/école/
+    # organisation/etc. (gérés par le staff uniquement).
+    SELF_EDIT_FIELDS = ("residence", "id_document_type", "id_document_no", "license_no",
+                        "category", "birth_date", "sex", "zone", "address")
     parser_classes = [JSONParser, MultiPartParser, FormParser]
     filterset_fields = ["status", "category", "training", "cohort", "group", "organization", "agency", "school", "source", "approval_status"]
     search_fields = ["last_name", "first_name", "matricule", "phone", "email", "employee_ref"]
@@ -96,11 +106,20 @@ class LearnerViewSet(ScopedModelViewSet):
     def _own(self):
         return Learner.objects.filter(user=self.request.user).first()
 
-    @action(detail=False, methods=["get"])
+    @action(detail=False, methods=["get", "patch"])
     def me(self, request):
+        """Écran profil du candidat : GET consulte son propre dossier apprenant, PATCH met à jour les seuls
+        champs de SELF_EDIT_FIELDS (résidence, pièce d'identité, permis déjà détenu, catégorie/zone/état
+        civil déclaratif) — jamais matricule/statut/école/etc., jamais un autre dossier que le sien."""
         learner = self._own()
         if not learner:
             return Response({"detail": "Aucun dossier apprenant."}, status=404)
+        if request.method == "PATCH":
+            data = {k: v for k, v in request.data.items() if k in self.SELF_EDIT_FIELDS}
+            ser = self.get_serializer(learner, data=data, partial=True)
+            ser.is_valid(raise_exception=True)
+            ser.save()
+            return Response(ser.data)
         return Response(self.get_serializer(learner).data)
 
     @action(detail=True, methods=["post"], url_path="create-account")
