@@ -246,7 +246,13 @@ def public_offer_type_configs(request):
     return Response([_offer_type_config_public_payload(c) for c in qs])
 
 
-def _my_quote_row(q, cfg, learner):
+def _file_url(f, request=None):
+    if not f:
+        return None
+    return request.build_absolute_uri(f.url) if request else f.url
+
+
+def _my_quote_row(q, cfg, learner, request=None):
     return {
         "id": q.id, "offer": q.offer, "offer_label": q.get_offer_display(), "status": q.status,
         "status_label": q.get_status_display(), "created_at": q.created_at,
@@ -255,6 +261,18 @@ def _my_quote_row(q, cfg, learner):
         "reject_reason": q.reject_reason, "correction_note": q.correction_note,
         "offer_type_config": _offer_type_config_public_payload(cfg) if cfg else None,
         "subscribed": learner_subscribed_to_offer(learner, q.offer),
+        # Champs métier de la demande : nécessaires côté candidat pour pré-remplir le formulaire de
+        # correction (« Corriger ma demande ») quand status == "correction_requested".
+        "id_document_type": q.id_document_type, "id_document_no": q.id_document_no, "residence": q.residence,
+        "license_no": q.license_no, "categories_requested": q.categories_requested,
+        "categories_held": q.categories_held, "categories_expiry": q.categories_expiry,
+        "categories_to_add": q.categories_to_add,
+        "license_photo_front": _file_url(q.license_photo_front, request),
+        "license_photo_back": _file_url(q.license_photo_back, request),
+        "recycling_items": list(q.recycling_items.values_list("id", flat=True)),
+        "recycling_items_detail": [{"id": i.id, "label": i.label, "price": i.price, "kind": i.kind,
+                                    "sessions_count": i.sessions_count, "duration_minutes": i.duration_minutes}
+                                   for i in q.recycling_items.all()],
     }
 
 
@@ -288,7 +306,7 @@ class MyQuotesView(APIView):
         quotes = IndividualQuote.objects.filter(learner=learner).select_related("school").prefetch_related("recycling_items")
         configs = {(c.school_id, c.offer): c for c in
                   OfferTypeConfig.objects.filter(is_active=True, school_id__in=[q.school_id for q in quotes])}
-        return Response([_my_quote_row(q, configs.get((q.school_id, q.offer)), learner) for q in quotes])
+        return Response([_my_quote_row(q, configs.get((q.school_id, q.offer)), learner, request) for q in quotes])
 
     def post(self, request):
         """Dépôt authentifié (§D). Body : champs propres à l'offre uniquement (voir MyQuoteCreateSerializer) ;
@@ -312,7 +330,7 @@ class MyQuotesView(APIView):
             quote.save(update_fields=["base_price"])
         services.backfill_learner_from_quote_data(learner, request.data)
         cfg = OfferTypeConfig.objects.filter(is_active=True, school_id=quote.school_id, offer=quote.offer).first()
-        return Response(_my_quote_row(quote, cfg, learner), status=201)
+        return Response(_my_quote_row(quote, cfg, learner, request), status=201)
 
 
 class MyQuoteResubmitView(APIView):
@@ -345,7 +363,7 @@ class MyQuoteResubmitView(APIView):
         quote.save()
         services.backfill_learner_from_quote_data(learner, request.data)
         cfg = OfferTypeConfig.objects.filter(is_active=True, school_id=quote.school_id, offer=quote.offer).first()
-        return Response(_my_quote_row(quote, cfg, learner))
+        return Response(_my_quote_row(quote, cfg, learner, request))
 
 
 class PublicIndividualQuoteSerializer(BaseModelSerializer):
