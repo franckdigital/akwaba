@@ -137,10 +137,14 @@ class MeView(APIView):
         return Response({"user": data, "permissions": permissions_for(request.user)})
 
     def patch(self, request):
-        ser = UserSerializer(request.user, data={k: v for k, v in request.data.items()
-                                                 if k in ("first_name", "last_name", "phone")}, partial=True)
+        data = {k: v for k, v in request.data.items() if k in ("first_name", "last_name", "phone", "email")}
+        old_email = request.user.email
+        ser = UserSerializer(request.user, data=data, partial=True)
         ser.is_valid(raise_exception=True)
-        ser.save()
+        user = ser.save()
+        if "email" in data and data["email"] != old_email:
+            user.email_verified = False
+            user.save(update_fields=["email_verified"])
         return Response(ser.data)
 
 
