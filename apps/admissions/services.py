@@ -332,7 +332,14 @@ def send_quote(quote, channel):
     quote.status = "quoted"
     quote.sent_channel = channel
     quote.sent_at = timezone.now()
-    quote.save(update_fields=["quote_pdf", "status", "sent_channel", "sent_at", "updated_at"])
+    update_fields = ["quote_pdf", "status", "sent_channel", "sent_at", "updated_at"]
+    if channel == "email":
+        quote.quote_emailed_at = timezone.now()
+        update_fields.append("quote_emailed_at")
+    else:
+        quote.quote_whatsapp_sent_at = timezone.now()
+        update_fields.append("quote_whatsapp_sent_at")
+    quote.save(update_fields=update_fields)
     subject, body = _quote_pdf_message(quote)
     if channel == "email" and quote.email:
         send_mail(subject, body, None, [quote.email], fail_silently=True)

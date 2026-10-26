@@ -188,8 +188,14 @@ class IndividualQuote(TimeStamped):
     paid_amount = models.DecimalField(max_digits=12, decimal_places=0, default=0)
 
     quote_pdf = models.FileField(upload_to="individual_quotes/pdf/", null=True, blank=True)
+    # Conservés pour compat (dernier canal cliqué manuellement) — mais l'envoi e-mail et l'envoi WhatsApp sont
+    # désormais deux actions indépendantes (chacune peut être déclenchée séparément, avant ou après l'autre) :
+    # d'où les deux horodatages distincts ci-dessous, utilisés par l'admin pour afficher chaque bouton comme
+    # « envoyé » ou non sans jamais désactiver l'autre canal.
     sent_channel = models.CharField(max_length=10, choices=[("email", "E-mail"), ("whatsapp", "WhatsApp")], blank=True)
     sent_at = models.DateTimeField(null=True, blank=True)
+    quote_emailed_at = models.DateTimeField(null=True, blank=True)
+    quote_whatsapp_sent_at = models.DateTimeField(null=True, blank=True)
 
     class Meta:
         ordering = ["-created_at"]

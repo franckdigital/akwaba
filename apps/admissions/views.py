@@ -142,7 +142,7 @@ class IndividualQuoteSerializer(BaseModelSerializer):
     class Meta:
         model = IndividualQuote
         fields = "__all__"
-        read_only_fields = ["status", "quote_pdf", "sent_channel", "sent_at", "id_document_hash"]
+        read_only_fields = ["status", "quote_pdf", "sent_channel", "sent_at", "quote_emailed_at", "quote_whatsapp_sent_at", "id_document_hash"]
 
     def get_quote_pdf_url(self, q):
         if not q.quote_pdf:
